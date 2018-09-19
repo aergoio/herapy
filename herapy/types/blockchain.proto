@@ -18,9 +18,9 @@ message BlockHeader {
 	int64 timestamp = 3;
 	bytes blocksRootHash = 4;
 	bytes txsRootHash = 5;
-        uint64 confirms = 6;
-        bytes pubKey = 7;
-        bytes sign = 8;
+	uint64 confirms = 6;
+	bytes pubKey = 7;
+	bytes sign = 8;
 }
 
 message BlockBody {
