@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 
 [dev-packages]
+protobuf = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"
