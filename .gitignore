@@ -1,0 +1,7 @@
+.DS_Store
+.pytest_cache/
+*.swp
+__pycache__/
+.idea/
+.idea/*
+
