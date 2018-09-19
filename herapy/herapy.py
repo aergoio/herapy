@@ -20,8 +20,9 @@ class Herapy:
         pass
 
     def sign_transaction(self, transaction):
-        private_key = self.account.private_key # OK for this to be an accessor? Security? Don't need to do anything crazy like encrypt/decrypt in memory or something.
-        transaction.sign(private_key)
+        pass
+        #private_key = self.account.private_key # OK for this to be an accessor? Security? Don't need to do anything crazy like encrypt/decrypt in memory or something.
+        #transaction.sign(private_key)
 
     def send_unsigned_transaction(self, transaction):
         pass

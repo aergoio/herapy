@@ -15,11 +15,12 @@ def setup():
 def test_create_address(setup):
     pytest.aergo.create_address('FAIL')
 
+@pytest.mark.skip(reason="WIP")
 def test_get_addresses(setup):
     assert pytest.aergo.get_addresses() == []
 
 def test_sign_transaction(setup):
-    pytest.aergo.sign_transaction(Transaction(payload=""))
+    pytest.aergo.sign_transaction(transaction.Transaction(payload=""))
 
 def test_send_unsigned_transaction(setup):
     pytest.aergo.send_unsigned_transaction(None)
