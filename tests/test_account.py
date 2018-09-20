@@ -4,10 +4,11 @@
 """Tests for `herapy` package."""
 
 import pytest
+
 from herapy import herapy
 from herapy.account import account
+from herapy.transaction import transaction
 
-@pytest.fixture
-def setup():
-    pytest.account = account.Account(0x0, 0x0)
-
+#def test_sign_transaction():
+#    account = herapy.account.Account()
+#    account.sign_transaction( transaction.Transaction("") )

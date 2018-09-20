@@ -26,10 +26,10 @@ def test_valid_signature_succeeds(setup):
 def test_invalid_signature_fails(setup):
     message = "hello"
     with pytest.raises(AssertionError):
-        pytest.km.verify_message("hello", "FAIL")
+        assert pytest.km.verify_message("hello", "FAIL")
 
 def test_keys_deleted(setup):
     pytest.km.save_keys('ecdsa')
-    pytest.km.delete_keys("ecdsa")
+    pytest.km.delete_keys('ecdsa')
     assert not os.path.exists('ecdsa.public.pem')
     assert not os.path.exists('ecdsa.private.pem')

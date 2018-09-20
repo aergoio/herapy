@@ -4,25 +4,22 @@ from herapy.utils.key_manager import KeyManager
 
 from herapy.transaction import transaction
 
-# WIP - this will need to store some persistent state somehow - not much data to keep track of so flat files?
-
 class Account:
     def __init__(self):
-        self.address = None
-        self.balance = None
-        self.nonce = None
+        self.address = 0x0
+        self.balance = 0
+        self.nonce = 0
         self.km = KeyManager()
 
     def sign_transaction(self, transaction):
         transaction.sign_with_key_manager(self.km)
 
-    def send_signed_transaction(self, transaction):
+    def send_signed_transaction(self, transaction, address):
         assert transaction.is_signed()
-        pass
+        self._send_transaction(address)
 
-    def send_unsigned_transaction(self):
-        pass
+    def send_unsigned_transaction(self, address):
+        self._send_transaction(address)
 
     def _send_transaction(self, address):
         self.nonce += 1
-

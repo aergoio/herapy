@@ -6,6 +6,7 @@
 import pytest
 from herapy import herapy
 from herapy.transaction import transaction
+from herapy.blockchain import blockchain
 
 @pytest.fixture
 def setup():

@@ -10,7 +10,7 @@ class Herapy:
     def __init__(self):
         self.account = account.Account()
         self.connection = connection_manager.ConnectionManager() # Manages the gRPC connection.
-        transaction.Transaction()
+        transaction.Transaction("")
 
     # Accounts
     def create_address(self, address):
@@ -20,7 +20,7 @@ class Herapy:
         pass
 
     def sign_transaction(self, transaction):
-        return transaction.sign(self.account.private_key)
+        pass
 
     def send_unsigned_transaction(self, transaction):
         pass
