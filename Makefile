@@ -88,10 +88,11 @@ install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
 protoc:
-	protoc -I/usr/local/include \
-		-Iaergo-protobuf/proto \
-		--python_out=herapy/types \
-		aergo-protobuf/proto/*.proto
+	python -m grpc_tools.protoc \
+		-I./aergo-protobuf/proto \
+		--python_out=./herapy/types \
+		--grpc_python_out=./herapy/grpc \
+		./aergo-protobuf/proto/*.proto
 
 protoclean:
 	rm -f herapy/types/*_pb2.py
