@@ -10,7 +10,6 @@ from herapy import types
 from herapy.types import account_pb2
 from herapy.types import blockchain_pb2
 
-
 @pytest.fixture
 def response():
     """Sample pytest fixture.
@@ -19,7 +18,6 @@ def response():
     """
     # import requests
     # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
-
 
 def test_types_account(response):
     account_list = account_pb2.AccountList()

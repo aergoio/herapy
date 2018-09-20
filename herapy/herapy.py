@@ -8,9 +8,9 @@ from herapy.transaction import transaction
 
 class Herapy:
     def __init__(self):
+        self.account = account.Account()
         self.connection = connection_manager.ConnectionManager() # Manages the gRPC connection.
         transaction.Transaction()
-        pass
 
     # Accounts
     def create_address(self, address):
@@ -20,9 +20,7 @@ class Herapy:
         pass
 
     def sign_transaction(self, transaction):
-        pass
-        #private_key = self.account.private_key # OK for this to be an accessor? Security? Don't need to do anything crazy like encrypt/decrypt in memory or something.
-        #transaction.sign(private_key)
+        return transaction.sign(self.account.private_key)
 
     def send_unsigned_transaction(self, transaction):
         pass
