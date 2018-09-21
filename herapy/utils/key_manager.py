@@ -19,6 +19,7 @@ import hashlib
 import ecdsa
 import os
 
+
 class KeyManager:
     def __init__(self, keyname=""):
         self.sk = None

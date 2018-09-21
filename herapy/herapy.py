@@ -5,14 +5,18 @@
 from herapy.account import account
 from herapy.transaction import transaction
 
+
 class Herapy:
     def __init__(self):
-        self.account = account.Account()
+        self._account = account.Account()
+        self.address = self._account.address
+
         transaction.Transaction("")
 
     # Accounts
     def create_address(self, address):
-        pass
+        assert len(address) == 64
+        return address
 
     def get_addresses(self):
         pass

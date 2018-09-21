@@ -12,3 +12,4 @@ def test_signed():
     assert not tx.is_signed()
     tx.sign_with_key_manager(KeyManager())
     assert tx.is_signed()
+
