@@ -2,14 +2,12 @@
 
 """Main module."""
 
-from herapy.network import connection_manager
 from herapy.account import account
 from herapy.transaction import transaction
 
 class Herapy:
     def __init__(self):
         self.account = account.Account()
-        self.connection = connection_manager.ConnectionManager() # Manages the gRPC connection.
         transaction.Transaction("")
 
     # Accounts
