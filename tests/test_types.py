@@ -6,9 +6,9 @@
 import pytest
 
 
-from herapy import types
-from herapy.types import account_pb2
-from herapy.types import blockchain_pb2
+from herapy.grpc import account_pb2
+from herapy.grpc import blockchain_pb2
+from herapy.grpc import rpc_pb2
 
 
 @pytest.fixture
@@ -21,7 +21,16 @@ def response():
     # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
 
 
-def test_types_account(response):
+def test_grpc_rpc(response):
+    person = rpc_pb2.Personal()
+    person.passphrase = 'test'
+
+    person.account.address = "PERSONAL ACCOUNT #1".encode()
+
+    print(person.SerializeToString())
+
+
+def test_grpc_account(response):
     account_list = account_pb2.AccountList()
 
     # add an account
@@ -51,7 +60,7 @@ def test_types_account(response):
     assert account_list.accounts[1].address.decode() == "ACCOUNT #2"
 
 
-def test_types_blockchain(response):
+def test_grpc_blockchain(response):
     # block
     block1 = blockchain_pb2.Block()
 

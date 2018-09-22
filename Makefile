@@ -90,9 +90,10 @@ install: clean ## install the package to the active Python's site-packages
 protoc:
 	python -m grpc_tools.protoc \
 		-I./aergo-protobuf/proto \
-		--python_out=./herapy/types \
+		--python_out=./herapy/grpc \
 		--grpc_python_out=./herapy/grpc \
 		./aergo-protobuf/proto/*.proto
+	find ./herapy/grpc -type f -name '*_pb2.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
 
 protoclean:
-	rm -f herapy/types/*_pb2.py
+	rm -f herapy/grpc/*_pb2*.py
