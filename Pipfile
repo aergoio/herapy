@@ -4,12 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+protobuf = "*"
+googleapis-common-protos = "*"
+ecdsa = "*"
+base58 = "*"
 
 [dev-packages]
-protobuf = "*"
-pytest = "*"
 grpcio-tools = "*"
-googleapis-common-protos = "*"
+pytest = "*"
+tox = "*"
 
 [requires]
 python_version = "3.7"
