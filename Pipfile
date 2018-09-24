@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+base58 = "*"
+ecdsa = "*"
 
 [dev-packages]
 protobuf = "*"

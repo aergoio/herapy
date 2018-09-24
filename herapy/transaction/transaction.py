@@ -13,6 +13,7 @@ transaction = {
 
 
 class Transaction:
+    # TODO assert types???
     def __init__(self, hash, nonce, from_address, to_address, amount, payload, type):
         self.hash = hash
         self.nonce = nonce

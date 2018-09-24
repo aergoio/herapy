@@ -5,6 +5,8 @@ import base58
 import rpc_pb2
 import rpc_pb2_grpc
 
+from herapy.utils.encoding import encode_address
+
 class Rpc:
     def __init__(self, channel):
         channel = grpc.insecure_channel(channel)
@@ -16,7 +18,12 @@ class Rpc:
         personal = rpc_pb2.Personal()
         personal.passphrase = passphrase
         account = self.rpc.CreateAccount(personal)
-        return base58.b58encode_check(account.address)
+        return encode_address(account)
+
+    def get_accounts(self):
+        accounts = self.rpc.GetAccounts(self.empty).accounts
+        addresses = [ encode_address(account.address) for account in accounts ]
+        return addresses
 
     def node_state(self):
         return self.rpc.NodeState(rpc_pb2.SingleBytes())
@@ -27,11 +34,9 @@ class Rpc:
     def list_block_headers(self):
         pass
 
-    def get_accounts(self):
-        return self.rpc.GetAccounts(self.empty)
-
     def get_peers(self):
         return self.rpc.GetPeers(self.empty)
 
 rpc = Rpc('localhost:7845')
-print(rpc.create_account('password123'))
+for account in rpc.get_accounts():
+    print(account)

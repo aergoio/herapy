@@ -8,8 +8,9 @@ from herapy.transaction import transaction
 from herapy.utils.key_manager import KeyManager
 
 def test_signed():
-    tx = transaction.Transaction("")
+    tx = transaction.Transaction("", "", "", "", "", "", "")
     assert not tx.is_signed()
     tx.sign_with_key_manager(KeyManager())
+    print(tx.signature)
     assert tx.is_signed()
 
