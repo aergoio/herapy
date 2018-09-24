@@ -23,7 +23,8 @@ def test_keys_created(setup):
 def test_valid_signature_succeeds(setup):
     message = "hello"
     sig = pytest.km.sign_message(message)
-    assert str(sig).__eq__("lakjdljfalksdjflasjdkjhghlkjgrlkg")
+    correct_sig = b'\x02\x17\x8c\xb9-S\xfd\xf7- g\x9e\xd6\x84_a?\x13O3\x0e\xa3\xfb\xcf\xb8|JS=\xfe\xce\x8f\xaa\xdb\x82\xe1\x86\xed]\x99C\xc6\x9b\xfb\xd3\x0bk\xce\xd2wW/\xbe\xdf\xb2h\xe0\x0b\x93\xe9\x89n&\xc7'
+    assert str(sig).__eq__(correct_sig)
     assert pytest.km.verify_message("hello", sig)
 
 

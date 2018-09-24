@@ -18,7 +18,7 @@ class Rpc:
         personal = rpc_pb2.Personal()
         personal.passphrase = passphrase
         account = self.rpc.CreateAccount(personal)
-        return encode_address(account)
+        return encode_address(account.address)
 
     def get_accounts(self):
         accounts = self.rpc.GetAccounts(self.empty).accounts

@@ -5,8 +5,9 @@
 
 import pytest
 import base58
-
 import rpc
+
+from herapy.utils.encoding import encode_address, decode_address
 
 @pytest.fixture()
 def setup():
@@ -14,4 +15,4 @@ def setup():
 
 def test_create_account(setup):
     address = pytest.rpc.create_account('passphrase')
-    assert address == base58.b58encode_check(base58.b58decode_check(address)) # test that we got a valid b58 address
+    assert address == encode_address(decode_address(address)) # test that we got a properly encoded address

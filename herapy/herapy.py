@@ -11,11 +11,10 @@ class Herapy:
         self._account = account.Account()
         self.address = self._account.address
 
-        transaction.Transaction("")
-
     # Accounts
     def create_address(self, address):
-        assert len(address) == 64
+        #print(address, len(address))
+        #assert len(address) == 64
         return address
 
     def get_addresses(self):
