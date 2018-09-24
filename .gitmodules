@@ -1,3 +1,3 @@
 [submodule "aergo-protobuf"]
 	path = aergo-protobuf
-	url = git@github.com:aergoio/aergo-protobuf.git
+	url = https://github.com/aergoio/aergo-protobuf.git

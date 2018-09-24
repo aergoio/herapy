@@ -10,6 +10,8 @@ ecdsa = "*"
 [dev-packages]
 protobuf = "*"
 pytest = "*"
+grpcio-tools = "*"
+googleapis-common-protos = "*"
 
 [requires]
 python_version = "3.7"

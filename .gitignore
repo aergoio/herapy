@@ -1,7 +1,10 @@
 .DS_Store
-.pytest_cache/
+.pytest_cache
 *.swp
-__pycache__/
-.idea/
-.idea/*
+__pycache__
+.idea
 *.pem
+.vscode
+
+*_pb2.py
+*_pb2_grpc.py
