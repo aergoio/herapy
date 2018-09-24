@@ -2,10 +2,12 @@ import grpc
 import base58
 
 # TODO: refactor these to use package imports when grpc working
+import account_pb2
+
 import rpc_pb2
 import rpc_pb2_grpc
 
-from herapy.utils.encoding import encode_address
+from herapy.utils.encoding import encode_address, decode_address
 
 class Rpc:
     def __init__(self, channel):
@@ -20,10 +22,22 @@ class Rpc:
         account = self.rpc.CreateAccount(personal)
         return encode_address(account.address)
 
+
     def get_accounts(self):
         accounts = self.rpc.GetAccounts(self.empty).accounts
         addresses = [ encode_address(account.address) for account in accounts ]
         return addresses
+
+    def unlock(self, address, passphrase):
+        account = account_pb2.Account()
+        account.address = decode_address(address)
+
+        personal = rpc_pb2.Personal()
+        personal.passphrase = passphrase
+        personal.account.CopyFrom(account)
+
+        address = self.rpc.UnlockAccount(personal)
+
 
     def node_state(self):
         return self.rpc.NodeState(rpc_pb2.SingleBytes())
@@ -38,5 +52,5 @@ class Rpc:
         return self.rpc.GetPeers(self.empty)
 
 rpc = Rpc('localhost:7845')
-for account in rpc.get_accounts():
-    print(account)
+a = rpc.create_account('123')
+rpc.unlock(a, '123')

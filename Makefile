@@ -94,6 +94,7 @@ protoc:
 		--grpc_python_out=./herapy/grpc \
 		./aergo-protobuf/proto/*.proto
 	find ./herapy/grpc -type f -name '*_pb2.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
+	find ./herapy/grpc -type f -name '*_pb2_grpc.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
 
 protoclean:
 	rm -f herapy/grpc/*_pb2*.py

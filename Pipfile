@@ -6,12 +6,14 @@ name = "pypi"
 [packages]
 base58 = "*"
 ecdsa = "*"
+protobuf = "*"
+googleapis-common-protos = "*"
+ecdsa = "*"
 
 [dev-packages]
-protobuf = "*"
-pytest = "*"
 grpcio-tools = "*"
-googleapis-common-protos = "*"
+pytest = "*"
+tox = "*"
 
 [requires]
 python_version = "3.7"
