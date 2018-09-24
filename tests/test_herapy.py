@@ -37,13 +37,13 @@ def test_get_transaction(setup):
 
 def test_get_block_info_by_hash(setup):
     pytest.aergo.get_block_info_by_hash('0x0')
-    
+
 def test_get_block_info_by_number(setup):
     pytest.aergo.get_block_info_by_hash('0')
-    
+
 def test_best_block_hash_and_number(setup):
     pytest.aergo.best_block_hash('0x0')
     pytest.aergo.best_block_number(0)
-    
+
 def test_get_account_nonce(setup):
     pytest.aergo.get_account_nonce('0')
