@@ -53,8 +53,8 @@ class Rpc:
         tx_body.amount = tx.amount
         tx_body.payload = tx.payload
         tx_body.type = tx.type
-
         tx = blockchain_pb2.Tx()
+
         tx.body.CopyFrom(tx_body)
 
         hash = self.rpc.SendTX(tx).hash
@@ -86,6 +86,11 @@ class Rpc:
         personal.account.CopyFrom(account)
 
         return personal
+
+    # Client
+    def is_connected(self):
+        return False # really?
+
 
 
     def node_state(self):
