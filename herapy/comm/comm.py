@@ -18,15 +18,41 @@ class Comm:
     def get_result_to_json(self):
         return MessageToJson(self.result)
 
+    def get_node_state(self, timeout):
+        timeout_b = timeout.to_bytes(8, byteorder='little')
+        self.result = self.rpc_stub.NodeState(timeout_b)
+        return self.result
+
     def get_blockchain_status(self):
         self.result = self.rpc_stub.Blockchain(rpc_pb2.Empty())
         return self.result
 
-    def create_account(self, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.passphrase = passphrase
-        self.result = self.rpc_stub.CreateAccount(personal)
-        return self.result
+    def get_block_headers(self):
+        pass
+
+    def get_block(self):
+        pass
+
+    def get_tx(self):
+        pass
+
+    def get_block_tx(self):
+        pass
+
+    def get_receipt(self):
+        pass
+
+    def get_abi(self):
+        pass
+
+    def send_tx(self):
+        pass
+
+    def commit_tx(self):
+        pass
+
+    def get_state(self):
+        pass
 
     def get_account_state(self, account):
         self.result = self.rpc_stub.GetState(account)
@@ -37,9 +63,22 @@ class Comm:
         account.address = address
         return self.get_account_state(account)
 
+    # XXX why?? remove it!!!!
+    def create_account(self, passphrase):
+        personal = rpc_pb2.Personal()
+        personal.passphrase = passphrase
+        self.result = self.rpc_stub.CreateAccount(personal)
+        return self.result
+
+    # return account list
+    def get_accounts(self):
+        self.result = self.rpc_stub.GetAccounts(rpc_pb2.Empty())
+        return self.result
+
     def get_account_state_from_b58address(self, b58address):
         return self.get_account_state_from_address(base58.b58decode_check(b58address))
 
+    # XXX why???
     # return locked account
     def lock_account(self, address, passphrase):
         personal = rpc_pb2.Personal()
@@ -48,10 +87,12 @@ class Comm:
         self.result = self.rpc_stub.LockAccount(personal)
         return self.result
 
+    # XXX why???
     # return locked account
     def lock_account_from_b58address(self, b58address, passphrase):
         return self.lock_account(base58.b58decode_check(b58address), passphrase)
 
+    # XXX why???
     # return unlocked account
     def unlock_account(self, address, passphrase):
         personal = rpc_pb2.Personal()
@@ -60,12 +101,24 @@ class Comm:
         self.result = self.rpc_stub.UnlockAccount(personal)
         return self.result
 
+    # XXX why???
     # return unlocked account
     def unlock_account_from_b58address(self, b58address, passphrase):
         return self.unlock_account(base58.b58decode_check(b58address), passphrase)
 
-    # return account list
-    def get_accounts(self):
-        self.result = self.rpc_stub.GetAccounts(rpc_pb2.Empty())
+    def sign_tx(self):
+        pass
+
+    def verify_tx(self):
+        pass
+
+    def query_contract(self):
+        pass
+
+    def get_peers(self):
+        self.result = self.rpc_stub.GetPeers(rpc_pb2.Empty())
         return self.result
+
+    def get_votes(self):
+        pass
 
