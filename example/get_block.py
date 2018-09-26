@@ -59,6 +59,7 @@ def run():
 
             block = get_block(comm, result.blocks[idx].hash)
             print('  - Block = %s' % block.SerializeToString())
+            print("    - Body : %s" % block.body)
     except grpc.RpcError as e:
         print('Get Blockchain Info failed with {0}: {1}'.format(e.code(), e.details()))
 
