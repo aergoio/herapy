@@ -13,25 +13,44 @@ class Comm:
     def __init__(self, target):
         self.channel = grpc.insecure_channel(target)
         self.rpc_stub = rpc_pb2_grpc.AergoRPCServiceStub(self.channel)
-        self.result = b''
+        self.result = None
 
     def get_result_to_json(self):
         return MessageToJson(self.result)
 
+    # XXX works not well. what for?
     def get_node_state(self, timeout):
         timeout_b = timeout.to_bytes(8, byteorder='little')
-        self.result = self.rpc_stub.NodeState(timeout_b)
+        single_bytes = rpc_pb2.SingleBytes()
+        single_bytes.value = timeout_b
+        self.result = self.rpc_stub.NodeState(single_bytes)
         return self.result
 
     def get_blockchain_status(self):
         self.result = self.rpc_stub.Blockchain(rpc_pb2.Empty())
         return self.result
 
-    def get_block_headers(self):
-        pass
+    def get_block_headers(self, block_hash=b'', height=0, size=20, offset=0, order_by_asc=True):
+        params = rpc_pb2.ListParams()
+        params.hash = block_hash
+        params.height = height
+        params.size = size
+        params.offset = offset
+        params.asc = order_by_asc
+        self.result = self.rpc_stub.ListBlockHeaders(params)
+        return self.result
 
-    def get_block(self):
-        pass
+    def get_block(self, block_hash=None, block_height=0):
+        single_bytes = rpc_pb2.SingleBytes()
+
+        if block_hash is None:
+            block_height_b = block_height.to_bytes(8, byteorder='little')
+            single_bytes.value = block_height_b
+        else:
+            single_bytes.value = block_hash
+
+        self.result = self.rpc_stub.GetBlock(single_bytes)
+        return self.result
 
     def get_tx(self):
         pass
