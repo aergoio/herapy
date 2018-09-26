@@ -18,7 +18,7 @@ def run():
         print('  - Best Block Hash  : %s' % result.best_block_hash.hex())
         print('  - Best Block Height: %s' % result.best_height)
     except grpc.RpcError as e:
-        print('Create Account failed with {0}: {1}'.format(e.code(), e.details()))
+        print('Get Blockchain Status failed with {0}: {1}'.format(e.code(), e.details()))
 
 
 if __name__ == '__main__':

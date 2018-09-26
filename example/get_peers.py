@@ -13,7 +13,7 @@ def get_peers(comm):
 def run():
     try:
         print("------ Get Peers -----------")
-        comm = Comm('localhost:10001')
+        comm = Comm('localhost:7845')
         peer_list = get_peers(comm)
         print('Peers = %s' % peer_list.SerializeToString())
 
@@ -31,7 +31,7 @@ def run():
         else:
             print("NO Peer!")
     except grpc.RpcError as e:
-        print('Create Account failed with {0}: {1}'.format(e.code(), e.details()))
+        print('Get Peers failed with {0}: {1}'.format(e.code(), e.details()))
 
 
 if __name__ == '__main__':
