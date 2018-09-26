@@ -63,7 +63,7 @@ def run():
         print('  - Storage Root: %s' % account_state.storageRoot)
 
     except grpc.RpcError as e:
-        print('Get Accounts failed with {0}: {1}'.format(e.code(), e.details()))
+        print('Lock/Unlock Account failed with {0}: {1}'.format(e.code(), e.details()))
 
 
 if __name__ == '__main__':
