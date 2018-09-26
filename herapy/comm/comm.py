@@ -1,13 +1,32 @@
 # -*- coding: utf-8 -*-
 
 import grpc
-import base58
+import hashlib
 
 from google.protobuf.json_format import MessageToJson
 
 from herapy.grpc import rpc_pb2
 from herapy.grpc import rpc_pb2_grpc
-from herapy.grpc import account_pb2
+
+
+def calculate_tx_hash(tx):
+    m = hashlib.sha256()
+    tx_bytes = tx.body.nonce.to_bytes(8, byteorder='little')
+    m.update(tx_bytes)
+    m.update(tx.body.account)
+    m.update(tx.body.recipient)
+    tx_bytes = tx.body.amount.to_bytes(8, byteorder='little')
+    m.update(tx_bytes)
+    m.update(tx.body.payload)
+    tx_bytes = tx.body.limit.to_bytes(8, byteorder='little')
+    m.update(tx_bytes)
+    tx_bytes = tx.body.price.to_bytes(8, byteorder='little')
+    m.update(tx_bytes)
+    tx_bytes = tx.body.type.to_bytes(4, byteorder='little')
+    m.update(tx_bytes)
+    m.update(tx.body.sign)
+    return m.digest()
+
 
 class Comm:
     def __init__(self, target):
@@ -52,11 +71,17 @@ class Comm:
         self.result = self.rpc_stub.GetBlock(single_bytes)
         return self.result
 
-    def get_tx(self):
-        pass
+    def get_tx(self, tx_hash):
+        single_bytes = rpc_pb2.SingleBytes()
+        single_bytes.value = tx_hash
+        self.result = self.rpc_stub.GetTX(single_bytes)
+        return self.result
 
-    def get_block_tx(self):
-        pass
+    def get_block_tx(self, tx_hash):
+        single_bytes = rpc_pb2.SingleBytes()
+        single_bytes.value = tx_hash
+        self.result = self.rpc_stub.GetTX(single_bytes)
+        return self.result
 
     def get_receipt(self):
         pass
@@ -64,11 +89,18 @@ class Comm:
     def get_abi(self):
         pass
 
-    def send_tx(self):
-        pass
+    def send_tx(self, tx, key_manager, nonce=-1):
+        if nonce == -1:
+            # TODO find the last nonce value
+            raise NotImplementedError('nonce should be set.')
+        else:
+            tx.body.nonce = nonce
 
-    def commit_tx(self):
-        pass
+        # sign transaction
+        tx.body.sign = key_manager.sign_message(tx)
+
+        tx.hash = calculate_tx_hash(tx)
+        self.result = self.rpc_stub.SendTX(tx)
 
     def get_state(self):
         pass
@@ -77,56 +109,10 @@ class Comm:
         self.result = self.rpc_stub.GetState(account)
         return self.result
 
-    def get_account_state_from_address(self, address):
-        account = account_pb2.Account()
-        account.address = address
-        return self.get_account_state(account)
-
-    # XXX why?? remove it!!!!
-    def create_account(self, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.passphrase = passphrase
-        self.result = self.rpc_stub.CreateAccount(personal)
-        return self.result
-
     # return account list
     def get_accounts(self):
         self.result = self.rpc_stub.GetAccounts(rpc_pb2.Empty())
         return self.result
-
-    def get_account_state_from_b58address(self, b58address):
-        return self.get_account_state_from_address(base58.b58decode_check(b58address))
-
-    # XXX why???
-    # return locked account
-    def lock_account(self, address, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.account.address = address
-        personal.passphrase = passphrase
-        self.result = self.rpc_stub.LockAccount(personal)
-        return self.result
-
-    # XXX why???
-    # return locked account
-    def lock_account_from_b58address(self, b58address, passphrase):
-        return self.lock_account(base58.b58decode_check(b58address), passphrase)
-
-    # XXX why???
-    # return unlocked account
-    def unlock_account(self, address, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.passphrase = passphrase
-        personal.account.address = address
-        self.result = self.rpc_stub.UnlockAccount(personal)
-        return self.result
-
-    # XXX why???
-    # return unlocked account
-    def unlock_account_from_b58address(self, b58address, passphrase):
-        return self.unlock_account(base58.b58decode_check(b58address), passphrase)
-
-    def sign_tx(self):
-        pass
 
     def verify_tx(self):
         pass
@@ -140,4 +126,37 @@ class Comm:
 
     def get_votes(self):
         pass
+
+    """
+    ############################################
+    # functions which don't need for a client library
+    ###########
+    def sign_tx(self):
+        pass
+
+    def create_account(self, passphrase):
+        personal = rpc_pb2.Personal()
+        personal.passphrase = passphrase
+
+    # XXX why???
+    # return locked account
+    def lock_account(self, address, passphrase):
+        personal = rpc_pb2.Personal()
+        personal.account.address = address
+        personal.passphrase = passphrase
+        self.result = self.rpc_stub.LockAccount(personal)
+        return self.result
+
+    # XXX why???
+    # return unlocked account
+    def unlock_account(self, address, passphrase):
+        personal = rpc_pb2.Personal()
+        personal.passphrase = passphrase
+        personal.account.address = address
+        self.result = self.rpc_stub.UnlockAccount(personal)
+        return self.result
+
+    def commit_tx(self):
+        pass
+    """
 
