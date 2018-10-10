@@ -10,7 +10,7 @@ from herapy.blockchain import blockchain
 
 @pytest.fixture
 def setup():
-    pytest.aergo = herapy.Herapy()
+    pytest.aergo = herapy.Herapy('localhost:7845')
 
 # Accounts
 def test_create_address(setup):

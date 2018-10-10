@@ -1,14 +1,9 @@
 import grpc
-import base58
 
 # TODO: refactor these to use package imports when grpc working
-import account_pb2
-import blockchain_pb2
+from herapy.grpc import account_pb2, rpc_pb2, rpc_pb2_grpc, blockchain_pb2
 
-import rpc_pb2
-import rpc_pb2_grpc
-
-from herapy.utils.encoding import encode_address, decode_address, encode_hash, decode_hash
+from herapy.utils.encoding import encode_address, decode_address, encode_hash
 from herapy.utils.transaction import tx_to_transaction
 from herapy.transaction import transaction
 

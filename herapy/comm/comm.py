@@ -2,12 +2,13 @@
 
 import grpc
 import hashlib
+import base58
 
 from google.protobuf.json_format import MessageToJson
 
 from herapy.grpc import rpc_pb2
 from herapy.grpc import rpc_pb2_grpc
-
+from herapy.grpc import blockchain_pb2
 
 def calculate_tx_hash(tx):
     m = hashlib.sha256()
@@ -117,8 +118,11 @@ class Comm:
     def verify_tx(self):
         pass
 
-    def query_contract(self):
-        pass
+    def query_contract(self, address, bytecode=b""):
+        query = blockchain_pb2.Query()
+        query.contractAddress = address
+        query.queryinfo = bytecode
+        return self.rpc_stub.QueryContract(query)
 
     def get_peers(self):
         self.result = self.rpc_stub.GetPeers(rpc_pb2.Empty())
@@ -127,36 +131,43 @@ class Comm:
     def get_votes(self):
         pass
 
-    """
-    ############################################
-    # functions which don't need for a client library
-    ###########
-    def sign_tx(self):
-        pass
 
-    def create_account(self, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.passphrase = passphrase
 
-    # XXX why???
-    # return locked account
-    def lock_account(self, address, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.account.address = address
-        personal.passphrase = passphrase
-        self.result = self.rpc_stub.LockAccount(personal)
-        return self.result
 
-    # XXX why???
-    # return unlocked account
-    def unlock_account(self, address, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.passphrase = passphrase
-        personal.account.address = address
-        self.result = self.rpc_stub.UnlockAccount(personal)
-        return self.result
+comm = Comm('localhost:7845')
+address = b'AmgJarDcUC75eZTPgDTgcQSiXntcg7goYjyEsP3uefyFo54JvGeh'
+decoded_check = base58.b58decode_check(address)
+result = comm.query_contract(decoded_check[1:], b'[]')
 
-    def commit_tx(self):
-        pass
-    """
+"""
+############################################
+# functions which don't need for a client library
+###########
+def sign_tx(self):
+    pass
 
+def create_account(self, passphrase):
+    personal = rpc_pb2.Personal()
+    personal.passphrase = passphrase
+
+# XXX why???
+# return locked account
+def lock_account(self, address, passphrase):
+    personal = rpc_pb2.Personal()
+    personal.account.address = address
+    personal.passphrase = passphrase
+    self.result = self.rpc_stub.LockAccount(personal)
+    return self.result
+
+# XXX why???
+# return unlocked account
+def unlock_account(self, address, passphrase):
+    personal = rpc_pb2.Personal()
+    personal.passphrase = passphrase
+    personal.account.address = address
+    self.result = self.rpc_stub.UnlockAccount(personal)
+    return self.result
+
+def commit_tx(self):
+    pass
+"""

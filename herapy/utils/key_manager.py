@@ -19,7 +19,6 @@ import hashlib
 import ecdsa
 import os
 
-
 class KeyManager:
     def __init__(self, keyname=""):
         self.sk = None
@@ -56,3 +55,4 @@ class KeyManager:
             return o.encode('utf-8')
         else:
             return o
+
