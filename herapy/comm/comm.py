@@ -35,6 +35,12 @@ class Comm:
         self.rpc_stub = rpc_pb2_grpc.AergoRPCServiceStub(self.channel)
         self.result = None
 
+    def create_account(self, passphrase):
+        personal = rpc_pb2.Personal()
+        personal.passphrase = passphrase
+        account = self.rpc_stub.CreateAccount(personal)
+        return account.address
+
     def get_result_to_json(self):
         return MessageToJson(self.result)
 
@@ -134,10 +140,10 @@ class Comm:
 
 
 
-comm = Comm('localhost:7845')
-address = b'AmgJarDcUC75eZTPgDTgcQSiXntcg7goYjyEsP3uefyFo54JvGeh'
-decoded_check = base58.b58decode_check(address)
-result = comm.query_contract(decoded_check[1:], b'[]')
+#comm = Comm('localhost:7845')
+#address = b'AmgJarDcUC75eZTPgDTgcQSiXntcg7goYjyEsP3uefyFo54JvGeh'
+#decoded_check = base58.b58decode_check(address)
+#result = comm.query_contract(decoded_check[1:], b'[]')
 
 """
 ############################################

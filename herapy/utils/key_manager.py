@@ -55,4 +55,3 @@ class KeyManager:
             return o.encode('utf-8')
         else:
             return o
-
