@@ -116,7 +116,7 @@ class Comm:
         self.result = self.rpc_stub.GetState(account)
         return self.result
 
-    # return account list
+    # return account_old list
     def get_accounts(self):
         self.result = self.rpc_stub.GetAccounts(rpc_pb2.Empty())
         return self.result
@@ -157,20 +157,20 @@ def create_account(self, passphrase):
     personal.passphrase = passphrase
 
 # XXX why???
-# return locked account
+# return locked account_old
 def lock_account(self, address, passphrase):
     personal = rpc_pb2.Personal()
-    personal.account.address = address
+    personal.account_old.address = address
     personal.passphrase = passphrase
     self.result = self.rpc_stub.LockAccount(personal)
     return self.result
 
 # XXX why???
-# return unlocked account
+# return unlocked account_old
 def unlock_account(self, address, passphrase):
     personal = rpc_pb2.Personal()
     personal.passphrase = passphrase
-    personal.account.address = address
+    personal.account_old.address = address
     self.result = self.rpc_stub.UnlockAccount(personal)
     return self.result
 

@@ -58,6 +58,7 @@ def test_import_privkey():
     assert address.hex() == "02797239c92b17458b88155fe668f7acb3621febefefc930de3bc5312278dd52e8"
     address_str = account.address_str
     print("address str = {}".format(address_str))
+    assert address_str == "AmMRiBguPQB2eZQxE7XnT77hu757QFRv6ReC3VHDi96Dh3S4mYDz"
 
 
 @pytest.mark.skip(reason="import accounts not supported")
@@ -69,6 +70,14 @@ def test_import_accounts():
     # 4. extract a private key
     # 5. generate a public key and address
     # 6. compare the public key and address from 'aergocli'
+    pass
+
+
+@pytest.mark.skip(reason="export accounts not supported")
+def test_export_accounts():
+    # TODO fill this function
+    # 1. export accounts
+    # 2. import exported file using 'aergocli'
     pass
 
 

@@ -44,6 +44,6 @@ class Account:
         tx.from_address = self.address
         tx.to_address = to_address
         if tx.amount > self.balance:
-            error = f"Cannot send transaction {tx.hash}. The amount is {amount} but you have only {self.balance} in your account."
+            error = f"Cannot send transaction {tx.hash}. The amount is {amount} but you have only {self.balance} in your account_old."
             raise InsufficientBalanceError(error)
         self.nonce += 1

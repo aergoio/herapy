@@ -25,15 +25,15 @@ def test_grpc_rpc(response):
 def test_grpc_account(response):
     account_list = account_pb2.AccountList()
 
-    # add an account
+    # add an account_old
     acc1 = account_list.accounts.add()
     acc1.address = "ACCOUNT #1".encode()
 
-    # add an account
+    # add an account_old
     acc2 = account_list.accounts.add()
     acc2.address = "ACCOUNT #2".encode()
 
-    # print account list
+    # print account_old list
     print("All addresses are %s" % account_list.SerializeToString())
     """
     idx = 0
@@ -42,7 +42,7 @@ def test_grpc_account(response):
         idx += 1
     """
 
-    # check account list
+    # check account_old list
     assert acc1.address == account_list.accounts[0].address
     assert acc1.address.decode() == "ACCOUNT #1"
     assert account_list.accounts[0].address.decode() == "ACCOUNT #1"

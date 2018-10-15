@@ -2,7 +2,9 @@
 
 """Main module."""
 
+import herapy
 
+from herapy.account_old.account import Account
 from herapy.comm.comm import Comm
 
 
@@ -12,7 +14,7 @@ class Herapy:
         self.address = self._account.address
         self.comm = Comm(target)
 
-    # RPC call to create an account (note that this does not handle the public/private keys.)
+    # RPC call to create an account_old (note that this does not handle the public/private keys.)
     def create_account(self, passphrase):
         #return self.comm.create_account(passphrase)
         return Account()
@@ -71,6 +73,6 @@ class Herapy:
     def best_block_number(self, mode):
         pass
 
-    def get_account_nonce(self, account):
+    def get_account_nonce(self, account_old):
         pass
 """
