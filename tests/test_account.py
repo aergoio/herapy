@@ -25,7 +25,12 @@ def test_create_new_account(setup):
     print("Private Key = {}".format(private_key))
     print("base58(Private Key) = {}".format(base58.b58encode_check(private_key)))
     # 3. get a public key
+    public_key = account.public_key
+    print("public key = {}".format(public_key))
     # 4. get an address
+    address = account.address
+    print("address = {}".format(address))
+    print("hex(address) = {}".format(address.hex()))
 
 
 def test_import_privkey():

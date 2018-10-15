@@ -6,7 +6,7 @@ import base58
 
 PRIVATE_KEY_BYTES_LENGTH = 32
 ADDRESS_BYTES_LENGTH = 33
-ADDRESS_VERSION = b'0x42'
+ADDRESS_VERSION = b'\x42'
 
 
 def int_to_string(x):
@@ -33,8 +33,8 @@ def generate_address(pubkey):
 
 
 def encode_address(address):
-    address_v = ADDRESS_VERSION.join(address)
-    return base58.b58decode_check(address_v)
+    address_v = ADDRESS_VERSION + address
+    return base58.b58encode_check(address_v).decode('utf-8')
 
 
 class Account:
