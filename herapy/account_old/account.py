@@ -1,16 +1,33 @@
-from os import mkdir
-from uuid import uuid4
+# -*- coding: utf-8 -*-
+
+import ecdsa
+import base58
+
 from herapy.utils.key_manager import KeyManager
 from herapy.errors import InsufficientBalanceError
 
 from herapy.transaction import transaction
 
+
 class Account:
+    def __init__(self, secret_key):
+        self._secret_key = secret_key
+
     def __init__(self):
+        self._generate_new_private_key()
+
         self.address = 0x0
         self.balance = 0
         self.nonce = 0
         self.km = KeyManager()
+
+    def _generate_new_private_key(self):
+        self._secret_key = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1)
+        print("Secret Key = {}".format(self._secret_key))
+        print("base58(Secret Key) = {}".format(base58.b58encode_check(self._secret_key)))
+
+    def get_private_key(self):
+        return base58.b58encode_check(self._secret_key)
 
     def sign_transaction(self, transaction):
         transaction.sign_with_key_manager(self.km)

@@ -2,10 +2,9 @@
 
 """Main module."""
 
-import herapy
 
-from herapy.account.account import Account
 from herapy.comm.comm import Comm
+
 
 class Herapy:
     def __init__(self, target):
@@ -15,7 +14,8 @@ class Herapy:
 
     # RPC call to create an account (note that this does not handle the public/private keys.)
     def create_account(self, passphrase):
-        return self.comm.create_account(passphrase)
+        #return self.comm.create_account(passphrase)
+        return Account()
 
     # Account-related methods that manage the private and public keys.
     def save_keys(self, keyname):
