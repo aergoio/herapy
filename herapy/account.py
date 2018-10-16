@@ -4,24 +4,11 @@ import ecdsa
 import hashlib
 import base58
 
+from ecdsa.ecdsa import int_to_string
+
 PRIVATE_KEY_BYTES_LENGTH = 32
 ADDRESS_BYTES_LENGTH = 33
 ADDRESS_VERSION = b'\x42'
-
-
-def int_to_string(x):
-    """Convert integer x into a string of bytes, as per X9.62."""
-    assert x >= 0
-    if x == 0:
-        return b'\0'
-    result = []
-    while x:
-        ordinal = x & 0xFF
-        result.append(ordinal.to_bytes(1, byteorder='big'))
-        x >>= 8
-
-    result.reverse()
-    return b''.join(result)
 
 
 def generate_address(pubkey):
