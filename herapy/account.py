@@ -24,8 +24,13 @@ def encode_address(address):
     return base58.b58encode_check(address_v).decode('utf-8')
 
 
+def decode_address(address):
+    address_v = base58.b58decode_check(address)
+    return address_v[len(ADDRESS_VERSION):]
+
+
 class Account:
-    def __init__(self, password):
+    def __init__(self, password=None):
         self.password = password
         self.__signing_key = None
         self.__private_key = None
@@ -56,23 +61,35 @@ class Account:
 
         return self.__private_key.public_key
 
-    @property
-    def address(self):
-        if self.__private_key is None:
-            return None
-
-        if self.__address is None:
+    def __get_address(self):
+        if self.__address is None and self.__private_key is not None:
             self.__address = generate_address(self.__private_key.public_key)
 
+    def __set_address(self, address_bytes):
+        if self.__address is not None:
+            self.__signing_key = None
+            self.__private_key = None
+
+        if isinstance(address_bytes, str):
+            address_bytes = decode_address(address_bytes)
+
+        self.__address = address_bytes
+
+    @property
+    def address(self):
+        self.__get_address()
         return self.__address
+
+    @address.setter
+    def address(self, address_bytes):
+        self.__set_address(address_bytes)
 
     @property
     def address_str(self):
-        if self.__address is None:
-            self.address
-
-        if self.__address is None:
-            return None
-
+        self.__get_address()
         return encode_address(self.__address)
+
+    @address_str.setter
+    def address_str(self, address_str):
+        self.__set_address(address_str)
 
