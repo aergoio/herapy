@@ -10,6 +10,7 @@ from herapy.grpc import rpc_pb2
 from herapy.grpc import rpc_pb2_grpc
 from herapy.grpc import blockchain_pb2
 
+
 def calculate_tx_hash(tx):
     m = hashlib.sha256()
     tx_bytes = tx.body.nonce.to_bytes(8, byteorder='little')
