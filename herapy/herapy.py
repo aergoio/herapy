@@ -4,8 +4,8 @@
 
 import herapy
 
-from herapy.account_old.account import Account
-from herapy.comm.comm import Comm
+from herapy.account import Account
+from herapy.comm import Comm
 
 
 class Herapy:
