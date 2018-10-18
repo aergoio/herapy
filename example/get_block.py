@@ -1,7 +1,7 @@
 import grpc
 import base58
 
-from herapy.comm.comm import Comm
+import herapy
 
 
 def get_blockchain_status(comm):
@@ -24,9 +24,13 @@ def get_block(comm, hash, height=0):
 
 def run():
     try:
-        comm = Comm('localhost:7845')
+        aergo = herapy.Aergo()
+
+        print("------ Connect AERGO -----------")
+        aergo.connect('localhost:7845')
+
         print("------ Get Blockchain Status -----------")
-        best_block_hash, best_height = get_blockchain_status(comm)
+        best_block_hash, best_height = aergo.get_blockchain_status()
         print('  - Best Block Hash  : %s' % base58.b58encode_check(best_block_hash))
         print('  - Best Block Height: %s' % best_height)
 
