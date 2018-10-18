@@ -13,6 +13,8 @@ googleapis-common-protos = "*"
 grpcio-tools = "*"
 pytest = "*"
 tox = "*"
+codecov = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
