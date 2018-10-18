@@ -16,7 +16,11 @@ def run():
         i = 0
         for acc in accounts:
             i += 1
-            print('Account[%s] address: %s' % (i, acc.address_str))
+            print("Address          = {}".format(acc.address))
+            print("Address String   = {}".format(acc.address_str))
+            print("------ Get Account State -----------")
+            result = aergo.get_account_state(acc)
+            print('Return Msg: %s' % result)
         '''
         print('  - Nonce:        %s' % result.nonce)
         print('  - Balance:      %s' % result.balance)
