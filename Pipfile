@@ -15,6 +15,7 @@ pytest = "*"
 tox = "*"
 codecov = "*"
 pytest-cov = "*"
+mock = "*"
 
 [requires]
 python_version = "3.7"

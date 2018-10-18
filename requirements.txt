@@ -11,7 +11,9 @@ googleapis-common-protos==1.5.3
 grpcio==1.15.0
 grpcio-tools==1.15.0
 idna==2.7
+mock==2.0.0
 more-itertools==4.3.0
+pbr==5.0.0
 pluggy==0.8.0
 protobuf==3.6.1
 py==1.7.0
