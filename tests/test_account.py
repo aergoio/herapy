@@ -64,34 +64,3 @@ def test_import_privkey():
     address_str = account.address_str
     print("address str = {}".format(address_str))
     assert address_str == "AmMRiBguPQB2eZQxE7XnT77hu757QFRv6ReC3VHDi96Dh3S4mYDz"
-
-
-@pytest.mark.skip(reason="import accounts not supported")
-def test_import_accounts():
-    # TODO fill this function
-    # 1. export accounts using 'aergocli'
-    # 2. import exported file
-    # 3. get accounts
-    # 4. extract a private key
-    # 5. generate a public key and address
-    # 6. compare the public key and address from 'aergocli'
-    pass
-
-
-@pytest.mark.skip(reason="export accounts not supported")
-def test_export_accounts():
-    # TODO fill this function
-    # 1. export accounts
-    # 2. import exported file using 'aergocli'
-    pass
-
-
-@pytest.mark.skip(reason="Lock and unlock account not supported")
-def test_lock_and_unlock_accounts():
-    # TODO fill this function
-    # 1. export accounts using 'aergocli'
-    # 2. import exported file
-    # 3. get accounts
-    # 4. lock an account_old and check status
-    # 5. unlock the account_old and check status
-    pass
