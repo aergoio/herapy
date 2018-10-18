@@ -1,3 +1,6 @@
+.. image:: https://codecov.io/gh/aergoio/herapy/branch/accounts/graph/badge.svg?token=JylbPsDrDB
+  :target: https://codecov.io/gh/aergoio/herapy
+
 ======
 herapy
 ======
