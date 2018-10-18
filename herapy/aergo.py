@@ -9,17 +9,35 @@ from google.protobuf.json_format import MessageToJson
 
 
 class Aergo:
-    def __init__(self):
-        self.__account = None
+    def __init__(self, target='', private_key=b'', password=''):
+        self.__target = target
+
+        self.__account = self.__get_account(private_key, password)
         self.__comm = None
+
+    @staticmethod
+    def __get_account(private_key, password):
+        if 0 == len(password):
+            return None
+        account = acc.Account(password)
+
+        if 0 == len(private_key):
+            account.generate_new_key()
+        else:
+            account.private_key = private_key
+
+        return account
 
     @property
     def account(self):
         return self.__account
 
+    @account.setter
+    def account(self, private_key, password):
+        self.__account = self.__get_account(private_key, password)
+
     def create_account(self, password):
-        self.__account = acc.Account(password)
-        self.__account.generate_new_key()
+        self.__account = self.__get_account(b'', password)
         return self.account
 
     def connect(self, target):
@@ -30,9 +48,15 @@ class Aergo:
             self.__comm.disconnect()
 
     def get_account_state(self, account):
-        result = self.__comm.get_account_state(account)
-        return MessageToJson(result)
+        state = self.__comm.get_account_state(account)
+        return MessageToJson(state)
 
+    def get_blockchain_status(self):
+        status = self.__comm.get_blockchain_status()
+        return status.best_block_hash, status.best_height
+
+    # TODO unnecessary functions
+    '''
     def get_all_accounts(self):
         result = self.__comm.get_accounts()
         accounts = []
@@ -41,3 +65,4 @@ class Aergo:
             a.address = account.address
             accounts.append(a)
         return accounts
+    '''

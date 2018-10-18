@@ -23,15 +23,36 @@ class Comm:
         if self.__channel is not None:
             self.__channel.close()
 
-    def get_account_state(self, account):
+    def get_account_state(self, address):
         if self.__rpc_stub is None:
             return None
 
         rpc_account = account_pb2.Account()
-        rpc_account.address = account.address
+        rpc_account.address = address
         return self.__rpc_stub.GetState(rpc_account)
 
+    def get_blockchain_status(self):
+        if self.__rpc_stub is None:
+            return None
+
+        return self.__rpc_stub.Blockchain(rpc_pb2.Empty())
+
+    # TODO unnecessary functions
+    '''
     def get_accounts(self):
         if self.__rpc_stub is None:
             return None
         return self.__rpc_stub.GetAccounts(rpc_pb2.Empty())
+
+    def unlock_account(self, address, passphrase):
+        personal = rpc_pb2.Personal()
+        personal.passphrase = passphrase
+        personal.account.address = address
+        return self.__rpc_stub.UnlockAccount(personal)
+
+    def lock_account(self, address, passphrase):
+        personal = rpc_pb2.Personal()
+        personal.account.address = address
+        personal.passphrase = passphrase
+        return self.__rpc_stub.LockAccount(personal)
+    '''

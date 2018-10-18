@@ -1,5 +1,4 @@
 import grpc
-import base58
 
 import herapy
 
@@ -10,23 +9,6 @@ def run():
 
         print("------ Connect AERGO -----------")
         aergo.connect('localhost:7845')
-
-        print("------ Get Accounts -----------")
-        accounts = aergo.get_all_accounts()
-        i = 0
-        for acc in accounts:
-            i += 1
-            print("Address          = {}".format(acc.address))
-            print("Address String   = {}".format(acc.address_str))
-            print("------ Get Account State -----------")
-            result = aergo.get_account_state(acc)
-            print('Return Msg: %s' % result)
-        '''
-        print('  - Nonce:        %s' % result.nonce)
-        print('  - Balance:      %s' % result.balance)
-        print('  - Code Hash:    %s' % result.codeHash)
-        print('  - Storage Root: %s' % result.storageRoot)
-        '''
 
         print("------ Create Account -----------")
         password = "test password"
