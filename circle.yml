@@ -1,0 +1,5 @@
+test:
+        override:
+                - pytest --cov=./ ./tests/test_*.py
+        post:
+                - codecov
