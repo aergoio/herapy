@@ -49,9 +49,11 @@ class Aergo:
 
     def commit_tx(self, tx):
         # sign transaction
-        tx.body.sign = self.__account.key_manager.sign_message(tx)
-        tx.hash = calculate_tx_hash(tx)
-        return self.__comm.commit_tx(tx)
+        pass
+        #tx.body.sign = self.__account.key_manager.sign_message(tx)
+        #tx.hash = calculate_tx_hash(tx)
+        #return self.__comm.commit_tx(tx)
 
     def get_peers(self):
         return self.__comm.get_peers()
+
