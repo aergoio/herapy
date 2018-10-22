@@ -75,6 +75,18 @@ class Block:
         return self.__txs_root_hash
 
     @property
+    def confirms(self):
+        return self.__confirms
+
+    @property
+    def public_key(self):
+        return self.__public_key
+
+    @property
+    def sign(self):
+        return self.__sign
+
+    @property
     def body(self):
         return self.__body
 
