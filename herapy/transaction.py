@@ -12,7 +12,6 @@ class Transaction:
         type : int
     }
     """
-
     def __init__(self, hash, nonce, from_address, to_address, amount, payload, signature, type):
         self.__hash = hash
         self.__nonce = nonce
@@ -57,6 +56,9 @@ class Transaction:
         return self.__type
 
     def concatenate_fields(self):
+        """
+        Returns a string representation of a tx so it can be signed, encoded and sent.
+        """
         return "".join([self.hash(),
                         str(self.nonce()),
                         self.from_address(),
@@ -64,3 +66,4 @@ class Transaction:
                         str(self.amount()),
                         self.payload(),
                         self.type()])
+
