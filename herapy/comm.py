@@ -47,6 +47,14 @@ class Comm:
         v.value = block_hash
         return self.__rpc_stub.GetBlock(v)
 
+    def get_peers(self):
+        return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
+
+    def get_node_state(self, timeout):
+        single_bytes = rpc_pb2.SingleBytes()
+        single_bytes.value = timeout.to_bytes(8, byteorder='little')
+        return self.__rpc_stub.NodeState(single_bytes)
+
     def get_tx(self, tx_hash):
         single_bytes = rpc_pb2.SingleBytes()
         single_bytes.value = tx_hash
@@ -55,6 +63,3 @@ class Comm:
     def commit_tx(self, tx):
         # sign transaction
         self.__rpc_stub.SendTX(tx)
-
-    def get_peers(self):
-        return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
