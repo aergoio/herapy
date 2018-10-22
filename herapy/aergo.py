@@ -2,11 +2,14 @@
 
 """Main module."""
 
+import json
+
+from google.protobuf.json_format import MessageToJson
+
 from . import account as acc
 from . import comm
 from . import block
-
-from google.protobuf.json_format import MessageToJson
+from .peer import Peer
 
 
 class Aergo:
@@ -87,6 +90,24 @@ class Aergo:
 
         return accounts
 
+    def get_peers(self):
+        result = self.__comm.get_peers()
+        peers = []
+        for i in range(len(result.peers)):
+            p = result.peers[i]
+            s = result.states[i]
+            peer = Peer()
+            peer.info = p
+            peer.state = s
+            peers.append(peer)
+
+        return peers
+
+    def get_node_state(self, timeout=1):
+        result = self.__comm.get_node_state(timeout)
+        json_txt = result.value.decode('utf8').replace("'", '"')
+        return json.loads(json_txt)
+
     def get_tx(self, tx_hash):
         return self.__comm.get_tx(tx_hash)
 
@@ -96,7 +117,4 @@ class Aergo:
         #tx.hash = calculate_tx_hash(tx)
         #return self.__comm.commit_tx(tx)
         pass
-
-    def get_peers(self):
-        return self.__comm.get_peers()
 
