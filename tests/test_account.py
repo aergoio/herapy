@@ -9,7 +9,6 @@ from herapy.account import Account
 
 
 def test_create_new_account():
-    # TODO fill this function
     # check a result with 'aergocli'
     # 1. get password
     password = "test_password"
