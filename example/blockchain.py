@@ -1,4 +1,5 @@
 import grpc
+import json
 
 import herapy
 
@@ -21,6 +22,16 @@ def run():
 
         block = aergo.get_block(block_height=best_block_height)
         print(block.info)
+
+        print("------ Get Peers -----------")
+        peers = aergo.get_peers()
+        print(peers)
+
+        print("------ Get Node State -----------")
+        node_state = aergo.get_node_state()
+        print(node_state)
+        node_state_fmt_txt = json.dumps(node_state, indent=2, sort_keys=True)
+        print(node_state_fmt_txt)
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
