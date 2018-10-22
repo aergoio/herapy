@@ -4,6 +4,7 @@
 
 from . import account as acc
 from . import comm
+from . import block
 
 from google.protobuf.json_format import MessageToJson
 
@@ -59,6 +60,23 @@ class Aergo:
         status = self.__comm.get_blockchain_status()
         return status.best_block_hash, status.best_height
 
+    def get_block(self, block_hash=None, block_height=-1):
+        if self.__comm is None:
+            return None
+
+        if block_height > 0:
+            query = block_height.to_bytes(8, byteorder='little')
+        else:
+            if isinstance(block_hash, str):
+                block_hash = block.Block.decode_block_hash(block_hash)
+
+            query = block_hash
+
+        result = self.__comm.get_block(query)
+        b = block.Block()
+        b.info = result
+        return b
+
     def get_node_accounts(self):
         result = self.__comm.get_accounts()
         accounts = []
@@ -68,3 +86,17 @@ class Aergo:
             accounts.append(account)
 
         return accounts
+
+    def get_tx(self, tx_hash):
+        return self.__comm.get_tx(tx_hash)
+
+    def commit_tx(self, tx):
+        # sign transaction
+        #tx.body.sign = self.__account.key_manager.sign_message(tx)
+        #tx.hash = calculate_tx_hash(tx)
+        #return self.__comm.commit_tx(tx)
+        pass
+
+    def get_peers(self):
+        return self.__comm.get_peers()
+

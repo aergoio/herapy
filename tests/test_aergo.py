@@ -6,40 +6,40 @@ import pytest
 from pytest_mock import mocker
 
 from herapy.aergo import Aergo
-from herapy import comm
-from herapy.grpc import rpc_pb2
+from herapy.transaction.transaction import Transaction
 
 
-def test_create_new_aergo():
-    # check a result with 'aergocli'
-    # 1. make aergo instance
+@pytest.fixture
+def setup():
+    pass
+
+def test_all():
     aergo = Aergo()
-    assert aergo.account is None
-    # 2. connect
-    try:
-        aergo.connect(None)
-    except ValueError as e:
-        print(type(e))
-        print(str(e))
-        assert str(e) == "need target value"
+    aergo.connect('localhost:7845')
+    account = aergo.create_account('passphrase')
+    print(f"Account: {account.address}")
+
+    accounts = aergo.get_all_accounts()
+    print(f"There are {len(accounts)} accounts")
+    for account in accounts:
+        print(f"Account state: {aergo.get_account_state(account)}")
+
+    peers = aergo.get_peers().peers
+    print(f"There are {len(peers)} peers")
+    for peer in peers:
+        print(f"Peer: {peer}")
+
+    tx = Transaction("", "", b"", b"", 0, b"", b"", 0)
+    #tx_result = aergo.commit_tx(tx)
+    #print(f"{tx_result}")
+
+    #tx_0 = aergo.get_tx(b'0')
+    #print(f"{tx_0}")
+
+    aergo.disconnect()
 
 
-'''
-@pytest.mark.parametrize('best_block_hash, best_height', [
-    (b'VaMdjKC9eCXcHTSzJLu8B8jD7jNicody88RRYikqnKQwcSCk6', 22512)
-])
-def test_get_blockchain_status(mocker, best_block_hash, best_height):
-    mock_blockchain_status = rpc_pb2.BlockchainStatus()
-    print('best_block_hash = %s' % best_block_hash)
-    mock_blockchain_status.best_block_hash = best_block_hash
-    print('best_height = %d' % best_height)
-    mock_blockchain_status.best_height = best_height
-
-    mocker.patch.object(comm, "Comm")
-    comm.Comm.connect().return_value = None
-    comm.Comm.get_blockchain_status().return_value = mock_blockchain_status
-
-    # check a result with 'aergocli'
+def test_create_new_account(setup):
     # 1. make aergo instance
     aergo = Aergo()
     assert aergo.account is None
@@ -49,4 +49,19 @@ def test_get_blockchain_status(mocker, best_block_hash, best_height):
     best_block_hash, best_height = aergo.get_blockchain_status()
     print(best_block_hash)
     print(best_height)
-'''
+
+    account = aergo.create_account(password)
+    private_key = account.private_key
+    print("Private Key = {}".format(private_key))
+    print("str(Private Key) = {}".format(account.private_key_str))
+    # 3. get a public key
+    # 4. get an address
+
+def test_account_state():
+    aergo = Aergo()
+    aergo.connect('localhost:7845')
+    password = "test_password"
+    account = aergo.create_account(password)
+    state = aergo.get_account_state(account)
+    print(f"Account state = {state}")
+    aergo.disconnect()

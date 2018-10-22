@@ -40,18 +40,21 @@ class Comm:
             return None
         return self.__rpc_stub.GetAccounts(rpc_pb2.Empty())
 
-    # TODO unnecessary functions
-    '''
+    def get_block(self, block_hash):
+        if self.__rpc_stub is None:
+            return None
+        v = rpc_pb2.SingleBytes()
+        v.value = block_hash
+        return self.__rpc_stub.GetBlock(v)
 
-    def unlock_account(self, address, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.passphrase = passphrase
-        personal.account.address = address
-        return self.__rpc_stub.UnlockAccount(personal)
+    def get_tx(self, tx_hash):
+        single_bytes = rpc_pb2.SingleBytes()
+        single_bytes.value = tx_hash
+        return self.__rpc_stub.GetTX(single_bytes)
 
-    def lock_account(self, address, passphrase):
-        personal = rpc_pb2.Personal()
-        personal.account.address = address
-        personal.passphrase = passphrase
-        return self.__rpc_stub.LockAccount(personal)
-    '''
+    def commit_tx(self, tx):
+        # sign transaction
+        self.__rpc_stub.SendTX(tx)
+
+    def get_peers(self):
+        return self.__rpc_stub.GetPeers(rpc_pb2.Empty())

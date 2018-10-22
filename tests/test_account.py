@@ -46,6 +46,7 @@ def test_get_account_from_privkey():
     print("str(address) = {}".format(account.address_str))
     assert account.address_str == "AmMwJUkRX6pcR7MA9iMMrvCT4DLLwi11HnQAZMWujr8imXs8YbSm"
 
+<<<<<<< HEAD
 
 def test_get_account_from_address():
     # 1. get password
@@ -81,3 +82,13 @@ def test_export_accounts():
     pass
 
 
+=======
+    # 6. check the address
+    address = account.address
+    print("address = {}".format(address))
+    print("hex(address) = {}".format(address.hex()))
+    assert address.hex() == "02797239c92b17458b88155fe668f7acb3621febefefc930de3bc5312278dd52e8"
+    address_str = account.address_str
+    print("address str = {}".format(address_str))
+    assert address_str == "AmMRiBguPQB2eZQxE7XnT77hu757QFRv6ReC3VHDi96Dh3S4mYDz"
+>>>>>>> create-accounts
