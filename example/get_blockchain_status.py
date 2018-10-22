@@ -1,22 +1,29 @@
 import grpc
 
-from herapy.comm.comm import Comm
-
-
-def get_blockchain_status(comm):
-    status = comm.get_blockchain_status()
-    print('Return Msg: %s' % comm.get_result_to_json())
-    return status
+import herapy
 
 
 def run():
     try:
+        aergo = herapy.Aergo()
+
+        print("------ Connect AERGO -----------")
+        aergo.connect('localhost:7845')
+
         print("------ Get Blockchain Status -----------")
-        comm = Comm('localhost:7845')
-        result = get_blockchain_status(comm)
-        print('Blockchain Status = %s' % result.SerializeToString())
-        print('  - Best Block Hash  : %s' % result.best_block_hash.hex())
-        print('  - Best Block Height: %s' % result.best_height)
+        best_block_hash, best_block_height = aergo.get_blockchain_status()
+        print("Best Block Hash      = {}".format(best_block_hash))
+        print("Best Block Height    = {}".format(best_block_height))
+
+        print("------ Get Block Status -----------")
+        block = aergo.get_block(best_block_hash)
+        print(block.info)
+
+        block = aergo.get_block(block_height=best_block_height)
+        print(block.info)
+
+        print("------ Disconnect AERGO -----------")
+        aergo.disconnect()
     except grpc.RpcError as e:
         print('Get Blockchain Status failed with {0}: {1}'.format(e.code(), e.details()))
 
