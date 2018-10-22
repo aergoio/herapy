@@ -10,6 +10,7 @@ from google.protobuf.json_format import MessageToJson
 
 class Account:
     PRIVATE_KEY_BYTES_LENGTH = 32
+    PRIVATE_KEY_VERSION = b'\xAA'
     ADDRESS_BYTES_LENGTH = 33
     ADDRESS_VERSION = b'\x42'
 
@@ -144,10 +145,10 @@ class Account:
 
     @staticmethod
     def encode_private_key(private_key):
-        v = bytes([Account.PRIVATE_KEY_BYTES_LENGTH]) + private_key
+        v = Account.PRIVATE_KEY_VERSION + private_key
         return base58.b58encode_check(v).decode('utf-8')
 
     @staticmethod
     def decode_private_key(private_key):
         v = base58.b58decode_check(private_key)
-        return v[1:]
+        return v[len(Account.PRIVATE_KEY_VERSION):]
