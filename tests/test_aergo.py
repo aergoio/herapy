@@ -3,49 +3,50 @@
 """Tests for `aergo` package."""
 
 import pytest
-import base58
+from pytest_mock import mocker
 
 from herapy.aergo import Aergo
+from herapy import comm
+from herapy.grpc import rpc_pb2
 
 
-@pytest.fixture
-def setup():
-    pass
-
-
-def test_create_new_account(setup):
-    # TODO fill this function
+def test_create_new_aergo():
     # check a result with 'aergocli'
-    # 1. get password
-    password = "test_password"
-    # 2. make a private key
+    # 1. make aergo instance
     aergo = Aergo()
-    account = aergo.create_account(password)
-    private_key = account.secret_key
-    print("Private Key = {}".format(private_key))
-    print("base58(Private Key) = {}".format(base58.b58encode_check(private_key)))
-    # 3. get a public key
-    # 4. get an address
+    assert aergo.account is None
+    # 2. connect
+    try:
+        aergo.connect(None)
+    except ValueError as e:
+        print(type(e))
+        print(str(e))
+        assert str(e) == "need target value"
 
 
-@pytest.mark.skip(reason="import accounts not supported")
-def test_import_accounts():
-    # TODO fill this function
-    # 1. export accounts using 'aergocli'
-    # 2. import exported file
-    # 3. get accounts
-    # 4. extract a private key
-    # 5. generate a public key and address
-    # 6. compare the public key and address from 'aergocli'
-    pass
+'''
+@pytest.mark.parametrize('best_block_hash, best_height', [
+    (b'VaMdjKC9eCXcHTSzJLu8B8jD7jNicody88RRYikqnKQwcSCk6', 22512)
+])
+def test_get_blockchain_status(mocker, best_block_hash, best_height):
+    mock_blockchain_status = rpc_pb2.BlockchainStatus()
+    print('best_block_hash = %s' % best_block_hash)
+    mock_blockchain_status.best_block_hash = best_block_hash
+    print('best_height = %d' % best_height)
+    mock_blockchain_status.best_height = best_height
 
+    mocker.patch.object(comm, "Comm")
+    comm.Comm.connect().return_value = None
+    comm.Comm.get_blockchain_status().return_value = mock_blockchain_status
 
-@pytest.mark.skip(reason="Lock and unlock account not supported")
-def test_lock_and_unlock_accounts():
-    # TODO fill this function
-    # 1. export accounts using 'aergocli'
-    # 2. import exported file
-    # 3. get accounts
-    # 4. lock an account_old and check status
-    # 5. unlock the account_old and check status
-    pass
+    # check a result with 'aergocli'
+    # 1. make aergo instance
+    aergo = Aergo()
+    assert aergo.account is None
+    # 2. connect
+    aergo.connect("mocking_target")
+    # 3. get blockchain status
+    best_block_hash, best_height = aergo.get_blockchain_status()
+    print(best_block_hash)
+    print(best_height)
+'''

@@ -19,9 +19,10 @@ protobuf==3.6.1
 py==1.7.0
 pytest==3.9.1
 pytest-cov==2.6.0
-requests==2.19.1
+pytest-mock==1.10.0
+requests==2.20.0
 six==1.11.0
 toml==0.10.0
 tox==3.5.2
-urllib3==1.23
+urllib3==1.24
 virtualenv==16.0.0
