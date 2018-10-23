@@ -8,6 +8,8 @@ __pycache__
 .eggs/
 *.pyc
 docs/pydoc
+.coverage
+coverage.xml
 
 *_pb2.py
 *_pb2_grpc.py
