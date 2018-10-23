@@ -41,9 +41,11 @@ class Comm:
         single_bytes.value = tx_hash
         return self.__rpc_stub.GetTX(single_bytes)
 
+    def send_tx(self, tx):
+        return self.__rpc_stub.SendTX(tx)
+
     def commit_tx(self, tx):
-        # sign transaction
-        self.__rpc_stub.SendTX(tx)
+        return self.__rpc_stub.CommitTX(tx)
 
     def get_peers(self):
         return self.__rpc_stub.GetPeers(rpc_pb2.Empty())

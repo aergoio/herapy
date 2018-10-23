@@ -6,17 +6,20 @@ import pytest
 import base58
 
 from herapy.aergo import Aergo
-from herapy.transaction.transaction import Transaction
+from herapy.transaction import Transaction
 
 
 @pytest.fixture
 def setup():
     pass
 
+@pytest.mark.skip(reason="WIP")
 def test_all():
     aergo = Aergo()
     aergo.connect('localhost:7845')
     account = aergo.create_account('passphrase')
+
+    print()
     print(f"Account: {account.address}")
 
     accounts = aergo.get_all_accounts()
@@ -29,12 +32,22 @@ def test_all():
     for peer in peers:
         print(f"Peer: {peer}")
 
-    tx = Transaction("", "", b"", b"", 0, b"", b"", 0)
-    #tx_result = aergo.commit_tx(tx)
-    #print(f"{tx_result}")
+    tx = Transaction(hash="",
+                     nonce=0,
+                     from_address="",
+                     to_address="",
+                     amount=0,
+                     payload="",
+                     signature="",
+                     type="")
+    signed_tx = aergo.sign_tx(tx.concatenate_fields())
+    print(f"Signed tx: {signed_tx}")
 
-    #tx_0 = aergo.get_tx(b'0')
-    #print(f"{tx_0}")
+    print(aergo.send_tx(tx))
+    print(aergo.commit_tx(tx))
+
+    tx_0 = aergo.get_tx(b'0')
+    print(f"{tx_0}")
 
     aergo.disconnect()
 

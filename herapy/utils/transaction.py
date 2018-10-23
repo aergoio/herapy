@@ -1,6 +1,6 @@
 import hashlib
 
-from herapy.transaction import transaction
+from herapy import transaction
 from herapy.utils.encoding import encode_address, encode_hash, encode_signature
 
 def tx_to_transaction(tx):

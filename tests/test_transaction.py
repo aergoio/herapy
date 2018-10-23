@@ -4,7 +4,7 @@
 """Tests for `herapy` package."""
 
 import pytest
-from herapy.transaction import transaction
+from herapy import transaction
 from herapy.utils.key_manager import KeyManager
 
 @pytest.mark.skip(reason='Now supplying signature in Transaction constructor')

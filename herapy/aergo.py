@@ -8,6 +8,8 @@ from .utils.transaction import calculate_tx_hash
 
 from google.protobuf.json_format import MessageToJson
 
+# For PyDoc
+__all__ = ['account', 'create_account', 'connect', 'disconnect', 'get_account_state', 'get_all_accounts', 'get_tx', 'sign_tx', 'send_tx', 'commit_tx']
 
 class Aergo:
     def __init__(self):
@@ -16,9 +18,17 @@ class Aergo:
 
     @property
     def account(self):
+        """
+        Returns the account.
+        :return:
+        """
         return self.__account
 
     def create_account(self, password):
+        """
+        :param password:
+        :return:
+        """
         self.__account = acc.Account(password)
         self.__account.generate_new_key()
         return self.account
@@ -47,12 +57,15 @@ class Aergo:
     def get_tx(self, tx_hash):
         return self.__comm.get_tx(tx_hash)
 
-    def commit_tx(self, tx):
-        # sign transaction
+    def sign_tx(self, tx):
+        # TODO is this logic in accounts now?
         pass
-        #tx.body.sign = self.__account.key_manager.sign_message(tx)
-        #tx.hash = calculate_tx_hash(tx)
-        #return self.__comm.commit_tx(tx)
+
+    def send_tx(self, tx):
+        return self.__comm.send_tx(tx)
+
+    def commit_tx(self, tx):
+        return self.__comm.commit_tx(tx)
 
     def get_peers(self):
         return self.__comm.get_peers()

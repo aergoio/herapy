@@ -12,6 +12,7 @@ class Transaction:
         type : int
     }
     """
+
     def __init__(self, hash, nonce, from_address, to_address, amount, payload, signature, type):
         self.__hash = hash
         self.__nonce = nonce

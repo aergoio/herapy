@@ -4,9 +4,8 @@
 """Tests for `herapy` package."""
 
 import pytest
-from herapy import herapy
-from herapy.transaction import transaction
-from herapy.blockchain import blockchain
+from herapy import herapy, transaction
+
 
 @pytest.fixture
 def setup():

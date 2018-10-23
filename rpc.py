@@ -5,7 +5,7 @@ from herapy.grpc import account_pb2, rpc_pb2, rpc_pb2_grpc, blockchain_pb2
 
 from herapy.utils.encoding import encode_address, decode_address, encode_hash
 from herapy.utils.transaction import tx_to_transaction
-from herapy.transaction import transaction
+from herapy import transaction
 
 
 class Rpc:
