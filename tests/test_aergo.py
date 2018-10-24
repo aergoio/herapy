@@ -13,7 +13,6 @@ from herapy.transaction import Transaction
 def setup():
     pass
 
-@pytest.mark.skip(reason="WIP")
 def test_all():
     aergo = Aergo()
     aergo.connect('localhost:7845')
@@ -22,7 +21,7 @@ def test_all():
     print()
     print(f"Account: {account.address}")
 
-    accounts = aergo.get_all_accounts()
+    accounts = aergo.get_node_accounts()
     print(f"There are {len(accounts)} accounts")
     for account in accounts:
         print(f"Account state: {aergo.get_account_state(account)}")

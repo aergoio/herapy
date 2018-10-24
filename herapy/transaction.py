@@ -43,7 +43,6 @@ class Transaction:
     def amount(self):
         return self.__amount
 
-
     @property
     def payload(self):
         return self.__payload
@@ -60,11 +59,11 @@ class Transaction:
         """
         Returns a string representation of a tx so it can be signed, encoded and sent.
         """
-        return "".join([self.hash(),
-                        str(self.nonce()),
-                        self.from_address(),
-                        self.to_address(),
-                        str(self.amount()),
-                        self.payload(),
-                        self.type()])
 
+        return str.join("", (self.hash(),
+                            str(self.nonce()),
+                            self.from_address(),
+                            self.to_address(),
+                            str(self.amount()),
+                            self.payload(),
+                            self.type()))

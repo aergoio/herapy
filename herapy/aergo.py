@@ -35,7 +35,6 @@ class Aergo:
         :return:
         """
         self.__account = acc.Account(password)
-        self.__account.generate_new_key()
         return self.account
 
     def new_account(self, password, private_key=None):
@@ -142,8 +141,6 @@ class Aergo:
         return self.__comm.get_peers()
 
     def commit_tx(self, tx):
-        # sign transaction
         tx.body.sign = self.__account.key_manager.sign_message(tx)
         tx.hash = calculate_tx_hash(tx)
         return self.__comm.commit_tx(tx)
-        pass
