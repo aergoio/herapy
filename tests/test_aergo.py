@@ -3,7 +3,7 @@
 """Tests for `aergo` package."""
 
 import pytest
-import base58
+from pytest_mock import mocker
 
 from herapy.aergo import Aergo
 from herapy.transaction.transaction import Transaction
@@ -40,15 +40,20 @@ def test_all():
 
 
 def test_create_new_account(setup):
-    # check a result with 'aergocli'
-    # 1. get password
-    password = "test_password"
-    # 2. make a private key
+    # 1. make aergo instance
     aergo = Aergo()
+    assert aergo.account is None
+    # 2. connect
+    aergo.connect("mocking_target")
+    # 3. get blockchain status
+    best_block_hash, best_height = aergo.get_blockchain_status()
+    print(best_block_hash)
+    print(best_height)
+
     account = aergo.create_account(password)
     private_key = account.private_key
     print("Private Key = {}".format(private_key))
-    print("base58(Private Key) = {}".format(base58.b58encode_check(private_key)))
+    print("str(Private Key) = {}".format(account.private_key_str))
     # 3. get a public key
     # 4. get an address
 
