@@ -11,6 +11,7 @@ from . import comm
 from . import block
 from . import transaction
 from .peer import Peer
+from .grpc import blockchain_pb2
 
 class Aergo:
     def __init__(self):
@@ -202,6 +203,18 @@ class Aergo:
         """
         ""
         return self.__comm.send_tx(signed_tx)
+
+    def send_payload(self, to_address, amount, payload):
+        if self.__comm is None:
+            return None, None
+
+        tx = transaction.Transaction(from_address=self.__account.address,
+                                     to_address=to_address,
+                                     nonce=self.__account.nonce,
+                                     amount=amount,
+                                     payload=payload)
+        tx.sign = self.__account.sign_message(tx.calculate_hash())
+        return tx, self.send_tx(tx)
 
     def commit_tx(self, signed_txs):
         """

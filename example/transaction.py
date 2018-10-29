@@ -8,7 +8,7 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        #aergo.connect('localhost:7845')
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
@@ -23,6 +23,12 @@ def run():
         print("------ Simple Send Tx -----------")
         simple_tx, result = aergo.send_payload(to_address=receiver_address,
                                                amount=10, payload=None)
+        print("  > simple TX : {}".format(herapy.convert_tx_to_json(simple_tx)))
+        print("  > simple TX result : {}".format(result))
+
+        print("------ Simple Send Tx -----------")
+        simple_tx, result = aergo.send_payload(to_address=receiver_address,
+                                               amount=10, payload='')
         print("  > simple TX : {}".format(herapy.convert_tx_to_json(simple_tx)))
         print("  > simple TX result : {}".format(result))
 
