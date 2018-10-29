@@ -2,8 +2,8 @@
 
 import grpc
 
-from herapy.grpc import account_pb2, rpc_pb2, rpc_pb2_grpc
-
+from herapy.grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc
+from herapy.transaction import Transaction
 
 class Comm:
     def __init__(self, target=None):
@@ -20,6 +20,10 @@ class Comm:
     def disconnect(self):
         if self.__channel is not None:
             self.__channel.close()
+
+    def create_account(self, address, passphrase):
+        account = account_pb2.Account(address=address)
+        return self.__rpc_stub.CreateAccount(request=rpc_pb2.Personal(account=account, passphrase=passphrase))
 
     def get_account_state(self, address):
         if self.__rpc_stub is None:
@@ -61,10 +65,22 @@ class Comm:
         return self.__rpc_stub.GetTX(single_bytes)
 
     def send_tx(self, tx):
+        tx_hash = Transaction.calculate_tx_hash(tx)
+        tx.hash = tx_hash
         return self.__rpc_stub.SendTX(tx)
 
-    def commit_tx(self, tx):
-        return self.__rpc_stub.CommitTX(tx)
+    def unlock_account(self, address, passphrase):
+        account = account_pb2.Account(address=address)
+        personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
+        return self.__rpc_stub.UnlockAccount(request=personal)
+
+    def lock_account(self, address, passphrase):
+        account = account_pb2.Account(address=address)
+        personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
+        return self.__rpc_stub.LockAccount(request=personal)
+
+    def commit_tx(self, tx_list):
+        return self.__rpc_stub.CommitTX(tx_list)
 
     def get_peers(self):
         return self.__rpc_stub.GetPeers(rpc_pb2.Empty())

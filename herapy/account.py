@@ -31,6 +31,9 @@ class Account:
 
         self.__state = None
 
+    def sign_message(self, message):
+        return self.__signing_key.sign(message, hashfunc=hashlib.sha256)
+
     def __generate_new_key(self):
         self.__signing_key = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1,
                                                        hashfunc=hashlib.sha256)
@@ -124,6 +127,13 @@ class Account:
         if self.__state is None:
             return None
         return self.__state.sqlRecoveryPoint
+
+    def increment_nonce(self):
+        if self.__state is None:
+            return 0
+        else:
+            self.__state.nonce += 1
+            return self.__state.nonce
 
     @staticmethod
     def generate_address(pubkey):

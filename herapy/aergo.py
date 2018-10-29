@@ -5,16 +5,14 @@
 import json
 
 from google.protobuf.json_format import MessageToJson
-
-# For PyDoc
-__all__ = ['account', 'create_account', 'connect', 'disconnect', 'get_account_state', 'get_all_accounts', 'get_tx', 'sign_tx', 'send_tx', 'commit_tx']
+from herapy.grpc import blockchain_pb2
+from herapy.transaction import Transaction
 
 from . import account as acc
 from . import comm
 from . import block
+from . import transaction
 from .peer import Peer
-
-from .utils.transaction import calculate_tx_hash
 
 class Aergo:
     def __init__(self):
@@ -30,12 +28,8 @@ class Aergo:
         return self.__account
 
     def create_account(self, password):
-        """
-        :param password:
-        :return:
-        """
         self.__account = acc.Account(password)
-        return self.account
+        return self.__comm.create_account(address=self.__account.address, passphrase=password)
 
     def new_account(self, password, private_key=None):
         self.__account = acc.Account(password, private_key)
@@ -127,20 +121,47 @@ class Aergo:
     def get_tx(self, tx_hash):
         return self.__comm.get_tx(tx_hash)
 
+    def lock_account(self, address, passphrase):
+        return self.__comm.lock_account(address, passphrase)
+
+    def unlock_account(self, address, passphrase):
+        return self.__comm.unlock_account(address=address, passphrase=passphrase)
+
+    # TODO can we have limit, price defaults of 0?
+    def send(self, from_address, to_address, amount, payload, limit, price):
+        normal_tx_type = blockchain_pb2.TxType.Value(name='NORMAL')
+        incremented_nonce = self.__account.increment_nonce()
+        tx_body = blockchain_pb2.TxBody(nonce=incremented_nonce,
+                                        account=from_address,
+                                        recipient=to_address,
+                                        amount=amount,
+                                        payload=payload,
+                                        limit=limit,
+                                        price=price,
+                                        type=normal_tx_type)
+
+        tx = blockchain_pb2.Tx(body=tx_body)
+        tx_hash = Transaction.calculate_tx_hash(tx)
+        tx.hash = tx_hash
+
+        signed_tx = self.sign_tx(tx)
+        return self.send_tx(signed_tx)
+
     def sign_tx(self, tx):
-        # TODO is this logic in accounts now?
-        pass
+        tx_hash = Transaction.calculate_tx_hash(tx)
+        tx_signature = self.__account.sign_message(tx_hash)
+        tx.body.sign = tx_signature
+        tx.hash = tx_hash
+        return tx
 
     def send_tx(self, tx):
         return self.__comm.send_tx(tx)
 
-    def commit_tx(self, tx):
-        return self.__comm.commit_tx(tx)
+    def commit_tx(self, txs):
+        tx_list = blockchain_pb2.TxList()
+        tx_list.txs.extend(txs)
+        return self.__comm.commit_tx(tx_list)
 
     def get_peers(self):
         return self.__comm.get_peers()
 
-    def commit_tx(self, tx):
-        tx.body.sign = self.__account.key_manager.sign_message(tx)
-        tx.hash = calculate_tx_hash(tx)
-        return self.__comm.commit_tx(tx)
