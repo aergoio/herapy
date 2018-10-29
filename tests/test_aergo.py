@@ -8,6 +8,11 @@ from pytest_mock import mocker
 from herapy.aergo import Aergo
 from herapy.transaction import Transaction
 
+@pytest.fixture
+def setup_mocked(mocker):
+    aergo = Aergo()
+    mocker.patch(aergo, 'connect')
+    aergo.connect.return_value = None
 
 @pytest.fixture
 def setup():
@@ -30,11 +35,11 @@ def setup():
 
     pytest.aergo.unlock_account(address=pytest.sender.address, passphrase="passphrase")
 
-def test_create_account(setup):
+def test_create_account(mocker, setup_mocked):
     account = pytest.aergo.create_account("passphrase")
     print(f"Created Account {account}")
 
-def test_sign_tx(setup):
+def test_sign_tx(setup_mocked):
     transaction = pytest.transaction
     tx = transaction.to_tx()
     signed_tx = pytest.aergo.sign_tx(tx)
@@ -42,7 +47,7 @@ def test_sign_tx(setup):
     print(f"Tx {tx.hash} has signature {tx.body.sign}")
 
 
-def test_send(setup):
+def test_send(setup_mocked):
     result = pytest.aergo.send(from_address=pytest.sender.address,
                                to_address=pytest.receiver.address,
                                amount=1,
@@ -52,7 +57,7 @@ def test_send(setup):
     print(f"Tx hash: {result.hash}")
 
 def test_send_tx(setup):
-    pytest.aergo.unlock_account(address=pytest.sender.address, passphrase="passphrase")
+    #pytest.aergo.unlock_account(address=pytest.sender.address, passphrase="passphrase")
     transaction = pytest.transaction
 
     tx = transaction.to_tx()
@@ -63,7 +68,7 @@ def test_send_tx(setup):
 
     print(f"Sent transaction: {pytest.aergo.get_tx(tx_hash)}")
 
-def test_commit_tx(setup):
+def test_commit_tx(setup_mocked):
     sender = pytest.aergo.create_account("passphrase")
     receiver = pytest.aergo.create_account("passphrase")
     pytest.aergo.unlock_account(address=sender.address, passphrase="passphrase")
@@ -78,7 +83,7 @@ def test_commit_tx(setup):
     print(result) # TODO investigate these "invalid hash" results
 
 
-def test_get_account_info(setup):
+def test_get_account_info(setup_mocked):
     account = pytest.aergo.create_account("passphrase")
     print(f"Account: {account.address}")
 
