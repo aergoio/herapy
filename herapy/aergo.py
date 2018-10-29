@@ -5,8 +5,6 @@
 import json
 
 from google.protobuf.json_format import MessageToJson
-from herapy.grpc import blockchain_pb2
-from herapy.transaction import Transaction
 
 from . import account as acc
 from . import comm
@@ -36,10 +34,10 @@ class Aergo:
         self.__account = acc.Account(password)
         return self.__comm.create_account(address=self.__account.address, passphrase=password)
 
-    def new_account(self, password, private_key=None):
+    def new_account(self, password=None, private_key=None):
         self.__account = acc.Account(password, private_key)
         if private_key is not None:
-            self.get_account_state(self.__account.address)
+            self.get_account_state(self.__account)
         return self.__account
 
     def get_account_state(self, account=None):
@@ -184,72 +182,32 @@ class Aergo:
         """
         return self.__comm.unlock_account(address=address, passphrase=passphrase)
 
-    # TODO can we have limit, price defaults of 0?
-    def send(self, from_address, to_address, amount, payload, limit, price):
-        """
-        Sends `amount` of currency from account `from_address` to account `to_address` with payload `payload` (can be blank bytestring b"").
-        Necessary to unlock accounts before sending/receiving transactions.
-        :param from_address:
-        :param to_address:
-        :param amount:
-        :param payload:
-        :param limit:
-        :param price:
-        :return:
-        """
-        normal_tx_type = blockchain_pb2.TxType.Value(name='NORMAL')
-        incremented_nonce = self.__account.increment_nonce()
-        tx_body = blockchain_pb2.TxBody(nonce=incremented_nonce,
-                                        account=from_address,
-                                        recipient=to_address,
-                                        amount=amount,
-                                        payload=payload,
-                                        limit=limit,
-                                        price=price,
-                                        type=normal_tx_type)
+    def send_payload(self, to_address, amount, payload):
+        if self.__comm is None:
+            return None, None
 
-        tx = blockchain_pb2.Tx(body=tx_body)
-        tx_hash = Transaction.calculate_tx_hash(tx)
-        tx.hash = tx_hash
+        tx = transaction.Transaction(from_address=self.__account.address,
+                                     to_address=to_address,
+                                     nonce=self.__account.nonce,
+                                     amount=amount,
+                                     payload=payload)
+        tx.sign = self.__account.sign_message(tx.calculate_hash())
+        return tx, self.__comm.send_tx(tx)
 
-        signed_tx = self.sign_tx(tx)
-        return self.send_tx(signed_tx)
-
-    def sign_tx(self, tx):
-        """
-        Signs the transaction `tx` with the signing key in the __account object in Aergo.
-        :param tx:
-        :return:
-        """
-        tx_hash = Transaction.calculate_tx_hash(tx)
-        tx_signature = self.__account.sign_message(tx_hash)
-        tx.body.sign = tx_signature
-        tx.hash = tx_hash
-        return tx
-
-    def send_tx(self, tx):
+    def send_tx(self, signed_tx):
         """
         Sends the transaction `tx`.
-        :param tx:
+        :param signed_tx:
         :return:
         """
         ""
-        return self.__comm.send_tx(tx)
+        return self.__comm.send_tx(signed_tx)
 
-    def commit_tx(self, txs):
+    def commit_tx(self, signed_txs):
         """
         Send a set of transactions `txs` simultaneously.
-        :param txs:
+        :param signed_txs:
         :return:
         """
-        tx_list = blockchain_pb2.TxList()
-        tx_list.txs.extend(txs)
-        return self.__comm.commit_tx(tx_list)
-
-    def get_peers(self):
-        """
-        Return a list of peers.
-        :return:
-        """
-        return self.__comm.get_peers()
+        return self.__comm.commit_tx(signed_txs)
 

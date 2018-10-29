@@ -4,7 +4,8 @@
 
 import grpc
 
-from herapy.grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc
+from .grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc
+from .utils.converter import convert_tx_to_grpc_tx
 
 
 class Comm:
@@ -80,11 +81,9 @@ class Comm:
         return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
 
     def send_tx(self, signed_tx):
-        return self.__rpc_stub.SendTX(signed_tx.grpc_tx)
+        return self.__rpc_stub.SendTX(convert_tx_to_grpc_tx(signed_tx))
 
     def commit_tx(self, signed_txs):
         tx_list = blockchain_pb2.TxList()
         for signed_tx in signed_txs:
-            tx_list.txs.append(signed_tx.grpc_tx)
-
-        return self.__rpc_stub.CommitTX(tx_list)
+            tx_list.txs.append(convert_tx_to_grpc_tx(signed_tx))

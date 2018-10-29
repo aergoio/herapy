@@ -117,6 +117,12 @@ class Transaction:
         self.__payload = v
 
     @property
+    def payload_str(self):
+        if self.__payload is None:
+            return None
+        return base58.b58encode(self.__payload).decode('utf-8')
+
+    @property
     def fee_limit(self):
         return self.__fee_limit
 
@@ -154,6 +160,8 @@ class Transaction:
 
     @property
     def sign_str(self):
+        if self.__sign is None:
+            return None
         return base58.b58encode(self.__sign).decode('utf-8')
 
     @property
@@ -163,24 +171,3 @@ class Transaction:
     @property
     def tx_hash_str(self):
         return base58.b58encode(self.calculate_hash()).decode('utf-8')
-
-    @property
-    def grpc_tx(self):
-        tx = blockchain_pb2.Tx()
-        tx.hash = self.tx_hash
-        if self.__nonce is not None:
-            tx.body.nonce = self.__nonce
-        if self.__from_address is not None:
-            tx.body.account = self.__from_address
-        if self.__to_address is not None:
-            tx.body.recipient = self.__to_address
-        if self.__amount is not None:
-            tx.body.amount = self.__amount
-        if self.__payload is not None:
-            tx.body.payload = self.__payload
-        tx.body.limit = self.__fee_limit
-        tx.body.price = self.__fee_price
-        tx.body.type = self.__tx_type
-        if self.__sign is not None:
-            tx.body.sign = self.__sign
-        return tx

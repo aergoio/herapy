@@ -12,3 +12,5 @@ from .aergo import Aergo
 from .account import Account
 from .transaction import Transaction
 from .block import Block
+
+from .utils.converter import convert_tx_to_json

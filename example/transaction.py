@@ -1,7 +1,5 @@
 import grpc
 
-from google.protobuf.json_format import MessageToJson
-
 import herapy
 
 
@@ -18,16 +16,24 @@ def run():
         print("  > Sender Address: {}".format(sender_account.address_str))
 
         print("------ Set Receiver Account -----------")
-        receiver_address = "AmLeRAq94xu44YESvK5D5LgXwUBCPZ4LX8tGyF1Eo3urQ59uzDdy"
-        print("  > Receiver Address: {}".format(receiver_address))
+        receiver_address_str = "AmLeRAq94xu44YESvK5D5LgXwUBCPZ4LX8tGyF1Eo3urQ59uzDdy"
+        receiver_address = herapy.Account.decode_address(receiver_address_str)
+        print("  > Receiver Address: {}".format(receiver_address_str))
+
+        print("------ Simple Send Tx -----------")
+        simple_tx, result = aergo.send_payload(to_address=receiver_address,
+                                               amount=10, payload=None)
+        print("  > simple TX : {}".format(herapy.convert_tx_to_json(simple_tx)))
+        print("  > simple TX result : {}".format(result))
 
         print("------ Create Tx -----------")
         tx = herapy.Transaction(from_address=sender_account.address,
+                                nonce=sender_account.nonce + 1,
                                 amount=10)
-        tx.to_address = herapy.Account.decode_address(receiver_address)
+        tx.to_address = receiver_address
         print("  > unsigned TX Hash: {}".format(tx.calculate_hash()))
         print("  > unsigned TX Hash: {}".format(tx.tx_hash_str))
-        print("  > unsigned TX : {}".format(MessageToJson(tx.grpc_tx)))
+        print("  > unsigned TX : {}".format(herapy.convert_tx_to_json(tx)))
 
         print("------ Sign Tx -----------")
         signature = sender_account.sign_message(tx.calculate_hash())
@@ -35,7 +41,7 @@ def run():
         print("  > TX Signature: {}".format(tx.sign_str))
         print("  > TX Hash: {}".format(tx.calculate_hash()))
         print("  > TX Hash: {}".format(tx.tx_hash_str))
-        print("  > TX : {}".format(MessageToJson(tx.grpc_tx)))
+        print("  > TX : {}".format(herapy.convert_tx_to_json(tx)))
 
         print("------ Send Tx -----------")
         #tx_id = aergo.send_tx(tx)
