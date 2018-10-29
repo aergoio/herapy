@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+"""Communication(grpc) module."""
+
 import grpc
 
 from herapy.grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc
-from herapy.transaction import Transaction
+
 
 class Comm:
     def __init__(self, target=None):
@@ -64,11 +66,6 @@ class Comm:
         single_bytes.value = tx_hash
         return self.__rpc_stub.GetTX(single_bytes)
 
-    def send_tx(self, tx):
-        tx_hash = Transaction.calculate_tx_hash(tx)
-        tx.hash = tx_hash
-        return self.__rpc_stub.SendTX(tx)
-
     def unlock_account(self, address, passphrase):
         account = account_pb2.Account(address=address)
         personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
@@ -79,8 +76,15 @@ class Comm:
         personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
         return self.__rpc_stub.LockAccount(request=personal)
 
-    def commit_tx(self, tx_list):
-        return self.__rpc_stub.CommitTX(tx_list)
-
     def get_peers(self):
         return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
+
+    def send_tx(self, signed_tx):
+        return self.__rpc_stub.SendTX(signed_tx.grpc_tx)
+
+    def commit_tx(self, signed_txs):
+        tx_list = blockchain_pb2.TxList()
+        for signed_tx in signed_txs:
+            tx_list.txs.append(signed_tx.grpc_tx)
+
+        return self.__rpc_stub.CommitTX(tx_list)

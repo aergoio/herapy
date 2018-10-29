@@ -1,6 +1,12 @@
-import hashlib
+# -*- coding: utf-8 -*-
 
-from herapy.grpc import blockchain_pb2
+"""Transaction class."""
+
+import hashlib
+import base58
+
+from .grpc import blockchain_pb2
+
 
 class Transaction:
     """
@@ -17,88 +23,164 @@ class Transaction:
     }
     """
 
-    def __init__(self, hash, nonce, from_address, to_address, amount, payload, signature, type, limit, price):
-        self.__hash = hash
-        self.__nonce = nonce
+    FEE_MIN_PRICE = 1
+    FEE_MIN_LIMIT = 1
+
+    TX_TYPE_NORMAL = blockchain_pb2.NORMAL
+    TX_TYPE_GOVERNANCE = blockchain_pb2.GOVERNANCE
+
+    def __init__(self, from_address=None, to_address=None,
+                 nonce=None, amount=None, payload=None,
+                 fee_price=FEE_MIN_PRICE, fee_limit=FEE_MIN_LIMIT):
         self.__from_address = from_address
         self.__to_address = to_address
+        self.__nonce = nonce
         self.__amount = amount
         self.__payload = payload
-        self.__signature = signature
-        self.__type = type
-        self.__limit = limit
-        self.__price = price
+        self.__fee_price = fee_price
+        self.__fee_limit = fee_limit
+        self.__sign = None
+        self.__tx_type = self.TX_TYPE_NORMAL
 
-    def to_tx(self):
-        tx_body = blockchain_pb2.TxBody(nonce=self.__nonce,
-                                     account=self.__from_address,
-                                     recipient=self.__to_address,
-                                     amount=self.__amount,
-                                     payload=self.__payload,
-                                     limit=self.__limit,
-                                     price=self.__price,
-                                     type=self.__type,
-                                     sign=self.__signature)
-        tx = blockchain_pb2.Tx(body=tx_body)
-        tx.hash = Transaction.calculate_tx_hash(tx)
-        return tx
+    def calculate_hash(self):
+        m = hashlib.sha256()
+        # nonce
+        if self.__nonce is not None:
+            b = self.__nonce.to_bytes(8, byteorder='little')
+            m.update(b)
+        # from
+        if self.__from_address is not None:
+            m.update(self.__from_address)
+        # to
+        if self.__to_address is not None:
+            m.update(self.__to_address)
+        # amount
+        if self.__amount is not None:
+            b = self.__amount.to_bytes(8, byteorder='little')
+            m.update(b)
+        # payload
+        if self.__payload is not None:
+            m.update(self.__payload)
+        # fee: limit
+        b = self.__fee_limit.to_bytes(8, byteorder='little')
+        m.update(b)
+        # fee: price
+        b = self.__fee_price.to_bytes(8, byteorder='little')
+        m.update(b)
+        # type
+        b = self.__tx_type.to_bytes(4, byteorder='little')
+        m.update(b)
+        # sign
+        if self.__sign is not None:
+            m.update(self.__sign)
 
-    @property
-    def hash(self):
-        return self.__hash
+        return m.digest()
 
     @property
     def nonce(self):
         return self.__nonce
 
+    @nonce.setter
+    def nonce(self, v):
+        self.__nonce = v
+
     @property
     def from_address(self):
         return self.__from_address
+
+    @from_address.setter
+    def from_address(self, v):
+        self.__from_address = v
 
     @property
     def to_address(self):
         return self.__to_address
 
+    @to_address.setter
+    def to_address(self, v):
+        self.__to_address = v
+
     @property
     def amount(self):
         return self.__amount
+
+    @amount.setter
+    def amount(self, v):
+        self.__amount = v
 
     @property
     def payload(self):
         return self.__payload
 
-    @property
-    def signature(self):
-        return self.__signature
+    @payload.setter
+    def payload(self, v):
+        self.__payload = v
 
     @property
-    def type(self):
-        return self.__type
+    def fee_limit(self):
+        return self.__fee_limit
+
+    @fee_limit.setter
+    def fee_limit(self, v):
+        self.__fee_limit = v
 
     @property
-    def price(self):
-        return self.__price
+    def fee_price(self):
+        return self.__fee_price
+
+    @fee_price.setter
+    def fee_price(self, v):
+        self.__fee_price = v
 
     @property
-    def limit(self):
-        return self.__limit
+    def tx_type(self):
+        return self.__tx_type
 
-    @staticmethod
-    def calculate_tx_hash(tx):
-        m = hashlib.sha256()
-        tx_bytes = tx.body.nonce.to_bytes(8, byteorder='little')
-        m.update(tx_bytes)
-        m.update(tx.body.account)
-        m.update(tx.body.recipient)
-        tx_bytes = tx.body.amount.to_bytes(8, byteorder='little')
-        m.update(tx_bytes)
-        m.update(tx.body.payload)
-        tx_bytes = tx.body.limit.to_bytes(8, byteorder='little')
-        m.update(tx_bytes)
-        tx_bytes = tx.body.price.to_bytes(8, byteorder='little')
-        m.update(tx_bytes)
-        tx_bytes = tx.body.type.to_bytes(4, byteorder='little')
-        m.update(tx_bytes)
-        m.update(tx.body.sign)
-        return m.digest()
+    @tx_type.setter
+    def tx_type(self, v):
+        if v != self.TX_TYPE_NORMAL \
+                or v != self.TX_TYPE_GOVERNANCE:
+            return
 
+        self.__tx_type = v
+
+    @property
+    def sign(self):
+        return self.__sign
+
+    @sign.setter
+    def sign(self, v):
+        self.__sign = v
+
+    @property
+    def sign_str(self):
+        return base58.b58encode(self.__sign).decode('utf-8')
+
+    @property
+    def tx_hash(self):
+        return self.calculate_hash()
+
+    @property
+    def tx_hash_str(self):
+        return base58.b58encode(self.calculate_hash()).decode('utf-8')
+
+    @property
+    def grpc_tx(self):
+        tx = blockchain_pb2.Tx()
+        tx.hash = self.tx_hash
+        if self.__nonce is not None:
+            tx.body.nonce = self.__nonce
+        if self.__from_address is not None:
+            tx.body.account = self.__from_address
+        if self.__to_address is not None:
+            tx.body.recipient = self.__to_address
+        if self.__amount is not None:
+            tx.body.amount = self.__amount
+        if self.__payload is not None:
+            tx.body.payload = self.__payload
+        tx.body.limit = self.__fee_limit
+        tx.body.price = self.__fee_price
+        tx.body.type = self.__tx_type
+        if self.__sign is not None:
+            tx.body.sign = self.__sign
+        return tx
