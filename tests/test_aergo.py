@@ -14,6 +14,8 @@ def setup_mocked(mocker):
     mocker.patch(aergo, 'connect')
     aergo.connect.return_value = None
 
+# fix Aergo class silently overwriting the acct
+
 @pytest.fixture
 def setup():
     pytest.aergo = Aergo()
@@ -40,7 +42,16 @@ def test_create_account(mocker, setup_mocked):
     print(f"Created Account {account}")
 
 def test_sign_tx(setup_mocked):
-    transaction = pytest.transaction
+    transaction = Transaction(hash=b"",
+                     nonce=1,
+                     from_address=pytest.sender.address,
+                     to_address=pytest.receiver.address,
+                     amount=1,
+                     payload=b"",
+                     signature=b"",
+                     type=0,
+                     limit=0,
+                     price=0)
     tx = transaction.to_tx()
     signed_tx = pytest.aergo.sign_tx(tx)
     assert tx.body.sign is not None

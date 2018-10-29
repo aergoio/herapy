@@ -22,12 +22,17 @@ class Aergo:
     @property
     def account(self):
         """
-        Returns the account.
+        Returns the account object.
         :return:
         """
         return self.__account
 
     def create_account(self, password):
+        """
+        Creates a new account with password `password`.
+        :param password:
+        :return:
+        """
         self.__account = acc.Account(password)
         return self.__comm.create_account(address=self.__account.address, passphrase=password)
 
@@ -38,6 +43,11 @@ class Aergo:
         return self.__account
 
     def get_account_state(self, account=None):
+        """
+        Return the account state of account `account`.
+        :param account:
+        :return:
+        """
         if self.__comm is None:
             return None
 
@@ -56,6 +66,11 @@ class Aergo:
         return MessageToJson(state)
 
     def connect(self, target):
+        """
+        Connect to the gRPC server running on port `target` e.g. target="localhost:7845".
+        :param target:
+        :return:
+        """
         if target is None:
             raise ValueError('need target value')
 
@@ -63,10 +78,17 @@ class Aergo:
         self.__comm.connect()
 
     def disconnect(self):
+        """
+        Disconnect from the gRPC server.
+        """
         if self.__comm is not None:
             self.__comm.disconnect()
 
     def get_blockchain_status(self):
+        """
+        Returns the highest block hash and block height so far.
+        :return:
+        """
         if self.__comm is None:
             return None, -1
 
@@ -74,6 +96,12 @@ class Aergo:
         return status.best_block_hash, status.best_height
 
     def get_block(self, block_hash=None, block_height=-1):
+        """
+        Returns information about block `block_hash`.
+        :param block_hash:
+        :param block_height:
+        :return:
+        """
         if self.__comm is None:
             return None
 
@@ -91,6 +119,10 @@ class Aergo:
         return b
 
     def get_node_accounts(self):
+        """
+        Returns a list of all node accounts.
+        :return:
+        """
         result = self.__comm.get_accounts()
         accounts = []
         for a in result.accounts:
@@ -101,6 +133,10 @@ class Aergo:
         return accounts
 
     def get_peers(self):
+        """
+        Returns a list of peers.
+        :return:
+        """
         result = self.__comm.get_peers()
         peers = []
         for i in range(len(result.peers)):
@@ -114,21 +150,53 @@ class Aergo:
         return peers
 
     def get_node_state(self, timeout=1):
+        """
+        Returns information about the node state.
+        :return:
+        """
         result = self.__comm.get_node_state(timeout)
         json_txt = result.value.decode('utf8').replace("'", '"')
         return json.loads(json_txt)
 
     def get_tx(self, tx_hash):
+        """
+        Returns info on transaction with hash `tx_hash`.
+        :param tx_hash:
+        :return:
+        """
         return self.__comm.get_tx(tx_hash)
 
     def lock_account(self, address, passphrase):
+        """
+        Locks the account with address `address` with the passphrase `passphrase`.
+        :param address:
+        :param passphrase:
+        :return:
+        """
         return self.__comm.lock_account(address, passphrase)
 
     def unlock_account(self, address, passphrase):
+        """
+        Unlocks the account with address `address` with the passphrase `passphrase`.
+        :param address:
+        :param passphrase:
+        :return:
+        """
         return self.__comm.unlock_account(address=address, passphrase=passphrase)
 
     # TODO can we have limit, price defaults of 0?
     def send(self, from_address, to_address, amount, payload, limit, price):
+        """
+        Sends `amount` of currency from account `from_address` to account `to_address` with payload `payload` (can be blank bytestring b"").
+        Necessary to unlock accounts before sending/receiving transactions.
+        :param from_address:
+        :param to_address:
+        :param amount:
+        :param payload:
+        :param limit:
+        :param price:
+        :return:
+        """
         normal_tx_type = blockchain_pb2.TxType.Value(name='NORMAL')
         incremented_nonce = self.__account.increment_nonce()
         tx_body = blockchain_pb2.TxBody(nonce=incremented_nonce,
@@ -148,6 +216,11 @@ class Aergo:
         return self.send_tx(signed_tx)
 
     def sign_tx(self, tx):
+        """
+        Signs the transaction `tx` with the signing key in the __account object in Aergo.
+        :param tx:
+        :return:
+        """
         tx_hash = Transaction.calculate_tx_hash(tx)
         tx_signature = self.__account.sign_message(tx_hash)
         tx.body.sign = tx_signature
@@ -155,13 +228,28 @@ class Aergo:
         return tx
 
     def send_tx(self, tx):
+        """
+        Sends the transaction `tx`.
+        :param tx:
+        :return:
+        """
+        ""
         return self.__comm.send_tx(tx)
 
     def commit_tx(self, txs):
+        """
+        Send a set of transactions `txs` simultaneously.
+        :param txs:
+        :return:
+        """
         tx_list = blockchain_pb2.TxList()
         tx_list.txs.extend(txs)
         return self.__comm.commit_tx(tx_list)
 
     def get_peers(self):
+        """
+        Return a list of peers.
+        :return:
+        """
         return self.__comm.get_peers()
 
