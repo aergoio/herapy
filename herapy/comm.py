@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+"""Communication(grpc) module."""
+
 import grpc
 
-from herapy.grpc import account_pb2, rpc_pb2, rpc_pb2_grpc
+from .grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc
+from .utils.converter import convert_tx_to_grpc_tx
 
 
 class Comm:
@@ -20,6 +23,10 @@ class Comm:
     def disconnect(self):
         if self.__channel is not None:
             self.__channel.close()
+
+    def create_account(self, address, passphrase):
+        account = account_pb2.Account(address=address)
+        return self.__rpc_stub.CreateAccount(request=rpc_pb2.Personal(account=account, passphrase=passphrase))
 
     def get_account_state(self, address):
         if self.__rpc_stub is None:
@@ -60,6 +67,23 @@ class Comm:
         single_bytes.value = tx_hash
         return self.__rpc_stub.GetTX(single_bytes)
 
-    def commit_tx(self, tx):
-        # sign transaction
-        self.__rpc_stub.SendTX(tx)
+    def unlock_account(self, address, passphrase):
+        account = account_pb2.Account(address=address)
+        personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
+        return self.__rpc_stub.UnlockAccount(request=personal)
+
+    def lock_account(self, address, passphrase):
+        account = account_pb2.Account(address=address)
+        personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
+        return self.__rpc_stub.LockAccount(request=personal)
+
+    def get_peers(self):
+        return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
+
+    def send_tx(self, signed_tx):
+        return self.__rpc_stub.SendTX(convert_tx_to_grpc_tx(signed_tx))
+
+    def commit_tx(self, signed_txs):
+        tx_list = blockchain_pb2.TxList()
+        for signed_tx in signed_txs:
+            tx_list.txs.append(convert_tx_to_grpc_tx(signed_tx))

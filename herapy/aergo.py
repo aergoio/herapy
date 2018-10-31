@@ -9,8 +9,9 @@ from google.protobuf.json_format import MessageToJson
 from . import account as acc
 from . import comm
 from . import block
+from . import transaction
 from .peer import Peer
-
+from .grpc import blockchain_pb2
 
 class Aergo:
     def __init__(self):
@@ -19,15 +20,33 @@ class Aergo:
 
     @property
     def account(self):
+        """
+        Returns the account object.
+        :return:
+        """
         return self.__account
 
-    def new_account(self, password, private_key=None):
+    def create_account(self, password):
+        """
+        Creates a new account with password `password`.
+        :param password:
+        :return:
+        """
+        self.__account = acc.Account(password)
+        return self.__comm.create_account(address=self.__account.address, passphrase=password)
+
+    def new_account(self, password=None, private_key=None):
         self.__account = acc.Account(password, private_key)
         if private_key is not None:
-            self.get_account_state(self.__account.address)
+            self.get_account_state(self.__account)
         return self.__account
 
     def get_account_state(self, account=None):
+        """
+        Return the account state of account `account`.
+        :param account:
+        :return:
+        """
         if self.__comm is None:
             return None
 
@@ -46,6 +65,11 @@ class Aergo:
         return MessageToJson(state)
 
     def connect(self, target):
+        """
+        Connect to the gRPC server running on port `target` e.g. target="localhost:7845".
+        :param target:
+        :return:
+        """
         if target is None:
             raise ValueError('need target value')
 
@@ -53,10 +77,17 @@ class Aergo:
         self.__comm.connect()
 
     def disconnect(self):
+        """
+        Disconnect from the gRPC server.
+        """
         if self.__comm is not None:
             self.__comm.disconnect()
 
     def get_blockchain_status(self):
+        """
+        Returns the highest block hash and block height so far.
+        :return:
+        """
         if self.__comm is None:
             return None, -1
 
@@ -64,6 +95,12 @@ class Aergo:
         return status.best_block_hash, status.best_height
 
     def get_block(self, block_hash=None, block_height=-1):
+        """
+        Returns information about block `block_hash`.
+        :param block_hash:
+        :param block_height:
+        :return:
+        """
         if self.__comm is None:
             return None
 
@@ -81,6 +118,10 @@ class Aergo:
         return b
 
     def get_node_accounts(self):
+        """
+        Returns a list of all node accounts.
+        :return:
+        """
         result = self.__comm.get_accounts()
         accounts = []
         for a in result.accounts:
@@ -91,6 +132,10 @@ class Aergo:
         return accounts
 
     def get_peers(self):
+        """
+        Returns a list of peers.
+        :return:
+        """
         result = self.__comm.get_peers()
         peers = []
         for i in range(len(result.peers)):
@@ -104,17 +149,66 @@ class Aergo:
         return peers
 
     def get_node_state(self, timeout=1):
+        """
+        Returns information about the node state.
+        :return:
+        """
         result = self.__comm.get_node_state(timeout)
         json_txt = result.value.decode('utf8').replace("'", '"')
         return json.loads(json_txt)
 
     def get_tx(self, tx_hash):
+        """
+        Returns info on transaction with hash `tx_hash`.
+        :param tx_hash:
+        :return:
+        """
         return self.__comm.get_tx(tx_hash)
 
-    def commit_tx(self, tx):
-        # sign transaction
-        #tx.body.sign = self.__account.key_manager.sign_message(tx)
-        #tx.hash = calculate_tx_hash(tx)
-        #return self.__comm.commit_tx(tx)
-        pass
+    def lock_account(self, address, passphrase):
+        """
+        Locks the account with address `address` with the passphrase `passphrase`.
+        :param address:
+        :param passphrase:
+        :return:
+        """
+        return self.__comm.lock_account(address, passphrase)
+
+    def unlock_account(self, address, passphrase):
+        """
+        Unlocks the account with address `address` with the passphrase `passphrase`.
+        :param address:
+        :param passphrase:
+        :return:
+        """
+        return self.__comm.unlock_account(address=address, passphrase=passphrase)
+
+    def send_payload(self, to_address, amount, payload):
+        if self.__comm is None:
+            return None, None
+
+        tx = transaction.Transaction(from_address=self.__account.address,
+                                     to_address=to_address,
+                                     nonce=self.__account.nonce,
+                                     amount=amount,
+                                     payload=payload)
+        tx.sign = self.__account.sign_message(tx.calculate_hash())
+        return tx, self.__comm.send_tx(tx)
+
+    def send_tx(self, signed_tx):
+        """
+        Sends the transaction `tx`.
+        :param signed_tx:
+        :return:
+        """
+        ""
+        return self.__comm.send_tx(signed_tx)
+
+    def commit_tx(self, signed_txs):
+        """
+        Send a set of transactions `txs` simultaneously.
+        :param signed_txs:
+        :return:
+        """
+        return self.__comm.commit_tx(signed_txs)
 

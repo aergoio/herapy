@@ -5,6 +5,9 @@ __pycache__
 .idea
 *.pem
 .vscode
+.eggs/
+*.pyc
+docs/pydoc
 .coverage
 coverage.xml
 

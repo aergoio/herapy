@@ -46,8 +46,6 @@ def test_get_account_from_privkey():
     print("str(address) = {}".format(account.address_str))
     assert account.address_str == "AmMwJUkRX6pcR7MA9iMMrvCT4DLLwi11HnQAZMWujr8imXs8YbSm"
 
-<<<<<<< HEAD
-
 def test_get_account_from_address():
     # 1. get password
     password = "password is nothing"
@@ -76,14 +74,6 @@ def test_import_accounts():
 
 @pytest.mark.skip(reason="export accounts not supported")
 def test_export_accounts():
-    # TODO fill this function
-    # 1. export accounts
-    # 2. import exported file using 'aergocli'
-    pass
-
-
-=======
-    # 6. check the address
     address = account.address
     print("address = {}".format(address))
     print("hex(address) = {}".format(address.hex()))
@@ -91,4 +81,3 @@ def test_export_accounts():
     address_str = account.address_str
     print("address str = {}".format(address_str))
     assert address_str == "AmMRiBguPQB2eZQxE7XnT77hu757QFRv6ReC3VHDi96Dh3S4mYDz"
->>>>>>> create-accounts

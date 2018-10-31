@@ -6,8 +6,11 @@ __author__ = """Yun Park"""
 __email__ = 'hanlsin@gmail.com'
 __version__ = '0.1.0'
 
-__all__ = ["aergo", "account", "block"]
+__all__ = ["aergo", "account", "transaction", "block"]
 
 from .aergo import Aergo
 from .account import Account
+from .transaction import Transaction
 from .block import Block
+
+from .utils.converter import convert_tx_to_json

@@ -54,7 +54,7 @@ lint: ## check style with flake8
 	flake8 herapy tests
 
 test: ## run tests quickly with the default Python
-	py.test
+	pytest -s
 
 test-all: ## run tests on every Python version with tox
 	tox
@@ -65,13 +65,11 @@ coverage: ## check code coverage quickly with the default Python
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
-docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/herapy.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ herapy
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
+docs:
+	rm -rf docs/pydoc
+	mkdir -p docs/pydoc
+	python3 -m pydoc -w `find . -name "*.py"` 2>&1 /dev/null
+	mv *.html docs/pydoc
 
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .

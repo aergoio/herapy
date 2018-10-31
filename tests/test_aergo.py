@@ -6,62 +6,104 @@ import pytest
 from pytest_mock import mocker
 
 from herapy.aergo import Aergo
-from herapy.transaction.transaction import Transaction
+from herapy.transaction import Transaction
 
+@pytest.fixture
+def setup_mocked(mocker):
+    aergo = Aergo()
+    mocker.patch(aergo, 'connect')
+    aergo.connect.return_value = None
+
+# fix Aergo class silently overwriting the acct
 
 @pytest.fixture
 def setup():
-    pass
+    pytest.aergo = Aergo()
+    pytest.aergo.connect('localhost:7845')
 
-def test_all():
-    aergo = Aergo()
-    aergo.connect('localhost:7845')
-    account = aergo.create_account('passphrase')
+    pytest.sender = pytest.aergo.create_account("passphrase")
+    pytest.receiver = pytest.aergo.create_account("passphrase")
+
+    pytest.transaction = Transaction(hash=b"",
+                     nonce=1,
+                     from_address=pytest.sender.address,
+                     to_address=pytest.receiver.address,
+                     amount=1,
+                     payload=b"",
+                     signature=b"",
+                     type=0,
+                     limit=0,
+                     price=0)
+
+    pytest.aergo.unlock_account(address=pytest.sender.address, passphrase="passphrase")
+
+def test_create_account(mocker, setup_mocked):
+    account = pytest.aergo.create_account("passphrase")
+    print(f"Created Account {account}")
+
+def test_sign_tx(setup_mocked):
+    transaction = Transaction(hash=b"",
+                     nonce=1,
+                     from_address=pytest.sender.address,
+                     to_address=pytest.receiver.address,
+                     amount=1,
+                     payload=b"",
+                     signature=b"",
+                     type=0,
+                     limit=0,
+                     price=0)
+    tx = transaction.to_tx()
+    signed_tx = pytest.aergo.sign_tx(tx)
+    assert tx.body.sign is not None
+    print(f"Tx {tx.hash} has signature {tx.body.sign}")
+
+
+def test_send(setup_mocked):
+    result = pytest.aergo.send(from_address=pytest.sender.address,
+                               to_address=pytest.receiver.address,
+                               amount=1,
+                               payload=b"",
+                               limit=0,
+                               price=0)
+    print(f"Tx hash: {result.hash}")
+
+def test_send_tx(setup):
+    #pytest.aergo.unlock_account(address=pytest.sender.address, passphrase="passphrase")
+    transaction = pytest.transaction
+
+    tx = transaction.to_tx()
+
+    signed_tx = pytest.aergo.sign_tx(tx)
+    result = pytest.aergo.send_tx(signed_tx)
+    tx_hash = result.hash
+
+    print(f"Sent transaction: {pytest.aergo.get_tx(tx_hash)}")
+
+def test_commit_tx(setup_mocked):
+    sender = pytest.aergo.create_account("passphrase")
+    receiver = pytest.aergo.create_account("passphrase")
+    pytest.aergo.unlock_account(address=sender.address, passphrase="passphrase")
+    transaction = pytest.transaction
+
+    tx = transaction.to_tx()
+
+    signed_tx = pytest.aergo.sign_tx(tx)
+
+    txs = [signed_tx, signed_tx, signed_tx]
+    result = pytest.aergo.commit_tx(txs=txs)
+    print(result) # TODO investigate these "invalid hash" results
+
+
+def test_get_account_info(setup_mocked):
+    account = pytest.aergo.create_account("passphrase")
     print(f"Account: {account.address}")
 
-    accounts = aergo.get_all_accounts()
+    accounts = pytest.aergo.get_node_accounts()
     print(f"There are {len(accounts)} accounts")
     for account in accounts:
-        print(f"Account state: {aergo.get_account_state(account)}")
+        print(f"Account {account.address_str} has state {pytest.aergo.get_account_state(account)}")
 
-    peers = aergo.get_peers().peers
+    peers = pytest.aergo.get_peers().peers
     print(f"There are {len(peers)} peers")
     for peer in peers:
         print(f"Peer: {peer}")
-
-    tx = Transaction("", "", b"", b"", 0, b"", b"", 0)
-    #tx_result = aergo.commit_tx(tx)
-    #print(f"{tx_result}")
-
-    #tx_0 = aergo.get_tx(b'0')
-    #print(f"{tx_0}")
-
-    aergo.disconnect()
-
-
-def test_create_new_account(setup):
-    # 1. make aergo instance
-    aergo = Aergo()
-    assert aergo.account is None
-    # 2. connect
-    aergo.connect("mocking_target")
-    # 3. get blockchain status
-    best_block_hash, best_height = aergo.get_blockchain_status()
-    print(best_block_hash)
-    print(best_height)
-
-    account = aergo.create_account(password)
-    private_key = account.private_key
-    print("Private Key = {}".format(private_key))
-    print("str(Private Key) = {}".format(account.private_key_str))
-    # 3. get a public key
-    # 4. get an address
-
-def test_account_state():
-    aergo = Aergo()
-    aergo.connect('localhost:7845')
-    password = "test_password"
-    account = aergo.create_account(password)
-    state = aergo.get_account_state(account)
-    print(f"Account state = {state}")
-    aergo.disconnect()
