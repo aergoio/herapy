@@ -38,7 +38,7 @@ class Aergo:
     def new_account(self, password=None, private_key=None):
         self.__account = acc.Account(password, private_key)
         if private_key is not None:
-            self.get_account_state(self.__account)
+            self.get_account_state()
         return self.__account
 
     def get_account_state(self, account=None):
@@ -212,3 +212,62 @@ class Aergo:
         """
         return self.__comm.commit_tx(signed_txs)
 
+    def import_account(self, exported_data, password):
+        if isinstance(exported_data, str):
+            exported_data = acc.Account.decode_private_key(exported_data)
+
+        if isinstance(password, str):
+            password = password.encode('utf-8')
+
+        return acc.Account.decrypt_account(exported_data, password)
+
+    def export_account(self, account=None):
+        if account is None:
+            account = self.__account
+
+        enc_acc = acc.Account.encrypt_account(account)
+        return acc.Account.encode_private_key(enc_acc)
+
+"""
+    def call_sc(self, sc_address, func_name, args):
+        caller = self.__account
+        if caller.state is None:
+            self.get_account_state(caller)
+
+        nonce = caller.nonce + 1
+
+        sc_account = acc.Account(password=None, empty=True)
+        sc_account.address = sc_address
+
+        call_info = {
+            'Name': func_name,
+            'Args': args
+        }
+        payload = str(json.dumps(call_info)).encode('utf-8')
+
+        tx = transaction.Transaction(from_address=caller.address,
+                                     to_address=sc_account.address,
+                                     nonce=nonce,
+                                     payload=payload)
+        tx.sign = caller.sign_message(tx.calculate_hash())
+        commit_result = self.commit_tx([tx])
+        return commit_result[0]
+
+    def query_sc(self, sc_address, func_name, args):
+        sc_account = acc.Account(password=None, empty=True)
+        sc_account.address = sc_address
+
+        call_info = {
+            'Name': func_name,
+            'Args': args
+        }
+        payload = str(json.dumps(call_info)).encode('utf-8')
+
+        tx = transaction.Transaction(from_address=caller.address,
+                                     to_address=sc_account.address,
+                                     nonce=nonce,
+                                     payload=payload)
+        tx.sign = caller.sign_message(tx.calculate_hash())
+        commit_result = self.commit_tx([tx])
+        return commit_result[0]
+"""

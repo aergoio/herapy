@@ -6,7 +6,7 @@ import base58
 
 from ecdsa.ecdsa import int_to_string
 from google.protobuf.json_format import MessageToJson
-
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 class Account:
     PRIVATE_KEY_BYTES_LENGTH = 32
@@ -162,3 +162,50 @@ class Account:
     def decode_private_key(private_key):
         v = base58.b58decode_check(private_key)
         return v[len(Account.PRIVATE_KEY_VERSION):]
+
+    @staticmethod
+    def encrypt_account(account):
+        """
+        https://cryptography.io/en/latest/hazmat/primitives/aead/
+        :param account: account to export
+        :return: encrypted account data (bytes)
+        """
+        m = hashlib.sha256()
+        m.update(account.password)
+        hash_pw = m.digest()
+
+        m = hashlib.sha256()
+        m.update(account.password)
+        m.update(hash_pw)
+        enc_key = m.digest()
+
+        nonce = hash_pw[4:16]
+        aesgcm = AESGCM(enc_key)
+        return aesgcm.encrypt(nonce=nonce,
+                              data=account.private_key,
+                              associated_data=b'')
+
+    @staticmethod
+    def decrypt_account(exported_bytes, password):
+        """
+        https://cryptography.io/en/latest/hazmat/primitives/aead/
+        :param exported_bytes: exported data (bytes) of account
+        :param password: to decrypt the exported bytes
+        :return: account instance
+        """
+        m = hashlib.sha256()
+        m.update(password)
+        hash_pw = m.digest()
+
+        m = hashlib.sha256()
+        m.update(password)
+        m.update(hash_pw)
+        dec_key = m.digest()
+
+        nonce = hash_pw[4:16]
+        aesgcm = AESGCM(dec_key)
+        dec_value = aesgcm.decrypt(nonce=nonce,
+                                   data=exported_bytes,
+                                   associated_data=b'')
+
+        return Account(password=password, private_key=dec_value)

@@ -8,6 +8,7 @@ base58 = "*"
 ecdsa = "*"
 protobuf = "*"
 googleapis-common-protos = "*"
+cryptography = "*"
 
 [dev-packages]
 grpcio-tools = "*"
