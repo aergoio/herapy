@@ -18,8 +18,7 @@ def run():
         print("Exported txt is {}".format(new_exp_txt))
 
         print("------ Connect AERGO -----------")
-        aergo.connect('184.99.19.240:7845')
-        #aergo.connect('localhost:7845')
+        aergo.connect('localhost:7845')
 
         print("------ Get Account State -----------")
         state = aergo.get_account_state(account)
