@@ -29,8 +29,8 @@ class Transaction:
     TX_TYPE_NORMAL = blockchain_pb2.NORMAL
     TX_TYPE_GOVERNANCE = blockchain_pb2.GOVERNANCE
 
-    def __init__(self, from_address, to_address,
-                 nonce=0, amount=0, payload=b'',
+    def __init__(self, from_address=None, to_address=None,
+                 nonce=0, amount=0, payload=None,
                  fee_price=FEE_MIN_PRICE, fee_limit=FEE_MIN_LIMIT):
         self.__from_address = from_address
         self.__to_address = to_address
@@ -69,7 +69,7 @@ class Transaction:
         b = self.__tx_type.to_bytes(4, byteorder='little')
         m.update(b)
         # sign
-        if including_sign:
+        if including_sign and self.__sign is not None:
             m.update(self.__sign)
 
         return m.digest()

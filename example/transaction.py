@@ -1,4 +1,5 @@
 import grpc
+import time
 
 import herapy
 
@@ -36,27 +37,41 @@ def run():
         else:
             print("    > result : {}".format(result))
 
-        exit(1)
-
         print("------ Create Tx -----------")
         tx = herapy.Transaction(from_address=sender_account.address,
                                 nonce=sender_account.nonce + 1,
                                 amount=10)
         tx.to_address = receiver_address
-        print("  > unsigned TX Hash: {}".format(tx.calculate_hash()))
+        print("  > unsigned TX Hash: {}".format(tx.calculate_hash(including_sign=False)))
         print("  > unsigned TX Hash: {}".format(tx.tx_hash_str))
         print("  > unsigned TX : {}".format(herapy.convert_tx_to_json(tx)))
 
         print("------ Sign Tx -----------")
-        signature = sender_account.sign_message(tx.calculate_hash())
-        tx.sign = signature
+        tx.sign = sender_account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         print("  > TX Signature: {}".format(tx.sign_str))
         print("  > TX Hash: {}".format(tx.calculate_hash()))
         print("  > TX Hash: {}".format(tx.tx_hash_str))
         print("  > TX : {}".format(herapy.convert_tx_to_json(tx)))
 
         print("------ Send Tx -----------")
-        #tx_id = aergo.send_tx(tx)
+        txs, results = aergo.send_tx(tx)
+        for i in range(len(txs)):
+            print("  > TX[{}]".format(i))
+            print("{}".format(herapy.convert_tx_to_json(txs[i])))
+            if int(results[i]['error_status']) != herapy.CommitStatus.TX_OK:
+                print("    > ERROR: {}".format(results[i]['detail']))
+            else:
+                print("    > result : {}".format(results[i]))
+
+        # wait to generate a block
+        time.sleep(60)
+
+        state = aergo.get_account_state(sender_account)
+        print("    > account state : {}".format(state))
+        print("      - balance        = {}".format(sender_account.balance))
+        print("      - nonce          = {}".format(sender_account.nonce))
+        print("      - code hash      = {}".format(sender_account.code_hash))
+        print("      - storage root   = {}".format(sender_account.storage_root))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
