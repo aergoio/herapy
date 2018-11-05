@@ -80,10 +80,19 @@ class Comm:
     def get_peers(self):
         return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
 
-    def send_tx(self, signed_tx):
-        return self.__rpc_stub.SendTX(convert_tx_to_grpc_tx(signed_tx))
+    # This RPC is for making and sending Tx inside a node.
+    # Don't use it for sending TX which is made by a client.
+    def send_tx(self, unsigned_tx):
+        return self.__rpc_stub.SendTX(convert_tx_to_grpc_tx(unsigned_tx))
 
-    def commit_tx(self, signed_txs):
-        tx_list = blockchain_pb2.TxList()
+    # This RPC is for sending signed Txs made by a client.
+    def commit_txs(self, signed_txs):
+        rpc_txs = []
         for signed_tx in signed_txs:
-            tx_list.txs.append(convert_tx_to_grpc_tx(signed_tx))
+            rpc_txs.append(convert_tx_to_grpc_tx(signed_tx))
+        rpc_tx_list = blockchain_pb2.TxList()
+        rpc_tx_list.txs.extend(rpc_txs)
+        return self.__rpc_stub.CommitTX(rpc_tx_list)
+
+    def query_contract(self, query):
+        return self.__rpc_stub.GetQuery(convert_tx_to_grpc_tx(signed_tx))

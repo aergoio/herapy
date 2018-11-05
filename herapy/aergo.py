@@ -10,8 +10,9 @@ from . import account as acc
 from . import comm
 from . import block
 from . import transaction
+from .status.commit_status import CommitStatus
 from .peer import Peer
-from .grpc import blockchain_pb2
+from .utils.converter import convert_commit_result_to_json
 
 class Aergo:
     def __init__(self):
@@ -183,34 +184,69 @@ class Aergo:
         """
         return self.__comm.unlock_account(address=address, passphrase=passphrase)
 
-    def send_payload(self, to_address, amount, payload):
+    def _send_payload(self, account, to_address, nonce, amount, fee_limit, fee_price, payload):
+        tx = transaction.Transaction(from_address=account.address,
+                                     to_address=to_address,
+                                     nonce=nonce, amount=amount,
+                                     fee_limit=fee_limit, fee_price=fee_price,
+                                     payload=payload)
+        tx.sign = account.sign_msg_hash(tx.calculate_hash(including_sign=False))
+        return self.send_tx(tx)
+
+    def send_payload(self, to_address, amount, payload, retry_nonce=0):
+        """
         if self.__comm is None:
             return None, None
-
-        tx = transaction.Transaction(from_address=self.__account.address,
-                                     to_address=to_address,
-                                     nonce=self.__account.nonce,
-                                     amount=amount,
-                                     payload=payload)
-        tx.sign = self.__account.sign_message(tx.calculate_hash())
-        return tx, self.__comm.send_tx(tx)
-
-    def send_tx(self, signed_tx):
         """
-        Sends the transaction `tx`.
-        :param signed_tx:
+
+        nonce = self.__account.nonce + 1
+        signed_txs, results = self._send_payload(account=self.__account,
+                                                 to_address=to_address,
+                                                 nonce=nonce, amount=amount,
+                                                 fee_limit=0, fee_price=0,
+                                                 payload=payload)
+
+        while retry_nonce >= 0:
+            retry_nonce -= 1
+            print(retry_nonce)
+            if int(results[0]['error_status']) == CommitStatus.TX_HAS_SAME_NONCE:
+                nonce += 1
+                signed_txs, results = self._send_payload(account=self.__account,
+                                                         to_address=to_address,
+                                                         nonce=nonce, amount=amount,
+                                                         fee_limit=0, fee_price=0,
+                                                         payload=payload)
+            else:
+                break
+
+        return signed_txs[0], results[0]
+
+    def send_unsigned_tx(self, unsigned_tx):
+        """
+        Sends the unsigned transaction.
+        The unsigned transaction will be signed by the account
+        which is stored in the connected node.
+        :param unsigned_tx:
         :return:
         """
         ""
-        return self.__comm.send_tx(signed_tx)
+        return self.__comm.send_tx(unsigned_tx)
 
-    def commit_tx(self, signed_txs):
+    def send_tx(self, signed_txs):
         """
-        Send a set of transactions `txs` simultaneously.
+        Send a set of signed transactions simultaneously.
+        These transactions will push to the memory pool after verifying.
         :param signed_txs:
         :return:
         """
-        return self.__comm.commit_tx(signed_txs)
+        if not isinstance(signed_txs, (list, tuple)):
+            signed_txs = [signed_txs]
+
+        result_list = self.__comm.commit_txs(signed_txs)
+        results = []
+        for r in result_list.results:
+            results.append(convert_commit_result_to_json(r))
+        return signed_txs, results
 
     def import_account(self, exported_data, password):
         if isinstance(exported_data, str):
@@ -219,7 +255,8 @@ class Aergo:
         if isinstance(password, str):
             password = password.encode('utf-8')
 
-        return acc.Account.decrypt_account(exported_data, password)
+        self.__account = acc.Account.decrypt_account(exported_data, password)
+        return self.__account
 
     def export_account(self, account=None):
         if account is None:
@@ -228,7 +265,6 @@ class Aergo:
         enc_acc = acc.Account.encrypt_account(account)
         return acc.Account.encode_private_key(enc_acc)
 
-"""
     def call_sc(self, sc_address, func_name, args):
         caller = self.__account
         if caller.state is None:
@@ -253,6 +289,7 @@ class Aergo:
         commit_result = self.commit_tx([tx])
         return commit_result[0]
 
+    """
     def query_sc(self, sc_address, func_name, args):
         sc_account = acc.Account(password=None, empty=True)
         sc_account.address = sc_address
@@ -270,4 +307,4 @@ class Aergo:
         tx.sign = caller.sign_message(tx.calculate_hash())
         commit_result = self.commit_tx([tx])
         return commit_result[0]
-"""
+    """

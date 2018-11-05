@@ -5,8 +5,11 @@ import hashlib
 import base58
 
 from ecdsa.ecdsa import int_to_string
+from ecdsa.util import number_to_string, string_to_number
 from google.protobuf.json_format import MessageToJson
+
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
 
 class Account:
     PRIVATE_KEY_BYTES_LENGTH = 32
@@ -31,8 +34,73 @@ class Account:
 
         self.__state = None
 
-    def sign_message(self, message):
-        return self.__signing_key.sign(message, hashfunc=hashlib.sha256)
+    def _canonicalizeInt(self, n, order):
+        b = number_to_string(n, order)
+        if (b[0] & 80) != 0:
+            b = bytes([0]) + b
+        return b
+
+    def _serialize(self, r, s):
+        order = self.__private_key.public_key.generator.order()
+        half_order = order >> 1
+        if s > half_order:
+            s = order - s
+
+        rb = self._canonicalizeInt(r, order)
+        sb = self._canonicalizeInt(s, order)
+
+        length = 4 + len(rb) + len(sb)
+        b = b'\x30' + bytes([length])
+        b += b'\x02' + bytes([len(rb)]) + rb
+        b += b'\x02' + bytes([len(sb)]) + sb
+        return b
+
+    def _deserialize(self, sig):
+        idx = 0
+        if b'\x30'[0] != sig[idx]:
+            # TODO error handling
+            return None, None
+
+        idx += 1
+
+        length = len(sig) - 2
+        if length != sig[idx]:
+            # TODO error handling
+            return None, None
+
+        idx += 1
+
+        # check R bytes
+        if b'\x02'[0] != sig[idx]:
+            # TODO error handling
+            return None, None
+
+        idx += 1
+        r_len = sig[idx]
+        idx += 1
+        rb = sig[idx:idx+r_len]
+        idx += r_len
+
+        # check S bytes
+        if b'\x02'[0] != sig[idx]:
+            # TODO error handling
+            return None, None
+
+        idx += 1
+        s_len = sig[idx]
+        idx += 1
+        sb = sig[idx:idx+s_len]
+
+        return string_to_number(rb), string_to_number(sb)
+
+    def sign_msg_hash(self, msg_hash):
+        r, s = self.__signing_key.sign_number(string_to_number(msg_hash))
+        return self._serialize(r, s)
+
+    def verify_sign(self, msg_hash, sign):
+        r, s = self._deserialize(sign)
+        signature = ecdsa.ecdsa.Signature(r, s)
+        return self.__private_key.public_key.verifies(string_to_number(msg_hash), signature)
 
     def __generate_new_key(self):
         self.__signing_key = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1,
@@ -128,13 +196,6 @@ class Account:
             return None
         return self.__state.sqlRecoveryPoint
 
-    def increment_nonce(self):
-        if self.__state is None:
-            return 0
-        else:
-            self.__state.nonce += 1
-            return self.__state.nonce
-
     @staticmethod
     def generate_address(pubkey):
         pubkey_x = pubkey.point.x()
@@ -186,10 +247,10 @@ class Account:
                               associated_data=b'')
 
     @staticmethod
-    def decrypt_account(exported_bytes, password):
+    def decrypt_account(encrypted_bytes, password):
         """
         https://cryptography.io/en/latest/hazmat/primitives/aead/
-        :param exported_bytes: exported data (bytes) of account
+        :param encrypted_bytes: encrypted data (bytes) of account
         :param password: to decrypt the exported bytes
         :return: account instance
         """
@@ -205,7 +266,7 @@ class Account:
         nonce = hash_pw[4:16]
         aesgcm = AESGCM(dec_key)
         dec_value = aesgcm.decrypt(nonce=nonce,
-                                   data=exported_bytes,
+                                   data=encrypted_bytes,
                                    associated_data=b'')
 
         return Account(password=password, private_key=dec_value)

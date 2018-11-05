@@ -14,23 +14,29 @@ def run():
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
         sender_account = aergo.new_account(private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address_str))
+        state = aergo.get_account_state(sender_account)
+        print("    > account state : {}".format(state))
+        print("      - balance        = {}".format(sender_account.balance))
+        print("      - nonce          = {}".format(sender_account.nonce))
+        print("      - code hash      = {}".format(sender_account.code_hash))
+        print("      - storage root   = {}".format(sender_account.storage_root))
 
         print("------ Set Receiver Account -----------")
-        receiver_address_str = "AmLeRAq94xu44YESvK5D5LgXwUBCPZ4LX8tGyF1Eo3urQ59uzDdy"
+        receiver_address_str = "AmNHbk46L5ZaFH942mxDrunhUb34S8xRd7ygNnqaW5nqJDt5ugKD"
         receiver_address = herapy.Account.decode_address(receiver_address_str)
         print("  > Receiver Address: {}".format(receiver_address_str))
 
         print("------ Simple Send Tx -----------")
         simple_tx, result = aergo.send_payload(to_address=receiver_address,
-                                               amount=10, payload=None)
-        print("  > simple TX : {}".format(herapy.convert_tx_to_json(simple_tx)))
-        print("  > simple TX result : {}".format(result))
+                                               amount=10, payload=None, retry_nonce=3)
+        print("  > simple TX[{}]".format(simple_tx.calculate_hash()))
+        print("{}".format(herapy.convert_tx_to_json(simple_tx)))
+        if int(result['error_status']) != herapy.CommitStatus.TX_OK:
+            print("    > ERROR[{0}]: {1}".format(result['error_status'], result['detail']))
+        else:
+            print("    > result : {}".format(result))
 
-        print("------ Simple Send Tx -----------")
-        simple_tx, result = aergo.send_payload(to_address=receiver_address,
-                                               amount=10, payload='')
-        print("  > simple TX : {}".format(herapy.convert_tx_to_json(simple_tx)))
-        print("  > simple TX result : {}".format(result))
+        exit(1)
 
         print("------ Create Tx -----------")
         tx = herapy.Transaction(from_address=sender_account.address,

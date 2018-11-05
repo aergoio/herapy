@@ -29,8 +29,8 @@ class Transaction:
     TX_TYPE_NORMAL = blockchain_pb2.NORMAL
     TX_TYPE_GOVERNANCE = blockchain_pb2.GOVERNANCE
 
-    def __init__(self, from_address=None, to_address=None,
-                 nonce=None, amount=None, payload=None,
+    def __init__(self, from_address, to_address,
+                 nonce=0, amount=0, payload=b'',
                  fee_price=FEE_MIN_PRICE, fee_limit=FEE_MIN_LIMIT):
         self.__from_address = from_address
         self.__to_address = to_address
@@ -42,24 +42,22 @@ class Transaction:
         self.__sign = None
         self.__tx_type = self.TX_TYPE_NORMAL
 
-    def calculate_hash(self):
+    def calculate_hash(self, including_sign=True):
         m = hashlib.sha256()
         # nonce
-        if self.__nonce is not None:
-            b = self.__nonce.to_bytes(8, byteorder='little')
-            m.update(b)
+        b = self.__nonce.to_bytes(8, byteorder='little')
+        m.update(b)
         # from
-        if self.__from_address is not None:
-            m.update(self.__from_address)
+        m.update(self.__from_address)
         # to
-        if self.__to_address is not None:
-            m.update(self.__to_address)
+        m.update(self.__to_address)
         # amount
-        if self.__amount is not None:
-            b = self.__amount.to_bytes(8, byteorder='little')
-            m.update(b)
+        b = self.__amount.to_bytes(8, byteorder='little')
+        m.update(b)
         # payload
-        if self.__payload is not None:
+        if self.__payload is None:
+            m.update(b'')
+        else:
             m.update(self.__payload)
         # fee: limit
         b = self.__fee_limit.to_bytes(8, byteorder='little')
@@ -71,7 +69,7 @@ class Transaction:
         b = self.__tx_type.to_bytes(4, byteorder='little')
         m.update(b)
         # sign
-        if self.__sign is not None:
+        if including_sign:
             m.update(self.__sign)
 
         return m.digest()

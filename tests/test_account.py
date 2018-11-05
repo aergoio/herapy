@@ -46,6 +46,7 @@ def test_get_account_from_privkey():
     print("str(address) = {}".format(account.address_str))
     assert account.address_str == "AmMwJUkRX6pcR7MA9iMMrvCT4DLLwi11HnQAZMWujr8imXs8YbSm"
 
+
 def test_get_account_from_address():
     # 1. get password
     password = "password is nothing"

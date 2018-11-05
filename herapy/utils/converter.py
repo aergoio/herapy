@@ -10,7 +10,7 @@ from ..account import Account
 
 def convert_tx_to_grpc_tx(tx):
     grpc_tx = blockchain_pb2.Tx()
-    grpc_tx.hash = tx.tx_hash
+    grpc_tx.hash = tx.calculate_hash()
     if tx.nonce is not None:
         grpc_tx.body.nonce = tx.nonce
     if tx.from_address is not None:
@@ -53,3 +53,18 @@ def convert_tx_to_json(tx):
     print(json_tx)
 
     return json.dumps(json_tx, indent=2)
+
+
+def convert_commit_result_to_json(commit_result):
+    if commit_result is None:
+        return None
+
+    result = {
+        'hash': commit_result.hash,
+        'detail': commit_result.detail,
+        'error_status': commit_result.error
+    }
+
+    return result
+
+
