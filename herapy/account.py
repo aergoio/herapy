@@ -34,7 +34,8 @@ class Account:
 
         self.__state = None
 
-    def _canonicalizeInt(self, n, order):
+    @staticmethod
+    def _canonicalize_int(n, order):
         b = number_to_string(n, order)
         if (b[0] & 80) != 0:
             b = bytes([0]) + b
@@ -46,8 +47,8 @@ class Account:
         if s > half_order:
             s = order - s
 
-        rb = self._canonicalizeInt(r, order)
-        sb = self._canonicalizeInt(s, order)
+        rb = self._canonicalize_int(r, order)
+        sb = self._canonicalize_int(s, order)
 
         length = 4 + len(rb) + len(sb)
         b = b'\x30' + bytes([length])
@@ -55,7 +56,8 @@ class Account:
         b += b'\x02' + bytes([len(sb)]) + sb
         return b
 
-    def _deserialize(self, sig):
+    @staticmethod
+    def _deserialize(sig):
         idx = 0
         if b'\x30'[0] != sig[idx]:
             # TODO error handling
@@ -112,8 +114,8 @@ class Account:
         if isinstance(private_key, str):
             private_key = Account.decode_private_key(private_key)
 
-        D = int.from_bytes(private_key, byteorder='big')
-        sk = ecdsa.SigningKey.from_secret_exponent(secexp=D,
+        d = int.from_bytes(private_key, byteorder='big')
+        sk = ecdsa.SigningKey.from_secret_exponent(secexp=d,
                                                    curve=ecdsa.SECP256k1,
                                                    hashfunc=hashlib.sha256)
         self.__signing_key = sk
@@ -121,8 +123,8 @@ class Account:
         self.__address = Account.generate_address(self.__private_key.public_key)
 
     def __get_private_key_bytes(self):
-        D = self.__private_key.secret_multiplier
-        return D.to_bytes(Account.PRIVATE_KEY_BYTES_LENGTH, byteorder='big')
+        d = self.__private_key.secret_multiplier
+        return d.to_bytes(Account.PRIVATE_KEY_BYTES_LENGTH, byteorder='big')
 
     @property
     def private_key(self):
@@ -171,6 +173,12 @@ class Account:
         if self.__state is None:
             return 0
         return self.__state.nonce
+
+    @nonce.setter
+    def nonce(self, v):
+        if self.__state.nonce >= v:
+            return
+        self.__state.nonce = v
 
     @property
     def balance(self):

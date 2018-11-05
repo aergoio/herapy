@@ -208,14 +208,18 @@ class Aergo:
 
         while retry_nonce >= 0:
             retry_nonce -= 1
-            print(retry_nonce)
-            if int(results[0]['error_status']) == CommitStatus.TX_HAS_SAME_NONCE:
+
+            es = int(results[0]['error_status'])
+            if es == CommitStatus.TX_HAS_SAME_NONCE:
                 nonce += 1
                 signed_txs, results = self._send_payload(account=self.__account,
                                                          to_address=to_address,
                                                          nonce=nonce, amount=amount,
                                                          fee_limit=0, fee_price=0,
                                                          payload=payload)
+            elif es == CommitStatus.TX_OK:
+                self.__account.nonce = nonce
+                break
             else:
                 break
 
