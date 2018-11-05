@@ -6,11 +6,11 @@ import herapy
 def run():
     try:
         aergo = herapy.Aergo()
-        exported_txt = "47DxggYTgyv7g5dYnGXDniFR1dRH7xr88eRwZH9dFCBWQ8qVyjhybeB3QKdNPstPYr5NqyfZd"
-        address = "AmQ8pMdRNvgC47re3oJnFstn9pKhWEmFoWjvo9aEE5MsTFHpKewf"
+        exported_txt = "485ccQXjmT3JeUHV16n16LzAJhhfHHkv9HU9k7c5PeJDyPMAdLcCu8Yqws19UzMP4K4Rq2MkQ"
 
         print("------ Import Account -----------")
         account = aergo.import_account(exported_txt, password='1234')
+        print("Account private key is {}".format(account.private_key_str))
         print("Account address is {}".format(account.address_str))
 
         print("------ Export Account -----------")
