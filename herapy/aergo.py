@@ -272,7 +272,7 @@ class Aergo:
         enc_acc = acc.Account.encrypt_account(account)
         return acc.Account.encode_private_key(enc_acc)
 
-    def get_deployed_sc(self, tx_hash):
+    def get_tx_result(self, tx_hash):
         if self.__comm is None:
             return None
 
@@ -280,6 +280,7 @@ class Aergo:
             tx_hash = base58.b58decode(tx_hash)
 
         result = self.__comm.get_receipt(tx_hash)
+        print(result)
         return acc.Account.encode_address(result.contractAddress), result.status, result.ret
 
     def deploy_sc(self, payload, amount=0, args=None):
@@ -289,8 +290,7 @@ class Aergo:
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
 
-        payload_bytes = bytes()
-        payload_bytes += (len(payload) + 4).to_bytes(4, byteorder='little')
+        payload_bytes = (len(payload) + 4).to_bytes(4, byteorder='little')
         payload_bytes += payload
 
         if args is not None and len(args) > 0:
@@ -311,38 +311,39 @@ class Aergo:
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
 
-        payload_bytes = bytes()
-        payload_bytes += 
+        payload_str = "{\"Name\":\"" + func_name + "\""
         if args is not None and len(args) > 0:
-            args_txt = "["
+            payload_str += ", \"Args\":["
             for arg in args:
-                args_txt += "\"" + arg + "\","
-            args_txt[len(args_txt) - 1] = "]"
+                payload_str += "\"" + arg + "\","
+            p = list(payload_str)
+            p[len(payload_str) - 1] = "]"
+            payload_str = "".join(p)
+        payload_str += "}"
+        payload = payload_str.encode('utf-8')
 
-        caller = self.__account
-        if caller.state is None:
-            self.get_account_state(caller)
+        return self.send_payload(to_address=sc_address, amount=amount, payload=payload)
 
-        nonce = caller.nonce + 1
+    def query_sc(self, sc_address, func_name, args=None):
+        if isinstance(sc_address, str):
+            sc_address = acc.Account.decode_address(sc_address)
 
-        sc_account = acc.Account(password=None, empty=True)
-        sc_account.address = sc_address
+        if args is not None and not isinstance(args, (list, tuple)):
+            args = [args]
 
-        call_info = {
-            'Name': func_name,
-            'Args': args_txt
-        }
-        payload = str(json.dumps(call_info)).encode('utf-8')
+        payload_str = "{\"Name\":\"" + func_name + "\""
+        if args is not None and len(args) > 0:
+            payload_str += ", \"Args\":["
+            for arg in args:
+                payload_str += "\"" + arg + "\","
+            p = list(payload_str)
+            p[len(payload_str) - 1] = "]"
+            payload_str = "".join(p)
+        payload_str += "}"
+        payload = payload_str.encode('utf-8')
 
-        tx, result = self.send_payload(amount=amount, payload=payload_bytes)
-
-        tx = transaction.Transaction(from_address=caller.address,
-                                     to_address=sc_account.address,
-                                     nonce=nonce,
-                                     payload=payload)
-        tx.sign = caller.sign_message(tx.calculate_hash())
-        commit_result = self.commit_tx([tx])
-        return commit_result[0]
+        result = self.__comm.query_contract(sc_address, payload)
+        return result.value
 
     """
     def query_sc(self, sc_address, func_name, args):

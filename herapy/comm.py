@@ -101,5 +101,8 @@ class Comm:
         v.value = tx_hash
         return self.__rpc_stub.GetReceipt(v)
 
-    def query_contract(self, query):
-        return self.__rpc_stub.GetQuery(convert_tx_to_grpc_tx(signed_tx))
+    def query_contract(self, sc_address, query_info):
+        query = blockchain_pb2.Query()
+        query.contractAddress = sc_address
+        query.queryinfo = query_info
+        return self.__rpc_stub.QueryContract(query)

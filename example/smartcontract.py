@@ -35,8 +35,8 @@ abi.register(getItem)
         byte_code_len = int.from_bytes(payload[:4], byteorder='little')
         print("payload: byte code length = ", byte_code_len)
 
-        tx_id = "82KnRLXjsqGZdBwnjSjkPs7JMxv9naH78Apiv1g9tetq"
-        print(aergo.get_deployed_sc(tx_id))
+        result = aergo.query_sc("AmgRKV7n5WxiBRZwdwVQzCKYZoz9C4WfMmNZEDWoTALZTaASQJYi", "getItem", args=["key1"])
+        print(result)
         return
 
         print("------ Set Sender Account -----------")
@@ -71,15 +71,30 @@ abi.register(getItem)
         time.sleep(3)
 
         print("------ Check deployment of SC -----------")
-        sc_address, status, ret = aergo.get_deployed_sc(tx.tx_hash)
-        possible_to_call = False
+        print("  > TX: {}".format(tx.tx_hash_str))
+        sc_address, status, ret = aergo.get_tx_result(tx.tx_hash)
         if status != "CREATED":
             print("  > ERROR[{0}]:{1}: {2}".format(sc_address, status, ret))
-            possible_to_call = True
+            aergo.disconnect()
+            return
+        print("  > SC Address: {}".format(sc_address))
 
         print("------ Call SC -----------")
-        if possible_to_call:
-            result = aergo.call_sc(sc_address, "setItem", ["key1", "value1"])
+        tx, result = aergo.call_sc(sc_address, "setItem", args=["key1", "value1"])
+
+        time.sleep(3)
+
+        print("------ Check result of Call SC -----------")
+        print("  > TX: {}".format(tx.tx_hash_str))
+        sc_address, status, ret = aergo.get_tx_result(tx.tx_hash)
+        if status != "SUCCESS":
+            print("  > ERROR[{0}]:{1}: {2}".format(sc_address, status, ret))
+            aergo.disconnect()
+            return
+        print("  > SC Address: {}".format(sc_address))
+
+        print("------ Query SC -----------")
+        result = aergo.query_sc(sc_address, "getItem", args=["key1"])
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
