@@ -3,6 +3,7 @@
 """Main module."""
 
 import json
+import base58
 
 from google.protobuf.json_format import MessageToJson
 
@@ -26,6 +27,10 @@ class Aergo:
         :return:
         """
         return self.__account
+
+    @account.setter
+    def account(self, a):
+        self.__account = a
 
     def create_account(self, password):
         """
@@ -193,11 +198,9 @@ class Aergo:
         tx.sign = account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         return self.send_tx(tx)
 
-    def send_payload(self, to_address, amount, payload, retry_nonce=0):
-        """
+    def send_payload(self, amount, payload, to_address=None, retry_nonce=0):
         if self.__comm is None:
             return None, None
-        """
 
         nonce = self.__account.nonce + 1
         signed_txs, results = self._send_payload(account=self.__account,
@@ -269,7 +272,53 @@ class Aergo:
         enc_acc = acc.Account.encrypt_account(account)
         return acc.Account.encode_private_key(enc_acc)
 
-    def call_sc(self, sc_address, func_name, args):
+    def get_deployed_sc(self, tx_hash):
+        if self.__comm is None:
+            return None
+
+        if isinstance(tx_hash, str):
+            tx_hash = base58.b58decode(tx_hash)
+
+        result = self.__comm.get_receipt(tx_hash)
+        return acc.Account.encode_address(result.contractAddress), result.status, result.ret
+
+    def deploy_sc(self, payload, amount=0, args=None):
+        if isinstance(payload, str):
+            payload = acc.Account.decode_address(payload)
+
+        if args is not None and not isinstance(args, (list, tuple)):
+            args = [args]
+
+        payload_bytes = bytes()
+        payload_bytes += (len(payload) + 4).to_bytes(4, byteorder='little')
+        payload_bytes += payload
+
+        if args is not None and len(args) > 0:
+            args_txt = "["
+            for arg in args:
+                args_txt += "\"" + arg + "\","
+            args_txt[len(args_txt) - 1] = "]"
+
+            payload_bytes += bytes(args_txt)
+
+        tx, result = self.send_payload(amount=amount, payload=payload_bytes)
+        return tx, result
+
+    def call_sc(self, sc_address, func_name, amount=0, args=None):
+        if isinstance(sc_address, str):
+            sc_address = acc.Account.decode_address(sc_address)
+
+        if args is not None and not isinstance(args, (list, tuple)):
+            args = [args]
+
+        payload_bytes = bytes()
+        payload_bytes += 
+        if args is not None and len(args) > 0:
+            args_txt = "["
+            for arg in args:
+                args_txt += "\"" + arg + "\","
+            args_txt[len(args_txt) - 1] = "]"
+
         caller = self.__account
         if caller.state is None:
             self.get_account_state(caller)
@@ -281,9 +330,11 @@ class Aergo:
 
         call_info = {
             'Name': func_name,
-            'Args': args
+            'Args': args_txt
         }
         payload = str(json.dumps(call_info)).encode('utf-8')
+
+        tx, result = self.send_payload(amount=amount, payload=payload_bytes)
 
         tx = transaction.Transaction(from_address=caller.address,
                                      to_address=sc_account.address,

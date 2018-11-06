@@ -94,5 +94,12 @@ class Comm:
         rpc_tx_list.txs.extend(rpc_txs)
         return self.__rpc_stub.CommitTX(rpc_tx_list)
 
+    def get_receipt(self, tx_hash):
+        if self.__rpc_stub is None:
+            return None
+        v = rpc_pb2.SingleBytes()
+        v.value = tx_hash
+        return self.__rpc_stub.GetReceipt(v)
+
     def query_contract(self, query):
         return self.__rpc_stub.GetQuery(convert_tx_to_grpc_tx(signed_tx))

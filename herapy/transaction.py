@@ -50,7 +50,8 @@ class Transaction:
         # from
         m.update(self.__from_address)
         # to
-        m.update(self.__to_address)
+        if self.__to_address is not None:
+            m.update(self.__to_address)
         # amount
         b = self.__amount.to_bytes(8, byteorder='little')
         m.update(b)
