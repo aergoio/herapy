@@ -15,6 +15,8 @@ requirements = [
     'protobuf',
     'base58',
     'ecdsa',
+    "cryptography",
+    "googleapis-common-protos"
 ]
 
 setup_requirements = ['pytest-runner', ]
@@ -22,33 +24,31 @@ setup_requirements = ['pytest-runner', ]
 test_requirements = ['pytest', ]
 
 setup(
-    author="Yun Park",
-    author_email='hanlsin@gmail.com',
+    name='aergo-herapy',
+    version='0.1.0',
+    description="python SDK for AERGO",
+    keywords='herapy',
+    author="aergo",
+    author_email='hello@aergo.io',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="python SDK for AERGO",
     install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
-    keywords='herapy',
-    name='herapy',
-    packages=find_packages(include=['herapy']),
+    packages=find_packages(include=['aergo']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/aergoio/herapy',
-    version='0.1.0',
     zip_safe=False,
 )
