@@ -35,7 +35,10 @@ Features
 Install
 -------
 
-* TODO
+.. code-block:: console
+   :lineons:
+
+   pip install aergo-herapy
 
 
 Build

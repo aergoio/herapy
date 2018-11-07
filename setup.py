@@ -16,7 +16,8 @@ requirements = [
     'base58',
     'ecdsa',
     "cryptography",
-    "googleapis-common-protos"
+    "googleapis-common-protos",
+    "grpcio-tools"
 ]
 
 setup_requirements = ['pytest-runner', ]
@@ -25,10 +26,10 @@ test_requirements = ['pytest', ]
 
 setup(
     name='aergo-herapy',
-    version='0.1.0',
+    version='0.1.6',
     description="python SDK for AERGO",
     keywords='herapy',
-    author="aergo",
+    author="aergo.io",
     author_email='hello@aergo.io',
     classifiers=[
         'Development Status :: 3 - Alpha',
