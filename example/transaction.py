@@ -1,7 +1,7 @@
 import grpc
 import time
 
-import herapy
+import aergo.herapy as herapy
 
 
 def run():
@@ -64,7 +64,7 @@ def run():
                 print("    > result : {}".format(results[i]))
 
         # wait to generate a block
-        time.sleep(60)
+        time.sleep(3)
 
         state = aergo.get_account_state(sender_account)
         print("    > account state : {}".format(state))

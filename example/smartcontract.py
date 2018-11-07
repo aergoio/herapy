@@ -2,42 +2,37 @@ import grpc
 import base58
 import time
 
-import herapy
+import aergo.herapy as herapy
 
 
 def run():
+    print("------ Payload -----------")
+    """
+    'payload' is compiled by aergoluac from
+function setItem(key, value)
+system.print('setItem: key='..key..', value='..value)
+system.setItem(key, value)
+end
+
+function getItem(key)
+system.print('getItem: key='..key)
+return system.getItem(key)
+end
+
+abi.register(setItem, getItem)
+    """
+    payload_str = "66F7XWcStRbqYNe9yeEHPUjCpJxuwQphf6G3NAz91wtMB9Zaa4hVq6s3pXpNtK5WRqi4aS9iNTyHmZN4sWDEvdjhEbvSCqUKAJBsuDSBhtkvrSD2dasKwZX7S5NBRoAuMrMEMRXVpDmQcoh37RBtSBCcB55QWNxgpztLzGJdhFRakqJ3FEQXQ3AzsrRGvULxgFUW4pt7Nb3ZQwgK7NBV2fHPxKA2PWYF6Qs2EifhYoLdyKxZzkdtjD6P2igRCn34EeUiRhYC7NLiAX4djnVEzcLdfjQyLWaauFyjXatCpAy1ajssL32aZs9AbRyMew5ozdDXRQgk1FNvsNq5H7eMQVG81ii6mNQJx6R5nen5ZPrCXZRLt353xniyFn1HNDAsn4TbTx5kkU7EgWAZj2tPcqokCLB7msZTnmFFaHcirdF6qFLFMzmoaaszqYeabiBekdcVRuVfBiozeL4b4i1fU4Q4ok4H96XN3H6KURtr1RzVy3rAoK13kbLQiXqdhshSV1GJaMS7By9HpQ2Nj6fuLok9kBk7MSENDq4cEmv63SV15PnKD5qfYgBYrZwJad1tZNJPWWixrUL5WCCf36J1DZ5M1zNQP6jLSUF9on4mCA9q3cdHbU"
+    payload = herapy.Account.decode_address(payload_str)
+    print(''.join('{:d} '.format(x) for x in payload))
+
+    byte_code_len = int.from_bytes(payload[:4], byteorder='little')
+    print("payload: byte code length = ", byte_code_len)
+
     try:
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
         aergo.connect('localhost:7845')
-
-        print("------ Payload -----------")
-        """
-        'payload' is compiled by aergoluac from
-function setItem(key, value)
-  system.print('setItem: key='..key..', value='..value)
-  system.setItem(key, value)
-end
-
-function getItem(key)
-  system.print('getItem: key='..key)
-  return system.getItem(key)
-end
-
-abi.register(setItem)
-abi.register(getItem)
-        """
-        payload_str = "66F7XWcStRbqYNe9yeEHPUjCpJxuwQphf6G3NAz91wtMB9Zaa4hVq6s3pXpNtK5WRqi4aS9iNTyHmZN4sWDEvdjhEbvSCqUKAJBsuDSBhtkvrSD2dasKwZX7S5NBRoAuMrMEMRXVpDmQcoh37RBtSBCcB55QWNxgpztLzGJdhFRakqJ3FEQXQ3AzsrRGvULxgFUW4pt7Nb3ZQwgK7NBV2fHPxKA2PWYF6Qs2EifhYoLdyKxZzkdtjD6P2igRCn34EeUiRhYC7NLiAX4djnVEzcLdfjQyLWaauFyjXatCpAy1ajssL32aZs9AbRyMew5ozdDXRQgk1FNvsNq5H7eMQVG81ii6mNQJx6R5nen5ZPrCXZRLt353xniyFn1HNDAsn4TbTx5kkU7EgWAZj2tPcqokCLB7msZTnmFFaHcirdF6qFLFMzmoaaszqYeabiBekdcVRuVfBiozeL4b4i1fU4Q4ok4H96XN3H6KURtr1RzVy3rAoK13kbLQiXqdhshSV1GJaMS7By9HpQ2Nj6fuLok9kBk7MSENDq4cEmv63SV15PnKD5qfYgBYrZwJad1tZNJPWWixrUL5WCCf36J1DZ5M1zNQP6jLSUF9on4mCA9q3cdHbU"
-        payload = herapy.Account.decode_address(payload_str)
-        print(''.join('{:d} '.format(x) for x in payload))
-
-        byte_code_len = int.from_bytes(payload[:4], byteorder='little')
-        print("payload: byte code length = ", byte_code_len)
-
-        result = aergo.query_sc("AmgRKV7n5WxiBRZwdwVQzCKYZoz9C4WfMmNZEDWoTALZTaASQJYi", "getItem", args=["key1"])
-        print(result)
-        return
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
@@ -95,6 +90,7 @@ abi.register(getItem)
 
         print("------ Query SC -----------")
         result = aergo.query_sc(sc_address, "getItem", args=["key1"])
+        print(result)
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()

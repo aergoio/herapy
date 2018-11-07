@@ -1,7 +1,7 @@
 import grpc
 import json
 
-import herapy
+import aergo.herapy as herapy
 
 
 def run():
