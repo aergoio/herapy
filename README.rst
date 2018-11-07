@@ -36,7 +36,6 @@ Install
 -------
 
 .. code-block:: console
-   :lineons:
 
    pip install aergo-herapy
 
