@@ -92,8 +92,8 @@ class Block:
 
     @staticmethod
     def encode_block_hash(block_hash):
-        return base58.b58encode_check(block_hash)
+        return base58.b58encode(block_hash)
 
     @staticmethod
     def decode_block_hash(block_hash):
-        return base58.b58decode_check(block_hash)
+        return base58.b58decode(block_hash)

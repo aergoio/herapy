@@ -10,13 +10,13 @@ def run():
     """
     'payload' is compiled by aergoluac from
 function setItem(key, value)
-system.print('setItem: key='..key..', value='..value)
-system.setItem(key, value)
+    system.print('setItem: key='..key..', value='..value)
+    system.setItem(key, value)
 end
 
 function getItem(key)
-system.print('getItem: key='..key)
-return system.getItem(key)
+    system.print('getItem: key='..key)
+    return system.getItem(key)
 end
 
 abi.register(setItem, getItem)
