@@ -10,6 +10,7 @@ from google.protobuf.json_format import MessageToJson
 from . import account as acc
 from . import comm
 from . import block
+from .obj.block_hash import BlockHash
 from . import transaction
 from .status.commit_status import CommitStatus
 from .peer import Peer
@@ -98,7 +99,7 @@ class Aergo:
             return None, -1
 
         status = self.__comm.get_blockchain_status()
-        return status.best_block_hash, status.best_height
+        return BlockHash(status.best_block_hash), status.best_height
 
     def get_block(self, block_hash=None, block_height=-1):
         """
@@ -113,10 +114,9 @@ class Aergo:
         if block_height > 0:
             query = block_height.to_bytes(8, byteorder='little')
         else:
-            if isinstance(block_hash, str):
-                block_hash = block.Block.decode_block_hash(block_hash)
-
-            query = block_hash
+            if type(block_hash) is not BlockHash:
+                block_hash = BlockHash(block_hash)
+            query = block_hash.value
 
         result = self.__comm.get_block(query)
         b = block.Block()

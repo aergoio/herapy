@@ -14,7 +14,6 @@ def run():
         print("------ Get Blockchain Status -----------")
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         print("Best Block Hash      = {}".format(best_block_hash))
-        print("str(Best Block Hash) = {}".format(herapy.Block.encode_block_hash(best_block_hash)))
         print("Best Block Height    = {}".format(best_block_height))
 
         print("------ Get Block Status -----------")

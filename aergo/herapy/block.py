@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import base58
-
 from google.protobuf.json_format import MessageToJson
+
+from .obj.block_hash import BlockHash
 
 
 class Block:
     def __init__(self, hash_value=None, height=None):
-        if isinstance(hash_value, str):
-            hash_value = base58.b58decode_check(hash_value)
+        if type(hash_value) is not BlockHash:
+            hash_value = BlockHash(hash_value)
 
         self.__info = None
         self.__hash = hash_value
@@ -31,7 +31,7 @@ class Block:
     @info.setter
     def info(self, v):
         self.__info = v
-        self.__hash = v.hash
+        self.__hash = BlockHash(v.hash)
         # header
         header = v.header
         self.__prev_block = Block(hash_value=header.prevBlockHash,
@@ -48,7 +48,7 @@ class Block:
 
     @property
     def hash(self):
-        return base58.b58encode_check(self.__hash)
+        return self.__hash
 
     @property
     def height(self):
@@ -89,11 +89,3 @@ class Block:
     @property
     def body(self):
         return self.__body
-
-    @staticmethod
-    def encode_block_hash(block_hash):
-        return base58.b58encode(block_hash)
-
-    @staticmethod
-    def decode_block_hash(block_hash):
-        return base58.b58decode(block_hash)

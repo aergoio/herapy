@@ -50,6 +50,7 @@ class Comm:
     def get_block(self, block_hash):
         if self.__rpc_stub is None:
             return None
+
         v = rpc_pb2.SingleBytes()
         v.value = block_hash
         return self.__rpc_stub.GetBlock(v)
