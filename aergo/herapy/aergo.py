@@ -4,6 +4,7 @@
 
 import json
 import base58
+import grpc
 
 from google.protobuf.json_format import MessageToJson
 
@@ -119,8 +120,7 @@ class Aergo:
             query = block_hash.value
 
         result = self.__comm.get_block(query)
-        b = block.Block()
-        b.info = result
+        b = block.Block(grpc_block=result)
         return b
 
     def get_node_accounts(self):

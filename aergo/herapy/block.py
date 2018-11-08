@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from google.protobuf.json_format import MessageToJson
-
 from .obj.block_hash import BlockHash
 
 
 class Block:
-    def __init__(self, hash_value=None, height=None):
+    def __init__(self, hash_value=None, height=None, grpc_block=None):
+        if grpc_block is not None:
+            self._map_grpc_block(grpc_block)
+            return
+
         if type(hash_value) is not BlockHash:
             hash_value = BlockHash(hash_value)
 
-        self.__info = None
         self.__hash = hash_value
         # header
         self.__prev_block = None
@@ -24,13 +25,7 @@ class Block:
         # body
         self.__body = None
 
-    @property
-    def info(self):
-        return MessageToJson(self.__info)
-
-    @info.setter
-    def info(self, v):
-        self.__info = v
+    def _map_grpc_block(self, v):
         self.__hash = BlockHash(v.hash)
         # header
         header = v.header
