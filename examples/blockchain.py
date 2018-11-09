@@ -2,6 +2,7 @@ import grpc
 import json
 
 import aergo.herapy as herapy
+from aergo.herapy.utils.converter import convert_bytes_to_hex_str, convert_bytes_to_int_str
 
 
 def run():
@@ -14,6 +15,9 @@ def run():
         print("------ Get Blockchain Status -----------")
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         print("Best Block Hash      = {}".format(best_block_hash))
+        print("bytes(Best Block Hash)   = {}".format(bytes(best_block_hash)))
+        print("int(Best Block Hash)     = {}".format(convert_bytes_to_int_str(bytes(best_block_hash))))
+        print("hex(Best Block Hash)     = {}".format(convert_bytes_to_hex_str(bytes(best_block_hash))))
         print("Best Block Height    = {}".format(best_block_height))
 
         print("------ Get Block Status -----------")
