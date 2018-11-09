@@ -4,7 +4,6 @@
 
 import json
 import base58
-import grpc
 
 from google.protobuf.json_format import MessageToJson
 
@@ -16,6 +15,7 @@ from . import transaction
 from .status.commit_status import CommitStatus
 from .peer import Peer
 from .utils.converter import convert_commit_result_to_json
+
 
 class Aergo:
     def __init__(self):
@@ -259,8 +259,8 @@ class Aergo:
         if isinstance(exported_data, str):
             exported_data = acc.Account.decode_private_key(exported_data)
 
-        if isinstance(password, str):
-            password = password.encode('utf-8')
+        if isinstance(password, bytes):
+            password = password.decode('utf-8')
 
         self.__account = acc.Account.decrypt_account(exported_data, password)
         return self.__account
