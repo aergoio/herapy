@@ -26,8 +26,6 @@ def run():
         account = aergo.new_account(password=password)
 
         print("Private Key      = {}".format(account.private_key))
-        # TODO __str__:
-        print("str(Private Key) = {}".format(account.private_key_str))
         print("Public Key       = {}".format(account.public_key))
         print("Address          = {}".format(account.address))
         print("str(Address)     = {}".format(account.address_str))

@@ -9,29 +9,24 @@ from ecdsa.util import number_to_string, string_to_number
 from google.protobuf.json_format import MessageToJson
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-
+from . import private_key as pk
 
 class Account:
-    PRIVATE_KEY_BYTES_LENGTH = 32
-    PRIVATE_KEY_VERSION = b'\xAA'
     ADDRESS_BYTES_LENGTH = 33
     ADDRESS_VERSION = b'\x42'
 
     def __init__(self, password, private_key=None, empty=False):
         if empty:
             self.__private_key = None
-            self.__signing_key = None
             self.__address = None
             self.__state = None
             return
 
         self.password = password
 
-        if private_key is None:
-            self.__generate_new_key()
-        else:
-            self.__get_key(private_key)
+        self.__private_key = pk.PrivateKey(private_key)
 
+        self.__address = Account.generate_address(self.__private_key.public_key)
         self.__state = None
 
     @staticmethod
@@ -104,35 +99,9 @@ class Account:
         signature = ecdsa.ecdsa.Signature(r, s)
         return self.__private_key.public_key.verifies(string_to_number(msg_hash), signature)
 
-    def __generate_new_key(self):
-        self.__signing_key = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1,
-                                                       hashfunc=hashlib.sha256)
-        self.__private_key = self.__signing_key.privkey
-        self.__address = Account.generate_address(self.__private_key.public_key)
-
-    def __get_key(self, private_key):
-        if isinstance(private_key, str):
-            private_key = Account.decode_private_key(private_key)
-
-        d = int.from_bytes(private_key, byteorder='big')
-        sk = ecdsa.SigningKey.from_secret_exponent(secexp=d,
-                                                   curve=ecdsa.SECP256k1,
-                                                   hashfunc=hashlib.sha256)
-        self.__signing_key = sk
-        self.__private_key = self.__signing_key.privkey
-        self.__address = Account.generate_address(self.__private_key.public_key)
-
-    def __get_private_key_bytes(self):
-        d = self.__private_key.secret_multiplier
-        return d.to_bytes(Account.PRIVATE_KEY_BYTES_LENGTH, byteorder='big')
-
     @property
     def private_key(self):
-        return self.__get_private_key_bytes()
-
-    @property
-    def private_key_str(self):
-        return Account.encode_private_key(self.__get_private_key_bytes())
+        return self.__private_key
 
     @property
     def public_key(self):
@@ -221,16 +190,6 @@ class Account:
     def decode_address(address):
         v = base58.b58decode_check(address)
         return v[len(Account.ADDRESS_VERSION):]
-
-    @staticmethod
-    def encode_private_key(private_key):
-        v = Account.PRIVATE_KEY_VERSION + private_key
-        return base58.b58encode_check(v).decode('utf-8')
-
-    @staticmethod
-    def decode_private_key(private_key):
-        v = base58.b58decode_check(private_key)
-        return v[len(Account.PRIVATE_KEY_VERSION):]
 
     @staticmethod
     def encrypt_account(account):

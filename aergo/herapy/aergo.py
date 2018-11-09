@@ -41,6 +41,12 @@ class Aergo:
         :return:
         """
         self.__account = acc.Account(password)
+        """
+        try:
+            result = self.__comm.create_account(address=self.__account.address, passphrase=password)
+        except grpc.RpcError as e:
+            raise AergoException(AergoException.Comm, e.code(), e.details())
+        """
         return self.__comm.create_account(address=self.__account.address, passphrase=password)
 
     def new_account(self, password=None, private_key=None):
@@ -344,23 +350,3 @@ class Aergo:
 
         result = self.__comm.query_contract(sc_address, payload)
         return result.value
-
-    """
-    def query_sc(self, sc_address, func_name, args):
-        sc_account = acc.Account(password=None, empty=True)
-        sc_account.address = sc_address
-
-        call_info = {
-            'Name': func_name,
-            'Args': args
-        }
-        payload = str(json.dumps(call_info)).encode('utf-8')
-
-        tx = transaction.Transaction(from_address=caller.address,
-                                     to_address=sc_account.address,
-                                     nonce=nonce,
-                                     payload=payload)
-        tx.sign = caller.sign_message(tx.calculate_hash())
-        commit_result = self.commit_tx([tx])
-        return commit_result[0]
-    """
