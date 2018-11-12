@@ -65,7 +65,7 @@ class Aergo:
             return None
 
         if account is None:
-            address = self.__account.address
+            address = self.__account.address.get_address_bytes()
         else:
             address = account.address
 

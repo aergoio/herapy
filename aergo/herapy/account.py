@@ -2,19 +2,15 @@
 
 import ecdsa
 import hashlib
-import base58
 
-from ecdsa.ecdsa import int_to_string
 from ecdsa.util import number_to_string, string_to_number
 from google.protobuf.json_format import MessageToJson
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from . import private_key as pk
+from . import address as addr
 
 class Account:
-    ADDRESS_BYTES_LENGTH = 33
-    ADDRESS_VERSION = b'\x42'
-
     def __init__(self, password, private_key=None, empty=False):
         if empty:
             self.__private_key = None
@@ -25,8 +21,7 @@ class Account:
         self.password = password
 
         self.__private_key = pk.PrivateKey(private_key)
-
-        self.__address = Account.generate_address(self.__private_key.public_key)
+        self.__address = addr.Address(self.__private_key.public_key)
         self.__state = None
 
     @staticmethod
@@ -120,12 +115,8 @@ class Account:
             raise ValueError('not empty account')
 
         if isinstance(v, str):
-            v = Account.decode_address(v)
+            v = addr.Address.decode_address(v)
         self.__address = v
-
-    @property
-    def address_str(self):
-        return Account.encode_address(self.__address)
 
     @property
     def state(self):
@@ -172,24 +163,6 @@ class Account:
         if self.__state is None:
             return None
         return self.__state.sqlRecoveryPoint
-
-    @staticmethod
-    def generate_address(pubkey):
-        pubkey_x = pubkey.point.x()
-        x_bytes = int_to_string(pubkey_x)
-        pubkey_y = pubkey.point.y()
-        head = bytes([2] if 0 == pubkey_y % 2 else [3])
-        return head + x_bytes
-
-    @staticmethod
-    def encode_address(address):
-        v = Account.ADDRESS_VERSION + address
-        return base58.b58encode_check(v).decode('utf-8')
-
-    @staticmethod
-    def decode_address(address):
-        v = base58.b58decode_check(address)
-        return v[len(Account.ADDRESS_VERSION):]
 
     @staticmethod
     def encrypt_account(account):

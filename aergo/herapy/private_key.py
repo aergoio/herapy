@@ -15,7 +15,6 @@ class PrivateKey:
         else:
             self.__generate_new_key()
 
-    # TODO
     def __str__(self):
         return self.encode_private_key(self.__get_private_key_bytes())
 

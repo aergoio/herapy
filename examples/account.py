@@ -13,7 +13,7 @@ def run():
         print("------ Get Accounts in Node -----------")
         accounts = aergo.get_node_accounts()
         for i in range(len(accounts)):
-            print("Account[{0}]'s address in Node is {1}".format(i, accounts[i].address_str))
+            print("Account[{0}]'s address in Node is {1}".format(i, accounts[i].address))
             state = aergo.get_account_state(accounts[i])
             print("  > account state : {}".format(state))
             print("    - balance        = {}".format(accounts[i].balance))
@@ -28,7 +28,6 @@ def run():
         print("Private Key      = {}".format(account.private_key))
         print("Public Key       = {}".format(account.public_key))
         print("Address          = {}".format(account.address))
-        print("str(Address)     = {}".format(account.address_str))
 
         print("------ Get Account State -----------")
         state = aergo.get_account_state()
