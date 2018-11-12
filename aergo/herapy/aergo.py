@@ -256,6 +256,14 @@ class Aergo:
         return signed_txs, results
 
     def import_account(self, exported_data, password):
+        if exported_data is None or 0 == len(exported_data):
+            # TODO unit test + exception handling
+            assert 1 == 0
+
+        if password is None or 0 == len(password):
+            # TODO unit test + exception handling
+            assert 1 == 0
+
         if isinstance(exported_data, str):
             exported_data = acc.Account.decode_private_key(exported_data)
 
@@ -306,6 +314,7 @@ class Aergo:
 
     def call_sc(self, sc_address, func_name, amount=0, args=None):
         if isinstance(sc_address, str):
+            # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = acc.Account.decode_address(sc_address)
 
         if args is not None and not isinstance(args, (list, tuple)):
@@ -326,6 +335,7 @@ class Aergo:
 
     def query_sc(self, sc_address, func_name, args=None):
         if isinstance(sc_address, str):
+            # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = acc.Account.decode_address(sc_address)
 
         if args is not None and not isinstance(args, (list, tuple)):
