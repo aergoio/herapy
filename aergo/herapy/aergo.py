@@ -11,11 +11,13 @@ from google.protobuf.json_format import MessageToJson
 from . import account as acc
 from . import comm
 from . import block
+from .errors.exception import CommunicationException
 from .obj.block_hash import BlockHash
 from . import transaction
 from .status.commit_status import CommitStatus
 from .peer import Peer
 from .utils.converter import convert_commit_result_to_json
+
 
 class Aergo:
     def __init__(self):
@@ -41,13 +43,12 @@ class Aergo:
         :return:
         """
         self.__account = acc.Account(password)
-        """
         try:
             result = self.__comm.create_account(address=self.__account.address, passphrase=password)
-        except grpc.RpcError as e:
-            raise AergoException(AergoException.Comm, e.code(), e.details())
-        """
-        return self.__comm.create_account(address=self.__account.address, passphrase=password)
+        except Exception as e:
+            raise CommunicationException(e)
+
+        return result
 
     def new_account(self, password=None, private_key=None):
         self.__account = acc.Account(password, private_key)
@@ -69,7 +70,10 @@ class Aergo:
         else:
             address = account.address
 
-        state = self.__comm.get_account_state(address)
+        try:
+            state = self.__comm.get_account_state(address)
+        except Exception as e:
+            raise CommunicationException(e)
 
         if account is None:
             self.__account.state = state
@@ -88,14 +92,20 @@ class Aergo:
             raise ValueError('need target value')
 
         self.__comm = comm.Comm(target)
-        self.__comm.connect()
+        try:
+            self.__comm.connect()
+        except Exception as e:
+            raise CommunicationException(e)
 
     def disconnect(self):
         """
         Disconnect from the gRPC server.
         """
         if self.__comm is not None:
-            self.__comm.disconnect()
+            try:
+                self.__comm.disconnect()
+            except Exception as e:
+                raise CommunicationException(e)
 
     def get_blockchain_status(self):
         """
@@ -105,7 +115,11 @@ class Aergo:
         if self.__comm is None:
             return None, -1
 
-        status = self.__comm.get_blockchain_status()
+        try:
+            status = self.__comm.get_blockchain_status()
+        except Exception as e:
+            raise CommunicationException(e)
+
         return BlockHash(status.best_block_hash), status.best_height
 
     def get_block(self, block_hash=None, block_height=-1):
@@ -125,7 +139,11 @@ class Aergo:
                 block_hash = BlockHash(block_hash)
             query = block_hash.value
 
-        result = self.__comm.get_block(query)
+        try:
+            result = self.__comm.get_block(query)
+        except Exception as e:
+            raise CommunicationException(e)
+
         b = block.Block(grpc_block=result)
         return b
 
@@ -134,7 +152,13 @@ class Aergo:
         Returns a list of all node accounts.
         :return:
         """
-        result = self.__comm.get_accounts()
+
+        #result = self.__comm.get_accounts()
+        try:
+            result = self.__comm.get_accounts()
+        except Exception as e:
+            raise CommunicationException(e)
+
         accounts = []
         for a in result.accounts:
             account = acc.Account("", empty=True)
@@ -148,7 +172,11 @@ class Aergo:
         Returns a list of peers.
         :return:
         """
-        result = self.__comm.get_peers()
+        try:
+            result = self.__comm.get_peers()
+        except Exception as e:
+            raise CommunicationException(e)
+
         peers = []
         for i in range(len(result.peers)):
             p = result.peers[i]
@@ -165,7 +193,11 @@ class Aergo:
         Returns information about the node state.
         :return:
         """
-        result = self.__comm.get_node_state(timeout)
+        try:
+            result = self.__comm.get_node_state(timeout)
+        except Exception as e:
+            raise CommunicationException(e)
+
         json_txt = result.value.decode('utf8').replace("'", '"')
         return json.loads(json_txt)
 
@@ -175,7 +207,12 @@ class Aergo:
         :param tx_hash:
         :return:
         """
-        return self.__comm.get_tx(tx_hash)
+        try:
+            result = self.__comm.get_tx(tx_hash)
+        except Exception as e:
+            raise CommunicationException(e)
+
+        return result
 
     def lock_account(self, address, passphrase):
         """
@@ -184,7 +221,12 @@ class Aergo:
         :param passphrase:
         :return:
         """
-        return self.__comm.lock_account(address, passphrase)
+        try:
+            result = self.__comm.lock_account(address, passphrase)
+        except Exception as e:
+            raise CommunicationException(e)
+
+        return result
 
     def unlock_account(self, address, passphrase):
         """
@@ -193,7 +235,12 @@ class Aergo:
         :param passphrase:
         :return:
         """
-        return self.__comm.unlock_account(address=address, passphrase=passphrase)
+        try:
+            result = self.__comm.unlock_account(address=address, passphrase=passphrase)
+        except Exception as e:
+            raise CommunicationException(e)
+
+        return result
 
     def _send_payload(self, account, to_address, nonce, amount, fee_limit, fee_price, payload):
         tx = transaction.Transaction(from_address=account.address,
@@ -242,8 +289,12 @@ class Aergo:
         :param unsigned_tx:
         :return:
         """
-        ""
-        return self.__comm.send_tx(unsigned_tx)
+        try:
+            result = self.__comm.send_tx(unsigned_tx)
+        except Exception as e:
+            raise CommunicationException(e)
+
+        return result
 
     def send_tx(self, signed_txs):
         """
@@ -255,7 +306,11 @@ class Aergo:
         if not isinstance(signed_txs, (list, tuple)):
             signed_txs = [signed_txs]
 
-        result_list = self.__comm.commit_txs(signed_txs)
+        try:
+            result_list = self.__comm.commit_txs(signed_txs)
+        except Exception as e:
+            raise CommunicationException(e)
+
         results = []
         for r in result_list.results:
             results.append(convert_commit_result_to_json(r))
@@ -285,7 +340,11 @@ class Aergo:
         if isinstance(tx_hash, str):
             tx_hash = base58.b58decode(tx_hash)
 
-        result = self.__comm.get_receipt(tx_hash)
+        try:
+            result = self.__comm.get_receipt(tx_hash)
+        except Exception as e:
+            raise CommunicationException(e)
+
         print(result)
         return acc.Account.encode_address(result.contractAddress), result.status, result.ret
 
@@ -348,5 +407,9 @@ class Aergo:
         payload_str += "}"
         payload = payload_str.encode('utf-8')
 
-        result = self.__comm.query_contract(sc_address, payload)
+        try:
+            result = self.__comm.query_contract(sc_address, payload)
+        except Exception as e:
+            raise CommunicationException(e)
+
         return result.value
