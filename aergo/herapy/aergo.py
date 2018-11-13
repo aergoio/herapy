@@ -153,7 +153,6 @@ class Aergo:
         :return:
         """
 
-        #result = self.__comm.get_accounts()
         try:
             result = self.__comm.get_accounts()
         except Exception as e:
