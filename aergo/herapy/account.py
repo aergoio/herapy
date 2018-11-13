@@ -18,6 +18,12 @@ class Account:
             self.__state = None
             return
 
+        if password is None:
+            # TODO raise exception
+            assert 1 == 0
+
+        if isinstance(password, bytes):
+            password = password.decode('utf-8')
         self.password = password
 
         self.__private_key = pk.PrivateKey(private_key)
@@ -171,12 +177,14 @@ class Account:
         :param account: account to export
         :return: encrypted account data (bytes)
         """
+        password = account.password.encode('utf-8')
+
         m = hashlib.sha256()
-        m.update(account.password)
+        m.update(password)
         hash_pw = m.digest()
 
         m = hashlib.sha256()
-        m.update(account.password)
+        m.update(password)
         m.update(hash_pw)
         enc_key = m.digest()
 
@@ -194,6 +202,9 @@ class Account:
         :param password: to decrypt the exported bytes
         :return: account instance
         """
+        if isinstance(password, str):
+            password = password.encode('utf-8')
+
         m = hashlib.sha256()
         m.update(password)
         hash_pw = m.digest()

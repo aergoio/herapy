@@ -6,9 +6,14 @@ import aergo.herapy as herapy
 def run():
     try:
         aergo = herapy.Aergo()
-        exported_txt = "485ccQXjmT3JeUHV16n16LzAJhhfHHkv9HU9k7c5PeJDyPMAdLcCu8Yqws19UzMP4K4Rq2MkQ"
+
+        print("------ Export New Account -----------")
+        aergo.new_account(password='1234')
+        new_exp_txt = aergo.export_account()
+        print("Exported txt is {}".format(new_exp_txt))
 
         print("------ Import Account -----------")
+        exported_txt = "485ccQXjmT3JeUHV16n16LzAJhhfHHkv9HU9k7c5PeJDyPMAdLcCu8Yqws19UzMP4K4Rq2MkQ"
         account = aergo.import_account(exported_txt, password='1234')
         print("Account private key is {}".format(account.private_key_str))
         print("Account address is {}".format(account.address_str))

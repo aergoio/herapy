@@ -13,6 +13,9 @@ class BlockHash:
     def value(self):
         return self.__block_hash
 
+    def __bytes__(self):
+        return self.__block_hash
+
     def __str__(self):
         return BlockHash.encode_block_hash(self.__block_hash)
 

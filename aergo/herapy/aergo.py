@@ -4,7 +4,6 @@
 
 import json
 import base58
-import grpc
 
 from google.protobuf.json_format import MessageToJson
 
@@ -316,11 +315,19 @@ class Aergo:
         return signed_txs, results
 
     def import_account(self, exported_data, password):
+        if exported_data is None or 0 == len(exported_data):
+            # TODO unit test + exception handling
+            assert 1 == 0
+
+        if password is None or 0 == len(password):
+            # TODO unit test + exception handling
+            assert 1 == 0
+
         if isinstance(exported_data, str):
             exported_data = acc.Account.decode_private_key(exported_data)
 
-        if isinstance(password, str):
-            password = password.encode('utf-8')
+        if isinstance(password, bytes):
+            password = password.decode('utf-8')
 
         self.__account = acc.Account.decrypt_account(exported_data, password)
         return self.__account
@@ -370,6 +377,7 @@ class Aergo:
 
     def call_sc(self, sc_address, func_name, amount=0, args=None):
         if isinstance(sc_address, str):
+            # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = acc.Account.decode_address(sc_address)
 
         if args is not None and not isinstance(args, (list, tuple)):
@@ -390,6 +398,7 @@ class Aergo:
 
     def query_sc(self, sc_address, func_name, args=None):
         if isinstance(sc_address, str):
+            # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = acc.Account.decode_address(sc_address)
 
         if args is not None and not isinstance(args, (list, tuple)):

@@ -72,3 +72,10 @@ def convert_commit_result_to_json(commit_result):
     return result
 
 
+def convert_bytes_to_int_str(v):
+    return ''.join('{:d} '.format(x) for x in v)
+
+
+def convert_bytes_to_hex_str(v):
+    return ''.join('0x{:02x} '.format(x) for x in v)
+
