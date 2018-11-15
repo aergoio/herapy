@@ -10,6 +10,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from . import private_key as pk
 from . import address as addr
 
+
 class Account:
     def __init__(self, password, private_key=None, empty=False):
         if empty:
