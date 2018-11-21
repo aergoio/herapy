@@ -35,6 +35,7 @@ class Aergo:
     def account(self, a):
         self.__account = a
 
+    # TODO remove
     def create_account(self, password):
         """
         Creates a new account with password `password`.
@@ -55,6 +56,8 @@ class Aergo:
             self.get_account_state()
         return self.__account
 
+    # TODO how about making account_state class,
+    #       or how about returning account and change method name
     def get_account_state(self, account=None):
         """
         Return the account state of account `account`.
@@ -67,6 +70,7 @@ class Aergo:
         if account is None:
             address = self.__account.address.get_address_bytes()
         else:
+            # TODO if str, make empty account with str address
             address = account.address
 
         try:

@@ -12,14 +12,16 @@ def run():
 
         print("------ Get Accounts in Node -----------")
         accounts = aergo.get_node_accounts()
-        for i in range(len(accounts)):
-            print("Account[{0}]'s address in Node is {1}".format(i, accounts[i].address))
-            state = aergo.get_account_state(accounts[i])
+        # TODO change
+        for i, account in enumerate(accounts):
+        #for i in range(len(accounts)):
+            print("Account[{0}]'s address in Node is {1}".format(i, account.address))
+            state = aergo.get_account_state(account)
             print("  > account state : {}".format(state))
-            print("    - balance        = {}".format(accounts[i].balance))
-            print("    - nonce          = {}".format(accounts[i].nonce))
-            print("    - code hash      = {}".format(accounts[i].code_hash))
-            print("    - storage root   = {}".format(accounts[i].storage_root))
+            print("    - balance        = {}".format(account.balance))
+            print("    - nonce          = {}".format(account.nonce))
+            print("    - code hash      = {}".format(account.code_hash))
+            print("    - storage root   = {}".format(account.storage_root))
 
         print("------ Create Account -----------")
         password = "test password"
@@ -57,7 +59,7 @@ def run():
             # check account state
             a = herapy.Account("", empty=True)
             a.address = k[2]
-            state = aergo.get_account_state(a)
+            state = aergo.get_account_state(account=a)
             print("    > account state : {}".format(state))
             print("      - balance        = {}".format(a.balance))
             print("      - nonce          = {}".format(a.nonce))

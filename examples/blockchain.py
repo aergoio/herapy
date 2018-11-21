@@ -46,6 +46,7 @@ def run():
         print("  Body = ", block.body)
 
         print("------ Get Peers -----------")
+        # definition of peer needs to describe.
         peers = aergo.get_peers()
         print(peers)
 

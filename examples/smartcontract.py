@@ -68,6 +68,7 @@ abi.register(setItem, getItem)
         print("------ Check deployment of SC -----------")
         print("  > TX: {}".format(tx.tx_hash_str))
         sc_address, status, ret = aergo.get_tx_result(tx.tx_hash)
+        # TODO SC deployment status needed
         if status != "CREATED":
             print("  > ERROR[{0}]:{1}: {2}".format(sc_address, status, ret))
             aergo.disconnect()

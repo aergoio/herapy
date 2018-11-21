@@ -10,6 +10,7 @@ class Address:
     ADDRESS_VERSION = b'\x42'
 
     def __init__(self, pubkey):
+        # TODO change None checking to assert
         if pubkey is not None:
             self.__generate_address(pubkey)
 
