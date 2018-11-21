@@ -45,7 +45,7 @@ class Aergo:
         try:
             result = self.__comm.create_account(address=self.__account.address, passphrase=password)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         return result
 
@@ -72,7 +72,7 @@ class Aergo:
         try:
             state = self.__comm.get_account_state(address)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         if account is None:
             self.__account.state = state
@@ -94,7 +94,7 @@ class Aergo:
         try:
             self.__comm.connect()
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
     def disconnect(self):
         """
@@ -104,7 +104,7 @@ class Aergo:
             try:
                 self.__comm.disconnect()
             except Exception as e:
-                raise CommunicationException(e)
+                raise CommunicationException(e) from e
 
     def get_blockchain_status(self):
         """
@@ -117,7 +117,7 @@ class Aergo:
         try:
             status = self.__comm.get_blockchain_status()
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         return BlockHash(status.best_block_hash), status.best_height
 
@@ -141,7 +141,7 @@ class Aergo:
         try:
             result = self.__comm.get_block(query)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         b = block.Block(grpc_block=result)
         return b
@@ -155,7 +155,7 @@ class Aergo:
         try:
             result = self.__comm.get_accounts()
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         accounts = []
         for a in result.accounts:
@@ -173,7 +173,7 @@ class Aergo:
         try:
             result = self.__comm.get_peers()
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         peers = []
         for i in range(len(result.peers)):
@@ -194,7 +194,7 @@ class Aergo:
         try:
             result = self.__comm.get_node_state(timeout)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         json_txt = result.value.decode('utf8').replace("'", '"')
         return json.loads(json_txt)
@@ -208,7 +208,7 @@ class Aergo:
         try:
             result = self.__comm.get_tx(tx_hash)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         return result
 
@@ -222,7 +222,7 @@ class Aergo:
         try:
             result = self.__comm.lock_account(address, passphrase)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         return result
 
@@ -236,7 +236,7 @@ class Aergo:
         try:
             result = self.__comm.unlock_account(address=address, passphrase=passphrase)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         return result
 
@@ -290,7 +290,7 @@ class Aergo:
         try:
             result = self.__comm.send_tx(unsigned_tx)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         return result
 
@@ -307,7 +307,7 @@ class Aergo:
         try:
             result_list = self.__comm.commit_txs(signed_txs)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         results = []
         for r in result_list.results:
@@ -349,7 +349,7 @@ class Aergo:
         try:
             result = self.__comm.get_receipt(tx_hash)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         print(result)
         return acc.Account.encode_address(result.contractAddress), result.status, result.ret
@@ -418,6 +418,6 @@ class Aergo:
         try:
             result = self.__comm.query_contract(sc_address, payload)
         except Exception as e:
-            raise CommunicationException(e)
+            raise CommunicationException(e) from e
 
         return result.value

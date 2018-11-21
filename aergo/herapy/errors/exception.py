@@ -6,23 +6,23 @@ class AergoException(Exception):
     Comm = "Communication Exception"
 
     def __init__(self, error, exception_type):
-        self.__error = error
-        self.__exception_type = exception_type
+        self.error = error
+        self.exception_type = exception_type
 
     def __str__(self):
-        print_err = "{0} : {1}".format(self.__exception_type, self.__error)
+        print_err = "{0} : {1}".format(self.exception_type, self.error)
 
         return print_err
 
 
 class CommunicationException(AergoException):
     def __init__(self, error):
-        self.__error_code = error.code()
-        self.__error_details = error.details()
-        self.__exception_type = AergoException.Comm
+        self.error_code = error.code()
+        self.error_details = error.details()
+        self.exception_type = AergoException.Comm
 
     def __str__(self):
-        print_err = "{0} ({1}): {2}".format(self.__exception_type, self.__error_code, self.__error_details)
+        print_err = "{0} ({1}): {2}".format(self.exception_type, self.error_code, self.error_details)
 
         return print_err
 
