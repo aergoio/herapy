@@ -5,7 +5,7 @@
 import hashlib
 import base58
 
-from .grpc import blockchain_pb2
+from herapy.grpc import blockchain_pb2
 
 
 class Transaction:

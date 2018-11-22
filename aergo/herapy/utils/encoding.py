@@ -1,26 +1,36 @@
 import base58
 import base64
 
-# TODO fix it
-from herapy.constants import ACCOUNT_PREFIX
+from ..constants import *
 
 
 def encode_address(address):
-    return base58.b58encode_check(bytes([ACCOUNT_PREFIX]) + address)
+    v = ADDRESS_VERSION + address
+    return base58.b58encode_check(v).decode('utf-8')
 
 
-def decode_address(base58_address):
-    decoded = base58.b58decode_check(base58_address)
-    return decoded[1:]
+def decode_address(address):
+    v = base58.b58decode_check(address)
+    return v[len(ADDRESS_VERSION):]
 
 
-def encode_hash(hash):
-    return base64.b64encode(hash)
+def encode_private_key(private_key):
+    v = PRIVATE_KEY_VERSION + private_key
+    return base58.b58encode_check(v).decode('utf-8')
 
 
-def encode_signature(sig):
-    return base64.b64encode(sig)
+def decode_private_key(private_key):
+    v = base58.b58decode_check(private_key)
+    return v[len(PRIVATE_KEY_VERSION):]
 
 
-def decode_hash(hash):
-    return base64.b64decode(hash, validate=True)
+def encode_signature(sign):
+    return base64.b64encode(sign)
+
+
+def encode_hash(v):
+    return base64.b64encode(v)
+
+
+def decode_hash(v):
+    return base64.b64decode(v, validate=True)

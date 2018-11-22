@@ -10,14 +10,19 @@ def run():
         print("------ Connect AERGO -----------")
         aergo.connect('localhost:7845')
 
+        print("------ Get Accounts without State in Node -----------")
+        accounts = aergo.get_node_accounts(skip_state=True)
+        for i, account in enumerate(accounts):
+            print("  > account state : {}".format(account))
+            print("    - balance        = {}".format(account.balance))
+            print("    - nonce          = {}".format(account.nonce))
+            print("    - code hash      = {}".format(account.code_hash))
+            print("    - storage root   = {}".format(account.storage_root))
+
         print("------ Get Accounts in Node -----------")
         accounts = aergo.get_node_accounts()
-        # TODO change
         for i, account in enumerate(accounts):
-        #for i in range(len(accounts)):
-            print("Account[{0}]'s address in Node is {1}".format(i, account.address))
-            state = aergo.get_account_state(account)
-            print("  > account state : {}".format(state))
+            print("  > account state : {}".format(account))
             print("    - balance        = {}".format(account.balance))
             print("    - nonce          = {}".format(account.nonce))
             print("    - code hash      = {}".format(account.code_hash))
@@ -32,12 +37,12 @@ def run():
         print("Address          = {}".format(account.address))
 
         print("------ Get Account State -----------")
-        state = aergo.get_account_state()
-        print("  > account state : {}".format(state))
-        print('    - Nonce:        %s' % account.nonce)
-        print('    - Balance:      %s' % account.balance)
-        print('    - Code Hash:    %s' % account.code_hash)
-        print('    - Storage Root: %s' % account.storage_root)
+        aergo.get_account()
+        print("  > account state in 'aergo'")
+        print('    - Nonce:        %s' % aergo.account.nonce)
+        print('    - Balance:      %s' % aergo.account.balance)
+        print('    - Code Hash:    %s' % aergo.account.code_hash)
+        print('    - Storage Root: %s' % aergo.account.storage_root)
 
         print("------ Get Configured Account -----------")
         conf_keys_str = """
@@ -57,10 +62,8 @@ def run():
             print("    > address       : {}".format(k[2]))
 
             # check account state
-            a = herapy.Account("", empty=True)
-            a.address = k[2]
-            state = aergo.get_account_state(account=a)
-            print("    > account state : {}".format(state))
+            a = aergo.get_account(k[2])
+            print("    > account state : {}".format(a))
             print("      - balance        = {}".format(a.balance))
             print("      - nonce          = {}".format(a.nonce))
             print("      - code hash      = {}".format(a.code_hash))

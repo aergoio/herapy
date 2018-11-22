@@ -5,17 +5,17 @@
 import json
 import base58
 
-from google.protobuf.json_format import MessageToJson
-
 from . import account as acc
 from . import comm
-from . import block
+from .obj import block
+from .obj import transaction
+from .obj import address as addr
+from .obj import block_hash as bh
+from .obj import peer as pr
 from .errors.exception import CommunicationException
-from .obj.block_hash import BlockHash
-from . import transaction
 from .status.commit_status import CommitStatus
-from .peer import Peer
 from .utils.converter import convert_commit_result_to_json
+from .utils.encoding import encode_address, decode_address, encode_private_key, decode_private_key
 
 
 class Aergo:
@@ -35,55 +35,46 @@ class Aergo:
     def account(self, a):
         self.__account = a
 
-    # TODO remove
-    def create_account(self, password):
-        """
-        Creates a new account with password `password`.
-        :param password:
-        :return:
-        """
-        self.__account = acc.Account(password)
-        try:
-            result = self.__comm.create_account(address=self.__account.address, passphrase=password)
-        except Exception as e:
-            raise CommunicationException(e) from e
-
-        return result
-
     def new_account(self, password=None, private_key=None):
         self.__account = acc.Account(password, private_key)
         if private_key is not None:
-            self.get_account_state()
+            self.get_account()
         return self.__account
 
     # TODO how about making account_state class,
     #       or how about returning account and change method name
-    def get_account_state(self, account=None):
+    def get_account(self, address=None):
         """
-        Return the account state of account `account`.
-        :param account:
+        Return the account of `address`.
+        :param address:
         :return:
         """
         if self.__comm is None:
             return None
 
-        if account is None:
+        self_acc = False
+        if address is None:
             address = self.__account.address.get_address_bytes()
-        else:
-            # TODO if str, make empty account with str address
-            address = account.address
+            self_acc = True
+        elif isinstance(address, str):
+            address = decode_address(address)
+        elif type(address) is addr.Address:
+            address = bytes(address)
 
         try:
             state = self.__comm.get_account_state(address)
         except Exception as e:
             raise CommunicationException(e) from e
 
-        if account is None:
+        if self_acc:
             self.__account.state = state
+            account = self.__account
         else:
+            account = acc.Account("", empty=True)
             account.state = state
+            account.address = address
 
-        return MessageToJson(state)
+        return account
 
     def connect(self, target):
         """
@@ -123,7 +114,7 @@ class Aergo:
         except Exception as e:
             raise CommunicationException(e) from e
 
-        return BlockHash(status.best_block_hash), status.best_height
+        return bh.BlockHash(status.best_block_hash), status.best_height
 
     def get_block(self, block_hash=None, block_height=-1):
         """
@@ -138,8 +129,8 @@ class Aergo:
         if block_height > 0:
             query = block_height.to_bytes(8, byteorder='little')
         else:
-            if type(block_hash) is not BlockHash:
-                block_hash = BlockHash(block_hash)
+            if type(block_hash) is not bh.BlockHash:
+                block_hash = bh.BlockHash(block_hash)
             query = block_hash.value
 
         try:
@@ -150,7 +141,7 @@ class Aergo:
         b = block.Block(grpc_block=result)
         return b
 
-    def get_node_accounts(self):
+    def get_node_accounts(self, skip_state=False):
         """
         Returns a list of all node accounts.
         :return:
@@ -163,8 +154,11 @@ class Aergo:
 
         accounts = []
         for a in result.accounts:
-            account = acc.Account("", empty=True)
-            account.address = a.address
+            if skip_state:
+                account = acc.Account("", empty=True)
+                account.address = a.address
+            else:
+                account = self.get_account(a.address)
             accounts.append(account)
 
         return accounts
@@ -183,7 +177,7 @@ class Aergo:
         for i in range(len(result.peers)):
             p = result.peers[i]
             s = result.states[i]
-            peer = Peer()
+            peer = pr.Peer()
             peer.info = p
             peer.state = s
             peers.append(peer)
@@ -245,7 +239,7 @@ class Aergo:
         return result
 
     def _send_payload(self, account, to_address, nonce, amount, fee_limit, fee_price, payload):
-        tx = transaction.Transaction(from_address=account.address,
+        tx = transaction.Transaction(from_address=bytes(account.address),
                                      to_address=to_address,
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
@@ -256,6 +250,9 @@ class Aergo:
     def send_payload(self, amount, payload, to_address=None, retry_nonce=0):
         if self.__comm is None:
             return None, None
+
+        if isinstance(to_address, str):
+            to_address = decode_address(to_address)
 
         nonce = self.__account.nonce + 1
         signed_txs, results = self._send_payload(account=self.__account,
@@ -328,7 +325,7 @@ class Aergo:
             assert 1 == 0
 
         if isinstance(exported_data, str):
-            exported_data = acc.Account.decode_private_key(exported_data)
+            exported_data = decode_private_key(exported_data)
 
         if isinstance(password, bytes):
             password = password.decode('utf-8')
@@ -341,7 +338,7 @@ class Aergo:
             account = self.__account
 
         enc_acc = acc.Account.encrypt_account(account)
-        return acc.Account.encode_private_key(enc_acc)
+        return encode_private_key(enc_acc)
 
     def get_tx_result(self, tx_hash):
         if self.__comm is None:
@@ -355,12 +352,11 @@ class Aergo:
         except Exception as e:
             raise CommunicationException(e) from e
 
-        print(result)
-        return acc.Account.encode_address(result.contractAddress), result.status, result.ret
+        return encode_address(result.contractAddress), result.status, result.ret
 
     def deploy_sc(self, payload, amount=0, args=None):
         if isinstance(payload, str):
-            payload = acc.Account.decode_address(payload)
+            payload = decode_address(payload)
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
@@ -382,7 +378,7 @@ class Aergo:
     def call_sc(self, sc_address, func_name, amount=0, args=None):
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = acc.Account.decode_address(sc_address)
+            sc_address = decode_address(sc_address)
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
@@ -403,7 +399,7 @@ class Aergo:
     def query_sc(self, sc_address, func_name, args=None):
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = acc.Account.decode_address(sc_address)
+            sc_address = decode_address(sc_address)
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]

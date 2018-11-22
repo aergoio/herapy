@@ -6,7 +6,7 @@ import json
 import base58
 
 from ..grpc import blockchain_pb2
-from ..account import Account
+from .encoding import encode_address
 
 
 def convert_tx_to_grpc_tx(tx):
@@ -40,7 +40,7 @@ def convert_tx_to_json(tx):
 
     body = {
         'nonce': tx.nonce,
-        'from': Account.encode_address(tx.from_address),
+        'from': encode_address(tx.from_address),
         'amount': tx.amount,
         'fee_limit': tx.fee_limit,
         'fee_price': tx.fee_price,
@@ -52,7 +52,7 @@ def convert_tx_to_json(tx):
         body['payload'] = str(base58.b58encode_check(tx.payload))
 
     if tx.to_address is not None:
-        body['to'] = Account.encode_address(tx.to_address)
+        body['to'] = encode_address(tx.to_address)
 
     json_tx['body'] = body
 

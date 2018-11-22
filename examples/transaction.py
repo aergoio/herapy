@@ -13,51 +13,50 @@ def run():
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(private_key=sender_private_key)
-        print("  > Sender Address: {}".format(sender_account.address_str))
-        state = aergo.get_account_state(sender_account)
-        print("    > account state : {}".format(state))
+        sender_account = aergo.new_account(password="test password", private_key=sender_private_key)
+        print("  > Sender Address: {}".format(sender_account.address))
+        aergo.get_account()
+        print("    > account state of Sender")
         print("      - balance        = {}".format(sender_account.balance))
         print("      - nonce          = {}".format(sender_account.nonce))
         print("      - code hash      = {}".format(sender_account.code_hash))
         print("      - storage root   = {}".format(sender_account.storage_root))
 
         print("------ Set Receiver Account -----------")
-        receiver_address_str = "AmNHbk46L5ZaFH942mxDrunhUb34S8xRd7ygNnqaW5nqJDt5ugKD"
-        receiver_address = herapy.Account.decode_address(receiver_address_str)
-        print("  > Receiver Address: {}".format(receiver_address_str))
+        receiver_address = "AmNHbk46L5ZaFH942mxDrunhUb34S8xRd7ygNnqaW5nqJDt5ugKD"
+        print("  > Receiver Address: {}".format(receiver_address))
 
         print("------ Simple Send Tx -----------")
         simple_tx, result = aergo.send_payload(to_address=receiver_address,
                                                amount=10, payload=None, retry_nonce=3)
         print("  > simple TX[{}]".format(simple_tx.calculate_hash()))
-        print("{}".format(herapy.convert_tx_to_json(simple_tx)))
+        print("{}".format(herapy.utils.convert_tx_to_json(simple_tx)))
         if int(result['error_status']) != herapy.CommitStatus.TX_OK:
             print("    > ERROR[{0}]: {1}".format(result['error_status'], result['detail']))
         else:
             print("    > result : {}".format(result))
 
         print("------ Create Tx -----------")
-        tx = herapy.Transaction(from_address=sender_account.address,
+        tx = herapy.Transaction(from_address=bytes(sender_account.address),
                                 nonce=sender_account.nonce + 1,
                                 amount=10)
-        tx.to_address = receiver_address
+        tx.to_address = herapy.utils.decode_address(receiver_address)
         print("  > unsigned TX Hash: {}".format(tx.calculate_hash(including_sign=False)))
         print("  > unsigned TX Hash: {}".format(tx.tx_hash_str))
-        print("  > unsigned TX : {}".format(herapy.convert_tx_to_json(tx)))
+        print("  > unsigned TX : {}".format(herapy.utils.convert_tx_to_json(tx)))
 
         print("------ Sign Tx -----------")
         tx.sign = sender_account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         print("  > TX Signature: {}".format(tx.sign_str))
         print("  > TX Hash: {}".format(tx.calculate_hash()))
         print("  > TX Hash: {}".format(tx.tx_hash_str))
-        print("  > TX : {}".format(herapy.convert_tx_to_json(tx)))
+        print("  > TX : {}".format(herapy.utils.convert_tx_to_json(tx)))
 
         print("------ Send Tx -----------")
         txs, results = aergo.send_tx(tx)
         for i in range(len(txs)):
             print("  > TX[{}]".format(i))
-            print("{}".format(herapy.convert_tx_to_json(txs[i])))
+            print("{}".format(herapy.utils.convert_tx_to_json(txs[i])))
             if int(results[i]['error_status']) != herapy.CommitStatus.TX_OK:
                 print("    > ERROR: {}".format(results[i]['detail']))
             else:
@@ -66,8 +65,8 @@ def run():
         # wait to generate a block
         time.sleep(3)
 
-        state = aergo.get_account_state(sender_account)
-        print("    > account state : {}".format(state))
+        aergo.get_account()
+        print("    > account state of Sender")
         print("      - balance        = {}".format(sender_account.balance))
         print("      - nonce          = {}".format(sender_account.nonce))
         print("      - code hash      = {}".format(sender_account.code_hash))

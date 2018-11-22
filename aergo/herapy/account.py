@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import ecdsa
 import hashlib
 
-from ecdsa.util import number_to_string, string_to_number
 from google.protobuf.json_format import MessageToJson
-
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from . import private_key as pk
-from . import address as addr
+
+from .obj import private_key as pk
+from .obj import address as addr
+
+from .utils.encoding import decode_address
 
 
 class Account:
@@ -31,75 +31,11 @@ class Account:
         self.__address = addr.Address(self.__private_key.public_key)
         self.__state = None
 
-    @staticmethod
-    def _canonicalize_int(n, order):
-        b = number_to_string(n, order)
-        if (b[0] & 80) != 0:
-            b = bytes([0]) + b
-        return b
-
-    def _serialize(self, r, s):
-        order = self.__private_key.public_key.generator.order()
-        half_order = order >> 1
-        if s > half_order:
-            s = order - s
-
-        rb = self._canonicalize_int(r, order)
-        sb = self._canonicalize_int(s, order)
-
-        length = 4 + len(rb) + len(sb)
-        b = b'\x30' + bytes([length])
-        b += b'\x02' + bytes([len(rb)]) + rb
-        b += b'\x02' + bytes([len(sb)]) + sb
-        return b
-
-    @staticmethod
-    def _deserialize(sig):
-        idx = 0
-        if b'\x30'[0] != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-
-        length = len(sig) - 2
-        if length != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-
-        # check R bytes
-        if b'\x02'[0] != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-        r_len = sig[idx]
-        idx += 1
-        rb = sig[idx:idx+r_len]
-        idx += r_len
-
-        # check S bytes
-        if b'\x02'[0] != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-        s_len = sig[idx]
-        idx += 1
-        sb = sig[idx:idx+s_len]
-
-        return string_to_number(rb), string_to_number(sb)
-
     def sign_msg_hash(self, msg_hash):
-        r, s = self.__signing_key.sign_number(string_to_number(msg_hash))
-        return self._serialize(r, s)
+        return self.__private_key.sign_msg(msg_hash)
 
     def verify_sign(self, msg_hash, sign):
-        r, s = self._deserialize(sign)
-        signature = ecdsa.ecdsa.Signature(r, s)
-        return self.__private_key.public_key.verifies(string_to_number(msg_hash), signature)
+        return self.__private_key.verify_sign(msg_hash, sign)
 
     @property
     def private_key(self):
@@ -122,7 +58,7 @@ class Account:
             raise ValueError('not empty account')
 
         if isinstance(v, str):
-            v = addr.Address.decode_address(v)
+            v = decode_address(v)
         self.__address = v
 
     @property
@@ -138,7 +74,7 @@ class Account:
     @property
     def nonce(self):
         if self.__state is None:
-            return 0
+            return -1
         return self.__state.nonce
 
     @nonce.setter
@@ -150,7 +86,7 @@ class Account:
     @property
     def balance(self):
         if self.__state is None:
-            return 0
+            return -1
         return self.__state.balance
 
     @property
@@ -192,7 +128,7 @@ class Account:
         nonce = hash_pw[4:16]
         aesgcm = AESGCM(enc_key)
         return aesgcm.encrypt(nonce=nonce,
-                              data=account.private_key,
+                              data=bytes(account.private_key),
                               associated_data=b'')
 
     @staticmethod

@@ -15,8 +15,8 @@ def run():
         print("------ Import Account -----------")
         exported_txt = "485ccQXjmT3JeUHV16n16LzAJhhfHHkv9HU9k7c5PeJDyPMAdLcCu8Yqws19UzMP4K4Rq2MkQ"
         account = aergo.import_account(exported_txt, password='1234')
-        print("Account private key is {}".format(account.private_key_str))
-        print("Account address is {}".format(account.address_str))
+        print("Account private key is {}".format(account.private_key))
+        print("Account address is {}".format(account.address))
 
         print("------ Export Account -----------")
         new_exp_txt = aergo.export_account(account)
@@ -26,12 +26,12 @@ def run():
         aergo.connect('localhost:7845')
 
         print("------ Get Account State -----------")
-        state = aergo.get_account_state(account)
-        print("  > account state : {}".format(state))
-        print("    - balance        = {}".format(account.balance))
-        print("    - nonce          = {}".format(account.nonce))
-        print("    - code hash      = {}".format(account.code_hash))
-        print("    - storage root   = {}".format(account.storage_root))
+        a = aergo.get_account(account.address)
+        print("  > account state of Import account")
+        print("    - balance        = {}".format(a.balance))
+        print("    - nonce          = {}".format(a.nonce))
+        print("    - code hash      = {}".format(a.code_hash))
+        print("    - storage root   = {}".format(a.storage_root))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()

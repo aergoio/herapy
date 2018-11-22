@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .obj.block_hash import BlockHash
+from herapy.obj.block_hash import BlockHash
 
 
 class Block:
