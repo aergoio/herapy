@@ -7,9 +7,9 @@ from ..utils.encoding import encode_address
 
 class Address:
     def __init__(self, pubkey):
-        # TODO change None checking to assert
-        if pubkey is not None:
-            self.__generate_address(pubkey)
+        if pubkey is None:
+            assert 1 == 0
+        self.__generate_address(pubkey)
 
     def __str__(self):
         return encode_address(self.__address)

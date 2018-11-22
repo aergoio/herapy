@@ -54,9 +54,9 @@ def run():
 
         print("------ Send Tx -----------")
         txs, results = aergo.send_tx(tx)
-        for i in range(len(txs)):
+        for i, tx in enumerate(txs):
             print("  > TX[{}]".format(i))
-            print("{}".format(herapy.utils.convert_tx_to_json(txs[i])))
+            print("{}".format(herapy.utils.convert_tx_to_json(tx)))
             if int(results[i]['error_status']) != herapy.CommitStatus.TX_OK:
                 print("    > ERROR: {}".format(results[i]['detail']))
             else:

@@ -13,3 +13,4 @@ from .account import Account
 from .obj.transaction import Transaction
 from .obj.block import Block
 from .status.commit_status import CommitStatus
+from .status.smartcontract_status import SmartcontractStatus
