@@ -1,9 +1,9 @@
 import grpc
 import base58
 import time
+import json
 
 import aergo.herapy as herapy
-
 
 def run():
     print("------ Payload -----------")
@@ -53,19 +53,19 @@ abi.register(setItem, getItem)
 
         print("------ Deploy SC -----------")
         tx, result = aergo.deploy_sc(amount=0, payload=payload)
-        print("  > TX: {}".format(tx.tx_hash_str))
+        print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
         if int(result['error_status']) != herapy.CommitStatus.TX_OK:
             print("    > ERROR[{0}]: {1}".format(result['error_status'], result['detail']))
         else:
-            print("    > result : {}".format(result))
-            print("      > result.hash : {}".format(base58.b58encode(result['hash'])))
-            print(''.join('{:d} '.format(x) for x in tx.tx_hash))
+            print("    > result : {}".format(json.dumps(result, indent=2)))
+            print("      > result.hash : {}".format(result['hash']))
+            print(''.join('{:d} '.format(x) for x in bytes(tx.tx_hash)))
 
         time.sleep(3)
 
         print("------ Check deployment of SC -----------")
-        print("  > TX: {}".format(tx.tx_hash_str))
+        print("  > TX: {}".format(tx.tx_hash))
         sc_address, status, ret = aergo.get_tx_result(tx.tx_hash)
         if status != herapy.SmartcontractStatus.CREATED.value:
             print("  > ERROR[{0}]:{1}: {2}".format(sc_address, status, ret))
@@ -79,7 +79,7 @@ abi.register(setItem, getItem)
         time.sleep(3)
 
         print("------ Check result of Call SC -----------")
-        print("  > TX: {}".format(tx.tx_hash_str))
+        print("  > TX: {}".format(tx.tx_hash))
         sc_address, status, ret = aergo.get_tx_result(tx.tx_hash)
         if status != herapy.SmartcontractStatus.SUCCESS.value:
             print("  > ERROR[{0}]:{1}: {2}".format(sc_address, status, ret))

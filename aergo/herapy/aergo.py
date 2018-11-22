@@ -3,7 +3,6 @@
 """Main module."""
 
 import json
-import base58
 
 from . import account as acc
 from . import comm
@@ -12,10 +11,12 @@ from .obj import transaction
 from .obj import address as addr
 from .obj import block_hash as bh
 from .obj import peer as pr
+from .obj import tx_hash as th
 from .errors.exception import CommunicationException
 from .status.commit_status import CommitStatus
 from .utils.converter import convert_commit_result_to_json
-from .utils.encoding import encode_address, decode_address, encode_private_key, decode_private_key
+from .utils.encoding import encode_address, decode_address, \
+    encode_private_key, decode_private_key, decode_tx_hash
 
 
 class Aergo:
@@ -345,7 +346,9 @@ class Aergo:
             return None
 
         if isinstance(tx_hash, str):
-            tx_hash = base58.b58decode(tx_hash)
+            tx_hash = decode_tx_hash(tx_hash)
+        elif type(tx_hash) is th.TxHash:
+            tx_hash = bytes(tx_hash)
 
         try:
             result = self.__comm.get_receipt(tx_hash)

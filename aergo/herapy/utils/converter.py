@@ -6,12 +6,12 @@ import json
 import base58
 
 from ..grpc import blockchain_pb2
-from .encoding import encode_address
+from .encoding import encode_address, encode_tx_hash
 
 
 def convert_tx_to_grpc_tx(tx):
     grpc_tx = blockchain_pb2.Tx()
-    grpc_tx.hash = tx.tx_hash
+    grpc_tx.hash = bytes(tx.tx_hash)
     if tx.nonce is not None:
         grpc_tx.body.nonce = tx.nonce
     if tx.from_address is not None:
@@ -35,7 +35,7 @@ def convert_tx_to_json(tx):
         return None
 
     json_tx = {
-        'hash': tx.tx_hash_str
+        'hash': str(tx.tx_hash)
     }
 
     body = {
@@ -56,15 +56,23 @@ def convert_tx_to_json(tx):
 
     json_tx['body'] = body
 
-    return json.dumps(json_tx, indent=2)
+    return json_tx
+
+
+def convert_tx_to_formatted_json(tx):
+    if tx is None:
+        return None
+
+    return json.dumps(convert_tx_to_json(tx), indent=2)
 
 
 def convert_commit_result_to_json(commit_result):
     if commit_result is None:
         return None
 
+    h = encode_tx_hash(commit_result.hash)
     result = {
-        'hash': commit_result.hash,
+        'hash': h,
         'detail': commit_result.detail,
         'error_status': commit_result.error
     }

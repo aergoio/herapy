@@ -1,5 +1,6 @@
 import grpc
 import time
+import json
 
 import aergo.herapy as herapy
 
@@ -30,37 +31,35 @@ def run():
         simple_tx, result = aergo.send_payload(to_address=receiver_address,
                                                amount=10, payload=None, retry_nonce=3)
         print("  > simple TX[{}]".format(simple_tx.calculate_hash()))
-        print("{}".format(herapy.utils.convert_tx_to_json(simple_tx)))
+        print("{}".format(herapy.utils.convert_tx_to_formatted_json(simple_tx)))
         if int(result['error_status']) != herapy.CommitStatus.TX_OK:
             print("    > ERROR[{0}]: {1}".format(result['error_status'], result['detail']))
         else:
-            print("    > result : {}".format(result))
+            print("    > result : {}".format(json.dumps(result, indent=2)))
 
         print("------ Create Tx -----------")
         tx = herapy.Transaction(from_address=bytes(sender_account.address),
                                 nonce=sender_account.nonce + 1,
                                 amount=10)
         tx.to_address = herapy.utils.decode_address(receiver_address)
-        print("  > unsigned TX Hash: {}".format(tx.calculate_hash(including_sign=False)))
-        print("  > unsigned TX Hash: {}".format(tx.tx_hash_str))
-        print("  > unsigned TX : {}".format(herapy.utils.convert_tx_to_json(tx)))
+        print("  > unsigned TX Hash: {}".format(tx.tx_hash))
+        print("  > unsigned TX : {}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
 
         print("------ Sign Tx -----------")
         tx.sign = sender_account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         print("  > TX Signature: {}".format(tx.sign_str))
-        print("  > TX Hash: {}".format(tx.calculate_hash()))
-        print("  > TX Hash: {}".format(tx.tx_hash_str))
-        print("  > TX : {}".format(herapy.utils.convert_tx_to_json(tx)))
+        print("  > TX Hash: {}".format(tx.tx_hash))
+        print("  > TX : {}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
 
         print("------ Send Tx -----------")
         txs, results = aergo.send_tx(tx)
         for i, tx in enumerate(txs):
             print("  > TX[{}]".format(i))
-            print("{}".format(herapy.utils.convert_tx_to_json(tx)))
+            print("{}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
             if int(results[i]['error_status']) != herapy.CommitStatus.TX_OK:
                 print("    > ERROR: {}".format(results[i]['detail']))
             else:
-                print("    > result : {}".format(results[i]))
+                print("    > result : {}".format(json.dumps(results[i], indent=2)))
 
         # wait to generate a block
         time.sleep(3)

@@ -28,9 +28,10 @@ def encode_signature(sign):
     return base64.b64encode(sign)
 
 
-def encode_hash(v):
-    return base64.b64encode(v)
+def encode_tx_hash(tx_hash):
+    return base58.b58encode(tx_hash).decode('utf-8')
 
 
-def decode_hash(v):
-    return base64.b64decode(v, validate=True)
+def decode_tx_hash(tx_hash):
+    return base58.b58decode(tx_hash)
+

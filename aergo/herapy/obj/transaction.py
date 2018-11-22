@@ -5,7 +5,8 @@
 import hashlib
 import base58
 
-from herapy.grpc import blockchain_pb2
+from ..grpc import blockchain_pb2
+from . import tx_hash as th
 
 
 class Transaction:
@@ -13,7 +14,7 @@ class Transaction:
     Transaction data structure:
     transaction = {
         hash : byte of base64
-        nonce : uint
+        nonce : int
         from : byte of base58
         to : byte of base58
         amount : uint
@@ -165,8 +166,4 @@ class Transaction:
 
     @property
     def tx_hash(self):
-        return self.calculate_hash()
-
-    @property
-    def tx_hash_str(self):
-        return base58.b58encode(self.calculate_hash()).decode('utf-8')
+        return th.TxHash(self.calculate_hash())
