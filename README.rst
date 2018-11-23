@@ -6,11 +6,11 @@ herapy
 .. image:: https://codecov.io/gh/aergoio/herapy/branch/accounts/graph/badge.svg?token=JylbPsDrDB
   :target: https://codecov.io/gh/aergoio/herapy
 
-.. image:: https://img.shields.io/pypi/v/herapy.svg
-        :target: https://pypi.python.org/pypi/herapy
+.. image:: https://img.shields.io/pypi/v/aergo-herapy.svg
+        :target: https://pypi.python.org/pypi/aergo-herapy
 
-.. image:: https://img.shields.io/travis/aergoio/herapy.svg
-        :target: https://travis-ci.org/aergoio/herapy
+.. image:: https://travis-ci.com/aergoio/herapy.svg?token=bxpJA7kPFExuJMq3sBNb&branch=master
+    :target: https://travis-ci.com/aergoio/herapy
 
 .. image:: https://readthedocs.org/projects/herapy/badge/?version=latest
         :target: https://herapy.readthedocs.io/en/latest/?badge=latest
@@ -35,7 +35,7 @@ Features
 Install
 -------
 
-.. code-block:: console
+.. code-block::
 
    pip install aergo-herapy
 
@@ -43,7 +43,13 @@ Install
 Build
 -----
 
-* TODO
+.. code-block::
+
+  git clone git@github.com:aergoio/herapy.git
+  cd herapy
+  pip install -r requirements.txt
+  make protoc
+  make install
 
 
 Releases and Contributing

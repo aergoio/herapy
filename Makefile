@@ -49,6 +49,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
+	rm -f coverage.xml
 
 lint: ## check style with flake8
 	flake8 herapy tests
@@ -60,10 +61,7 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source herapy -m pytest
-	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
+	pytest --cov=./
 
 docs:
 	rm -rf docs/pydoc
