@@ -239,14 +239,15 @@ class Aergo:
 
         return result
 
-    def _send_payload(self, account, to_address, nonce, amount, fee_limit, fee_price, payload):
+    @staticmethod
+    def _generate_tx(account, to_address, nonce, amount, fee_limit, fee_price, payload):
         tx = transaction.Transaction(from_address=bytes(account.address),
                                      to_address=to_address,
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
                                      payload=payload)
         tx.sign = account.sign_msg_hash(tx.calculate_hash(including_sign=False))
-        return self.send_tx(tx)
+        return tx
 
     def send_payload(self, amount, payload, to_address=None, retry_nonce=0):
         if self.__comm is None:
@@ -256,11 +257,10 @@ class Aergo:
             to_address = decode_address(to_address)
 
         nonce = self.__account.nonce + 1
-        signed_txs, results = self._send_payload(account=self.__account,
-                                                 to_address=to_address,
-                                                 nonce=nonce, amount=amount,
-                                                 fee_limit=0, fee_price=0,
-                                                 payload=payload)
+        tx = self._generate_tx(account=self.__account, to_address=to_address,
+                               nonce=nonce, amount=amount, fee_limit=0, fee_price=0,
+                               payload=payload)
+        signed_txs, results = self.send_tx(tx)
 
         while retry_nonce >= 0:
             retry_nonce -= 1
@@ -268,11 +268,10 @@ class Aergo:
             es = int(results[0]['error_status'])
             if es == CommitStatus.TX_HAS_SAME_NONCE:
                 nonce += 1
-                signed_txs, results = self._send_payload(account=self.__account,
-                                                         to_address=to_address,
-                                                         nonce=nonce, amount=amount,
-                                                         fee_limit=0, fee_price=0,
-                                                         payload=payload)
+                tx = self._generate_tx(account=self.__account, to_address=to_address,
+                                       nonce=nonce, amount=amount, fee_limit=0, fee_price=0,
+                                       payload=payload)
+                signed_txs, results = self.send_tx(tx)
             elif es == CommitStatus.TX_OK:
                 self.__account.nonce = nonce
                 break
@@ -378,7 +377,7 @@ class Aergo:
         tx, result = self.send_payload(amount=amount, payload=payload_bytes)
         return tx, result
 
-    def call_sc(self, sc_address, func_name, amount=0, args=None):
+    def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None):
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = decode_address(sc_address)
@@ -397,7 +396,19 @@ class Aergo:
         payload_str += "}"
         payload = payload_str.encode('utf-8')
 
-        return self.send_payload(to_address=sc_address, amount=amount, payload=payload)
+        self.__account.nonce += 1
+        return self._generate_tx(account=self.__account, to_address=sc_address,
+                                 nonce=self.__account.nonce, amount=amount,
+                                 fee_limit=0, fee_price=0, payload=payload)
+
+    def batch_call_sc(self, sc_txs):
+        return self.send_tx(sc_txs)
+
+    def call_sc(self, sc_address, func_name, amount=0, args=None):
+        sc_tx = self.new_call_sc_tx(sc_address=sc_address, func_name=func_name,
+                                    amount=amount, args=args)
+        sc_txs, results = self.batch_call_sc([sc_tx])
+        return sc_txs[0], results[0]
 
     def query_sc(self, sc_address, func_name, args=None):
         if isinstance(sc_address, str):
