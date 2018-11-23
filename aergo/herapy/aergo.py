@@ -12,6 +12,7 @@ from .obj import address as addr
 from .obj import block_hash as bh
 from .obj import peer as pr
 from .obj import tx_hash as th
+from .obj.call_info import CallInfo
 from .errors.exception import CommunicationException
 from .status.commit_status import CommitStatus
 from .utils.converter import convert_commit_result_to_json
@@ -385,15 +386,8 @@ class Aergo:
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
 
-        payload_str = "{\"Name\":\"" + func_name + "\""
-        if args is not None and len(args) > 0:
-            payload_str += ", \"Args\":["
-            for arg in args:
-                payload_str += "\"" + arg + "\","
-            p = list(payload_str)
-            p[len(payload_str) - 1] = "]"
-            payload_str = "".join(p)
-        payload_str += "}"
+        call_info = CallInfo(func_name, args).__dict__
+        payload_str = json.dumps(call_info, separators=(',',':'))
         payload = payload_str.encode('utf-8')
 
         self.__account.nonce += 1
@@ -418,15 +412,8 @@ class Aergo:
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
 
-        payload_str = "{\"Name\":\"" + func_name + "\""
-        if args is not None and len(args) > 0:
-            payload_str += ", \"Args\":["
-            for arg in args:
-                payload_str += "\"" + arg + "\","
-            p = list(payload_str)
-            p[len(payload_str) - 1] = "]"
-            payload_str = "".join(p)
-        payload_str += "}"
+        call_info = CallInfo(func_name, args).__dict__
+        payload_str = json.dumps(call_info, separators=(',',':'))
         payload = payload_str.encode('utf-8')
 
         try:

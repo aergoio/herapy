@@ -13,3 +13,5 @@ coverage.xml
 *.egg-info/
 dist/
 build/
+tags
+VENV/

@@ -1,27 +1,41 @@
 import grpc
-import base58
 import time
 import json
 
 import aergo.herapy as herapy
 
+
 def run():
     print("------ Payload -----------")
     """
-    'payload' is compiled by aergoluac from
-function setItem(key, value)
-    system.print('setItem: key='..key..', value='..value)
-    system.setItem(key, value)
-end
+        -- Define global variables.
+        state.var {
+            a = state.value(),
+        }
 
-function getItem(key)
-    system.print('getItem: key='..key)
-    return system.getItem(key)
-end
+        function constructor()
+            a:set("A")
+        end
 
-abi.register(setItem, getItem)
+        function set_name(name)
+            a:set(name)
+        end
+
+        function get_name()
+            return a:get()
+        end
+
+        function test_array(array)
+            a:set(array[1])
+        end
+
+        function say_hello()
+            a:set("hello")
+        end
+
+        abi.register(set_name, get_name, test_array, say_hello)
     """
-    payload_str = "66F7XWcStRbqYNe9yeEHPUjCpJxuwQphf6G3NAz91wtMB9Zaa4hVq6s3pXpNtK5WRqi4aS9iNTyHmZN4sWDEvdjhEbvSCqUKAJBsuDSBhtkvrSD2dasKwZX7S5NBRoAuMrMEMRXVpDmQcoh37RBtSBCcB55QWNxgpztLzGJdhFRakqJ3FEQXQ3AzsrRGvULxgFUW4pt7Nb3ZQwgK7NBV2fHPxKA2PWYF6Qs2EifhYoLdyKxZzkdtjD6P2igRCn34EeUiRhYC7NLiAX4djnVEzcLdfjQyLWaauFyjXatCpAy1ajssL32aZs9AbRyMew5ozdDXRQgk1FNvsNq5H7eMQVG81ii6mNQJx6R5nen5ZPrCXZRLt353xniyFn1HNDAsn4TbTx5kkU7EgWAZj2tPcqokCLB7msZTnmFFaHcirdF6qFLFMzmoaaszqYeabiBekdcVRuVfBiozeL4b4i1fU4Q4ok4H96XN3H6KURtr1RzVy3rAoK13kbLQiXqdhshSV1GJaMS7By9HpQ2Nj6fuLok9kBk7MSENDq4cEmv63SV15PnKD5qfYgBYrZwJad1tZNJPWWixrUL5WCCf36J1DZ5M1zNQP6jLSUF9on4mCA9q3cdHbU"
+    payload_str = "4JoZBjZo4SojWi236wk77CBVZ1upiwJh6i2X1ctwLmSixp3kzhYPfU8YyVKaGjQXRULDNddwYdjVvyjp9bTV3fLDc7GAa4SgvnDYibFU5YE1owPMn3y7p8Vf7d2ynu3XAwkLuG9uXS29ivWYnfNYY6pHPtkH7wPjjgxpNnx4HSUVQDMGqYE9TBQqZhHS1Uiear7kGPy7SFHRkz5F5U6ooUHboAz6FwNNWGVTBUCimLP3tBsRpizF22E2PHNhpxVowfdh1sa9gxNT56mSR7d3snKMGttBPttteUNxXpPSTZ3HhLzrVPfYZHmfb9gvBrcP13b4mavfPNMPGZyBcKVSy5GAvyvigRg3ZzaL7moDtTzbyNMpTUEta3bpsjUyR3iput728DAL4qwgeSKyJDWSqJ2h9pomgz9PJpCfivsigh67ABWXMexUNAcpC8p1enoRTeDuLf6XLvgrtgJEfVPaPNKknRdiEaqVTMB3FUMmoadsUZ4PN6ZQrGuSoZvkUvF7gSUFSMAbpCtq82LivxhGdKkHBQSYZNe4WhV5432V4yMfVz3LvJSc7NtnWr89iJaBSySZjtE51Tbe8FFcESNLf6JbDrBsJeY4J3nY2SAVFWcsQrbRVZXrokNUgnetfCbVccc8w1Tzit8cGG61GtDgEieqVUYuXhacMqzi1W8p68vKCi5V8hJrNPoiB4uCiASJGvUw5qARDy4BK8rCUj6LGrHYdqAQEYm1KsoSxn55Kxt8MgSzWg13xGKGREojA4BvYrUrFt6iaxYCBWNnznZqUocL8YqW5edkfnRsjfc8Mj1cKTTt9snZKXQNtXHGso1dH7QS6w2K52XC1cJ4g7crtBxHuXzGU"
     payload = herapy.utils.decode_address(payload_str)
     print(''.join('{:d} '.format(x) for x in payload))
 
@@ -74,7 +88,7 @@ abi.register(setItem, getItem)
         print("  > SC Address: {}".format(sc_address))
 
         print("------ Call SC -----------")
-        tx, result = aergo.call_sc(sc_address, "setItem", args=["key1", "value1"])
+        tx, result = aergo.call_sc(sc_address, "test_array", args=[["a", "b"]])
 
         time.sleep(3)
 
@@ -88,7 +102,7 @@ abi.register(setItem, getItem)
         print("  > SC Address: {}".format(sc_address))
 
         print("------ Query SC -----------")
-        result = aergo.query_sc(sc_address, "getItem", args=["key1"])
+        result = aergo.query_sc(sc_address, "get_name")
         print(result)
 
         print("------ Disconnect AERGO -----------")
