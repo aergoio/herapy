@@ -22,36 +22,76 @@ herapy
 
 HeraPy is a Python package for AERGO that provides the features below.
 
-
+--------
 Features
 --------
 
-* Communication with a node
-* Getting a metadata
-* Managing an account
+* Communication with AERGO node
+* Getting AERGO blockchain information
+* Creating/Exporting/Importing an account
 * Making and sending a transaction
-* Making and sending a smart contract
+* Deploying/Calling/Querying a smart contract
 
+-------
 Install
 -------
 
 .. code-block::
 
-   pip install aergo-herapy
+    pip install aergo-herapy
 
-
-Build
------
+or, install locally
 
 .. code-block::
 
-  git clone git@github.com:aergoio/herapy.git
-  cd herapy
-  pip install -r requirements.txt
-  make protoc
-  make install
+    git clone git@github.com:aergoio/herapy.git
+    cd herapy
+    make install
+
+-----
+Build
+-----
+
+Downloading HeraPy
+==================
+
+Download HeraPy from this repository
+
+.. code-block::
+
+    git clone git@github.com:aergoio/herapy.git
+
+Installing Dependencies
+=======================
+
+.. code-block::
+
+    pip install -r requirements.txt
+
+But, we recommend to use a virtual environment below.
+
+Virtual Environment (Pipenv)
+----------------------------
+
+Using Pipenv, all dependencies will be installed automatically.
+
+.. code-block::
+
+    pipenv shell
+
+Updating Protocol
+=================
+
+If need to upgrade a protocol,
+
+.. code-block::
+
+    make protoc
+
+After this command, all protocol related source files will be generated if it's different.
 
 
+-------------------------
 Releases and Contributing
 -------------------------
 
@@ -65,6 +105,7 @@ please `open an issue <https://github.com/aergoio/herapy/issues>`_ and discuss w
 We appreciate all contributions.
 
 
+-------
 License
 -------
 
@@ -72,6 +113,7 @@ HeraPy is MIT license as found in the LICENSE file.
 * Documentation: https://herapy.readthedocs.io.
 
 
+-------
 Credits
 -------
 
