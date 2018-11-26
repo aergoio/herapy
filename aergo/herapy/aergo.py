@@ -367,13 +367,9 @@ class Aergo:
         payload_bytes = (len(payload) + 4).to_bytes(4, byteorder='little')
         payload_bytes += payload
 
-        if args is not None and len(args) > 0:
-            args_txt = "["
-            for arg in args:
-                args_txt += "\"" + arg + "\","
-            args_txt[len(args_txt) - 1] = "]"
+        json_args = json.dumps(args, separators=(',',':'))
+        payload_bytes += json_args.encode('utf-8')
 
-            payload_bytes += bytes(args_txt)
 
         tx, result = self.send_payload(amount=amount, payload=payload_bytes)
         return tx, result
