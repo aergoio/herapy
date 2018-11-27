@@ -13,8 +13,8 @@ def run():
             a = state.value(),
         }
 
-        function constructor()
-            a:set("A")
+        function constructor(name)
+            a:set(name)
         end
 
         function set_name(name)
@@ -33,9 +33,10 @@ def run():
             a:set("hello")
         end
 
+
         abi.register(set_name, get_name, test_array, say_hello)
     """
-    payload_str = "4JoZBjZo4SojWi236wk77CBVZ1upiwJh6i2X1ctwLmSixp3kzhYPfU8YyVKaGjQXRULDNddwYdjVvyjp9bTV3fLDc7GAa4SgvnDYibFU5YE1owPMn3y7p8Vf7d2ynu3XAwkLuG9uXS29ivWYnfNYY6pHPtkH7wPjjgxpNnx4HSUVQDMGqYE9TBQqZhHS1Uiear7kGPy7SFHRkz5F5U6ooUHboAz6FwNNWGVTBUCimLP3tBsRpizF22E2PHNhpxVowfdh1sa9gxNT56mSR7d3snKMGttBPttteUNxXpPSTZ3HhLzrVPfYZHmfb9gvBrcP13b4mavfPNMPGZyBcKVSy5GAvyvigRg3ZzaL7moDtTzbyNMpTUEta3bpsjUyR3iput728DAL4qwgeSKyJDWSqJ2h9pomgz9PJpCfivsigh67ABWXMexUNAcpC8p1enoRTeDuLf6XLvgrtgJEfVPaPNKknRdiEaqVTMB3FUMmoadsUZ4PN6ZQrGuSoZvkUvF7gSUFSMAbpCtq82LivxhGdKkHBQSYZNe4WhV5432V4yMfVz3LvJSc7NtnWr89iJaBSySZjtE51Tbe8FFcESNLf6JbDrBsJeY4J3nY2SAVFWcsQrbRVZXrokNUgnetfCbVccc8w1Tzit8cGG61GtDgEieqVUYuXhacMqzi1W8p68vKCi5V8hJrNPoiB4uCiASJGvUw5qARDy4BK8rCUj6LGrHYdqAQEYm1KsoSxn55Kxt8MgSzWg13xGKGREojA4BvYrUrFt6iaxYCBWNnznZqUocL8YqW5edkfnRsjfc8Mj1cKTTt9snZKXQNtXHGso1dH7QS6w2K52XC1cJ4g7crtBxHuXzGU"
+    payload_str = "Ar1NzSMULGWsUVZCAfZxris1bDV1BYSXASj3ogDyjiC3R6FPRCNfLZCV7zHS1sMFuYwmeTcH8nuKvgb5V8uaWyw8kznwmpFJVqHPbmbiZvyMCvCfwsJjnLSFv5mMhaWjVZpf83FCyEibZhphnmaYCaF7h7AAVr3jVETAPuRBHS39wMJLe8e4uatUpf7wnPo6fXiLREbti1BuXyyEtELysDXbkA7exJeSPQRd2Gnzc1nz8t4AQGBrWDbtfHKvarGDHGzfutQqAtYkmjbKTtxvEjLBqsytZcRBgqkT6727iXb2uk2tQfTSgV5P5TA911sdXeCr26FMqLVFqVXJuhK4MzUjiedBoeoWAMWqKp4eK4k5D6bhwyyVyWDkq4kbt2wjGnfw7P2ssTUUoQ8SoLc5cJPjgLMrr2s4sT1o9tUfrFVKWj5BtakzC5pHaUqvksZq4ZUrq95ZRQBmexXpXDJ6tJF4mor2qoR5miQWy68ERVFbLzjSgbNaS5LpfyBTDueGbXHN8FAeHjw1Uh49YEtc61zgMd1Lw1XWN8PvW93nKmBYXtbr1yKeFfTocShR7t1buFJ4pEV8t15K3hKUuVeSbaZPZgkvKg7WvV8zi8hjLiQGefRBggsSeZzFrVToGLubhTRAs4mBzQuZubw8To6BD1CfvCt3XsUJzabZnuWiBJQrVdeLVWUjbCEZnoGCdPPTLt3iUcXY3yXEtTFdLUJPs2EQXx88Ctbnnf1APRMgT6QvxBxwC58vr2yRR828MV9Eft1CpULDCT5LWR2vePZgS9UwZN81PftWQ4T2f2WoRYJbnLiQJGbWyimkjMzYQgfU6mr3XLVMDvhu1ETZfLDK685U9M"
     payload = herapy.utils.decode_address(payload_str)
     print(''.join('{:d} '.format(x) for x in payload))
 
@@ -66,7 +67,7 @@ def run():
         print("  > Receiver Address: {}".format(receiver_address))
 
         print("------ Deploy SC -----------")
-        tx, result = aergo.deploy_sc(amount=0, payload=payload)
+        tx, result = aergo.deploy_sc(amount=0, payload=payload, args=1234)
         print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
         if int(result['error_status']) != herapy.CommitStatus.TX_OK:
@@ -86,6 +87,10 @@ def run():
             aergo.disconnect()
             return
         print("  > SC Address: {}".format(sc_address))
+
+        print("------ Query SC -----------")
+        result = aergo.query_sc(sc_address, "get_name")
+        print(result)
 
         print("------ Call SC -----------")
         tx, result = aergo.call_sc(sc_address, "test_array", args=[["a", "b"]])
