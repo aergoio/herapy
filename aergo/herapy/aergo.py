@@ -39,8 +39,7 @@ class Aergo:
 
     def new_account(self, password=None, private_key=None):
         self.__account = acc.Account(password, private_key)
-        if private_key is not None:
-            self.get_account()
+        self.get_account()
         return self.__account
 
     # TODO how about making account_state class,
