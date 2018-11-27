@@ -23,6 +23,3 @@ class Address:
         pubkey_y = pubkey.point.y()
         head = bytes([2] if 0 == pubkey_y % 2 else [3])
         self.__address = head + x_bytes
-
-    def get_address_bytes(self):
-        return self.__address

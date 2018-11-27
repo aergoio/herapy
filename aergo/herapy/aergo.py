@@ -55,7 +55,7 @@ class Aergo:
 
         self_acc = False
         if address is None:
-            address = self.__account.address.get_address_bytes()
+            address = bytes(self.__account.address)
             self_acc = True
         elif isinstance(address, str):
             address = decode_address(address)
