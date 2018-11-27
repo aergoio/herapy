@@ -367,9 +367,8 @@ class Aergo:
         payload_bytes = (len(payload) + 4).to_bytes(4, byteorder='little')
         payload_bytes += payload
 
-        json_args = json.dumps(args, separators=(',',':'))
+        json_args = json.dumps(args, separators=(',', ':'))
         payload_bytes += json_args.encode('utf-8')
-
 
         tx, result = self.send_payload(amount=amount, payload=payload_bytes)
         return tx, result
@@ -383,8 +382,7 @@ class Aergo:
             args = [args]
 
         call_info = CallInfo(func_name, args).__dict__
-        payload_str = json.dumps(call_info, separators=(',',':'))
-        payload = payload_str.encode('utf-8')
+        payload = json.dumps(call_info, separators=(',', ':')).encode('utf-8')
 
         self.__account.nonce += 1
         return self._generate_tx(account=self.__account, to_address=sc_address,
@@ -409,8 +407,7 @@ class Aergo:
             args = [args]
 
         call_info = CallInfo(func_name, args).__dict__
-        payload_str = json.dumps(call_info, separators=(',',':'))
-        payload = payload_str.encode('utf-8')
+        payload = json.dumps(call_info, separators=(',', ':')).encode('utf-8')
 
         try:
             result = self.__comm.query_contract(sc_address, payload)
