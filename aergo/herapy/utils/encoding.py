@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import base58
 import base64
 
@@ -12,6 +14,14 @@ def encode_address(address):
 def decode_address(address):
     v = base58.b58decode_check(address)
     return v[len(ADDRESS_VERSION):]
+
+
+def encode_payload(payload):
+    return encode_address(payload)
+
+
+def decode_payload(payload_str):
+    return decode_address(payload_str)
 
 
 def encode_private_key(private_key):
