@@ -258,25 +258,32 @@ class Aergo:
 
         nonce = self.__account.nonce + 1
         tx = self._generate_tx(account=self.__account, to_address=to_address,
-                               nonce=nonce, amount=amount, fee_limit=0, fee_price=0,
+                               nonce=nonce, amount=amount,
+                               fee_limit=0, fee_price=0,
                                payload=payload)
         signed_txs, results = self.send_tx(tx)
 
-        while retry_nonce > 0:
-            retry_nonce -= 1
+        es = int(results[0]['error_status'])
+        if es == CommitStatus.TX_OK:
+            self.__account.nonce = nonce
+        elif es == CommitStatus.TX_HAS_SAME_NONCE:
+            while retry_nonce > 0:
+                retry_nonce -= 1
 
-            es = int(results[0]['error_status'])
-            if es == CommitStatus.TX_HAS_SAME_NONCE:
                 nonce += 1
-                tx = self._generate_tx(account=self.__account, to_address=to_address,
-                                       nonce=nonce, amount=amount, fee_limit=0, fee_price=0,
+                tx = self._generate_tx(account=self.__account,
+                                       to_address=to_address,
+                                       nonce=nonce, amount=amount,
+                                       fee_limit=0, fee_price=0,
                                        payload=payload)
                 signed_txs, results = self.send_tx(tx)
-            elif es == CommitStatus.TX_OK:
-                self.__account.nonce = nonce
-                break
-            else:
-                break
+
+                es = int(results[0]['error_status'])
+                if es == CommitStatus.TX_OK:
+                    self.__account.nonce = nonce
+                    break
+                elif es != CommitStatus.TX_HAS_SAME_NONCE:
+                    break
 
         return signed_txs[0], results[0]
 
