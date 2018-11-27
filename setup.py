@@ -26,7 +26,7 @@ test_requirements = ['pytest', ]
 
 setup(
     name='aergo-herapy',
-    version='0.1.14',
+    version='0.1.16',
     description="python SDK for AERGO",
     keywords='herapy',
     author="aergo.io",
