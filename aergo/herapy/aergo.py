@@ -263,7 +263,7 @@ class Aergo:
                                payload=payload)
         signed_txs, results = self.send_tx(tx)
 
-        while retry_nonce >= 0:
+        while retry_nonce > 0:
             retry_nonce -= 1
 
             es = int(results[0]['error_status'])
