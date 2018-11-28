@@ -52,27 +52,27 @@ abi.register(setItem, getItem)
         print("  > Receiver Address: {}".format(receiver_address))
 
         print("------ Deploy SC -----------")
-        tx, result = aergo.deploy_sc(amount=0, payload=payload)
+        tx, result = aergo.deploy_sc(amount=0, payload=payload, args=1234)
         print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
-        if int(result['error_status']) != herapy.CommitStatus.TX_OK:
-            print("    > ERROR[{0}]: {1}".format(result['error_status'], result['detail']))
-            aergo.disconnect()
-            return
+        if result.status != herapy.CommitStatus.TX_OK:
+            print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
         else:
-            print("    > result : {}".format(json.dumps(result, indent=2)))
-            print("      > result.hash : {}".format(result['hash']))
-            print(''.join('{:d} '.format(x) for x in bytes(tx.tx_hash)))
+            print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
+            print(herapy.utils.convert_bytes_to_int_str(bytes(tx.tx_hash)))
 
         time.sleep(3)
 
         print("------ Check deployment of SC -----------")
         print("  > TX: {}".format(tx.tx_hash))
-        sc_address, status, ret = aergo.get_tx_result(tx.tx_hash)
-        if status != herapy.SmartcontractStatus.CREATED.value:
-            print("  > ERROR[{0}]:{1}: {2}".format(sc_address, status, ret))
+        result = aergo.get_tx_result(tx.tx_hash)
+        if result.status != herapy.SmartcontractStatus.CREATED:
+            print("  > ERROR[{0}]:{1}: {2}".format(
+                result.contract_address, result.status, result.detail))
             aergo.disconnect()
             return
+
+        sc_address = result.contract_address
         print("  > SC Address: {}".format(sc_address))
 
         print("------ Batch Call SC -----------")
@@ -90,12 +90,15 @@ abi.register(setItem, getItem)
         print("------ Check result of Batch Call SC -----------")
         for i, tx in enumerate(sc_txs):
             print("  > TX[{0}] Result: {1}".format(i, str(tx.tx_hash)))
-            sc_address, status, ret = aergo.get_tx_result(tx.tx_hash)
-            if status != herapy.SmartcontractStatus.SUCCESS.value:
-                print("  > ERROR[{0}]:{1}: {2}".format(sc_address, status, ret))
+            result = aergo.get_tx_result(tx.tx_hash)
+            if result.status != herapy.SmartcontractStatus.SUCCESS:
+                print("  > ERROR[{0}]:{1}: {2}".format(
+                    result.contract_address, result.status, result.detail))
                 aergo.disconnect()
                 return
-            print("    > SC Address: {}".format(sc_address))
+
+            sc_address = result.contract_address
+            print("  > SC Address: {}".format(sc_address))
 
         print("------ Query SC -----------")
         result = aergo.query_sc(sc_address, "getItem", args=["key1"])

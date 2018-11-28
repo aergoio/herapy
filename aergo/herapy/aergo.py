@@ -13,11 +13,13 @@ from .obj import block_hash as bh
 from .obj import peer as pr
 from .obj import tx_hash as th
 from .obj.call_info import CallInfo
+from .obj.tx_result import TxResult
 from .errors.exception import CommunicationException
 from .status.commit_status import CommitStatus
-from .utils.converter import convert_commit_result_to_json
+from .status.smartcontract_status import SmartcontractStatus
 from .utils.encoding import encode_address, decode_address, \
-    encode_private_key, decode_private_key, decode_tx_hash
+    encode_private_key, decode_private_key, \
+    encode_tx_hash, decode_tx_hash
 
 
 class Aergo:
@@ -263,10 +265,9 @@ class Aergo:
                                payload=payload)
         signed_txs, results = self.send_tx(tx)
 
-        es = int(results[0]['error_status'])
-        if es == CommitStatus.TX_OK:
+        if results[0].status == CommitStatus.TX_OK:
             self.__account.nonce = nonce
-        elif es == CommitStatus.TX_HAS_SAME_NONCE:
+        elif results[0].status == CommitStatus.TX_HAS_SAME_NONCE:
             while retry_nonce > 0:
                 retry_nonce -= 1
 
@@ -318,8 +319,9 @@ class Aergo:
             raise CommunicationException(e) from e
 
         results = []
-        for r in result_list.results:
-            results.append(convert_commit_result_to_json(r))
+        for i, r in enumerate(result_list.results):
+            tx_result = TxResult(signed_txs[i], result_list.results[i])
+            results.append(tx_result)
         return signed_txs, results
 
     def import_account(self, exported_data, password):
@@ -358,10 +360,15 @@ class Aergo:
 
         try:
             result = self.__comm.get_receipt(tx_hash)
+            tx_result = TxResult()
+            tx_result.tx_id = encode_tx_hash(tx_hash)
+            tx_result.status = SmartcontractStatus(result.status)
+            tx_result.detail = result.ret
+            tx_result.contract_address = encode_address(result.contractAddress)
         except Exception as e:
             raise CommunicationException(e) from e
 
-        return encode_address(result.contractAddress), result.status, result.ret
+        return tx_result
 
     def deploy_sc(self, payload, amount=0, args=None):
         if isinstance(payload, str):

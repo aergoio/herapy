@@ -66,20 +66,6 @@ def convert_tx_to_formatted_json(tx):
     return json.dumps(convert_tx_to_json(tx), indent=2)
 
 
-def convert_commit_result_to_json(commit_result):
-    if commit_result is None:
-        return None
-
-    h = encode_tx_hash(commit_result.hash)
-    result = {
-        'hash': h,
-        'detail': commit_result.detail,
-        'error_status': commit_result.error
-    }
-
-    return result
-
-
 def convert_bytes_to_int_str(v):
     return ''.join('{:d} '.format(x) for x in v)
 

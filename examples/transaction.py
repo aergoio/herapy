@@ -1,6 +1,5 @@
 import grpc
 import time
-import json
 
 import aergo.herapy as herapy
 
@@ -32,10 +31,18 @@ def run():
                                                amount=10, payload=None, retry_nonce=3)
         print("  > simple TX[{}]".format(simple_tx.calculate_hash()))
         print("{}".format(herapy.utils.convert_tx_to_formatted_json(simple_tx)))
-        if int(result['error_status']) != herapy.CommitStatus.TX_OK:
-            print("    > ERROR[{0}]: {1}".format(result['error_status'], result['detail']))
+        print("      result: ", result)
+        if result.status != herapy.CommitStatus.TX_OK:
+            print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
         else:
-            print("    > result : {}".format(json.dumps(result, indent=2)))
+            print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
+
+        time.sleep(3)
+
+        print("------ Check deployment of SC -----------")
+        print("  > TX: {}".format(simple_tx.tx_hash))
+        tx_result = aergo.get_tx_result(simple_tx.tx_hash)
+        print("      result: ", tx_result)
 
         print("------ Create Tx -----------")
         tx = herapy.Transaction(from_address=bytes(sender_account.address),
@@ -56,10 +63,10 @@ def run():
         for i, tx in enumerate(txs):
             print("  > TX[{}]".format(i))
             print("{}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
-            if int(results[i]['error_status']) != herapy.CommitStatus.TX_OK:
-                print("    > ERROR: {}".format(results[i]['detail']))
+            if result.status != herapy.CommitStatus.TX_OK:
+                print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
             else:
-                print("    > result : {}".format(json.dumps(results[i], indent=2)))
+                print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
 
         # wait to generate a block
         time.sleep(3)
