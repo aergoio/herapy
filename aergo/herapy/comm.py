@@ -36,6 +36,14 @@ class Comm:
         rpc_account.address = address
         return self.__rpc_stub.GetState(rpc_account)
 
+    def get_account_state_proof(self, address, root, compressed):
+        if self.__rpc_stub is None:
+            return None
+        account_and_root = rpc_pb2.AccountAndRoot(Account=address,
+                                                  Root=root,
+                                                  Compressed=compressed)
+        return self.__rpc_stub.GetStateAndProof(account_and_root)
+
     def get_blockchain_status(self):
         if self.__rpc_stub is None:
             return None

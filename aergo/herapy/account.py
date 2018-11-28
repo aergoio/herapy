@@ -79,7 +79,7 @@ class Account:
             return None
         return MessageToJson(self.__state_proof)
 
-    @state.setter
+    @state_proof.setter
     def state_proof(self, v):
         self.__state_proof = v
 
