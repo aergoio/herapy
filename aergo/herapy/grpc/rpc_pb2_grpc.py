@@ -127,6 +127,11 @@ class AergoRPCServiceStub(object):
         request_serializer=blockchain__pb2.Query.SerializeToString,
         response_deserializer=rpc__pb2.SingleBytes.FromString,
         )
+    self.QueryContractState = channel.unary_unary(
+        '/types.AergoRPCService/QueryContractState',
+        request_serializer=blockchain__pb2.StateQuery.SerializeToString,
+        response_deserializer=blockchain__pb2.StateQueryProof.FromString,
+        )
     self.GetPeers = channel.unary_unary(
         '/types.AergoRPCService/GetPeers',
         request_serializer=rpc__pb2.Empty.SerializeToString,
@@ -312,6 +317,13 @@ class AergoRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def QueryContractState(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetPeers(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -445,6 +457,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.QueryContract,
           request_deserializer=blockchain__pb2.Query.FromString,
           response_serializer=rpc__pb2.SingleBytes.SerializeToString,
+      ),
+      'QueryContractState': grpc.unary_unary_rpc_method_handler(
+          servicer.QueryContractState,
+          request_deserializer=blockchain__pb2.StateQuery.FromString,
+          response_serializer=blockchain__pb2.StateQueryProof.SerializeToString,
       ),
       'GetPeers': grpc.unary_unary_rpc_method_handler(
           servicer.GetPeers,
