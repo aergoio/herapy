@@ -279,7 +279,7 @@ class Aergo:
                                        payload=payload)
                 signed_txs, results = self.send_tx(tx)
 
-                es = int(results[0]['error_status'])
+                es = results[0].status
                 if es == CommitStatus.TX_OK:
                     self.__account.nonce = nonce
                     break
