@@ -120,6 +120,6 @@ class Comm:
         state_query = blockchain_pb2.StateQuery(contractAddress=sc_address,
                                                 varName=var_name,
                                                 varIndex=var_index,
-                                                Root=root,
-                                                Compressed=compressed)
+                                                root=root,
+                                                compressed=compressed)
         return self.__rpc_stub.QueryContractState(state_query)
