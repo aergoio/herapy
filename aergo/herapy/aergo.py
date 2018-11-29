@@ -76,12 +76,12 @@ class Aergo:
                 raise CommunicationException(e) from e
 
             if self_acc and len(root) == 0:
-                self.__account.state = state_proof.State
+                self.__account.state = state_proof.state
                 self.__account.state_proof = state_proof
                 account = self.__account
             else:
                 account = acc.Account("", empty=True)
-                account.state = state_proof.State
+                account.state = state_proof.state
                 account.state_proof = state_proof
                 account.address = address
         else :
