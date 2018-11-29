@@ -17,6 +17,7 @@ class Account:
             self.__private_key = None
             self.__address = None
             self.__state = None
+            self.__state_proof = None
             return
 
         if password is None:
@@ -30,6 +31,7 @@ class Account:
         self.__private_key = pk.PrivateKey(private_key)
         self.__address = addr.Address(self.__private_key.public_key)
         self.__state = None
+        self.__state_proof = None
 
     def sign_msg_hash(self, msg_hash):
         return self.__private_key.sign_msg(msg_hash)
@@ -70,6 +72,16 @@ class Account:
     @state.setter
     def state(self, v):
         self.__state = v
+
+    @property
+    def state_proof(self):
+        if self.__state_proof is None:
+            return None
+        return MessageToJson(self.__state_proof)
+
+    @state_proof.setter
+    def state_proof(self, v):
+        self.__state_proof = v
 
     @property
     def nonce(self):

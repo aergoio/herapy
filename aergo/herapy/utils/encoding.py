@@ -15,6 +15,9 @@ def decode_address(address):
     v = base58.b58decode_check(address)
     return v[len(ADDRESS_VERSION):]
 
+def decode_root(root):
+    return base58.b58decode(root)
+
 
 def encode_payload(payload):
     return encode_address(payload)

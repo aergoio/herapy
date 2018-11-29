@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\tp2p.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\nnode.proto\"\xa8\x01\n\tMsgHeader\x12\x15\n\rclientVersion\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x03\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0e\n\x06gossip\x18\x04 \x01(\x08\x12\x0e\n\x06peerID\x18\x05 \x01(\x0c\x12\x12\n\nnodePubKey\x18\x06 \x01(\x0c\x12\x0c\n\x04sign\x18\x07 \x01(\x0c\x12\x13\n\x0bsubprotocol\x18\x08 \x01(\r\x12\x0e\n\x06length\x18\t \x01(\r\"<\n\nP2PMessage\x12 \n\x06header\x18\x01 \x01(\x0b\x32\x10.types.MsgHeader\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\"4\n\x04Ping\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\"1\n\x04Pong\x12\x15\n\rbestBlockHash\x18\x01 \x01(\x0c\x12\x12\n\nbestHeight\x18\x02 \x01(\x04\"W\n\x06Status\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x15\n\rbestBlockHash\x18\x02 \x01(\x0c\x12\x12\n\nbestHeight\x18\x03 \x01(\x04\"\x1f\n\x0cGoAwayNotice\x12\x0f\n\x07message\x18\x01 \x01(\t\"G\n\x10\x41\x64\x64ressesRequest\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x0f\n\x07maxSize\x18\x02 \x01(\r\"[\n\x11\x41\x64\x64ressesResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12!\n\x05peers\x18\x02 \x03(\x0b\x32\x12.types.PeerAddress\"4\n\x0eNewBlockNotice\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"a\n\x16GetBlockHeadersRequest\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0e\n\x06offset\x18\x03 \x01(\x04\x12\x0c\n\x04size\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"\x84\x01\n\x17GetBlockHeadersResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12#\n\x07headers\x18\x03 \x03(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"!\n\x0fGetBlockRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"f\n\x10GetBlockResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x1c\n\x06\x62locks\x18\x02 \x03(\x0b\x32\x0c.types.Block\x12\x0f\n\x07hasNext\x18\x03 \x01(\x08\")\n\x15NewTransactionsNotice\x12\x10\n\x08txHashes\x18\x01 \x03(\x0c\"(\n\x16GetTransactionsRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"w\n\x17GetTransactionsResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12\x16\n\x03txs\x18\x03 \x03(\x0b\x32\t.types.Tx\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"5\n\x11GetMissingRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\x12\x10\n\x08stophash\x18\x02 \x01(\x0c*\xbe\x02\n\x0cResultStatus\x12\x06\n\x02OK\x10\x00\x12\x0c\n\x08\x43\x41NCELED\x10\x01\x12\x0b\n\x07UNKNOWN\x10\x02\x12\x14\n\x10INVALID_ARGUMENT\x10\x03\x12\x15\n\x11\x44\x45\x41\x44LINE_EXCEEDED\x10\x04\x12\r\n\tNOT_FOUND\x10\x05\x12\x12\n\x0e\x41LREADY_EXISTS\x10\x06\x12\x15\n\x11PERMISSION_DENIED\x10\x07\x12\x16\n\x12RESOURCE_EXHAUSTED\x10\x08\x12\x17\n\x13\x46\x41ILED_PRECONDITION\x10\t\x12\x0b\n\x07\x41\x42ORTED\x10\n\x12\x10\n\x0cOUT_OF_RANGE\x10\x0b\x12\x11\n\rUNIMPLEMENTED\x10\x0c\x12\x0c\n\x08INTERNAL\x10\r\x12\x0f\n\x0bUNAVAILABLE\x10\x0e\x12\r\n\tDATA_LOSS\x10\x0f\x12\x13\n\x0fUNAUTHENTICATED\x10\x10\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_pb=_b('\n\tp2p.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\nnode.proto\"\xa8\x01\n\tMsgHeader\x12\x15\n\rclientVersion\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x03\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0e\n\x06gossip\x18\x04 \x01(\x08\x12\x0e\n\x06peerID\x18\x05 \x01(\x0c\x12\x12\n\nnodePubKey\x18\x06 \x01(\x0c\x12\x0c\n\x04sign\x18\x07 \x01(\x0c\x12\x13\n\x0bsubprotocol\x18\x08 \x01(\r\x12\x0e\n\x06length\x18\t \x01(\r\"<\n\nP2PMessage\x12 \n\x06header\x18\x01 \x01(\x0b\x32\x10.types.MsgHeader\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\"4\n\x04Ping\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\"1\n\x04Pong\x12\x15\n\rbestBlockHash\x18\x01 \x01(\x0c\x12\x12\n\nbestHeight\x18\x02 \x01(\x04\"W\n\x06Status\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x15\n\rbestBlockHash\x18\x02 \x01(\x0c\x12\x12\n\nbestHeight\x18\x03 \x01(\x04\"\x1f\n\x0cGoAwayNotice\x12\x0f\n\x07message\x18\x01 \x01(\t\"G\n\x10\x41\x64\x64ressesRequest\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x0f\n\x07maxSize\x18\x02 \x01(\r\"[\n\x11\x41\x64\x64ressesResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12!\n\x05peers\x18\x02 \x03(\x0b\x32\x12.types.PeerAddress\"4\n\x0eNewBlockNotice\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"a\n\x16GetBlockHeadersRequest\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0e\n\x06offset\x18\x03 \x01(\x04\x12\x0c\n\x04size\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"\x84\x01\n\x17GetBlockHeadersResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12#\n\x07headers\x18\x03 \x03(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"!\n\x0fGetBlockRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"f\n\x10GetBlockResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x1c\n\x06\x62locks\x18\x02 \x03(\x0b\x32\x0c.types.Block\x12\x0f\n\x07hasNext\x18\x03 \x01(\x08\")\n\x15NewTransactionsNotice\x12\x10\n\x08txHashes\x18\x01 \x03(\x0c\"(\n\x16GetTransactionsRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"w\n\x17GetTransactionsResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12\x16\n\x03txs\x18\x03 \x03(\x0b\x32\t.types.Tx\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"5\n\x11GetMissingRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\x12\x10\n\x08stophash\x18\x02 \x01(\x0c\"$\n\x12GetAncestorRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"d\n\x13GetAncestorResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x14\n\x0c\x61ncestorHash\x18\x02 \x01(\x0c\x12\x12\n\nancestorNo\x18\x03 \x01(\x04\"\x1e\n\x0bGetHashByNo\x12\x0f\n\x07\x62lockNo\x18\x01 \x01(\x04\"M\n\x13GetHashByNoResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x11\n\tblockHash\x18\x02 \x01(\x0c\"F\n\x10GetHashesRequest\x12\x10\n\x08prevHash\x18\x01 \x01(\x0c\x12\x12\n\nprevNumber\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\x04\"Y\n\x11GetHashesResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12\x0f\n\x07hasNext\x18\x03 \x01(\x08*\xbe\x02\n\x0cResultStatus\x12\x06\n\x02OK\x10\x00\x12\x0c\n\x08\x43\x41NCELED\x10\x01\x12\x0b\n\x07UNKNOWN\x10\x02\x12\x14\n\x10INVALID_ARGUMENT\x10\x03\x12\x15\n\x11\x44\x45\x41\x44LINE_EXCEEDED\x10\x04\x12\r\n\tNOT_FOUND\x10\x05\x12\x12\n\x0e\x41LREADY_EXISTS\x10\x06\x12\x15\n\x11PERMISSION_DENIED\x10\x07\x12\x16\n\x12RESOURCE_EXHAUSTED\x10\x08\x12\x17\n\x13\x46\x41ILED_PRECONDITION\x10\t\x12\x0b\n\x07\x41\x42ORTED\x10\n\x12\x10\n\x0cOUT_OF_RANGE\x10\x0b\x12\x11\n\rUNIMPLEMENTED\x10\x0c\x12\x0c\n\x08INTERNAL\x10\r\x12\x0f\n\x0bUNAVAILABLE\x10\x0e\x12\r\n\tDATA_LOSS\x10\x0f\x12\x13\n\x0fUNAUTHENTICATED\x10\x10\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
   ,
   dependencies=[blockchain__pb2.DESCRIPTOR,node__pb2.DESCRIPTOR,])
 
@@ -103,8 +103,8 @@ _RESULTSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1365,
-  serialized_end=1683,
+  serialized_start=1779,
+  serialized_end=2097,
 )
 _sym_db.RegisterEnumDescriptor(_RESULTSTATUS)
 
@@ -858,6 +858,241 @@ _GETMISSINGREQUEST = _descriptor.Descriptor(
   serialized_end=1362,
 )
 
+
+_GETANCESTORREQUEST = _descriptor.Descriptor(
+  name='GetAncestorRequest',
+  full_name='types.GetAncestorRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='hashes', full_name='types.GetAncestorRequest.hashes', index=0,
+      number=1, type=12, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1364,
+  serialized_end=1400,
+)
+
+
+_GETANCESTORRESPONSE = _descriptor.Descriptor(
+  name='GetAncestorResponse',
+  full_name='types.GetAncestorResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='types.GetAncestorResponse.status', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ancestorHash', full_name='types.GetAncestorResponse.ancestorHash', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ancestorNo', full_name='types.GetAncestorResponse.ancestorNo', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1402,
+  serialized_end=1502,
+)
+
+
+_GETHASHBYNO = _descriptor.Descriptor(
+  name='GetHashByNo',
+  full_name='types.GetHashByNo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='blockNo', full_name='types.GetHashByNo.blockNo', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1504,
+  serialized_end=1534,
+)
+
+
+_GETHASHBYNORESPONSE = _descriptor.Descriptor(
+  name='GetHashByNoResponse',
+  full_name='types.GetHashByNoResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='types.GetHashByNoResponse.status', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='blockHash', full_name='types.GetHashByNoResponse.blockHash', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1536,
+  serialized_end=1613,
+)
+
+
+_GETHASHESREQUEST = _descriptor.Descriptor(
+  name='GetHashesRequest',
+  full_name='types.GetHashesRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='prevHash', full_name='types.GetHashesRequest.prevHash', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='prevNumber', full_name='types.GetHashesRequest.prevNumber', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='size', full_name='types.GetHashesRequest.size', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1615,
+  serialized_end=1685,
+)
+
+
+_GETHASHESRESPONSE = _descriptor.Descriptor(
+  name='GetHashesResponse',
+  full_name='types.GetHashesResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='types.GetHashesResponse.status', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hashes', full_name='types.GetHashesResponse.hashes', index=1,
+      number=2, type=12, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hasNext', full_name='types.GetHashesResponse.hasNext', index=2,
+      number=3, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1687,
+  serialized_end=1776,
+)
+
 _P2PMESSAGE.fields_by_name['header'].message_type = _MSGHEADER
 _STATUS.fields_by_name['sender'].message_type = node__pb2._PEERADDRESS
 _ADDRESSESREQUEST.fields_by_name['sender'].message_type = node__pb2._PEERADDRESS
@@ -869,6 +1104,9 @@ _GETBLOCKRESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
 _GETBLOCKRESPONSE.fields_by_name['blocks'].message_type = blockchain__pb2._BLOCK
 _GETTRANSACTIONSRESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
 _GETTRANSACTIONSRESPONSE.fields_by_name['txs'].message_type = blockchain__pb2._TX
+_GETANCESTORRESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
+_GETHASHBYNORESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
+_GETHASHESRESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
 DESCRIPTOR.message_types_by_name['MsgHeader'] = _MSGHEADER
 DESCRIPTOR.message_types_by_name['P2PMessage'] = _P2PMESSAGE
 DESCRIPTOR.message_types_by_name['Ping'] = _PING
@@ -886,6 +1124,12 @@ DESCRIPTOR.message_types_by_name['NewTransactionsNotice'] = _NEWTRANSACTIONSNOTI
 DESCRIPTOR.message_types_by_name['GetTransactionsRequest'] = _GETTRANSACTIONSREQUEST
 DESCRIPTOR.message_types_by_name['GetTransactionsResponse'] = _GETTRANSACTIONSRESPONSE
 DESCRIPTOR.message_types_by_name['GetMissingRequest'] = _GETMISSINGREQUEST
+DESCRIPTOR.message_types_by_name['GetAncestorRequest'] = _GETANCESTORREQUEST
+DESCRIPTOR.message_types_by_name['GetAncestorResponse'] = _GETANCESTORRESPONSE
+DESCRIPTOR.message_types_by_name['GetHashByNo'] = _GETHASHBYNO
+DESCRIPTOR.message_types_by_name['GetHashByNoResponse'] = _GETHASHBYNORESPONSE
+DESCRIPTOR.message_types_by_name['GetHashesRequest'] = _GETHASHESREQUEST
+DESCRIPTOR.message_types_by_name['GetHashesResponse'] = _GETHASHESRESPONSE
 DESCRIPTOR.enum_types_by_name['ResultStatus'] = _RESULTSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -1007,6 +1251,48 @@ GetMissingRequest = _reflection.GeneratedProtocolMessageType('GetMissingRequest'
   # @@protoc_insertion_point(class_scope:types.GetMissingRequest)
   ))
 _sym_db.RegisterMessage(GetMissingRequest)
+
+GetAncestorRequest = _reflection.GeneratedProtocolMessageType('GetAncestorRequest', (_message.Message,), dict(
+  DESCRIPTOR = _GETANCESTORREQUEST,
+  __module__ = 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.GetAncestorRequest)
+  ))
+_sym_db.RegisterMessage(GetAncestorRequest)
+
+GetAncestorResponse = _reflection.GeneratedProtocolMessageType('GetAncestorResponse', (_message.Message,), dict(
+  DESCRIPTOR = _GETANCESTORRESPONSE,
+  __module__ = 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.GetAncestorResponse)
+  ))
+_sym_db.RegisterMessage(GetAncestorResponse)
+
+GetHashByNo = _reflection.GeneratedProtocolMessageType('GetHashByNo', (_message.Message,), dict(
+  DESCRIPTOR = _GETHASHBYNO,
+  __module__ = 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.GetHashByNo)
+  ))
+_sym_db.RegisterMessage(GetHashByNo)
+
+GetHashByNoResponse = _reflection.GeneratedProtocolMessageType('GetHashByNoResponse', (_message.Message,), dict(
+  DESCRIPTOR = _GETHASHBYNORESPONSE,
+  __module__ = 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.GetHashByNoResponse)
+  ))
+_sym_db.RegisterMessage(GetHashByNoResponse)
+
+GetHashesRequest = _reflection.GeneratedProtocolMessageType('GetHashesRequest', (_message.Message,), dict(
+  DESCRIPTOR = _GETHASHESREQUEST,
+  __module__ = 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.GetHashesRequest)
+  ))
+_sym_db.RegisterMessage(GetHashesRequest)
+
+GetHashesResponse = _reflection.GeneratedProtocolMessageType('GetHashesResponse', (_message.Message,), dict(
+  DESCRIPTOR = _GETHASHESRESPONSE,
+  __module__ = 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.GetHashesResponse)
+  ))
+_sym_db.RegisterMessage(GetHashesResponse)
 
 
 DESCRIPTOR._options = None

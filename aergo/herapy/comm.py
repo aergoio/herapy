@@ -36,6 +36,14 @@ class Comm:
         rpc_account.address = address
         return self.__rpc_stub.GetState(rpc_account)
 
+    def get_account_state_proof(self, address, root, compressed):
+        if self.__rpc_stub is None:
+            return None
+        account_and_root = rpc_pb2.AccountAndRoot(Account=address,
+                                                  Root=root,
+                                                  Compressed=compressed)
+        return self.__rpc_stub.GetStateAndProof(account_and_root)
+
     def get_blockchain_status(self):
         if self.__rpc_stub is None:
             return None
@@ -107,3 +115,11 @@ class Comm:
         query.contractAddress = sc_address
         query.queryinfo = query_info
         return self.__rpc_stub.QueryContract(query)
+
+    def query_contract_state(self, sc_address, var_name, var_index, root, compressed):
+        state_query = blockchain_pb2.StateQuery(contractAddress=sc_address,
+                                                varName=var_name,
+                                                varIndex=var_index,
+                                                Root=root,
+                                                Compressed=compressed)
+        return self.__rpc_stub.QueryContractState(state_query)

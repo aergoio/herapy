@@ -18,7 +18,7 @@ from .errors.exception import CommunicationException
 from .status.commit_status import CommitStatus
 from .status.smartcontract_status import SmartcontractStatus
 from .utils.encoding import encode_address, decode_address, \
-    encode_private_key, decode_private_key, \
+    encode_private_key, decode_private_key, decode_root, \
     encode_tx_hash, decode_tx_hash
 
 
@@ -46,7 +46,8 @@ class Aergo:
 
     # TODO how about making account_state class,
     #       or how about returning account and change method name
-    def get_account(self, address=None):
+    def get_account(self, address=None, proof=False, root=b'',
+                    compressed=True):
         """
         Return the account of `address`.
         :param address:
@@ -64,19 +65,39 @@ class Aergo:
         elif type(address) is addr.Address:
             address = bytes(address)
 
-        try:
-            state = self.__comm.get_account_state(address)
-        except Exception as e:
-            raise CommunicationException(e) from e
+        if proof:
+            if isinstance(root, str) and len(root) != 0:
+                root = decode_root(root)
+            try:
+                state_proof = self.__comm.get_account_state_proof(address,
+                                                                  root,
+                                                                  compressed)
+            except Exception as e:
+                raise CommunicationException(e) from e
 
-        if self_acc:
-            self.__account.state = state
-            account = self.__account
-        else:
-            account = acc.Account("", empty=True)
-            account.state = state
-            account.address = address
+            if self_acc and len(root) == 0:
+                self.__account.state = state_proof.State
+                self.__account.state_proof = state_proof
+                account = self.__account
+            else:
+                account = acc.Account("", empty=True)
+                account.state = state_proof.State
+                account.state_proof = state_proof
+                account.address = address
+        else :
+            try:
+                state = self.__comm.get_account_state(address)
+            except Exception as e:
+                raise CommunicationException(e) from e
 
+            if self_acc:
+                self.__account.state = state
+                self.__account.state_proof = None
+                account = self.__account
+            else:
+                account = acc.Account("", empty=True)
+                account.state = state
+                account.address = address
         return account
 
     def connect(self, target):
@@ -428,3 +449,18 @@ class Aergo:
             raise CommunicationException(e) from e
 
         return result.value
+
+    def query_sc_state(self, sc_address, var_name, var_index="", root=b'',
+                       compressed=True):
+        if isinstance(sc_address, str):
+            # TODO exception handling: raise ValueError("Invalid checksum")
+            sc_address = decode_address(sc_address)
+        if isinstance(root, str) and len(root) != 0:
+            root = decode_root(root)
+        try:
+            var_proof = self.__comm.query_contract_state(sc_address, var_name,
+                                                         var_index, root,
+                                                         compressed)
+        except Exception as e:
+            raise CommunicationException(e) from e
+        return var_proof
