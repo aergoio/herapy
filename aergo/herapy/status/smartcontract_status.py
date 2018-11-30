@@ -9,3 +9,4 @@ import enum
 class SmartcontractStatus(enum.Enum):
     CREATED = "CREATED"
     SUCCESS = "SUCCESS"
+    ERROR = "ERROR"

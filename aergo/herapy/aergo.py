@@ -383,8 +383,12 @@ class Aergo:
             result = self.__comm.get_receipt(tx_hash)
             tx_result = TxResult()
             tx_result.tx_id = encode_tx_hash(tx_hash)
-            tx_result.status = SmartcontractStatus(result.status)
-            tx_result.detail = result.ret
+            try:
+                tx_result.status = SmartcontractStatus(result.status)
+                tx_result.detail = result.ret
+            except ValueError:
+                tx_result.status = SmartcontractStatus.ERROR
+                tx_result.detail = result.status
             tx_result.contract_address = encode_address(result.contractAddress)
         except Exception as e:
             raise CommunicationException(e) from e
