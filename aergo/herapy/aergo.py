@@ -14,6 +14,8 @@ from .obj import peer as pr
 from .obj import tx_hash as th
 from .obj.call_info import CallInfo
 from .obj.tx_result import TxResult
+from .obj.sc_state import SCState
+from .obj.var_proof import VarProof
 from .errors.exception import CommunicationException
 from .status.commit_status import CommitStatus
 from .status.smartcontract_status import SmartcontractStatus
@@ -84,7 +86,7 @@ class Aergo:
                 account.state = state_proof.state
                 account.state_proof = state_proof
                 account.address = address
-        else :
+        else:
             try:
                 state = self.__comm.get_account_state(address)
             except Exception as e:
@@ -462,9 +464,14 @@ class Aergo:
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
         try:
-            var_proof = self.__comm.query_contract_state(sc_address, var_name,
-                                                         var_index, root,
-                                                         compressed)
+            result = self.__comm.query_contract_state(sc_address, var_name,
+                                                      var_index, root,
+                                                      compressed)
         except Exception as e:
             raise CommunicationException(e) from e
-        return var_proof
+        var_proof = VarProof(result.varProof, var_name, var_index)
+        account = acc.Account("", empty=True)
+        account.state = result.contractProof.state
+        account.state_proof = result.contractProof
+        account.address = sc_address
+        return SCState(account, var_proof)

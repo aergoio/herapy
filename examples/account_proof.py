@@ -14,32 +14,48 @@ def run():
 
         print("------ Fund a second account to pass test in testmode -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test password", private_key=sender_private_key)
+        sender_account = aergo.new_account(password="test password",
+                                           private_key=sender_private_key)
         aergo.get_account()
         simple_tx, result = aergo.send_payload(to_address=address,
-                                               amount=10, payload=None, retry_nonce=3)
+                                               amount=10, payload=None,
+                                               retry_nonce=3)
         if result.status != herapy.CommitStatus.TX_OK:
             print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
         else:
-            print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
-
-
+            print("    > result[{0}] : {1}".format(result.tx_id,
+                                                   result.status.name))
 
         print("------ Get Account State -----------")
-        account = aergo.get_account(address=address, proof=True)
-        print("  > account state in 'aergo'")
-        print('    - Nonce:        %s' % aergo.account.nonce)
-        print('    - Balance:      %s' % aergo.account.balance)
-        print('    - Code Hash:    %s' % aergo.account.code_hash)
-        print('    - Storage Root: %s' % aergo.account.storage_root)
+        best_block_hash, best_block_height = aergo.get_blockchain_status()
+        block = aergo.get_block(best_block_hash)
+        root = block.blocks_root_hash
+        account = aergo.get_account(address=address, proof=True, root=root)
+        account2 = aergo.get_account(address=address, proof=True,
+                                     compressed=False, root=root)
 
         print("\n account.state :\n ", account.state)
         print("\n account.state_proof :\n", account.state_proof)
 
+        print("------ Verify inclusion proof -----------")
+        print("valid inclusion proof compressed: ", account.verify_inclusion(root))
+        print("valid inclusion proof: ", account2.verify_inclusion(root))
+
+        print("------ Verify Non inclusion proof -----------")
+        address = "AmMejL8z3wW2doksBzzMiWM2xTb6WtZniLkLyxwqWKiLJKK8Yvqd"
+        account = aergo.get_account(address=address, proof=True, root=root)
+        account2 = aergo.get_account(address=address, proof=True,
+                                     compressed=False, root=root)
+        print("\n account.state :\n ", account.state)
+        print("\n account.state_proof :\n", account.state_proof)
+        print("valid exclusion proof compressed: ", account.verify_exclusion(root))
+        print("valid exclusion proof: ", account2.verify_exclusion(root))
+
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
     except grpc.RpcError as e:
-        print('Create Account failed with {0}: {1}'.format(e.code(), e.details()))
+        print('Create Account failed with {0}: {1}'.format(e.code(),
+                                                           e.details()))
 
 
 if __name__ == '__main__':
