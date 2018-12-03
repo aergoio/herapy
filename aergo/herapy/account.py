@@ -13,6 +13,9 @@ from .utils import merkle_proof as mp
 
 
 class Account:
+    """ Account can be a user account with private and public key,
+    or a contract account.
+    """
     def __init__(self, password, private_key=None, empty=False):
         if empty:
             self.__private_key = None
@@ -33,6 +36,13 @@ class Account:
         self.__address = addr.Address(self.__private_key.public_key)
         self.__state = None
         self.__state_proof = None
+
+    def __str__(self):
+        if self.__state_proof:
+            return MessageToJson(self.__state_proof)
+        elif self.__state:
+            return self.state
+        return super().__str__()
 
     def sign_msg_hash(self, msg_hash):
         return self.__private_key.sign_msg(msg_hash)
@@ -171,6 +181,9 @@ class Account:
         return Account(password=password, private_key=dec_value)
 
     def verify_inclusion(self, root):
+        """ verify_inclusion verifies the contract state is included in the
+        general trie root.
+        """
         if self.__state_proof is None:
             return False
         if isinstance(root, str) and len(root) != 0:
@@ -185,6 +198,9 @@ class Account:
         return mp.verify_inclusion(ap, root, key, value)
 
     def verify_exclusion(self, root):
+        """ verify_exclusion verifies that the contract state doesnt exist
+        in the general trie root.
+        """
         if self.__state_proof is None:
             return False
         key = hashlib.sha256(self.__address).digest()

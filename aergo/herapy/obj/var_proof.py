@@ -17,6 +17,9 @@ class VarProof:
         var_id = bytes("_" + var_name + var_index, "utf-8")
         self.__trie_key = hashlib.sha256(var_id).digest()
 
+    def __str__(self):
+        return MessageToJson(self.__var_proof)
+
     @property
     def var_index(self):
         return self.__var_index

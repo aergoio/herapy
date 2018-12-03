@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from google.protobuf.json_format import MessageToJson
+
 
 class SCState:
     """ SCState holds the inclusion/exclusion proofs of a contract
@@ -11,6 +13,11 @@ class SCState:
     def __init__(self, account, var_proof):
         self.__account = account
         self.__var_proof = var_proof
+
+    def __str__(self):
+        account_str = MessageToJson(self.__account.state_proof)
+        var_str = str(self.__var_proof)
+        return account_str + var_str
 
     @property
     def account(self):
