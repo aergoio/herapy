@@ -13,7 +13,8 @@ def run():
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test password", private_key=sender_private_key)
+        sender_account = aergo.new_account(password="test password",
+                                           private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address))
         aergo.get_account()
         print("    > account state of Sender")
@@ -28,7 +29,8 @@ def run():
 
         print("------ Simple Send Tx -----------")
         simple_tx, result = aergo.send_payload(to_address=receiver_address,
-                                               amount=10, payload=None, retry_nonce=3)
+                                               amount=10, payload=None,
+                                               retry_nonce=3)
         print("  > simple TX[{}]".format(simple_tx.calculate_hash()))
         print("{}".format(herapy.utils.convert_tx_to_formatted_json(simple_tx)))
         print("      result: ", result)

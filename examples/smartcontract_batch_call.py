@@ -1,9 +1,9 @@
 import sys
 import traceback
 import time
-import json
 
 import aergo.herapy as herapy
+
 
 def run():
     print("------ Payload -----------")
@@ -36,7 +36,8 @@ abi.register(setItem, getItem)
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test", private_key=sender_private_key)
+        sender_account = aergo.new_account(password="test",
+                                           private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address))
         print(herapy.utils.convert_bytes_to_int_str(bytes(sender_account.address)))
 

@@ -36,7 +36,8 @@ def run():
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
     except grpc.RpcError as e:
-        print('Create Account failed with {0}: {1}'.format(e.code(), e.details()))
+        print('Create Account failed with {0}: {1}'.format(e.code(),
+                                                           e.details()))
 
 
 if __name__ == '__main__':

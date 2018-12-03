@@ -2,7 +2,8 @@ import grpc
 import json
 
 import aergo.herapy as herapy
-from aergo.herapy.utils.converter import convert_bytes_to_hex_str, convert_bytes_to_int_str
+from aergo.herapy.utils.converter import convert_bytes_to_hex_str, \
+                                         convert_bytes_to_int_str
 
 
 def run():
@@ -16,8 +17,10 @@ def run():
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         print("Best Block Hash      = {}".format(best_block_hash))
         print("bytes(Best Block Hash)   = {}".format(bytes(best_block_hash)))
-        print("int(Best Block Hash)     = {}".format(convert_bytes_to_int_str(bytes(best_block_hash))))
-        print("hex(Best Block Hash)     = {}".format(convert_bytes_to_hex_str(bytes(best_block_hash))))
+        print("int(Best Block Hash)     = {}"
+              .format(convert_bytes_to_int_str(bytes(best_block_hash))))
+        print("hex(Best Block Hash)     = {}"
+              .format(convert_bytes_to_hex_str(bytes(best_block_hash))))
         print("Best Block Height    = {}".format(best_block_height))
 
         print("------ Get Block Status -----------")
@@ -60,7 +63,8 @@ def run():
         aergo.disconnect()
     except grpc.RpcError as e:
         # TODO exception handling using AERGO
-        print('Get Blockchain Status failed with {0}: {1}'.format(e.code(), e.details()))
+        print('Get Blockchain Status failed with {0}: {1}'.format(e.code(),
+                                                                  e.details()))
 
 
 if __name__ == '__main__':

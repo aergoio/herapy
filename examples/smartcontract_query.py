@@ -46,7 +46,8 @@ def run():
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test", private_key=sender_private_key)
+        sender_account = aergo.new_account(password="test",
+                                           private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address))
         print(herapy.utils.convert_bytes_to_int_str(bytes(sender_account.address)))
 
@@ -90,17 +91,31 @@ def run():
         block = aergo.get_block(best_block_hash)
         root = block.blocks_root_hash
         result = aergo.query_sc_state(sc_address, "a", root=root)
-        print("valid inclusion proof compressed:", result.verify_inclusion(root))
+        print(result)
+        print("valid inclusion proof compressed:",
+              result.verify_inclusion(root))
         result = aergo.query_sc_state(sc_address, "a", root=root,
                                       compressed=False)
+        print(result)
         print("valid inclusion proof:", result.verify_inclusion(root))
 
-        result = aergo.query_sc_state(sc_address, "not included var", root=root)
-        print("valid exclusion proof compressed:", result.verify_exclusion(root))
-        result = aergo.query_sc_state(sc_address, "not included var", root=root,
-                                      compressed=False)
+        result = aergo.query_sc_state(sc_address, "not included var",
+                                      root=root)
+        print("valid exclusion proof compressed:",
+              result.verify_exclusion(root))
+        result = aergo.query_sc_state(sc_address, "not included var",
+                                      root=root, compressed=False)
         print("valid exclusion proof :", result.verify_exclusion(root))
 
+
+        address = "AmMejL8z3wW2doksBzzMiWM2xTb6WtZniLkLyxwqWKiLJKK8Yvqd"
+        result = aergo.query_sc_state(address, "a", root=root)
+        print("valid exclusion proof unknown address compressed:",
+              result.verify_exclusion(root))
+        result = aergo.query_sc_state(address, "a", root=root,
+                                      compressed=False)
+        print("valid exclusion proof unknown address:",
+              result.verify_exclusion(root))
 
 
         print("------ Disconnect AERGO -----------")

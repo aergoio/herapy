@@ -12,7 +12,7 @@ def run():
 
         address = "AmPwBMCcYbqyetVmAupjtzR8GgnTAVduZAVE9SnJPzjhWEmhjSef"
 
-        print("------ Fund a second account to pass test in testmode -----------")
+        print("------ Fund a second account to pass test in testmode -------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
         sender_account = aergo.new_account(password="test password",
                                            private_key=sender_private_key)
@@ -34,11 +34,12 @@ def run():
         account2 = aergo.get_account(address=address, proof=True,
                                      compressed=False, root=root)
 
-        print("\n account.state :\n ", account.state)
-        print("\n account.state_proof :\n", account.state_proof)
+        print(account)
+        print(account2)
 
         print("------ Verify inclusion proof -----------")
-        print("valid inclusion proof compressed: ", account.verify_inclusion(root))
+        print("valid inclusion proof compressed: ",
+              account.verify_inclusion(root))
         print("valid inclusion proof: ", account2.verify_inclusion(root))
 
         print("------ Verify Non inclusion proof -----------")
@@ -46,9 +47,10 @@ def run():
         account = aergo.get_account(address=address, proof=True, root=root)
         account2 = aergo.get_account(address=address, proof=True,
                                      compressed=False, root=root)
-        print("\n account.state :\n ", account.state)
-        print("\n account.state_proof :\n", account.state_proof)
-        print("valid exclusion proof compressed: ", account.verify_exclusion(root))
+        print(account)
+        print(account2)
+        print("valid exclusion proof compressed: ",
+              account.verify_exclusion(root))
         print("valid exclusion proof: ", account2.verify_exclusion(root))
 
         print("------ Disconnect AERGO -----------")

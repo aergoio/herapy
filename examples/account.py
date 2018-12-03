@@ -43,6 +43,7 @@ def run():
         print('    - Balance:      %s' % aergo.account.balance)
         print('    - Code Hash:    %s' % aergo.account.code_hash)
         print('    - Storage Root: %s' % aergo.account.storage_root)
+        print(account)
 
         print("------ Get Configured Account -----------")
         conf_keys_str = """
