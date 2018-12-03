@@ -9,7 +9,7 @@ from .obj import private_key as pk
 from .obj import address as addr
 
 from .utils.encoding import decode_address, decode_root
-from .utils.byte_tools import bit_is_set
+from .utils import merkle_proof as mp
 
 
 class Account:
@@ -179,85 +179,27 @@ class Account:
             root = decode_root(root)
         key = hashlib.sha256(self.__address).digest()
         value = hashlib.sha256(self.__state.SerializeToString()).digest()
+        ap = self.__state_proof.auditPath
         if self.__state_proof.bitmap:
-            return self._verify_inclusion_c(root, key, value)
-        return self._verify_inclusion(root, key, value)
-
-    def _verify_inclusion(self, root, key, value):
-        leaf_hash = hashlib.sha256(key + value +
-                                    bytes([256-len(self.__state_proof.auditPath)])).digest()
-        return root == self._verify_proof(self.__state_proof.auditPath, 0, key, leaf_hash)
-
-    def _verify_inclusion_c(self, root, key, value):
-        leaf_hash = hashlib.sha256(key + value +
-                                    bytes([256-self.__state_proof.height])).digest()
-        return root == self._verify_proof_c(self.__state_proof.bitmap, key, leaf_hash,
-                                            self.__state_proof.auditPath,
-                                            self.__state_proof.height, 0, 0)
-
-    def _verify_proof(self, ap, key_index, key, leaf_hash):
-        if key_index == len(ap):
-            return leaf_hash
-        if bit_is_set(key, key_index):
-            return hashlib.sha256(ap[len(ap)-key_index-1] +
-                                  self._verify_proof(ap, key_index+1, key, leaf_hash)).digest()
-        return hashlib.sha256(self._verify_proof(ap, key_index+1, key, leaf_hash) +
-                              ap[len(ap)-key_index-1]).digest()
-
-    def _verify_proof_c(self, bitmap, key, leaf_hash, ap, length, key_index, ap_index):
-        if key_index == length:
-            return leaf_hash
-        if bit_is_set(key, key_index):
-            if bit_is_set(bitmap, length-key_index-1):
-                return hashlib.sha256(ap[len(ap)-ap_index-1] +
-                                      self._verify_proof_c(bitmap, key, leaf_hash, ap, length,
-                                                          key_index+1, ap_index+1)).digest()
-            return hashlib.sha256(bytes([0]) +
-                                  self._verify_proof_c(bitmap, key, leaf_hash, ap, length,
-                                                      key_index+1, ap_index)).digest()
-        if bit_is_set(bitmap, length-key_index-1):
-            return hashlib.sha256(self._verify_proof_c(bitmap, key, leaf_hash, ap, length,
-                                                      key_index+1, ap_index+1) +
-                                  ap[len(ap)-ap_index-1]).digest()
-        return hashlib.sha256(self._verify_proof_c(bitmap, key, leaf_hash, ap, length,
-                                                  key_index+1, ap_index) +
-                              bytes([0])).digest()
+            height = self.__state_proof.height
+            bitmap = self.__state_proof.bitmap
+            return mp.verify_inclusion_c(ap, height, bitmap, root, key, value)
+        return mp.verify_inclusion(ap, root, key, value)
 
     def verify_exclusion(self, root):
         if self.__state_proof is None:
             return False
-        if isinstance(root, str) and len(root) != 0:
-            root = decode_root(root)
         key = hashlib.sha256(self.__address).digest()
-        bitmap = self.__state_proof.bitmap
-        auditPath = self.__state_proof.auditPath
-        length = self.__state_proof.height
-        proofKey = self.__state_proof.proofKey
-        proofVal = self.__state_proof.proofVal
-
-        if not proofKey:
-            # return true if a DefaultLeaf in the key path is included in the trie
-            if bitmap:
-                return root == self._verify_proof_c(bitmap, key, bytes([0]), auditPath,
-                                                    length, 0, 0)
-            else:
-                return root == self._verify_proof(auditPath, 0, key, bytes([0]))
-            # return bytes.Equal(s.Root, s.verifyInclusion(ap, 0, key, DefaultLeaf))
-        # Check if another kv leaf is on the key path in 2 steps
-        # 1- Check the proof leaf exists
-        if bitmap:
-            if not self._verify_inclusion_c(root, proofKey, proofVal):
-                # the proof leaf is not included in the trie
-                return False
-        else:
-            if not self._verify_inclusion(root, proofKey, proofVal):
-                # the proof leaf is not included in the trie
-                return False
-
-        # 2- Check the proof leaf is on the key path
-        for b in range(len(auditPath)):
-            if bit_is_set(key, b) != bit_is_set(proofKey, b):
-                # the proofKey leaf node is not on the path of the key
-                return False
-        # return true because we verified another leaf is on the key path
-        return True
+        if self.__state_proof.bitmap:
+            return mp.verify_exclusion_c(root,
+                                         self.__state_proof.auditPath,
+                                         self.__state_proof.height,
+                                         self.__state_proof.bitmap,
+                                         key,
+                                         self.__state_proof.proofKey,
+                                         self.__state_proof.proofVal)
+        return mp.verify_exclusion(root,
+                                   self.__state_proof.auditPath,
+                                   key,
+                                   self.__state_proof.proofKey,
+                                   self.__state_proof.proofVal)
