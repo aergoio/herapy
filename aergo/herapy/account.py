@@ -76,9 +76,7 @@ class Account:
 
     @property
     def state_proof(self):
-        if self.__state_proof is None:
-            return None
-        return MessageToJson(self.__state_proof)
+        return self.__state_proof
 
     @state_proof.setter
     def state_proof(self, v):

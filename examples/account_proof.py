@@ -38,7 +38,7 @@ def run():
         print("\n account.state_proof :\n", account.state_proof)
 
         print("------ Verify inclusion proof -----------")
-        print("valid inclusion proof: ", account.verify_inclusion(root))
+        print("valid inclusion proof compressed: ", account.verify_inclusion(root))
         print("valid inclusion proof: ", account2.verify_inclusion(root))
 
         print("------ Verify Non inclusion proof -----------")
@@ -48,7 +48,7 @@ def run():
                                      compressed=False, root=root)
         print("\n account.state :\n ", account.state)
         print("\n account.state_proof :\n", account.state_proof)
-        print("valid exclusion proof: ", account.verify_exclusion(root))
+        print("valid exclusion proof compressed: ", account.verify_exclusion(root))
         print("valid exclusion proof: ", account2.verify_exclusion(root))
 
         print("------ Disconnect AERGO -----------")

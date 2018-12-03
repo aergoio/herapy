@@ -86,9 +86,20 @@ def run():
         print(result)
 
         print("------ Query SC State Var with Proof -----------")
-        result = aergo.query_sc_state(sc_address, "a")
-        print(result)
-        print(type(result))
+        best_block_hash, best_block_height = aergo.get_blockchain_status()
+        block = aergo.get_block(best_block_hash)
+        root = block.blocks_root_hash
+        result = aergo.query_sc_state(sc_address, "a", root=root)
+        print("valid inclusion proof compressed:", result.verify_inclusion(root))
+        result = aergo.query_sc_state(sc_address, "a", root=root,
+                                      compressed=False)
+        print("valid inclusion proof:", result.verify_inclusion(root))
+
+        result = aergo.query_sc_state(sc_address, "not included var", root=root)
+        print("valid exclusion proof compressed:", result.verify_exclusion(root))
+        result = aergo.query_sc_state(sc_address, "not included var", root=root,
+                                      compressed=False)
+        print("valid exclusion proof :", result.verify_exclusion(root))
 
 
 
