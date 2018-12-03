@@ -104,7 +104,8 @@ class Aergo:
 
     def connect(self, target):
         """
-        Connect to the gRPC server running on port `target` e.g. target="localhost:7845".
+        Connect to the gRPC server running on port `target` e.g.
+        target="localhost:7845".
         :param target:
         :return:
         """
@@ -238,7 +239,8 @@ class Aergo:
 
     def lock_account(self, address, passphrase):
         """
-        Locks the account with address `address` with the passphrase `passphrase`.
+        Locks the account with address `address` with the passphrase
+        `passphrase`.
         :param address:
         :param passphrase:
         :return:
@@ -252,20 +254,23 @@ class Aergo:
 
     def unlock_account(self, address, passphrase):
         """
-        Unlocks the account with address `address` with the passphrase `passphrase`.
+        Unlocks the account with address `address` with the passphrase
+        `passphrase`.
         :param address:
         :param passphrase:
         :return:
         """
         try:
-            result = self.__comm.unlock_account(address=address, passphrase=passphrase)
+            result = self.__comm.unlock_account(address=address,
+                                                passphrase=passphrase)
         except Exception as e:
             raise CommunicationException(e) from e
 
         return result
 
     @staticmethod
-    def _generate_tx(account, to_address, nonce, amount, fee_limit, fee_price, payload):
+    def _generate_tx(account, to_address, nonce, amount, fee_limit, fee_price,
+                     payload):
         tx = transaction.Transaction(from_address=bytes(account.address),
                                      to_address=to_address,
                                      nonce=nonce, amount=amount,
@@ -458,6 +463,9 @@ class Aergo:
 
     def query_sc_state(self, sc_address, var_name, var_index="", root=b'',
                        compressed=True):
+        """ query_sc_state returns a SCState object containing the contract
+        state and variable state with their respective merkle proofs.
+        """
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = decode_address(sc_address)

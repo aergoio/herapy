@@ -7,6 +7,9 @@ from aergo.herapy.utils import merkle_proof as mp
 
 
 class VarProof:
+    """ VarProof holds the inclusion/exclusion proof of a variable state
+    inside a contract state trie
+    """
     def __init__(self, var_proof, var_name, var_index=""):
         self.__var_proof = var_proof
         self.__var_name = var_name
@@ -35,11 +38,15 @@ class VarProof:
         self.__var_proof = v
 
     def verify_inclusion(self, root):
+        """ verify_inclusion verifies the contract state is included in the
+        contract trie root.
+        """
         if self.__var_proof is None:
             return False
         key = self.__trie_key
         value = hashlib.sha256(self.__var_proof.value).digest()
         ap = self.__var_proof.auditPath
+        # if bitmap exists, then the merkle proof is compressed
         if self.__var_proof.bitmap:
             height = self.__var_proof.height
             bitmap = self.__var_proof.bitmap
@@ -47,8 +54,12 @@ class VarProof:
         return mp.verify_inclusion(ap, root, key, value)
 
     def verify_exclusion(self, root):
+        """ verify_exclusion verifies that the contract variable state
+        doesnt exist in the contract trie root.
+        """
         if self.__var_proof is None:
             return False
+        # if bitmap exists, then the merkle proof is compressed
         if self.__var_proof.bitmap:
             return mp.verify_exclusion_c(root,
                                          self.__var_proof.auditPath,

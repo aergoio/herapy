@@ -9,16 +9,25 @@ def bit_is_set(bits, i):
 
 
 def verify_inclusion(ap, root, key, value):
+    """ verify_inclusion verifies the merkle proof 'ap' (audit path) that
+    the key/value pair in included in the trie with root 'root'.
+    """
     leaf_hash = hashlib.sha256(key + value + bytes([256-len(ap)])).digest()
     return root == verify_proof(ap, 0, key, leaf_hash)
 
 
 def verify_inclusion_c(ap, height, bitmap, root, key, value):
+    """ verify_inclusion verifies the compressed merkle proof 'ap' (audit path)
+    that the key/value pair in included in the trie with root 'root'.
+    """
     leaf_hash = hashlib.sha256(key + value + bytes([256-height])).digest()
     return root == verify_proof_c(bitmap, key, leaf_hash, ap, height, 0, 0)
 
 
 def verify_proof(ap, key_index, key, leaf_hash):
+    """ verify_proof recursively hashes the result with the proof nodes in the
+    audit path 'ap'
+    """
     if key_index == len(ap):
         return leaf_hash
 
@@ -30,6 +39,9 @@ def verify_proof(ap, key_index, key, leaf_hash):
 
 
 def verify_proof_c(bitmap, key, leaf_hash, ap, length, key_index, ap_index):
+    """ verify_proof_c recursively hashes the result with the proof nodes in
+    the compressed audit path 'ap'
+    """
     if key_index == length:
         return leaf_hash
 
@@ -52,6 +64,10 @@ def verify_proof_c(bitmap, key, leaf_hash, ap, length, key_index, ap_index):
 
 
 def verify_exclusion(root, ap, key, proofKey, proofVal):
+    """ verify_exclusion verifies the merkle proof that a default
+    node (bytes([0]) is included on the path of the 'key', or that the
+    proofKey/proofVal key pair is included on the path of the 'key'
+    """
     if isinstance(root, str) and len(root) != 0:
         root = decode_root(root)
 
@@ -75,6 +91,10 @@ def verify_exclusion(root, ap, key, proofKey, proofVal):
 
 
 def verify_exclusion_c(root, ap, length, bitmap, key, proofKey, proofVal):
+    """ verify_exclusion_c verifies the compressed merkle proof that a default
+    node (bytes([0]) is included on the path of the 'key', or that the
+    proofKey/proofVal key pair is included on the path of the 'key'
+    """
     if isinstance(root, str) and len(root) != 0:
         root = decode_root(root)
 
@@ -86,7 +106,7 @@ def verify_exclusion_c(root, ap, length, bitmap, key, proofKey, proofVal):
     # Check if another kv leaf is on the key path in 2 steps
     # 1- Check the proof leaf exists
     if not verify_inclusion_c(ap, length, bitmap, root, proofKey, proofVal):
-            # the proof leaf is not included in the trie
+        # the proof leaf is not included in the trie
         return False
 
     # 2- Check the proof leaf is on the key path
