@@ -34,7 +34,7 @@ class VarProof:
 
     @property
     def var_proof(self):
-        return MessageToJson(self.__var_proof)
+        return self.__var_proof
 
     @var_proof.setter
     def var_proof(self, v):

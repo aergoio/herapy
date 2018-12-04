@@ -92,6 +92,7 @@ def run():
         root = block.blocks_root_hash
         result = aergo.query_sc_state(sc_address, "a", root=root)
         print(result)
+        print(result.var_proof.var_proof.value)
         print("valid inclusion proof compressed:",
               result.verify_inclusion(root))
         result = aergo.query_sc_state(sc_address, "a", root=root,
