@@ -48,11 +48,13 @@ class Aergo:
 
     # TODO how about making account_state class,
     #       or how about returning account and change method name
-    def get_account(self, address=None, proof=False, root=b'',
-                    compressed=True):
+    def get_account(self, address=None, proof=False, root=b'', compressed=True):
         """
-        Return the account of `address`.
+        Return account information
         :param address:
+        :param proof:
+        :param root:
+        :param compressed:
         :return:
         """
         if self.__comm is None:

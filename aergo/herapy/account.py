@@ -5,8 +5,9 @@ import hashlib
 from google.protobuf.json_format import MessageToJson
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-from .obj import private_key as pk
 from .obj import address as addr
+from .obj import aer
+from .obj import private_key as pk
 
 from .utils.encoding import decode_address, decode_root
 from .utils import merkle_proof as mp
@@ -107,8 +108,8 @@ class Account:
     @property
     def balance(self):
         if self.__state is None:
-            return -1
-        return int.from_bytes(self.__state.balance, 'big')
+            return aer.Aer()
+        return aer.Aer(int.from_bytes(self.__state.balance, 'big'))
 
     @property
     def code_hash(self):

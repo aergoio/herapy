@@ -5,8 +5,9 @@
 import hashlib
 import base58
 
-from ..grpc import blockchain_pb2
 from . import tx_hash as th
+from ..obj import aer
+from ..grpc import blockchain_pb2
 
 
 class Transaction:
@@ -36,7 +37,7 @@ class Transaction:
         self.__from_address = from_address
         self.__to_address = to_address
         self.__nonce = nonce
-        self.__amount = amount
+        self.__amount = aer.Aer(amount)
         self.__payload = payload
         self.__fee_price = fee_price
         self.__fee_limit = fee_limit
@@ -54,7 +55,8 @@ class Transaction:
         if self.__to_address is not None:
             m.update(self.__to_address)
         # amount
-        b = self.__amount.to_bytes(8, byteorder='big')
+        #b = self.__amount.to_bytes(8, byteorder='big')
+        b = bytes(self.__amount)
         m.update(b)
         # payload
         if self.__payload is None:
@@ -106,7 +108,7 @@ class Transaction:
 
     @amount.setter
     def amount(self, v):
-        self.__amount = v
+        self.__amount = aer.Aer(v)
 
     @property
     def payload(self):
