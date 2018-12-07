@@ -1,4 +1,5 @@
-import grpc
+import sys
+import traceback
 
 import aergo.herapy as herapy
 
@@ -35,9 +36,8 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except grpc.RpcError as e:
-        print('Create Account failed with {0}: {1}'.format(e.code(),
-                                                           e.details()))
+    except Exception as e:
+        traceback.print_exception(*sys.exc_info())
 
 
 if __name__ == '__main__':

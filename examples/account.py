@@ -1,4 +1,5 @@
-import grpc
+import sys
+import traceback
 
 import aergo.herapy as herapy
 
@@ -14,7 +15,10 @@ def run():
         accounts = aergo.get_node_accounts(skip_state=True)
         for i, account in enumerate(accounts):
             print("  > account state : {}".format(account))
-            print("    - balance        = {}".format(account.balance))
+            print("    - balance")
+            print("        + aergo      = {}".format(account.balance.aergo))
+            print("        + gaer       = {}".format(account.balance.gaer))
+            print("        + aer        = {}".format(account.balance.aer))
             print("    - nonce          = {}".format(account.nonce))
             print("    - code hash      = {}".format(account.code_hash))
             print("    - storage root   = {}".format(account.storage_root))
@@ -23,7 +27,10 @@ def run():
         accounts = aergo.get_node_accounts()
         for i, account in enumerate(accounts):
             print("  > account state : {}".format(account))
-            print("    - balance        = {}".format(account.balance))
+            print("    - balance")
+            print("        + aergo      = {}".format(account.balance.aergo))
+            print("        + gaer       = {}".format(account.balance.gaer))
+            print("        + aer        = {}".format(account.balance.aer))
             print("    - nonce          = {}".format(account.nonce))
             print("    - code hash      = {}".format(account.code_hash))
             print("    - storage root   = {}".format(account.storage_root))
@@ -40,7 +47,10 @@ def run():
         aergo.get_account()
         print("  > account state in 'aergo'")
         print('    - Nonce:        %s' % aergo.account.nonce)
-        print('    - Balance:      %s' % aergo.account.balance)
+        print("    - balance")
+        print("        + aergo      = {}".format(aergo.account.balance.aergo))
+        print("        + gaer       = {}".format(aergo.account.balance.gaer))
+        print("        + aer        = {}".format(aergo.account.balance.aer))
         print('    - Code Hash:    %s' % aergo.account.code_hash)
         print('    - Storage Root: %s' % aergo.account.storage_root)
         print(account)
@@ -66,14 +76,17 @@ def run():
             a = aergo.get_account(k[2])
             print("    > account state : {}".format(a))
             print("      - balance        = {}".format(a.balance))
+            print("        + aergo          = {}".format(aergo.account.balance.aergo))
+            print("        + gaer           = {}".format(aergo.account.balance.gaer))
+            print("        + aer            = {}".format(aergo.account.balance.aer))
             print("      - nonce          = {}".format(a.nonce))
             print("      - code hash      = {}".format(a.code_hash))
             print("      - storage root   = {}".format(a.storage_root))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except grpc.RpcError as e:
-        print('Create Account failed with {0}: {1}'.format(e.code(), e.details()))
+    except Exception as e:
+        traceback.print_exception(*sys.exc_info())
 
 
 if __name__ == '__main__':

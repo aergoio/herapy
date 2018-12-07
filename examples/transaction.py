@@ -1,4 +1,5 @@
-import grpc
+import sys
+import traceback
 import time
 
 import aergo.herapy as herapy
@@ -46,6 +47,13 @@ def run():
         tx_result = aergo.get_tx_result(simple_tx.tx_hash)
         print("      result: ", tx_result)
 
+        aergo.get_account()
+        print("    > account state of Sender")
+        print("      - balance        = {}".format(sender_account.balance))
+        print("      - nonce          = {}".format(sender_account.nonce))
+        print("      - code hash      = {}".format(sender_account.code_hash))
+        print("      - storage root   = {}".format(sender_account.storage_root))
+
         print("------ Create Tx -----------")
         tx = herapy.Transaction(from_address=bytes(sender_account.address),
                                 nonce=sender_account.nonce + 1,
@@ -82,8 +90,8 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except grpc.RpcError as e:
-        print('Get Blockchain Status failed with {0}: {1}'.format(e.code(), e.details()))
+    except Exception as e:
+        traceback.print_exception(*sys.exc_info())
 
 
 if __name__ == '__main__':
