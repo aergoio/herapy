@@ -3,7 +3,6 @@ import grpc
 
 from . import account_pb2 as account__pb2
 from . import blockchain_pb2 as blockchain__pb2
-from . import metric_pb2 as metric__pb2
 from . import rpc_pb2 as rpc__pb2
 
 
@@ -20,13 +19,8 @@ class AergoRPCServiceStub(object):
     """
     self.NodeState = channel.unary_unary(
         '/types.AergoRPCService/NodeState',
-        request_serializer=rpc__pb2.NodeReq.SerializeToString,
+        request_serializer=rpc__pb2.SingleBytes.SerializeToString,
         response_deserializer=rpc__pb2.SingleBytes.FromString,
-        )
-    self.Metric = channel.unary_unary(
-        '/types.AergoRPCService/Metric',
-        request_serializer=metric__pb2.MetricsRequest.SerializeToString,
-        response_deserializer=metric__pb2.Metrics.FromString,
         )
     self.Blockchain = channel.unary_unary(
         '/types.AergoRPCService/Blockchain',
@@ -161,13 +155,6 @@ class AergoRPCServiceServicer(object):
   """
 
   def NodeState(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def Metric(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -363,13 +350,8 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
       'NodeState': grpc.unary_unary_rpc_method_handler(
           servicer.NodeState,
-          request_deserializer=rpc__pb2.NodeReq.FromString,
+          request_deserializer=rpc__pb2.SingleBytes.FromString,
           response_serializer=rpc__pb2.SingleBytes.SerializeToString,
-      ),
-      'Metric': grpc.unary_unary_rpc_method_handler(
-          servicer.Metric,
-          request_deserializer=metric__pb2.MetricsRequest.FromString,
-          response_serializer=metric__pb2.Metrics.SerializeToString,
       ),
       'Blockchain': grpc.unary_unary_rpc_method_handler(
           servicer.Blockchain,
