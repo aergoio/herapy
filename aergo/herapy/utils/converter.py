@@ -19,11 +19,11 @@ def convert_tx_to_grpc_tx(tx):
     if tx.to_address is not None:
         grpc_tx.body.recipient = tx.to_address
     if tx.amount is not None:
-        grpc_tx.body.amount = tx.amount
+        grpc_tx.body.amount = tx.amount.to_bytes(8, 'big')
     if tx.payload is not None:
         grpc_tx.body.payload = tx.payload
     grpc_tx.body.limit = tx.fee_limit
-    grpc_tx.body.price = tx.fee_price
+    grpc_tx.body.price = tx.fee_price.to_bytes(8, 'big')
     grpc_tx.body.type = tx.tx_type
     if tx.sign is not None:
         grpc_tx.body.sign = tx.sign

@@ -54,7 +54,7 @@ class Transaction:
         if self.__to_address is not None:
             m.update(self.__to_address)
         # amount
-        b = self.__amount.to_bytes(8, byteorder='little')
+        b = self.__amount.to_bytes(8, byteorder='big')
         m.update(b)
         # payload
         if self.__payload is None:
@@ -65,7 +65,7 @@ class Transaction:
         b = self.__fee_limit.to_bytes(8, byteorder='little')
         m.update(b)
         # fee: price
-        b = self.__fee_price.to_bytes(8, byteorder='little')
+        b = self.__fee_price.to_bytes(8, byteorder='big')
         m.update(b)
         # type
         b = self.__tx_type.to_bytes(4, byteorder='little')

@@ -108,7 +108,7 @@ class Account:
     def balance(self):
         if self.__state is None:
             return -1
-        return self.__state.balance
+        return int.from_bytes(self.__state.balance, 'big')
 
     @property
     def code_hash(self):

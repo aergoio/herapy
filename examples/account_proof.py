@@ -16,7 +16,6 @@ def run():
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
         sender_account = aergo.new_account(password="test password",
                                            private_key=sender_private_key)
-        aergo.get_account()
         simple_tx, result = aergo.send_payload(to_address=address,
                                                amount=10, payload=None,
                                                retry_nonce=3)
@@ -35,7 +34,9 @@ def run():
                                      compressed=False, root=root)
 
         print(account)
+        print(int.from_bytes(account.state_proof.state.balance, 'big'))
         print(account2)
+        print(int.from_bytes(account2.state_proof.state.balance, 'big'))
 
         print("------ Verify inclusion proof -----------")
         print("valid inclusion proof compressed: ",
