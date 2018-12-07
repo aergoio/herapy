@@ -21,7 +21,7 @@ class Aer:
     def _parsing_value(v):
         try:
             decimal.Decimal(v)
-            v = v + ' aer'
+            v = str(v) + ' aer'
         except decimal.InvalidOperation:
             v = v.strip().lower()
 
@@ -110,8 +110,11 @@ class Aer:
     def __str__(self):
         return self.aer
 
+    def __int__(self):
+        return int(self.dec)
+
     def __bytes__(self):
-        return bytes(str(self.dec ** decimal.Decimal(1) / decimal.Decimal(7)), encoding='utf-8')
+        return int(self).to_bytes(8, 'big')
 
     def __add__(self, other):
         with decimal.localcontext():

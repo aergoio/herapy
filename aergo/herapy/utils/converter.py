@@ -19,7 +19,7 @@ def convert_tx_to_grpc_tx(tx):
     if tx.to_address is not None:
         grpc_tx.body.recipient = tx.to_address
     if tx.amount is not None:
-        grpc_tx.body.amount = tx.amount.to_bytes(8, 'big')
+        grpc_tx.body.amount = bytes(tx.amount)
     if tx.payload is not None:
         grpc_tx.body.payload = tx.payload
     grpc_tx.body.limit = tx.fee_limit
@@ -41,7 +41,7 @@ def convert_tx_to_json(tx):
     body = {
         'nonce': tx.nonce,
         'from': encode_address(tx.from_address),
-        'amount': tx.amount,
+        'amount': str(tx.amount),
         'fee_limit': tx.fee_limit,
         'fee_price': tx.fee_price,
         'tx_type': tx.tx_type,
