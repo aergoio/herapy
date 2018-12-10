@@ -3,13 +3,11 @@
 """Common utility module for converting types."""
 
 import json
-import base58
 import toml
 import socket
 
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
-from .encoding import encode_address, encode_tx_hash
 
 
 def convert_toml_to_aergo_conf(v):
@@ -51,11 +49,19 @@ def convert_tx_to_grpc_tx(tx):
     return grpc_tx
 
 
+def tx_to_grpc_tx(v):
+    return convert_tx_to_grpc_tx(v)
+
+
 def convert_tx_to_json(tx):
     if tx is None:
         return None
 
     return tx.json()
+
+
+def tx_to_json(v):
+    return convert_tx_to_json(v)
 
 
 def convert_tx_to_formatted_json(tx):
@@ -65,8 +71,16 @@ def convert_tx_to_formatted_json(tx):
     return json.dumps(convert_tx_to_json(tx), indent=2)
 
 
+def tx_to_formatted_json(v):
+    return convert_tx_to_formatted_json(v)
+
+
 def convert_bytes_to_int_str(v):
     return ''.join('{:d} '.format(x) for x in v)
+
+
+def bytes_to_int_str(v):
+    return convert_bytes_to_int_str(v)
 
 
 def convert_bytes_to_hex_str(v):
@@ -93,7 +107,8 @@ def convert_luajson_to_json(v):
     return json.loads(v)
 """
 
-def bigint_to_bytes(number):
+
+def convert_bigint_to_bytes(number):
     q, r = divmod(len(bin(number))-2, 8)
     bytes_to_fit_number = q if r == 0 else q + 1
     return number.to_bytes(bytes_to_fit_number, 'little')
