@@ -92,3 +92,8 @@ def convert_luajson_to_json(v):
     v = v[1:len(v)-1]
     return json.loads(v)
 """
+
+def bigint_to_bytes(number):
+    q, r = divmod(len(bin(number))-2, 8)
+    bytes_to_fit_number = q if r == 0 else q + 1
+    return number.to_bytes(bytes_to_fit_number, 'little')

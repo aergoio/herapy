@@ -47,7 +47,7 @@ def run():
 
         time.sleep(3)
 
-        print("------ Check deployment of SC -----------")
+        print("------ Check TX status -----------")
         print("  > TX: {}".format(simple_tx.tx_hash))
         tx_result = aergo.get_tx_result(simple_tx.tx_hash)
         print("      result: ", tx_result)
