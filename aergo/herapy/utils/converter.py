@@ -23,7 +23,7 @@ def convert_tx_to_grpc_tx(tx):
     if tx.payload is not None:
         grpc_tx.body.payload = tx.payload
     grpc_tx.body.limit = tx.fee_limit
-    grpc_tx.body.price = tx.fee_price.to_bytes(8, 'big')
+    grpc_tx.body.price = bigint_to_bytes(tx.fee_price)
     grpc_tx.body.type = tx.tx_type
     if tx.sign is not None:
         grpc_tx.body.sign = tx.sign
@@ -78,3 +78,8 @@ def convert_luajson_to_json(v):
     v = v.decode('utf-8').replace('\\', '')
     v = v[1:len(v)-1]
     return json.loads(v)
+
+def bigint_to_bytes(number):
+    q, r = divmod(len(bin(number))-2, 8)
+    bytes_to_fit_number = q if r == 0 else q + 1
+    return number.to_bytes(bytes_to_fit_number, 'big')

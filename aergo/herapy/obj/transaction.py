@@ -8,6 +8,7 @@ import base58
 from . import tx_hash as th
 from ..obj import aer
 from ..grpc import blockchain_pb2
+from ..utils.converter import bigint_to_bytes
 
 
 class Transaction:
@@ -55,7 +56,6 @@ class Transaction:
         if self.__to_address is not None:
             m.update(self.__to_address)
         # amount
-        #b = self.__amount.to_bytes(8, byteorder='big')
         b = bytes(self.__amount)
         m.update(b)
         # payload
@@ -67,7 +67,7 @@ class Transaction:
         b = self.__fee_limit.to_bytes(8, byteorder='little')
         m.update(b)
         # fee: price
-        b = self.__fee_price.to_bytes(8, byteorder='big')
+        b = bigint_to_bytes(self.__fee_price)
         m.update(b)
         # type
         b = self.__tx_type.to_bytes(4, byteorder='little')

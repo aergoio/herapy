@@ -3,6 +3,7 @@
 import decimal
 
 from ..errors.conversion_exception import ConversionException
+from ..utils.converter import bigint_to_bytes
 
 UNITS_SIZE = {
     'aergo': 18,
@@ -114,7 +115,7 @@ class Aer:
         return int(self.dec)
 
     def __bytes__(self):
-        return int(self).to_bytes(8, 'big')
+        return bigint_to_bytes(int(self))
 
     def __add__(self, other):
         with decimal.localcontext():
