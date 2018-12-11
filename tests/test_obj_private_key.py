@@ -3,7 +3,7 @@ import pytest
 from ecdsa.ecdsa import Public_key
 
 from aergo.herapy.obj.private_key import PrivateKey
-from aergo.herapy.utils.encoding import encode_private_key, decode_private_key
+from aergo.herapy.utils.encoding import decode_private_key
 
 PK_STR = "6jEuQyF6RZ9xpk7s99LzHoY2X7MeT8V88HCrsewwmynbKXtwUxZ"
 
