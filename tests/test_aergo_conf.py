@@ -54,6 +54,20 @@ endpoint = ""
 """
 
 
+def test_default():
+    aergo_conf = herapy.AergoConfig()
+    generate_toml = herapy.utils.convert_aergo_conf_to_toml(aergo_conf)
+    assert DEFAULT_AERGO_CONFIG == generate_toml
+    with pytest.raises(KeyError):
+        aergo_conf.rpc_nstls
+    with pytest.raises(KeyError):
+        aergo_conf.rpc_nscert
+    with pytest.raises(KeyError):
+        aergo_conf.rpc_nsallowcors
+    with pytest.raises(KeyError):
+        aergo_conf.mempool_verifiers
+
+
 TEST_AERGO_CONFIG = """
 # aergo TOML Configuration File (https://github.com/toml-lang/toml)
 # base configurations
@@ -104,18 +118,6 @@ bpids = [
 
 
 def test_success():
-    aergo_conf = herapy.AergoConfig()
-    generate_toml = herapy.utils.convert_aergo_conf_to_toml(aergo_conf)
-    assert DEFAULT_AERGO_CONFIG == generate_toml
-    with pytest.raises(KeyError):
-        aergo_conf.rpc_nstls
-    with pytest.raises(KeyError):
-        aergo_conf.rpc_nscert
-    with pytest.raises(KeyError):
-        aergo_conf.rpc_nsallowcors
-    with pytest.raises(KeyError):
-        aergo_conf.mempool_verifiers
-
     aergo_conf = herapy.utils.convert_toml_to_aergo_conf(TEST_AERGO_CONFIG)
     # check base config
     assert aergo_conf.datadir == "/Users/yp/work/blocko/go/src/github.com/aergoio/aergo/bin/alone/data"

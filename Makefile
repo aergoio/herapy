@@ -58,7 +58,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -f coverage.xml
 
 lint: ## check style with flake8
-	flake8 herapy tests
+	flake8 herapy
+	flake8 --ignore=E501 tests
 
 test: ## run tests quickly with the default Python
 	PYTHONPATH=./
