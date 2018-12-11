@@ -26,10 +26,12 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
+TYPES_SRC := "$(GOPATH)/src/github.com/aergoio/aergo/config/types.go"
+
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: protoclean clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -84,7 +86,7 @@ dist: clean ## builds source and wheel package
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
-protoc:
+protoc: ## generate *_pb2.py and *_pb2_grpc.py in aergo/herapy/grpc from aergo-protobuf/proto/*.proto
 	python -m grpc_tools.protoc \
 		-I./aergo-protobuf/proto \
 		--python_out=./aergo/herapy/grpc \
@@ -95,3 +97,11 @@ protoc:
 
 protoclean:
 	rm -f aergo/herapy/grpc/*_pb2*.py
+
+aergo-types: ## generate aergo/herapy/obj/aergo_conf.py from aergo/config/types.go
+ifeq ($(strip $(wildcard $(TYPES_SRC))), )
+	python ./scripts/generate_aergo_conf.py $(TYPES_SRC) > ./aergo/herapy/obj/aergo_conf.py
+else
+	echo "Cannot find $(TYPES_SRC)"
+endif
+
