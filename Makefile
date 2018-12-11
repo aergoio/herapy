@@ -26,7 +26,11 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
-TYPES_SRC := "$(GOPATH)/src/github.com/aergoio/aergo/config/types.go"
+ifndef AERGO_TYPES_SRC
+	TYPES_SRC := $(GOPATH)/src/github.com/aergoio/aergo/config/types.go
+else
+	TYPES_SRC := $(AERGO_TYPES_SRC)
+endif
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
@@ -99,9 +103,9 @@ protoclean:
 	rm -f aergo/herapy/grpc/*_pb2*.py
 
 aergo-types: ## generate aergo/herapy/obj/aergo_conf.py from aergo/config/types.go
-ifeq ($(strip $(wildcard $(TYPES_SRC))), )
-	python ./scripts/generate_aergo_conf.py $(TYPES_SRC) > ./aergo/herapy/obj/aergo_conf.py
+ifneq ($(wildcard $(TYPES_SRC)), )
+	python ./scripts/generate_aergo_conf.py $(TYPES_SRC) ./scripts/aergo_default_conf.toml > ./aergo/herapy/obj/aergo_conf.py
 else
-	echo "Cannot find $(TYPES_SRC)"
+	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
 endif
 

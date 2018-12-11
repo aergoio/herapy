@@ -2,6 +2,7 @@
 
 import sys
 import traceback
+import toml
 
 MAPSTRUCTURE = "mapstructure:"
 
@@ -10,8 +11,8 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-def find_conf_types(f, conf_type):
-    line = f.readline()
+def find_conf_types(types_f, conf_type):
+    line = types_f.readline()
     while line:
         line = line.strip()
 
@@ -19,7 +20,7 @@ def find_conf_types(f, conf_type):
             return
 
         if line.startswith("//"):
-            line = f.readline()
+            line = types_f.readline()
             continue
 
         sp = line.split()
@@ -33,18 +34,16 @@ def find_conf_types(f, conf_type):
         line2 = line[pos:]
         pos = line2.find('"')
         key = line2[:pos]
-        if 'BaseConfig' == name:
-            key = "base"
 
         conf_type[name] = {
             "key": key,
         }
 
-        line = f.readline()
+        line = types_f.readline()
 
 
-def find_conf_child_types(f, conf_type):
-    line = f.readline()
+def find_conf_child_types(types_f, conf_type):
+    line = types_f.readline()
     while line:
         line = line.strip()
 
@@ -52,7 +51,7 @@ def find_conf_child_types(f, conf_type):
             return
 
         if line.startswith("//"):
-            line = f.readline()
+            line = types_f.readline()
             continue
 
         pos = line.find(MAPSTRUCTURE) + len(MAPSTRUCTURE) + 1
@@ -64,20 +63,20 @@ def find_conf_child_types(f, conf_type):
 
         conf_type[name] = var_type
 
-        line = f.readline()
+        line = types_f.readline()
 
 
 def main():
-    if len(sys.argv) != 2:
-        eprint("ERROR: input 'types.go' file path.")
+    if len(sys.argv) < 3:
+        eprint("!!!MISSING ARGUMENTS: " + sys.argv[0] + " <'types.go' file path> <'aergo_default_conf.toml' file path>")
         return
 
-    go_src_path = sys.argv[1]
-    eprint("Parsing Go Source file:", go_src_path)
-
     try:
-        f = open(go_src_path)
-        line = f.readline()
+        go_src_path = sys.argv[1]
+        eprint("Parsing Go Source file:", go_src_path)
+
+        types_f = open(go_src_path)
+        line = types_f.readline()
 
         conf_type = {}
 
@@ -87,13 +86,45 @@ def main():
 
             # check 'type'
             if 'type Config' in line:
-                find_conf_types(f, conf_type)
+                find_conf_types(types_f, conf_type)
             elif line.startswith('type '):
                 _, child_conf, _ = line.split(None, 2)
-                find_conf_child_types(f, conf_type[child_conf])
+                find_conf_child_types(types_f, conf_type[child_conf])
 
-            line = f.readline()
+            line = types_f.readline()
+    except Exception as e:
+        traceback.print_exception(*sys.exc_info())
+    finally:
+        types_f.close()
 
+    # check default values of all configurations are set
+    with open(sys.argv[2]) as toml_f:
+        default_conf = toml.loads(toml_f.read())
+    toml_f.close()
+
+    for k, v in conf_type.items():
+        category_name = v['key']
+        for k2, v2 in v.items():
+            if 'key' == k2:
+                continue
+
+            try:
+                if "BaseConfig" == k:
+                    default_value = default_conf[k2]
+                else:
+                    default_value = default_conf[category_name][k2]
+
+                if v2 == "string":
+                    default_value = '"' + default_value + '"'
+
+                if k == "BaseConfig":
+                    eprint("Default value of '{0}' = {1}".format(k2, default_value))
+                else:
+                    eprint("Default value of '[{0}] {1}' = {2}".format(category_name, k2, default_value))
+            except KeyError:
+                eprint("!!!MISSING DEFAULT VALUE OF KEY: [{0}] {1}".format(k, k2))
+
+    try:
         # generate python source code
         aergo_config_src = """
 ########################################
@@ -105,75 +136,103 @@ def main():
 AERGO_DEFAULT_CONF = {
 """
         for k, v in conf_type.items():
-            aergo_config_src += "    \"" + v['key'] + "\": {\n"
+            ws = " " * 4
+            category_name = v['key']
 
-            for k2, v2 in v.items():
+            if k != "BaseConfig":
+                aergo_config_src += "    \"" + category_name + "\": {\n"
+                ws *= 2
+
+            child_conf = v.copy()
+            for k2, v2 in child_conf.items():
                 if 'key' == k2:
                     continue
 
-                aergo_config_src += "        \"" + k2 + "\": "
+                try:
+                    if "BaseConfig" == k:
+                        default_value = default_conf[k2]
+                    else:
+                        default_value = default_conf[category_name][k2]
 
-                if "string" == v2:
-                    aergo_config_src += "\"\""
-                elif "bool" == v2:
-                    aergo_config_src += "False"
-                elif "int" in v2:
-                    aergo_config_src += "0"
-                elif "[]string" == v2:
-                    aergo_config_src += "[]"
-                aergo_config_src += ",\n"
+                    if v2 == "string":
+                        default_value = '"' + default_value + '"'
 
-            aergo_config_src += "    },\n"
+                    aergo_config_src += ws + "\"" + k2 + "\": " + str(default_value) + ",\n"
+                except KeyError:
+                    # no default value == remove key
+                    pass
+
+            if k != "BaseConfig":
+                aergo_config_src += "    },\n"
         aergo_config_src += "}\n\n"
         aergo_config_src += """
 class AergoConfig:
     def __init__(self):
-        self.__conf = AERGO_DEFAULT_CONF
+        self.__conf = dict(AERGO_DEFAULT_CONF)
+"""
+        for k, v in conf_type.items():
+            category_name = v['key']
+            if k == "BaseConfig":
+                continue
+            aergo_config_src += "        self.__conf['" + category_name + "'] = dict(AERGO_DEFAULT_CONF['" + category_name + "'])\n"
+        aergo_config_src += """
+    @property
+    def conf(self):
+        return self.__conf
 
 """
         for k, v in conf_type.items():
-            key = v['key']
-            aergo_config_src += "    @property\n"
-            aergo_config_src += "    def " + key + "(self):\n"
-            aergo_config_src += "        return self.__conf['" + key + "']\n\n"
+            # BaseConfig isn't categorized
+            if k != "BaseConfig":
+                func_name_prefix = v['key'] + "_"
+                conf_target_prefix = "self.__conf['" + v['key'] + "']"
+                aergo_config_src += "    @property\n"
+                aergo_config_src += "    def " + v['key'] + "(self):\n"
+                aergo_config_src += "        return " + conf_target + "\n\n"
+            else:
+                func_name_prefix = ""
+                conf_target_prefix = "self.__conf"
 
             for k2, v2 in v.items():
                 if 'key' == k2:
                     continue
 
-                func_name = key + "_" + k2
+                func_name = func_name_prefix + k2
+                conf_target = conf_target_prefix + "['" + k2 + "']"
+                property_func = "    @property\n"
+                property_func += "    def " + func_name + "(self):\n"
+                setter_func = "    @" + func_name + ".setter\n"
+                setter_func += "    def " + func_name + "(self, v):\n"
+
+                if "string" == v2:
+                    property_func += "        return str(" + conf_target + ")\n\n"
+                    setter_func += "        if not isinstance(v, str):\n"
+                    setter_func += "            raise TypeError('input value should be a string type')\n"
+                elif "bool" == v2:
+                    property_func += "        return bool(" + conf_target + ")\n\n"
+                    setter_func += "        if not isinstance(v, bool):\n"
+                    setter_func += "            raise TypeError('input value should be a boolean type')\n"
+                elif "int" in v2:
+                    property_func += "        return int(" + conf_target + ")\n\n"
+                    setter_func += "        if not isinstance(v, int):\n"
+                    setter_func += "            raise TypeError('input value should be an integer type')\n"
+                elif "[]string" == v2:
+                    property_func += "        return " + conf_target + "\n\n"
+                    setter_func += "        if not isinstance(v, list):\n"
+                    setter_func += "            raise TypeError('input value should be an array type')\n"
+                setter_func += "        " + conf_target + " = v\n\n"
 
                 # generate property method
-                aergo_config_src += "    @property\n"
-                aergo_config_src += "    def " + func_name + "(self):\n"
-                aergo_config_src += "        return self.__conf['" + key + "']['" + k2 + "']\n\n"
+                aergo_config_src += property_func
 
                 # generate setter method
-                aergo_config_src += "    @" + func_name + ".setter\n"
-                aergo_config_src += "    def " + func_name + "(self, v):\n"
-                aergo_config_src += "        if isinstance(v, "
-                err_txt = key + "." + k2 + " should be"
-                if "string" == v2:
-                    aergo_config_src += "str"
-                    err_txt += "a string type"
-                elif "bool" == v2:
-                    aergo_config_src += "bool"
-                    err_txt += "a boolean type"
-                elif "int" in v2:
-                    aergo_config_src += "int"
-                    err_txt += "a number type"
-                elif "[]string" == v2:
-                    aergo_config_src += "list"
-                    err_txt += "an array type"
-                aergo_config_src += "):\n"
-                aergo_config_src += "            raise TypeError(\"" + err_txt + "\")\n"
-                aergo_config_src += "        self.__conf['" + key + "']['" + k2 + "'] = v\n\n"
+                aergo_config_src += setter_func
 
         print(aergo_config_src)
     except Exception as e:
         traceback.print_exception(*sys.exc_info())
     finally:
-        f.close()
+        types_f.close()
 
 
 if __name__ == '__main__':

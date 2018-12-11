@@ -4,9 +4,29 @@
 
 import json
 import base58
+import toml
 
+from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
 from .encoding import encode_address, encode_tx_hash
+
+
+def convert_toml_to_aergo_conf(v):
+    aergo_conf = AergoConfig()
+
+    conf = toml.loads(v)
+    for k, v in conf.items():
+        if isinstance(v, dict):
+            for k2, v2 in v.items():
+                aergo_conf.conf[k][k2] = v2
+        else:
+            aergo_conf.conf[k] = v
+
+    return aergo_conf
+
+
+def convert_aergo_conf_to_toml(aergo_conf):
+    return toml.dumps(aergo_conf.conf)
 
 
 def convert_tx_to_grpc_tx(tx):

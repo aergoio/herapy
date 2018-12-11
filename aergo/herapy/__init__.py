@@ -7,7 +7,7 @@ __all__ = ["errors", "utils"]
 from .aergo import Aergo
 from .account import Account
 from .obj.aer import Aer
-from .obj.aergo_conf import AergoConfig
+from .obj.aergo_conf import AergoConfig, AERGO_DEFAULT_CONF
 from .obj.transaction import Transaction
 from .obj.block import Block
 from .obj.peer import Peer

@@ -90,6 +90,27 @@ If need to upgrade a protocol,
 
 After this command, all protocol related source files will be generated if it's different.
 
+Updating Aergo Configurations
+=============================
+
+If need to upgrade Aergo Configurations,
+
+.. code-block::
+    make aergo-types
+
+After this command, 'aergo/herapy/obj/aergo_conf.py' will be generated if it's different.
+
+If occur the error message below
+
+.. code-block::
+    ERROR: Cannot find 'AERGO_TYPES_SRC'
+
+, find the source code 'aergo/config/types.go' and make this file path as an environment variable of 'AERGO_TYPES_SRC'
+
+.. code-block::
+    export AERGO_TYPES_SRC=`find ~ -path '*/aergo/config/types.go' 2>/dev/null`
+    make aergo-types
+
 
 -------------------------
 Releases and Contributing
