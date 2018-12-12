@@ -19,6 +19,8 @@ codecov = "*"
 pytest-cov = "*"
 pytest-mock = "*"
 flake8 = "*"
+setuptools = "*"
+wheel = "*"
 
 [requires]
 python_version = "3.7"

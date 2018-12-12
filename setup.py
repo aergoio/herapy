@@ -12,12 +12,11 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'protobuf',
     'base58',
     'ecdsa',
-    "cryptography",
+    'protobuf',
     "googleapis-common-protos",
-    "grpcio-tools",
+    "cryptography",
     "toml"
 ]
 
