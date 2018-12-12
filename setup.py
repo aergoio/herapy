@@ -12,10 +12,10 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'base58',
-    'ecdsa',
-    'protobuf',
+    "base58",
+    "ecdsa",
     "googleapis-common-protos",
+    "protobuf",
     "grpcio-tools",
     "cryptography",
     "toml"
@@ -27,7 +27,7 @@ test_requirements = ['pytest', ]
 
 setup(
     name='aergo-herapy',
-    version='0.1.21',
+    version='0.1.22',
     description="python SDK for AERGO",
     keywords='herapy',
     author="aergo.io",
