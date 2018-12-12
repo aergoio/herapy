@@ -17,7 +17,8 @@ requirements = [
     'ecdsa',
     "cryptography",
     "googleapis-common-protos",
-    "grpcio-tools"
+    "grpcio-tools",
+    "toml"
 ]
 
 setup_requirements = ['pytest-runner', ]

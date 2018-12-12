@@ -9,6 +9,7 @@ ecdsa = "*"
 protobuf = "*"
 googleapis-common-protos = "*"
 cryptography = "*"
+toml = "*"
 
 [dev-packages]
 grpcio-tools = "*"
