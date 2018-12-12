@@ -16,6 +16,7 @@ requirements = [
     'ecdsa',
     'protobuf',
     "googleapis-common-protos",
+    "grpcio-tools",
     "cryptography",
     "toml"
 ]

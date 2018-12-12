@@ -79,6 +79,15 @@ Using Pipenv, all dependencies will be installed automatically.
 
     pipenv shell
 
+If you cleaned up and setup again, then do not forget make an environment with '--dev' option
+
+.. code-block::
+
+    pipenv install --dev
+    make test
+
+Without the option, all tests will not work.
+
 Updating Protocol
 =================
 
