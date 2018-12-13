@@ -395,9 +395,15 @@ class Aergo:
             try:
                 tx_result.status = SmartcontractStatus(result.status)
                 tx_result.detail = result.ret
+
+                if 'error' in result.ret:
+                    raise ValueError
             except ValueError:
                 tx_result.status = SmartcontractStatus.ERROR
-                tx_result.detail = result.status
+                if 'CREATED' == result.status:
+                    tx_result.detail = result.ret
+                else:
+                    tx_result.detail = result.status
             tx_result.contract_address = encode_address(result.contractAddress)
         except Exception as e:
             raise CommunicationException(e) from e
