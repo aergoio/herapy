@@ -41,9 +41,10 @@ class Aergo:
     def account(self, a):
         self.__account = a
 
-    def new_account(self, password=None, private_key=None):
+    def new_account(self, password=None, private_key=None, skip_state=False):
         self.__account = acc.Account(password, private_key)
-        self.get_account()
+        if not skip_state:
+            self.get_account()
         return self.__account
 
     # TODO how about making account_state class,
@@ -354,7 +355,7 @@ class Aergo:
             results.append(tx_result)
         return signed_txs, results
 
-    def import_account(self, exported_data, password):
+    def import_account(self, exported_data, password, skip_state=False):
         if exported_data is None or 0 == len(exported_data):
             # TODO unit test + exception handling
             assert 1 == 0
@@ -370,6 +371,8 @@ class Aergo:
             password = password.decode('utf-8')
 
         self.__account = acc.Account.decrypt_account(exported_data, password)
+        if not skip_state:
+            self.get_account()
         return self.__account
 
     def export_account(self, account=None):

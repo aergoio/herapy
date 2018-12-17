@@ -94,7 +94,9 @@ def convert_bytes_to_hex_str(v):
     return ''.join('0x{:02x} '.format(x) for x in v)
 
 
+""" Deprecated
 def convert_luajson_to_json(v):
     v = v.decode('utf-8').replace('\\', '')
     v = v[1:len(v)-1]
     return json.loads(v)
+"""
