@@ -14,7 +14,10 @@ class VarProof:
         self.__var_proof = var_proof
         self.__var_name = var_name
         self.__var_index = var_index
-        var_id = bytes("_sv_" + var_name + var_index, "utf-8")
+        if len(var_index) != 0:
+            var_id = bytes("_sv_" + var_name + var_index + "_s", "utf-8")
+        else:
+            var_id = bytes("_sv_" + var_name, "utf-8")
         self.__trie_key = hashlib.sha256(var_id).digest()
 
     def __str__(self):
