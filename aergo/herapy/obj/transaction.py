@@ -62,10 +62,10 @@ class Transaction:
         b = self.__nonce.to_bytes(8, byteorder='little')
         m.update(b)
         # from
-        m.update(self.__from_address)
+        m.update(bytes(self.__from_address))
         # to
         if self.__to_address is not None:
-            m.update(self.__to_address)
+            m.update(bytes(self.__to_address))
         # amount
         b = bytes(self.__amount)
         m.update(b)

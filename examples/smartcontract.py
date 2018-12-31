@@ -5,6 +5,10 @@ import time
 import aergo.herapy as herapy
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
 def run():
     print("------ Payload -----------")
     """
@@ -72,7 +76,9 @@ def run():
         print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
         if result.status != herapy.CommitStatus.TX_OK:
-            print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            aergo.disconnect()
+            return
         else:
             print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
             print(herapy.utils.convert_bytes_to_int_str(bytes(tx.tx_hash)))
@@ -83,7 +89,7 @@ def run():
         print("  > TX: {}".format(tx.tx_hash))
         result = aergo.get_tx_result(tx.tx_hash)
         if result.status != herapy.SmartcontractStatus.CREATED:
-            print("  > ERROR[{0}]:{1}: {2}".format(
+            eprint("  > ERROR[{0}]:{1}: {2}".format(
                 result.contract_address, result.status, result.detail))
             aergo.disconnect()
             return
@@ -104,7 +110,7 @@ def run():
         print("  > TX: {}".format(tx.tx_hash))
         result = aergo.get_tx_result(tx.tx_hash)
         if result.status != herapy.SmartcontractStatus.SUCCESS:
-            print("  > ERROR[{0}]:{1}: {2}".format(
+            eprint("  > ERROR[{0}]:{1}: {2}".format(
                 result.contract_address, result.status, result.detail))
             aergo.disconnect()
             return
@@ -118,7 +124,7 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception as e:
+    except Exception:
         traceback.print_exception(*sys.exc_info())
 
 

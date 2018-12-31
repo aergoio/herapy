@@ -44,8 +44,8 @@ def convert_tx_to_grpc_tx(tx):
     if tx.payload is not None:
         grpc_tx.body.payload = tx.payload
     grpc_tx.body.limit = tx.fee_limit
-    grpc_tx.body.price = tx.fee_price.to_bytes(8, 'big')
-    grpc_tx.body.type = tx.tx_type
+    grpc_tx.body.price = bytes(tx.fee_price)
+    grpc_tx.body.type = tx.tx_type.value
     if tx.sign is not None:
         grpc_tx.body.sign = tx.sign
     return grpc_tx
@@ -55,29 +55,7 @@ def convert_tx_to_json(tx):
     if tx is None:
         return None
 
-    json_tx = {
-        'hash': str(tx.tx_hash)
-    }
-
-    body = {
-        'nonce': tx.nonce,
-        'from': encode_address(tx.from_address),
-        'amount': str(tx.amount),
-        'fee_limit': tx.fee_limit,
-        'fee_price': tx.fee_price,
-        'tx_type': tx.tx_type,
-        'tx_sign': tx.sign_str
-    }
-
-    if tx.payload is not None:
-        body['payload'] = str(base58.b58encode_check(tx.payload))
-
-    if tx.to_address is not None:
-        body['to'] = encode_address(tx.to_address)
-
-    json_tx['body'] = body
-
-    return json_tx
+    return tx.json()
 
 
 def convert_tx_to_formatted_json(tx):

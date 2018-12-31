@@ -5,12 +5,16 @@ import time
 import aergo.herapy as herapy
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
 def run():
     try:
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
@@ -36,7 +40,9 @@ def run():
         print("{}".format(herapy.utils.convert_tx_to_formatted_json(simple_tx)))
         print("      result: ", result)
         if result.status != herapy.CommitStatus.TX_OK:
-            print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            aergo.disconnect()
+            return
         else:
             print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
 
@@ -74,7 +80,9 @@ def run():
             print("  > TX[{}]".format(i))
             print("{}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
             if result.status != herapy.CommitStatus.TX_OK:
-                print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+                eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+                aergo.disconnect()
+                return
             else:
                 print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
 

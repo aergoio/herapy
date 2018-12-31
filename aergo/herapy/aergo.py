@@ -271,8 +271,11 @@ class Aergo:
     @staticmethod
     def _generate_tx(account, to_address, nonce, amount, fee_limit, fee_price,
                      payload):
+        if to_address is not None:
+            to_address = addr.Address(to_address)
+
         tx = transaction.Transaction(from_address=account.address,
-                                     to_address=addr.Address(to_address),
+                                     to_address=to_address,
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
                                      payload=payload)
