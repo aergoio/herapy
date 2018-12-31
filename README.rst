@@ -48,6 +48,18 @@ or, install locally
     cd herapy
     make install
 
+------------
+Run examples
+------------
+
+After installing aergo-herapy, you can run examples
+
+.. code-block::
+
+    make ex
+
+The examples in the 'examples' directory connect the public Aergo testnet.
+
 -----
 Build
 -----
