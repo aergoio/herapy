@@ -100,13 +100,55 @@ protoc: ## generate *_pb2.py and *_pb2_grpc.py in aergo/herapy/grpc from aergo-p
 	find ./aergo/herapy/grpc -type f -name '*_pb2.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
 	find ./aergo/herapy/grpc -type f -name '*_pb2_grpc.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
 
-protoclean:
+protoclean: ## remove all generated files in aergo/herapy/grpc by 'make protoc'
 	rm -f aergo/herapy/grpc/*_pb2*.py
 
-aergo-types: ## generate aergo/herapy/obj/aergo_conf.py from aergo/config/types.go
+aergo-types: ## generate aergo/herapy/obj/aergo_conf.py from github.com/aergoio/aergo/config/types.go
 ifneq ($(wildcard $(TYPES_SRC)), )
 	python ./scripts/generate_aergo_conf.py $(TYPES_SRC) ./scripts/aergo_default_conf.toml > ./aergo/herapy/obj/aergo_conf.py
 else
 	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
 endif
 
+ex: ## run all examples in the examples directory
+	@echo "===============================" > make.ex.out
+	@echo "Result of 'examples/account.py'" >> make.ex.out
+	@echo "===============================" >> make.ex.out
+	@echo "Run ... 'examples/account.py'"
+	@python ./examples/account.py > make.ex.out
+	@echo "=======================================" >> make.ex.out
+	@echo "Result of 'examples/account_exp_imp.py'" >> make.ex.out
+	@echo "=======================================" >> make.ex.out
+	@echo "Run ... 'examples/account_exp_imp.py'"
+	@python ./examples/account_exp_imp.py >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Result of 'examples/account_proof.py'" >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Run ... 'examples/account_proof.py'"
+	@python ./examples/account_proof.py >> make.ex.out
+	@echo "==================================" >> make.ex.out
+	@echo "Result of 'examples/blockchain.py'" >> make.ex.out
+	@echo "==================================" >> make.ex.out
+	@echo "Run ... 'examples/blockchain.py'"
+	@python ./examples/blockchain.py >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract.py'" >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract.py'"
+	@python ./examples/smartcontract.py >> make.ex.out
+	@echo "================================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract_batch_call.py'" >> make.ex.out
+	@echo "================================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract_batch_call.py'"
+	@python ./examples/smartcontract_batch_call.py >> make.ex.out
+	@echo "===========================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract_query.py'" >> make.ex.out
+	@echo "===========================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract_query.py'"
+	@python ./examples/smartcontract_query.py >> make.ex.out
+	@echo "===================================" >> make.ex.out
+	@echo "Result of 'examples/transaction.py'" >> make.ex.out
+	@echo "===================================" >> make.ex.out
+	@echo "Run ... 'examples/transaction.py'"
+	@python ./examples/transaction.py >> make.ex.out
+	@echo "See 'make.ex.out' to check the results"
