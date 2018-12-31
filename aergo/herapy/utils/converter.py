@@ -5,6 +5,7 @@
 import json
 import base58
 import toml
+import socket
 
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
@@ -35,9 +36,9 @@ def convert_tx_to_grpc_tx(tx):
     if tx.nonce is not None:
         grpc_tx.body.nonce = tx.nonce
     if tx.from_address is not None:
-        grpc_tx.body.account = tx.from_address
+        grpc_tx.body.account = bytes(tx.from_address)
     if tx.to_address is not None:
-        grpc_tx.body.recipient = tx.to_address
+        grpc_tx.body.recipient = bytes(tx.to_address)
     if tx.amount is not None:
         grpc_tx.body.amount = bytes(tx.amount)
     if tx.payload is not None:
@@ -92,6 +93,19 @@ def convert_bytes_to_int_str(v):
 
 def convert_bytes_to_hex_str(v):
     return ''.join('0x{:02x} '.format(x) for x in v)
+
+
+def convert_ip_bytes_to_str(v):
+    l = len(v)
+
+    # IPv4
+    if 4 == l:
+        return socket.inet_ntoa(v)
+    elif 16 == l and all(v2 == 0 for v2 in list(v[:10])) and 255 == v[10] and 255 == v[11]:
+        return socket.inet_ntoa(v[12:16])
+
+    # IPv6
+    return socket.inet_ntop(socket.AF_INET6, v)
 
 
 """ Deprecated

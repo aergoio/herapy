@@ -204,12 +204,9 @@ class Aergo:
             raise CommunicationException(e) from e
 
         peers = []
-        for i in range(len(result.peers)):
-            p = result.peers[i]
-            s = result.states[i]
+        for i, p in enumerate(result.peers):
             peer = pr.Peer()
             peer.info = p
-            peer.state = s
             peers.append(peer)
 
         return peers
@@ -274,8 +271,8 @@ class Aergo:
     @staticmethod
     def _generate_tx(account, to_address, nonce, amount, fee_limit, fee_price,
                      payload):
-        tx = transaction.Transaction(from_address=bytes(account.address),
-                                     to_address=to_address,
+        tx = transaction.Transaction(from_address=account.address,
+                                     to_address=addr.Address(to_address),
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
                                      payload=payload)
