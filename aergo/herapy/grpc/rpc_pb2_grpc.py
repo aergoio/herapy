@@ -8,8 +8,9 @@ from . import rpc_pb2 as rpc__pb2
 
 
 class AergoRPCServiceStub(object):
-  """BlockService serves APIs that aergosvr provides.
-  Some methods optionally contains context path if it is also provided by REST API.
+  """*
+  AergoRPCService is the main RPC service providing endpoints to interact 
+  with the node and blockchain. If not otherwise noted, methods are unary requests.
   """
 
   def __init__(self, channel):
@@ -38,10 +39,20 @@ class AergoRPCServiceStub(object):
         request_serializer=rpc__pb2.ListParams.SerializeToString,
         response_deserializer=rpc__pb2.BlockHeaderList.FromString,
         )
+    self.ListBlockMetadata = channel.unary_unary(
+        '/types.AergoRPCService/ListBlockMetadata',
+        request_serializer=rpc__pb2.ListParams.SerializeToString,
+        response_deserializer=rpc__pb2.BlockMetadataList.FromString,
+        )
     self.ListBlockStream = channel.unary_stream(
         '/types.AergoRPCService/ListBlockStream',
         request_serializer=rpc__pb2.Empty.SerializeToString,
         response_deserializer=blockchain__pb2.Block.FromString,
+        )
+    self.ListBlockMetadataStream = channel.unary_stream(
+        '/types.AergoRPCService/ListBlockMetadataStream',
+        request_serializer=rpc__pb2.Empty.SerializeToString,
+        response_deserializer=rpc__pb2.BlockMetadata.FromString,
         )
     self.GetBlock = channel.unary_unary(
         '/types.AergoRPCService/GetBlock',
@@ -72,6 +83,16 @@ class AergoRPCServiceStub(object):
         '/types.AergoRPCService/SendTX',
         request_serializer=blockchain__pb2.Tx.SerializeToString,
         response_deserializer=rpc__pb2.CommitResult.FromString,
+        )
+    self.SignTX = channel.unary_unary(
+        '/types.AergoRPCService/SignTX',
+        request_serializer=blockchain__pb2.Tx.SerializeToString,
+        response_deserializer=blockchain__pb2.Tx.FromString,
+        )
+    self.VerifyTX = channel.unary_unary(
+        '/types.AergoRPCService/VerifyTX',
+        request_serializer=blockchain__pb2.Tx.SerializeToString,
+        response_deserializer=rpc__pb2.VerifyResult.FromString,
         )
     self.CommitTX = channel.unary_unary(
         '/types.AergoRPCService/CommitTX',
@@ -118,16 +139,6 @@ class AergoRPCServiceStub(object):
         request_serializer=rpc__pb2.Personal.SerializeToString,
         response_deserializer=rpc__pb2.SingleBytes.FromString,
         )
-    self.SignTX = channel.unary_unary(
-        '/types.AergoRPCService/SignTX',
-        request_serializer=blockchain__pb2.Tx.SerializeToString,
-        response_deserializer=blockchain__pb2.Tx.FromString,
-        )
-    self.VerifyTX = channel.unary_unary(
-        '/types.AergoRPCService/VerifyTX',
-        request_serializer=blockchain__pb2.Tx.SerializeToString,
-        response_deserializer=rpc__pb2.VerifyResult.FromString,
-        )
     self.QueryContract = channel.unary_unary(
         '/types.AergoRPCService/QueryContract',
         request_serializer=blockchain__pb2.Query.SerializeToString,
@@ -153,207 +164,225 @@ class AergoRPCServiceStub(object):
         request_serializer=rpc__pb2.SingleBytes.SerializeToString,
         response_deserializer=rpc__pb2.Staking.FromString,
         )
+    self.GetNameInfo = channel.unary_unary(
+        '/types.AergoRPCService/GetNameInfo',
+        request_serializer=rpc__pb2.Name.SerializeToString,
+        response_deserializer=rpc__pb2.NameInfo.FromString,
+        )
 
 
 class AergoRPCServiceServicer(object):
-  """BlockService serves APIs that aergosvr provides.
-  Some methods optionally contains context path if it is also provided by REST API.
+  """*
+  AergoRPCService is the main RPC service providing endpoints to interact 
+  with the node and blockchain. If not otherwise noted, methods are unary requests.
   """
 
   def NodeState(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Returns the current state of this node
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def Metric(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Returns node metrics according to request 
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def Blockchain(self, request, context):
-    """option (google.api.http) = {
-    get: "/blockchain"
-    };
+    """Returns current blockchain status (best block's height and hash)
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def ListBlockHeaders(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Returns list of Blocks without body according to request
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def ListBlockMetadata(self, request, context):
+    """Returns list of block metadata (hash, header, and number of transactions) according to request
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def ListBlockStream(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Returns a stream of new blocks as they get added to the blockchain
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def ListBlockMetadataStream(self, request, context):
+    """Returns a stream of new block's metadata as they get added to the blockchain
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetBlock(self, request, context):
-    """option (google.api.http) = {
-    get: "/blocks/{blockHash}"
-    };    
+    """Return a single block, queried by hash or number
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetTX(self, request, context):
-    """option (google.api.http) = {
-    get: "/transactions/{value}"
-    };    
+    """Return a single transaction, queried by transaction hash
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetBlockTX(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return information about transaction in block, queried by transaction hash
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetReceipt(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return transaction receipt, queried by transaction hash
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetABI(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return ABI stored at contract address
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def SendTX(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Sign and send a transaction from an unlocked account
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SignTX(self, request, context):
+    """Sign transaction with unlocked account
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def VerifyTX(self, request, context):
+    """Verify validity of transaction
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def CommitTX(self, request, context):
-    """option (google.api.http) = {
-    post: "/transactions"
-    body: "transaction"
-    };    
+    """Commit a signed transaction
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetState(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return state of account
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetStateAndProof(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return state of account, including merkle proof
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def CreateAccount(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Create a new account in this node
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetAccounts(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return list of accounts in this node
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def LockAccount(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Lock account in this node
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def UnlockAccount(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Unlock account in this node
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def ImportAccount(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Import account to this node
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def ExportAccount(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def SignTX(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def VerifyTX(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Export account stored in this node
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def QueryContract(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Query a contract method
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def QueryContractState(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Query contract state
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetPeers(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return list of peers of this node and their state
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetVotes(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return list of votes
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetStaking(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Return staking information
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetNameInfo(self, request, context):
+    """Return name information
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -381,10 +410,20 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           request_deserializer=rpc__pb2.ListParams.FromString,
           response_serializer=rpc__pb2.BlockHeaderList.SerializeToString,
       ),
+      'ListBlockMetadata': grpc.unary_unary_rpc_method_handler(
+          servicer.ListBlockMetadata,
+          request_deserializer=rpc__pb2.ListParams.FromString,
+          response_serializer=rpc__pb2.BlockMetadataList.SerializeToString,
+      ),
       'ListBlockStream': grpc.unary_stream_rpc_method_handler(
           servicer.ListBlockStream,
           request_deserializer=rpc__pb2.Empty.FromString,
           response_serializer=blockchain__pb2.Block.SerializeToString,
+      ),
+      'ListBlockMetadataStream': grpc.unary_stream_rpc_method_handler(
+          servicer.ListBlockMetadataStream,
+          request_deserializer=rpc__pb2.Empty.FromString,
+          response_serializer=rpc__pb2.BlockMetadata.SerializeToString,
       ),
       'GetBlock': grpc.unary_unary_rpc_method_handler(
           servicer.GetBlock,
@@ -415,6 +454,16 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.SendTX,
           request_deserializer=blockchain__pb2.Tx.FromString,
           response_serializer=rpc__pb2.CommitResult.SerializeToString,
+      ),
+      'SignTX': grpc.unary_unary_rpc_method_handler(
+          servicer.SignTX,
+          request_deserializer=blockchain__pb2.Tx.FromString,
+          response_serializer=blockchain__pb2.Tx.SerializeToString,
+      ),
+      'VerifyTX': grpc.unary_unary_rpc_method_handler(
+          servicer.VerifyTX,
+          request_deserializer=blockchain__pb2.Tx.FromString,
+          response_serializer=rpc__pb2.VerifyResult.SerializeToString,
       ),
       'CommitTX': grpc.unary_unary_rpc_method_handler(
           servicer.CommitTX,
@@ -461,16 +510,6 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           request_deserializer=rpc__pb2.Personal.FromString,
           response_serializer=rpc__pb2.SingleBytes.SerializeToString,
       ),
-      'SignTX': grpc.unary_unary_rpc_method_handler(
-          servicer.SignTX,
-          request_deserializer=blockchain__pb2.Tx.FromString,
-          response_serializer=blockchain__pb2.Tx.SerializeToString,
-      ),
-      'VerifyTX': grpc.unary_unary_rpc_method_handler(
-          servicer.VerifyTX,
-          request_deserializer=blockchain__pb2.Tx.FromString,
-          response_serializer=rpc__pb2.VerifyResult.SerializeToString,
-      ),
       'QueryContract': grpc.unary_unary_rpc_method_handler(
           servicer.QueryContract,
           request_deserializer=blockchain__pb2.Query.FromString,
@@ -495,6 +534,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.GetStaking,
           request_deserializer=rpc__pb2.SingleBytes.FromString,
           response_serializer=rpc__pb2.Staking.SerializeToString,
+      ),
+      'GetNameInfo': grpc.unary_unary_rpc_method_handler(
+          servicer.GetNameInfo,
+          request_deserializer=rpc__pb2.Name.FromString,
+          response_serializer=rpc__pb2.NameInfo.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

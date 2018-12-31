@@ -25,7 +25,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\"@\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"d\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"&\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xfd\n\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12>\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x11.types.StateProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12+\n\x08GetPeers\x12\x0c.types.Empty\x1a\x0f.types.PeerList\"\x00\x12\x31\n\x08GetVotes\x12\x12.types.SingleBytes\x1a\x0f.types.VoteList\"\x00\x12\x32\n\nGetStaking\x12\x12.types.SingleBytes\x1a\x0e.types.Staking\"\x00\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\"@\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"d\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"R\n\rBlockMetadata\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07txcount\x18\x03 \x01(\x05\"9\n\x11\x42lockMetadataList\x12$\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x14.types.BlockMetadata\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"&\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c\"\x14\n\x04Name\x12\x0c\n\x04name\x18\x01 \x01(\t\"4\n\x08NameInfo\x12\x19\n\x04name\x18\x01 \x01(\x0b\x32\x0b.types.Name\x12\r\n\x05owner\x18\x02 \x01(\x0c*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xb3\x0c\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x42\n\x11ListBlockMetadata\x12\x11.types.ListParams\x1a\x18.types.BlockMetadataList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12\x41\n\x17ListBlockMetadataStream\x12\x0c.types.Empty\x1a\x14.types.BlockMetadata\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12>\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x11.types.StateProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12+\n\x08GetPeers\x12\x0c.types.Empty\x1a\x0f.types.PeerList\"\x00\x12\x31\n\x08GetVotes\x12\x12.types.SingleBytes\x1a\x0f.types.VoteList\"\x00\x12\x32\n\nGetStaking\x12\x12.types.SingleBytes\x1a\x0e.types.Staking\"\x00\x12-\n\x0bGetNameInfo\x12\x0b.types.Name\x1a\x0f.types.NameInfo\"\x00\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
   ,
   dependencies=[blockchain__pb2.DESCRIPTOR,account__pb2.DESCRIPTOR,node__pb2.DESCRIPTOR,p2p__pb2.DESCRIPTOR,metric__pb2.DESCRIPTOR,])
 
@@ -74,8 +74,8 @@ _COMMITSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1221,
-  serialized_end=1431,
+  serialized_start=1440,
+  serialized_end=1650,
 )
 _sym_db.RegisterEnumDescriptor(_COMMITSTATUS)
 
@@ -101,8 +101,8 @@ _VERIFYSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1433,
-  serialized_end=1535,
+  serialized_start=1652,
+  serialized_end=1754,
 )
 _sym_db.RegisterEnumDescriptor(_VERIFYSTATUS)
 
@@ -530,6 +530,82 @@ _BLOCKHEADERLIST = _descriptor.Descriptor(
 )
 
 
+_BLOCKMETADATA = _descriptor.Descriptor(
+  name='BlockMetadata',
+  full_name='types.BlockMetadata',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='hash', full_name='types.BlockMetadata.hash', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='header', full_name='types.BlockMetadata.header', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='txcount', full_name='types.BlockMetadata.txcount', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=686,
+  serialized_end=768,
+)
+
+
+_BLOCKMETADATALIST = _descriptor.Descriptor(
+  name='BlockMetadataList',
+  full_name='types.BlockMetadataList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='blocks', full_name='types.BlockMetadataList.blocks', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=770,
+  serialized_end=827,
+)
+
+
 _COMMITRESULT = _descriptor.Descriptor(
   name='CommitResult',
   full_name='types.CommitResult',
@@ -570,8 +646,8 @@ _COMMITRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=686,
-  serialized_end=766,
+  serialized_start=829,
+  serialized_end=909,
 )
 
 
@@ -601,8 +677,8 @@ _COMMITRESULTLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=768,
-  serialized_end=824,
+  serialized_start=911,
+  serialized_end=967,
 )
 
 
@@ -639,8 +715,8 @@ _VERIFYRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=826,
-  serialized_end=899,
+  serialized_start=969,
+  serialized_end=1042,
 )
 
 
@@ -677,8 +753,8 @@ _PERSONAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=901,
-  serialized_end=964,
+  serialized_start=1044,
+  serialized_end=1107,
 )
 
 
@@ -722,8 +798,8 @@ _IMPORTFORMAT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=966,
-  serialized_end=1047,
+  serialized_start=1109,
+  serialized_end=1190,
 )
 
 
@@ -760,8 +836,8 @@ _STAKING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1049,
-  serialized_end=1088,
+  serialized_start=1192,
+  serialized_end=1231,
 )
 
 
@@ -798,8 +874,8 @@ _VOTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1090,
-  serialized_end=1131,
+  serialized_start=1233,
+  serialized_end=1274,
 )
 
 
@@ -829,8 +905,8 @@ _VOTELIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1133,
-  serialized_end=1171,
+  serialized_start=1276,
+  serialized_end=1314,
 )
 
 
@@ -867,14 +943,85 @@ _NODEREQ = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1173,
-  serialized_end=1218,
+  serialized_start=1316,
+  serialized_end=1361,
+)
+
+
+_NAME = _descriptor.Descriptor(
+  name='Name',
+  full_name='types.Name',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='types.Name.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1363,
+  serialized_end=1383,
+)
+
+
+_NAMEINFO = _descriptor.Descriptor(
+  name='NameInfo',
+  full_name='types.NameInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='types.NameInfo.name', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='owner', full_name='types.NameInfo.owner', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1385,
+  serialized_end=1437,
 )
 
 _PEER.fields_by_name['address'].message_type = node__pb2._PEERADDRESS
 _PEER.fields_by_name['bestblock'].message_type = p2p__pb2._NEWBLOCKNOTICE
 _PEERLIST.fields_by_name['peers'].message_type = _PEER
 _BLOCKHEADERLIST.fields_by_name['blocks'].message_type = blockchain__pb2._BLOCK
+_BLOCKMETADATA.fields_by_name['header'].message_type = blockchain__pb2._BLOCKHEADER
+_BLOCKMETADATALIST.fields_by_name['blocks'].message_type = _BLOCKMETADATA
 _COMMITRESULT.fields_by_name['error'].enum_type = _COMMITSTATUS
 _COMMITRESULTLIST.fields_by_name['results'].message_type = _COMMITRESULT
 _VERIFYRESULT.fields_by_name['tx'].message_type = blockchain__pb2._TX
@@ -882,6 +1029,7 @@ _VERIFYRESULT.fields_by_name['error'].enum_type = _VERIFYSTATUS
 _PERSONAL.fields_by_name['account'].message_type = account__pb2._ACCOUNT
 _IMPORTFORMAT.fields_by_name['wif'].message_type = _SINGLEBYTES
 _VOTELIST.fields_by_name['votes'].message_type = _VOTE
+_NAMEINFO.fields_by_name['name'].message_type = _NAME
 DESCRIPTOR.message_types_by_name['BlockchainStatus'] = _BLOCKCHAINSTATUS
 DESCRIPTOR.message_types_by_name['Input'] = _INPUT
 DESCRIPTOR.message_types_by_name['Output'] = _OUTPUT
@@ -892,6 +1040,8 @@ DESCRIPTOR.message_types_by_name['Peer'] = _PEER
 DESCRIPTOR.message_types_by_name['PeerList'] = _PEERLIST
 DESCRIPTOR.message_types_by_name['ListParams'] = _LISTPARAMS
 DESCRIPTOR.message_types_by_name['BlockHeaderList'] = _BLOCKHEADERLIST
+DESCRIPTOR.message_types_by_name['BlockMetadata'] = _BLOCKMETADATA
+DESCRIPTOR.message_types_by_name['BlockMetadataList'] = _BLOCKMETADATALIST
 DESCRIPTOR.message_types_by_name['CommitResult'] = _COMMITRESULT
 DESCRIPTOR.message_types_by_name['CommitResultList'] = _COMMITRESULTLIST
 DESCRIPTOR.message_types_by_name['VerifyResult'] = _VERIFYRESULT
@@ -901,6 +1051,8 @@ DESCRIPTOR.message_types_by_name['Staking'] = _STAKING
 DESCRIPTOR.message_types_by_name['Vote'] = _VOTE
 DESCRIPTOR.message_types_by_name['VoteList'] = _VOTELIST
 DESCRIPTOR.message_types_by_name['NodeReq'] = _NODEREQ
+DESCRIPTOR.message_types_by_name['Name'] = _NAME
+DESCRIPTOR.message_types_by_name['NameInfo'] = _NAMEINFO
 DESCRIPTOR.enum_types_by_name['CommitStatus'] = _COMMITSTATUS
 DESCRIPTOR.enum_types_by_name['VerifyStatus'] = _VERIFYSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -975,6 +1127,20 @@ BlockHeaderList = _reflection.GeneratedProtocolMessageType('BlockHeaderList', (_
   ))
 _sym_db.RegisterMessage(BlockHeaderList)
 
+BlockMetadata = _reflection.GeneratedProtocolMessageType('BlockMetadata', (_message.Message,), dict(
+  DESCRIPTOR = _BLOCKMETADATA,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.BlockMetadata)
+  ))
+_sym_db.RegisterMessage(BlockMetadata)
+
+BlockMetadataList = _reflection.GeneratedProtocolMessageType('BlockMetadataList', (_message.Message,), dict(
+  DESCRIPTOR = _BLOCKMETADATALIST,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.BlockMetadataList)
+  ))
+_sym_db.RegisterMessage(BlockMetadataList)
+
 CommitResult = _reflection.GeneratedProtocolMessageType('CommitResult', (_message.Message,), dict(
   DESCRIPTOR = _COMMITRESULT,
   __module__ = 'rpc_pb2'
@@ -1038,6 +1204,20 @@ NodeReq = _reflection.GeneratedProtocolMessageType('NodeReq', (_message.Message,
   ))
 _sym_db.RegisterMessage(NodeReq)
 
+Name = _reflection.GeneratedProtocolMessageType('Name', (_message.Message,), dict(
+  DESCRIPTOR = _NAME,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.Name)
+  ))
+_sym_db.RegisterMessage(Name)
+
+NameInfo = _reflection.GeneratedProtocolMessageType('NameInfo', (_message.Message,), dict(
+  DESCRIPTOR = _NAMEINFO,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.NameInfo)
+  ))
+_sym_db.RegisterMessage(NameInfo)
+
 
 DESCRIPTOR._options = None
 
@@ -1047,8 +1227,8 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=1538,
-  serialized_end=2943,
+  serialized_start=1757,
+  serialized_end=3344,
   methods=[
   _descriptor.MethodDescriptor(
     name='NodeState',
@@ -1087,18 +1267,36 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='ListBlockMetadata',
+    full_name='types.AergoRPCService.ListBlockMetadata',
+    index=4,
+    containing_service=None,
+    input_type=_LISTPARAMS,
+    output_type=_BLOCKMETADATALIST,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='ListBlockStream',
     full_name='types.AergoRPCService.ListBlockStream',
-    index=4,
+    index=5,
     containing_service=None,
     input_type=_EMPTY,
     output_type=blockchain__pb2._BLOCK,
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='ListBlockMetadataStream',
+    full_name='types.AergoRPCService.ListBlockMetadataStream',
+    index=6,
+    containing_service=None,
+    input_type=_EMPTY,
+    output_type=_BLOCKMETADATA,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='GetBlock',
     full_name='types.AergoRPCService.GetBlock',
-    index=5,
+    index=7,
     containing_service=None,
     input_type=_SINGLEBYTES,
     output_type=blockchain__pb2._BLOCK,
@@ -1107,7 +1305,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetTX',
     full_name='types.AergoRPCService.GetTX',
-    index=6,
+    index=8,
     containing_service=None,
     input_type=_SINGLEBYTES,
     output_type=blockchain__pb2._TX,
@@ -1116,7 +1314,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetBlockTX',
     full_name='types.AergoRPCService.GetBlockTX',
-    index=7,
+    index=9,
     containing_service=None,
     input_type=_SINGLEBYTES,
     output_type=blockchain__pb2._TXINBLOCK,
@@ -1125,7 +1323,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetReceipt',
     full_name='types.AergoRPCService.GetReceipt',
-    index=8,
+    index=10,
     containing_service=None,
     input_type=_SINGLEBYTES,
     output_type=blockchain__pb2._RECEIPT,
@@ -1134,7 +1332,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetABI',
     full_name='types.AergoRPCService.GetABI',
-    index=9,
+    index=11,
     containing_service=None,
     input_type=_SINGLEBYTES,
     output_type=blockchain__pb2._ABI,
@@ -1143,97 +1341,16 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SendTX',
     full_name='types.AergoRPCService.SendTX',
-    index=10,
+    index=12,
     containing_service=None,
     input_type=blockchain__pb2._TX,
     output_type=_COMMITRESULT,
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
-    name='CommitTX',
-    full_name='types.AergoRPCService.CommitTX',
-    index=11,
-    containing_service=None,
-    input_type=blockchain__pb2._TXLIST,
-    output_type=_COMMITRESULTLIST,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='GetState',
-    full_name='types.AergoRPCService.GetState',
-    index=12,
-    containing_service=None,
-    input_type=_SINGLEBYTES,
-    output_type=blockchain__pb2._STATE,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='GetStateAndProof',
-    full_name='types.AergoRPCService.GetStateAndProof',
-    index=13,
-    containing_service=None,
-    input_type=_ACCOUNTANDROOT,
-    output_type=blockchain__pb2._STATEPROOF,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='CreateAccount',
-    full_name='types.AergoRPCService.CreateAccount',
-    index=14,
-    containing_service=None,
-    input_type=_PERSONAL,
-    output_type=account__pb2._ACCOUNT,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='GetAccounts',
-    full_name='types.AergoRPCService.GetAccounts',
-    index=15,
-    containing_service=None,
-    input_type=_EMPTY,
-    output_type=account__pb2._ACCOUNTLIST,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='LockAccount',
-    full_name='types.AergoRPCService.LockAccount',
-    index=16,
-    containing_service=None,
-    input_type=_PERSONAL,
-    output_type=account__pb2._ACCOUNT,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='UnlockAccount',
-    full_name='types.AergoRPCService.UnlockAccount',
-    index=17,
-    containing_service=None,
-    input_type=_PERSONAL,
-    output_type=account__pb2._ACCOUNT,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='ImportAccount',
-    full_name='types.AergoRPCService.ImportAccount',
-    index=18,
-    containing_service=None,
-    input_type=_IMPORTFORMAT,
-    output_type=account__pb2._ACCOUNT,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='ExportAccount',
-    full_name='types.AergoRPCService.ExportAccount',
-    index=19,
-    containing_service=None,
-    input_type=_PERSONAL,
-    output_type=_SINGLEBYTES,
-    serialized_options=None,
-  ),
-  _descriptor.MethodDescriptor(
     name='SignTX',
     full_name='types.AergoRPCService.SignTX',
-    index=20,
+    index=13,
     containing_service=None,
     input_type=blockchain__pb2._TX,
     output_type=blockchain__pb2._TX,
@@ -1242,16 +1359,97 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='VerifyTX',
     full_name='types.AergoRPCService.VerifyTX',
-    index=21,
+    index=14,
     containing_service=None,
     input_type=blockchain__pb2._TX,
     output_type=_VERIFYRESULT,
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='CommitTX',
+    full_name='types.AergoRPCService.CommitTX',
+    index=15,
+    containing_service=None,
+    input_type=blockchain__pb2._TXLIST,
+    output_type=_COMMITRESULTLIST,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetState',
+    full_name='types.AergoRPCService.GetState',
+    index=16,
+    containing_service=None,
+    input_type=_SINGLEBYTES,
+    output_type=blockchain__pb2._STATE,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetStateAndProof',
+    full_name='types.AergoRPCService.GetStateAndProof',
+    index=17,
+    containing_service=None,
+    input_type=_ACCOUNTANDROOT,
+    output_type=blockchain__pb2._STATEPROOF,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='CreateAccount',
+    full_name='types.AergoRPCService.CreateAccount',
+    index=18,
+    containing_service=None,
+    input_type=_PERSONAL,
+    output_type=account__pb2._ACCOUNT,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetAccounts',
+    full_name='types.AergoRPCService.GetAccounts',
+    index=19,
+    containing_service=None,
+    input_type=_EMPTY,
+    output_type=account__pb2._ACCOUNTLIST,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='LockAccount',
+    full_name='types.AergoRPCService.LockAccount',
+    index=20,
+    containing_service=None,
+    input_type=_PERSONAL,
+    output_type=account__pb2._ACCOUNT,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='UnlockAccount',
+    full_name='types.AergoRPCService.UnlockAccount',
+    index=21,
+    containing_service=None,
+    input_type=_PERSONAL,
+    output_type=account__pb2._ACCOUNT,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ImportAccount',
+    full_name='types.AergoRPCService.ImportAccount',
+    index=22,
+    containing_service=None,
+    input_type=_IMPORTFORMAT,
+    output_type=account__pb2._ACCOUNT,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ExportAccount',
+    full_name='types.AergoRPCService.ExportAccount',
+    index=23,
+    containing_service=None,
+    input_type=_PERSONAL,
+    output_type=_SINGLEBYTES,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='QueryContract',
     full_name='types.AergoRPCService.QueryContract',
-    index=22,
+    index=24,
     containing_service=None,
     input_type=blockchain__pb2._QUERY,
     output_type=_SINGLEBYTES,
@@ -1260,7 +1458,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='QueryContractState',
     full_name='types.AergoRPCService.QueryContractState',
-    index=23,
+    index=25,
     containing_service=None,
     input_type=blockchain__pb2._STATEQUERY,
     output_type=blockchain__pb2._STATEQUERYPROOF,
@@ -1269,7 +1467,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetPeers',
     full_name='types.AergoRPCService.GetPeers',
-    index=24,
+    index=26,
     containing_service=None,
     input_type=_EMPTY,
     output_type=_PEERLIST,
@@ -1278,7 +1476,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetVotes',
     full_name='types.AergoRPCService.GetVotes',
-    index=25,
+    index=27,
     containing_service=None,
     input_type=_SINGLEBYTES,
     output_type=_VOTELIST,
@@ -1287,10 +1485,19 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetStaking',
     full_name='types.AergoRPCService.GetStaking',
-    index=26,
+    index=28,
     containing_service=None,
     input_type=_SINGLEBYTES,
     output_type=_STAKING,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetNameInfo',
+    full_name='types.AergoRPCService.GetNameInfo',
+    index=29,
+    containing_service=None,
+    input_type=_NAME,
+    output_type=_NAMEINFO,
     serialized_options=None,
   ),
 ])
