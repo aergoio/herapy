@@ -45,10 +45,7 @@ dumpfilepath = "${AERGO_HOME}/mempool.dump"
 
 [consensus]
 enablebp = true
-#enabledpos = false
 blockinterval = 1
-dposbps = 23
-bpids = []
 
 [monitor]
 protocol = ""

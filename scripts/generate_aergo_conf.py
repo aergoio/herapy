@@ -44,26 +44,33 @@ def find_conf_types(types_f, conf_type):
 
 def find_conf_child_types(types_f, conf_type):
     line = types_f.readline()
-    while line:
-        line = line.strip()
+    try:
+        while line:
+            line = line.strip()
+            if line is None or 0 == len(line):
+                line = types_f.readline()
+                continue
 
-        if "}" in line:
-            return
+            if "}" in line:
+                return
 
-        if line.startswith("//"):
+            if line.startswith("//"):
+                line = types_f.readline()
+                continue
+
+            pos = line.find(MAPSTRUCTURE) + len(MAPSTRUCTURE) + 1
+            line2 = line[pos:]
+            pos = line2.find('"')
+            name = line2[:pos]
+
+            _, var_type, _ = line.split(None, 2)
+
+            conf_type[name] = var_type
+
             line = types_f.readline()
-            continue
-
-        pos = line.find(MAPSTRUCTURE) + len(MAPSTRUCTURE) + 1
-        line2 = line[pos:]
-        pos = line2.find('"')
-        name = line2[:pos]
-
-        _, var_type, _ = line.split(None, 2)
-
-        conf_type[name] = var_type
-
-        line = types_f.readline()
+    except:
+        eprint("ERROR: to parse line: ", line)
+        raise
 
 
 def main():
@@ -93,6 +100,7 @@ def main():
 
             line = types_f.readline()
     except Exception as e:
+        eprint("ERROR: to parse line: ", line)
         traceback.print_exception(*sys.exc_info())
     finally:
         types_f.close()

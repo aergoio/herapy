@@ -34,6 +34,8 @@ AERGO_DEFAULT_CONF = {
         "npmaxpeers": 100,
         "nppeerpool": 100,
     },
+    "polaris": {
+    },
     "blockchain": {
         "maxblocksize": 1048576,
         "coinbaseaccount": "",
@@ -47,12 +49,12 @@ AERGO_DEFAULT_CONF = {
     "consensus": {
         "enablebp": True,
         "blockinterval": 1,
-        "dposbps": 23,
-        "bpids": [],
     },
     "monitor": {
         "protocol": "",
         "endpoint": "",
+    },
+    "account": {
     },
 }
 
@@ -63,10 +65,12 @@ class AergoConfig:
         self.__conf['rpc'] = dict(AERGO_DEFAULT_CONF['rpc'])
         self.__conf['rest'] = dict(AERGO_DEFAULT_CONF['rest'])
         self.__conf['p2p'] = dict(AERGO_DEFAULT_CONF['p2p'])
+        self.__conf['polaris'] = dict(AERGO_DEFAULT_CONF['polaris'])
         self.__conf['blockchain'] = dict(AERGO_DEFAULT_CONF['blockchain'])
         self.__conf['mempool'] = dict(AERGO_DEFAULT_CONF['mempool'])
         self.__conf['consensus'] = dict(AERGO_DEFAULT_CONF['consensus'])
         self.__conf['monitor'] = dict(AERGO_DEFAULT_CONF['monitor'])
+        self.__conf['account'] = dict(AERGO_DEFAULT_CONF['account'])
 
     @property
     def conf(self):
@@ -315,6 +319,26 @@ class AergoConfig:
         self.__conf['p2p']['npaddpeers'] = v
 
     @property
+    def p2p_nphiddenpeers(self):
+        return self.__conf['p2p']['nphiddenpeers']
+
+    @p2p_nphiddenpeers.setter
+    def p2p_nphiddenpeers(self, v):
+        if not isinstance(v, list):
+            raise TypeError('input value should be an array type')
+        self.__conf['p2p']['nphiddenpeers'] = v
+
+    @property
+    def p2p_npdiscoverpeers(self):
+        return bool(self.__conf['p2p']['npdiscoverpeers'])
+
+    @p2p_npdiscoverpeers.setter
+    def p2p_npdiscoverpeers(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['p2p']['npdiscoverpeers'] = v
+
+    @property
     def p2p_npmaxpeers(self):
         return int(self.__conf['p2p']['npmaxpeers'])
 
@@ -335,8 +359,62 @@ class AergoConfig:
         self.__conf['p2p']['nppeerpool'] = v
 
     @property
+    def p2p_npexposeself(self):
+        return bool(self.__conf['p2p']['npexposeself'])
+
+    @p2p_npexposeself.setter
+    def p2p_npexposeself(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['p2p']['npexposeself'] = v
+
+    @property
+    def p2p_npusepolaris(self):
+        return bool(self.__conf['p2p']['npusepolaris'])
+
+    @p2p_npusepolaris.setter
+    def p2p_npusepolaris(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['p2p']['npusepolaris'] = v
+
+    @property
+    def p2p_npaddpolarises(self):
+        return self.__conf['p2p']['npaddpolarises']
+
+    @p2p_npaddpolarises.setter
+    def p2p_npaddpolarises(self, v):
+        if not isinstance(v, list):
+            raise TypeError('input value should be an array type')
+        self.__conf['p2p']['npaddpolarises'] = v
+
+    @property
+    def polaris(self):
+        return self.__conf['p2p']['npaddpolarises']
+
+    @property
+    def polaris_allowprivate(self):
+        return bool(self.__conf['polaris']['allowprivate'])
+
+    @polaris_allowprivate.setter
+    def polaris_allowprivate(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['polaris']['allowprivate'] = v
+
+    @property
+    def polaris_genesisfile(self):
+        return str(self.__conf['polaris']['genesisfile'])
+
+    @polaris_genesisfile.setter
+    def polaris_genesisfile(self, v):
+        if not isinstance(v, str):
+            raise TypeError('input value should be a string type')
+        self.__conf['polaris']['genesisfile'] = v
+
+    @property
     def blockchain(self):
-        return self.__conf['p2p']['nppeerpool']
+        return self.__conf['polaris']['genesisfile']
 
     @property
     def blockchain_maxblocksize(self):
@@ -379,8 +457,18 @@ class AergoConfig:
         self.__conf['blockchain']['usefastsyncer'] = v
 
     @property
+    def blockchain_verifiercount(self):
+        return int(self.__conf['blockchain']['verifiercount'])
+
+    @blockchain_verifiercount.setter
+    def blockchain_verifiercount(self, v):
+        if not isinstance(v, int):
+            raise TypeError('input value should be an integer type')
+        self.__conf['blockchain']['verifiercount'] = v
+
+    @property
     def mempool(self):
-        return self.__conf['blockchain']['usefastsyncer']
+        return self.__conf['blockchain']['verifiercount']
 
     @property
     def mempool_showmetrics(self):
@@ -391,6 +479,26 @@ class AergoConfig:
         if not isinstance(v, bool):
             raise TypeError('input value should be a boolean type')
         self.__conf['mempool']['showmetrics'] = v
+
+    @property
+    def mempool_enablefadeout(self):
+        return bool(self.__conf['mempool']['enablefadeout'])
+
+    @mempool_enablefadeout.setter
+    def mempool_enablefadeout(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['mempool']['enablefadeout'] = v
+
+    @property
+    def mempool_fadeoutperiod(self):
+        return int(self.__conf['mempool']['fadeoutperiod'])
+
+    @mempool_fadeoutperiod.setter
+    def mempool_fadeoutperiod(self, v):
+        if not isinstance(v, int):
+            raise TypeError('input value should be an integer type')
+        self.__conf['mempool']['fadeoutperiod'] = v
 
     @property
     def mempool_verifiers(self):
@@ -427,16 +535,6 @@ class AergoConfig:
         self.__conf['consensus']['enablebp'] = v
 
     @property
-    def consensus_enabledpos(self):
-        return bool(self.__conf['consensus']['enabledpos'])
-
-    @consensus_enabledpos.setter
-    def consensus_enabledpos(self, v):
-        if not isinstance(v, bool):
-            raise TypeError('input value should be a boolean type')
-        self.__conf['consensus']['enabledpos'] = v
-
-    @property
     def consensus_blockinterval(self):
         return int(self.__conf['consensus']['blockinterval'])
 
@@ -447,28 +545,8 @@ class AergoConfig:
         self.__conf['consensus']['blockinterval'] = v
 
     @property
-    def consensus_dposbps(self):
-        return int(self.__conf['consensus']['dposbps'])
-
-    @consensus_dposbps.setter
-    def consensus_dposbps(self, v):
-        if not isinstance(v, int):
-            raise TypeError('input value should be an integer type')
-        self.__conf['consensus']['dposbps'] = v
-
-    @property
-    def consensus_bpids(self):
-        return self.__conf['consensus']['bpids']
-
-    @consensus_bpids.setter
-    def consensus_bpids(self, v):
-        if not isinstance(v, list):
-            raise TypeError('input value should be an array type')
-        self.__conf['consensus']['bpids'] = v
-
-    @property
     def monitor(self):
-        return self.__conf['consensus']['bpids']
+        return self.__conf['consensus']['blockinterval']
 
     @property
     def monitor_protocol(self):
@@ -489,5 +567,19 @@ class AergoConfig:
         if not isinstance(v, str):
             raise TypeError('input value should be a string type')
         self.__conf['monitor']['endpoint'] = v
+
+    @property
+    def account(self):
+        return self.__conf['monitor']['endpoint']
+
+    @property
+    def account_unlocktimeout(self):
+        return int(self.__conf['account']['unlocktimeout'])
+
+    @account_unlocktimeout.setter
+    def account_unlocktimeout(self, v):
+        if not isinstance(v, int):
+            raise TypeError('input value should be an integer type')
+        self.__conf['account']['unlocktimeout'] = v
 
 
