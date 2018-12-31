@@ -6,45 +6,108 @@ import base64
 from ..constants import *
 
 
-def encode_address(address):
-    v = ADDRESS_VERSION + address
+def is_empty(v):
+    if v is None or 0 == len(v):
+        return True
+    return False
+
+
+def encode_b64(v):
+    if is_empty(v):
+        return None
+    return base64.b64encode(v).decode('utf-8')
+
+
+def decode_b64(v):
+    if is_empty(v):
+        return None
+    return base64.b64decode(v)
+
+
+def encode_b58_check(v):
+    if is_empty(v):
+        return None
     return base58.b58encode_check(v).decode('utf-8')
 
 
+def decode_b58_check(v):
+    if is_empty(v):
+        return None
+    return base58.b58decode_check(v)
+
+
+def encode_b58(v):
+    if is_empty(v):
+        return None
+    return base58.b58encode(v).decode('utf-8')
+
+
+def decode_b58(v):
+    if is_empty(v):
+        return None
+    return base58.b58decode(v)
+
+
+def encode_address(address):
+    v = ADDRESS_VERSION + address
+    return encode_b58_check(v)
+
+
 def decode_address(address):
-    v = base58.b58decode_check(address)
+    if is_empty(address):
+        return None
+    v = decode_b58_check(address)
     return v[len(ADDRESS_VERSION):]
 
 def decode_root(root):
+    if is_empty(root):
+        return None
     return base58.b58decode(root)
 
 
 def encode_payload(payload):
-    return encode_address(payload)
+    if is_empty(payload):
+        return None
+    return encode_b58_check(payload)
 
 
 def decode_payload(payload_str):
-    return decode_address(payload_str)
+    if is_empty(payload_str):
+        return None
+    return decode_b58_check(payload_str)
 
 
 def encode_private_key(private_key):
     v = PRIVATE_KEY_VERSION + private_key
-    return base58.b58encode_check(v).decode('utf-8')
+    return encode_b58_check(v)
 
 
 def decode_private_key(private_key):
-    v = base58.b58decode_check(private_key)
+    if is_empty(private_key):
+        return None
+    v = decode_b58_check(private_key)
     return v[len(PRIVATE_KEY_VERSION):]
 
 
-def encode_signature(sign):
-    return base64.b64encode(sign)
-
-
 def encode_tx_hash(tx_hash):
-    return base58.b58encode(tx_hash).decode('utf-8')
+    if is_empty(tx_hash):
+        return None
+    return encode_b58(tx_hash)
 
 
 def decode_tx_hash(tx_hash):
-    return base58.b58decode(tx_hash)
+    if is_empty(tx_hash):
+        return None
+    return decode_b58(tx_hash)
 
+
+def encode_signature(sign):
+    if is_empty(sign):
+        return None
+    return encode_b58(sign)
+
+
+def decode_signature(sign):
+    if is_empty(sign):
+        return None
+    return decode_b58(sign)

@@ -2,12 +2,20 @@
 
 """Transaction class."""
 
+import enum
 import hashlib
-import base58
+import json
 
-from . import tx_hash as th
+from . import tx_hash as txh
 from ..obj import aer
 from ..grpc import blockchain_pb2
+from ..utils.encoding import encode_signature, decode_signature, encode_payload
+
+
+@enum.unique
+class TxType(enum.Enum):
+    NORMAL = blockchain_pb2.NORMAL
+    GOVERNANCE = blockchain_pb2.GOVERNANCE
 
 
 class Transaction:
@@ -25,24 +33,28 @@ class Transaction:
     }
     """
 
-    FEE_MIN_PRICE = 1
-    FEE_MIN_LIMIT = 1
-
-    TX_TYPE_NORMAL = blockchain_pb2.NORMAL
-    TX_TYPE_GOVERNANCE = blockchain_pb2.GOVERNANCE
-
     def __init__(self, from_address=None, to_address=None,
-                 nonce=0, amount=0, payload=None,
-                 fee_price=FEE_MIN_PRICE, fee_limit=FEE_MIN_LIMIT):
+                 nonce=0, amount=0, payload=None, fee_price=0, fee_limit=0,
+                 read_only=False, tx_hash=None, tx_sign=None, tx_type=TxType.NORMAL):
         self.__from_address = from_address
         self.__to_address = to_address
         self.__nonce = nonce
         self.__amount = aer.Aer(amount)
         self.__payload = payload
-        self.__fee_price = fee_price
+        if isinstance(fee_price, bytes):
+            fee_price = int.from_bytes(fee_price, byteorder='big')
+        self.__fee_price = aer.Aer(fee_price)
+        if isinstance(fee_limit, bytes):
+            fee_limit = int.from_bytes(fee_limit, byteorder='little')
         self.__fee_limit = fee_limit
-        self.__sign = None
-        self.__tx_type = self.TX_TYPE_NORMAL
+        if isinstance(tx_type, bytes):
+            tx_type = int.from_bytes(tx_type, byteorder='little')
+        self.__tx_type = TxType(tx_type)
+        self.__read_only = read_only
+        self.__tx_hash = txh.TxHash(tx_hash)
+        if isinstance(tx_sign, str):
+            tx_sign = decode_signature(tx_sign)
+        self.__sign = tx_sign
 
     def calculate_hash(self, including_sign=True):
         m = hashlib.sha256()
@@ -55,7 +67,6 @@ class Transaction:
         if self.__to_address is not None:
             m.update(self.__to_address)
         # amount
-        #b = self.__amount.to_bytes(8, byteorder='big')
         b = bytes(self.__amount)
         m.update(b)
         # payload
@@ -67,10 +78,10 @@ class Transaction:
         b = self.__fee_limit.to_bytes(8, byteorder='little')
         m.update(b)
         # fee: price
-        b = self.__fee_price.to_bytes(8, byteorder='big')
+        b = bytes(self.__fee_price)
         m.update(b)
         # type
-        b = self.__tx_type.to_bytes(4, byteorder='little')
+        b = self.__tx_type.value.to_bytes(4, byteorder='little')
         m.update(b)
         # sign
         if including_sign and self.__sign is not None:
@@ -84,6 +95,9 @@ class Transaction:
 
     @nonce.setter
     def nonce(self, v):
+        if self.__read_only:
+            return
+
         self.__nonce = v
 
     @property
@@ -92,6 +106,9 @@ class Transaction:
 
     @from_address.setter
     def from_address(self, v):
+        if self.__read_only:
+            return
+
         self.__from_address = v
 
     @property
@@ -100,6 +117,9 @@ class Transaction:
 
     @to_address.setter
     def to_address(self, v):
+        if self.__read_only:
+            return
+
         self.__to_address = v
 
     @property
@@ -108,6 +128,9 @@ class Transaction:
 
     @amount.setter
     def amount(self, v):
+        if self.__read_only:
+            return
+
         self.__amount = aer.Aer(v)
 
     @property
@@ -116,13 +139,16 @@ class Transaction:
 
     @payload.setter
     def payload(self, v):
+        if self.__read_only:
+            return
+
         self.__payload = v
 
     @property
     def payload_str(self):
         if self.__payload is None:
             return None
-        return base58.b58encode(self.__payload).decode('utf-8')
+        return encode_payload(self.__payload)
 
     @property
     def fee_limit(self):
@@ -130,6 +156,9 @@ class Transaction:
 
     @fee_limit.setter
     def fee_limit(self, v):
+        if self.__read_only:
+            return
+
         self.__fee_limit = v
 
     @property
@@ -138,6 +167,9 @@ class Transaction:
 
     @fee_price.setter
     def fee_price(self, v):
+        if self.__read_only:
+            return
+
         self.__fee_price = v
 
     @property
@@ -146,11 +178,10 @@ class Transaction:
 
     @tx_type.setter
     def tx_type(self, v):
-        if v != self.TX_TYPE_NORMAL \
-                or v != self.TX_TYPE_GOVERNANCE:
+        if self.__read_only:
             return
 
-        self.__tx_type = v
+        self.__tx_type = TxType(v)
 
     @property
     def sign(self):
@@ -158,14 +189,38 @@ class Transaction:
 
     @sign.setter
     def sign(self, v):
+        if self.__read_only:
+            return
+
         self.__sign = v
 
     @property
     def sign_str(self):
         if self.__sign is None:
             return None
-        return base58.b58encode(self.__sign).decode('utf-8')
+        return encode_signature(self.__sign)
 
     @property
     def tx_hash(self):
-        return th.TxHash(self.calculate_hash())
+        if self.__read_only:
+            return self.__tx_hash
+        return txh.TxHash(self.calculate_hash())
+
+    def json(self):
+        return {
+            "Hash": str(self.tx_hash),
+            "Body": {
+                "Nonce": self.nonce,
+                "Account": str(self.from_address) if self.from_address is not None else None,
+                "Recipient": str(self.to_address) if self.to_address is not None else None,
+                "Amount": str(self.amount),
+                "Payload": self.payload_str,
+                "Limit": self.fee_limit,
+                "Price": str(self.fee_price),
+                "Sign": self.sign_str,
+                "Type": self.tx_type.name,
+            }
+        }
+
+    def __str__(self):
+        return json.dumps(self.json())
