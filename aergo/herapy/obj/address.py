@@ -2,14 +2,21 @@
 
 from ecdsa.ecdsa import int_to_string
 
-from ..utils.encoding import encode_address
+from ..utils.encoding import encode_address, decode_address
 
 
 class Address:
     def __init__(self, pubkey):
         if pubkey is None:
             assert 1 == 0
-        self.__generate_address(pubkey)
+
+        if isinstance(pubkey, str):
+            pubkey = decode_address(pubkey)
+
+        if isinstance(pubkey, bytes):
+            self.__address = pubkey
+        else:
+            self.__generate_address(pubkey)
 
     def __str__(self):
         return encode_address(self.__address)

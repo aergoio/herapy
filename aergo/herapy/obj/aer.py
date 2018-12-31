@@ -15,6 +15,8 @@ AERGO_UNIT_PRECISION = UNITS_SIZE['aergo']
 class Aer:
     """Return Aergo Unit, AER(/ˈɛəɹ/)."""
     def __init__(self, value='0 aer'):
+        if isinstance(value, bytes):
+            value = int.from_bytes(value, byteorder='big')
         self.__aer = self._parsing_value(value)
 
     @staticmethod
