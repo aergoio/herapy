@@ -9,7 +9,7 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         print("------ Get Accounts without State in Node -----------")
         accounts = aergo.get_node_accounts(skip_state=True)
