@@ -91,6 +91,9 @@ dist: clean ## builds source and wheel package
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
+uninstall: ## uninstall the package in the active Python's site-packages
+	pip uninstall aergo-herapy -y
+
 protoc: ## generate *_pb2.py and *_pb2_grpc.py in aergo/herapy/grpc from aergo-protobuf/proto/*.proto
 	python -m grpc_tools.protoc \
 		-I./aergo-protobuf/proto \

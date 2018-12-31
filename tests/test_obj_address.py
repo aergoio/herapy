@@ -13,7 +13,7 @@ def test_fail():
     with pytest.raises(AttributeError):
         Address(1234)
 
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         Address("1234")
 
 
