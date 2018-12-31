@@ -79,14 +79,18 @@ Using Pipenv, all dependencies will be installed automatically.
 
     pipenv shell
 
-If you cleaned up and setup again, then do not forget make an environment with '--dev' option
+If you cleaned up and setup again,
+
+.. code-block::
+
+    pipenv install
+
+If you want to test or contribute, then do not forget '--dev' option
 
 .. code-block::
 
     pipenv install --dev
     make test
-
-Without the option, all tests will not work.
 
 Updating Protocol
 =================
@@ -105,6 +109,7 @@ Updating Aergo Configurations
 If need to upgrade Aergo Configurations,
 
 .. code-block::
+
     make aergo-types
 
 After this command, 'aergo/herapy/obj/aergo_conf.py' will be generated if it's different.
@@ -112,11 +117,13 @@ After this command, 'aergo/herapy/obj/aergo_conf.py' will be generated if it's d
 If occur the error message below
 
 .. code-block::
+
     ERROR: Cannot find 'AERGO_TYPES_SRC'
 
 , find the source code 'aergo/config/types.go' and make this file path as an environment variable of 'AERGO_TYPES_SRC'
 
 .. code-block::
+
     export AERGO_TYPES_SRC=`find ~ -path '*/aergo/config/types.go' 2>/dev/null`
     make aergo-types
 
