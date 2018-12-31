@@ -15,6 +15,7 @@ personal = true
 netserviceaddr = "127.0.0.1"
 netserviceport = 7845
 netservicetrace = false
+nstls = false
 nskey = ""
 
 [rest]
@@ -29,8 +30,17 @@ nptls = false
 npcert = ""
 npkey = ""
 npaddpeers = []
+nphiddenpeers = []
+npdiscoverpeers = true
 npmaxpeers = 100
 nppeerpool = 100
+npexposeself = true
+npusepolaris = true
+npaddpolarises = []
+
+[polaris]
+allowprivate = false
+genesisfile = ""
 
 [blockchain]
 maxblocksize = 1048576
@@ -40,17 +50,20 @@ usefastsyncer = false
 
 [mempool]
 showmetrics = false
+enablefadeout = false
+fadeoutperiod = 12
 dumpfilepath = "${AERGO_HOME}/mempool.dump"
 
 [consensus]
-enablebp = true
+enablebp = false
 blockinterval = 1
-dposbps = 23
-bpids = []
 
 [monitor]
 protocol = ""
 endpoint = ""
+
+[account]
+unlocktimeout = 60
 """
 
 
@@ -59,11 +72,11 @@ def test_default():
     generate_toml = herapy.utils.convert_aergo_conf_to_toml(aergo_conf)
     assert DEFAULT_AERGO_CONFIG == generate_toml
     with pytest.raises(KeyError):
-        aergo_conf.rpc_nstls
-    with pytest.raises(KeyError):
         aergo_conf.rpc_nscert
     with pytest.raises(KeyError):
         aergo_conf.rpc_nsallowcors
+    with pytest.raises(KeyError):
+        aergo_conf.blockchain_verifiercount
     with pytest.raises(KeyError):
         aergo_conf.mempool_verifiers
 
@@ -109,16 +122,18 @@ dumpfilepath = "/Users/yp/work/blocko/go/src/github.com/aergoio/aergo/bin/alone/
 
 [consensus]
 enablebp = true
-enabledpos = false
 blockinterval = 3
-dposbps = 23
-bpids = [
-]
 """
 
 
 def test_success():
     aergo_conf = herapy.utils.convert_toml_to_aergo_conf(TEST_AERGO_CONFIG)
+    with pytest.raises(KeyError):
+        aergo_conf.add_conf("test", "test")
+    with pytest.raises(KeyError):
+        aergo_conf.add_conf("test", "test", "test")
+    with pytest.raises(KeyError):
+        aergo_conf.add_conf("test", "test", "rpc")
     # check base config
     assert aergo_conf.datadir == "/Users/yp/work/blocko/go/src/github.com/aergoio/aergo/bin/alone/data"
     assert aergo_conf.dbtype == herapy.AERGO_DEFAULT_CONF['dbtype']
@@ -131,8 +146,6 @@ def test_success():
     assert aergo_conf.rpc_netserviceaddr == "127.0.0.1"
     assert aergo_conf.rpc_netserviceport == 7845
     assert aergo_conf.rpc_netservicetrace is False
-    with pytest.raises(KeyError):
-        herapy.AERGO_DEFAULT_CONF['rpc']['nstls']
     assert aergo_conf.rpc_nstls is False
     with pytest.raises(KeyError):
         herapy.AERGO_DEFAULT_CONF['rpc']['nscert']
@@ -170,11 +183,7 @@ def test_success():
     assert aergo_conf.mempool_dumpfilepath == "/Users/yp/work/blocko/go/src/github.com/aergoio/aergo/bin/alone/mempool.dump"
     # check consensus config
     assert aergo_conf.consensus_enablebp is True
-    assert aergo_conf.consensus_enabledpos is False
     assert aergo_conf.consensus_blockinterval == 3
-    assert aergo_conf.consensus_dposbps == 23
-    assert isinstance(aergo_conf.consensus_bpids, list)
-    assert 0 == len(aergo_conf.consensus_bpids)
     # check monitor config
     assert aergo_conf.monitor_protocol == herapy.AERGO_DEFAULT_CONF['monitor']['protocol']
     assert aergo_conf.monitor_endpoint == herapy.AERGO_DEFAULT_CONF['monitor']['endpoint']

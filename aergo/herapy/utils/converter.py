@@ -18,9 +18,9 @@ def convert_toml_to_aergo_conf(v):
     for k, v in conf.items():
         if isinstance(v, dict):
             for k2, v2 in v.items():
-                aergo_conf.conf[k][k2] = v2
+                aergo_conf.add_conf(k2, v2, k)
         else:
-            aergo_conf.conf[k] = v
+            aergo_conf.add_conf(k, v)
 
     return aergo_conf
 
