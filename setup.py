@@ -27,13 +27,13 @@ test_requirements = ['pytest', ]
 
 setup(
     name='aergo-herapy',
-    version='0.9.0',
+    version='0.9.1',
     description="python SDK for AERGO",
     keywords='herapy',
     author="aergo.io",
     author_email='tech@aergo.io',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
