@@ -154,12 +154,18 @@ please `open an issue <https://github.com/aergoio/herapy/issues>`_ and discuss w
 We appreciate all contributions.
 
 
+-------------
+Documentation
+-------------
+
+https://aergo-herapy.readthedocs.io
+
+
 -------
 License
 -------
 
 HeraPy is MIT license as found in the LICENSE file.
-* Documentation: https://herapy.readthedocs.io.
 
 
 -------
