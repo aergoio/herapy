@@ -12,8 +12,8 @@ herapy
 .. image:: https://travis-ci.com/aergoio/herapy.svg?token=bxpJA7kPFExuJMq3sBNb&branch=master
     :target: https://travis-ci.com/aergoio/herapy
 
-.. image:: https://readthedocs.org/projects/herapy/badge/?version=latest
-        :target: https://herapy.readthedocs.io/en/latest/?badge=latest
+.. image:: https://aergo-herapy.readthedocs.io/en/latest/?badge=latest
+        :target: https://aergo-herapy.readthedocs.io/en/latest/
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/aergoio/herapy/shield.svg

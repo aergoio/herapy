@@ -22,6 +22,8 @@ flake8 = "*"
 setuptools = "*"
 wheel = "*"
 twine = "*"
+Sphinx = "*"
+sphinx_rtd_theme = "*"
 
 [requires]
 python_version = "3.7"
