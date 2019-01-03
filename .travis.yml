@@ -6,10 +6,11 @@ matrix:
       sudo: true
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements_dev.txt
   - make install
 # command to run tests
-script: 
+script:
+  - make test-all
   - make coverage
 after-success: 
   - codecov -t edf94592-dde4-4934-8d37-1b2fc2ed95d8
