@@ -16,3 +16,5 @@ build/
 tags
 VENV/
 .tox/
+.env
+*.out

@@ -5,6 +5,7 @@ class AergoException(Exception):
     # Exception types
     Comm = "Communication Exception"
     Conv = "Conversion Exception"
+    General = "General Exception"
 
     def __init__(self, error, exception_type):
         self.error = error

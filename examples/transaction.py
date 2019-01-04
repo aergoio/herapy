@@ -18,8 +18,7 @@ def run():
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test password",
-                                           private_key=sender_private_key)
+        sender_account = aergo.new_account(private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address))
         aergo.get_account()
         print("    > account state of Sender")
