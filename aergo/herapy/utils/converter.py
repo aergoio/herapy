@@ -64,10 +64,13 @@ def tx_to_json(v):
     return convert_tx_to_json(v)
 
 
+def tx_to_json(v):
+    return convert_tx_to_json(v)
+
+
 def convert_tx_to_formatted_json(tx):
     if tx is None:
         return None
-
     return json.dumps(convert_tx_to_json(tx), indent=2)
 
 
@@ -112,3 +115,7 @@ def convert_bigint_to_bytes(number):
     q, r = divmod(len(bin(number))-2, 8)
     bytes_to_fit_number = q if r == 0 else q + 1
     return number.to_bytes(bytes_to_fit_number, 'little')
+
+
+def bigint_to_bytes(v):
+    return convert_bigint_to_bytes(v)

@@ -117,7 +117,6 @@ class Aer:
         return int(self.dec)
 
     def __bytes__(self):
-        # return int(self).to_bytes(8, 'little')
         return bigint_to_bytes(int(self))
 
     def __add__(self, other):
