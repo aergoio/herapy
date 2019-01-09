@@ -12,11 +12,12 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         print("------ Get Blockchain Status -----------")
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         print("Best Block Hash      = {}".format(best_block_hash))
+        print("str(Best Block Hash)     = {}".format(str(best_block_hash)))
         print("bytes(Best Block Hash)   = {}".format(bytes(best_block_hash)))
         print("int(Best Block Hash)     = {}"
               .format(convert_bytes_to_int_str(bytes(best_block_hash))))
@@ -26,33 +27,36 @@ def run():
 
         print("------ Get Block Status -----------")
         block = aergo.get_block(best_block_hash)
+        print(block)
         print("Block Hash = ", block.hash)
         print("  Height = ", block.height)
         print("  Timestamp = ", block.timestamp)
-        print("  Root Hash = ", block.blocks_root_hash)
+        print("  Blocks Root Hash = ", block.blocks_root_hash)
         print("  Txs Root Hash = ", block.txs_root_hash)
         print("  Confirm = ", block.confirms)
         print("  Pub Key = ", block.public_key)
         print("  Sign = ", block.sign)
-        print("  previous block hash = ", block.prev.hash)
-        print("  Body = ", block.body)
+        print("  previous block hash =\n{}".format(block.prev))
+        print("  Txs = ", block.tx_list)
 
         block = aergo.get_block(block_height=best_block_height)
+        print(block)
         print("Block Hash = ", block.hash)
         print("  Height = ", block.height)
         print("  Timestamp = ", block.timestamp)
-        print("  Root Hash = ", block.blocks_root_hash)
+        print("  Blocks Root Hash = ", block.blocks_root_hash)
         print("  Txs Root Hash = ", block.txs_root_hash)
         print("  Confirm = ", block.confirms)
         print("  Pub Key = ", block.public_key)
         print("  Sign = ", block.sign)
-        print("  previous block hash = ", block.prev.hash)
-        print("  Body = ", block.body)
+        print("  previous block hash =\n{}".format(block.prev))
+        print("  Txs = ", block.tx_list)
 
         print("------ Get Peers -----------")
         # definition of peer needs to describe.
         peers = aergo.get_peers()
-        print(peers)
+        for p in peers:
+            print(p)
 
         print("------ Get Node State -----------")
         node_state = aergo.get_node_state()
@@ -62,7 +66,7 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception as e:
+    except Exception:
         traceback.print_exception(*sys.exc_info())
 
 

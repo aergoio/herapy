@@ -9,9 +9,23 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Export New Account -----------")
-        aergo.new_account(password='1234')
-        new_exp_txt = aergo.export_account()
+        aergo.new_account()
+        new_exp_txt = aergo.export_account(password="1234")
         print("Exported txt is {}".format(new_exp_txt))
+
+        print("------ Import Account -----------")
+        try:
+            aergo.import_account(new_exp_txt, password='test')
+        except herapy.errors.GeneralException:
+            print("It should be failed.")
+
+        print("------ Import Account -----------")
+        try:
+            account = aergo.import_account(new_exp_txt, password='1234')
+            print("Account private key is {}".format(account.private_key))
+            print("Account address is {}".format(account.address))
+        except herapy.errors.GeneralException:
+            print("It should be failed.")
 
         print("------ Import Account -----------")
         exported_txt = "485ccQXjmT3JeUHV16n16LzAJhhfHHkv9HU9k7c5PeJDyPMAdLcCu8Yqws19UzMP4K4Rq2MkQ"
@@ -20,14 +34,14 @@ def run():
         print("Account address is {}".format(account.address))
 
         print("------ Export Account -----------")
-        new_exp_txt = aergo.export_account(account)
+        new_exp_txt = aergo.export_account(password='1234')
         print("Exported txt is {}".format(new_exp_txt))
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         print("------ Get Account State -----------")
-        a = aergo.get_account(account.address)
+        a = aergo.get_account(address=account.address)
         print("  > account state of Import account")
         print("    - balance        = {}".format(a.balance))
         print("    - nonce          = {}".format(a.nonce))
@@ -36,7 +50,7 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception as e:
+    except Exception:
         traceback.print_exception(*sys.exc_info())
 
 

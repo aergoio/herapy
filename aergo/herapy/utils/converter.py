@@ -3,10 +3,29 @@
 """Common utility module for converting types."""
 
 import json
-import base58
+import toml
+import socket
 
+from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
-from .encoding import encode_address
+
+
+def convert_toml_to_aergo_conf(v):
+    aergo_conf = AergoConfig()
+
+    conf = toml.loads(v)
+    for k, v in conf.items():
+        if isinstance(v, dict):
+            for k2, v2 in v.items():
+                aergo_conf.add_conf(k2, v2, k)
+        else:
+            aergo_conf.add_conf(k, v)
+
+    return aergo_conf
+
+
+def convert_aergo_conf_to_toml(aergo_conf):
+    return toml.dumps(aergo_conf.conf)
 
 
 def convert_tx_to_grpc_tx(tx):
@@ -15,16 +34,16 @@ def convert_tx_to_grpc_tx(tx):
     if tx.nonce is not None:
         grpc_tx.body.nonce = tx.nonce
     if tx.from_address is not None:
-        grpc_tx.body.account = tx.from_address
+        grpc_tx.body.account = bytes(tx.from_address)
     if tx.to_address is not None:
-        grpc_tx.body.recipient = tx.to_address
+        grpc_tx.body.recipient = bytes(tx.to_address)
     if tx.amount is not None:
         grpc_tx.body.amount = bytes(tx.amount)
     if tx.payload is not None:
         grpc_tx.body.payload = tx.payload
     grpc_tx.body.limit = tx.fee_limit
-    grpc_tx.body.price = bigint_to_bytes(tx.fee_price)
-    grpc_tx.body.type = tx.tx_type
+    grpc_tx.body.price = bytes(tx.fee_price)
+    grpc_tx.body.type = tx.tx_type.value
     if tx.sign is not None:
         grpc_tx.body.sign = tx.sign
     return grpc_tx
@@ -38,29 +57,11 @@ def convert_tx_to_json(tx):
     if tx is None:
         return None
 
-    json_tx = {
-        'hash': str(tx.tx_hash)
-    }
+    return tx.json()
 
-    body = {
-        'nonce': tx.nonce,
-        'from': encode_address(tx.from_address),
-        'amount': str(tx.amount),
-        'fee_limit': tx.fee_limit,
-        'fee_price': tx.fee_price,
-        'tx_type': tx.tx_type,
-        'tx_sign': tx.sign_str
-    }
 
-    if tx.payload is not None:
-        body['payload'] = str(base58.b58encode_check(tx.payload))
-
-    if tx.to_address is not None:
-        body['to'] = encode_address(tx.to_address)
-
-    json_tx['body'] = body
-
-    return json_tx
+def tx_to_json(v):
+    return convert_tx_to_json(v)
 
 
 def tx_to_json(v):
@@ -89,26 +90,32 @@ def convert_bytes_to_hex_str(v):
     return ''.join('0x{:02x} '.format(x) for x in v)
 
 
-def bytes_to_hex_str(v):
-    return convert_bytes_to_hex_str(v)
+def convert_ip_bytes_to_str(v):
+    l = len(v)
+
+    # IPv4
+    if 4 == l:
+        return socket.inet_ntoa(v)
+    elif 16 == l and all(v2 == 0 for v2 in list(v[:10])) and 255 == v[10] and 255 == v[11]:
+        return socket.inet_ntoa(v[12:16])
+
+    # IPv6
+    return socket.inet_ntop(socket.AF_INET6, v)
 
 
+""" Deprecated
 def convert_luajson_to_json(v):
     v = v.decode('utf-8').replace('\\', '')
     v = v[1:len(v)-1]
     return json.loads(v)
-
-
-def luajson_to_json(v):
-    return convert_luajson_to_json(v)
+"""
 
 
 def convert_bigint_to_bytes(number):
     q, r = divmod(len(bin(number))-2, 8)
     bytes_to_fit_number = q if r == 0 else q + 1
-    return number.to_bytes(bytes_to_fit_number, 'big')
+    return number.to_bytes(bytes_to_fit_number, 'little')
 
 
 def bigint_to_bytes(v):
     return convert_bigint_to_bytes(v)
-

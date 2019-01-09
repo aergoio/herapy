@@ -5,17 +5,20 @@ import time
 import aergo.herapy as herapy
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
 def run():
     try:
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test password",
-                                           private_key=sender_private_key)
+        sender_account = aergo.new_account(private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address))
         aergo.get_account()
         print("    > account state of Sender")
@@ -36,13 +39,15 @@ def run():
         print("{}".format(herapy.utils.convert_tx_to_formatted_json(simple_tx)))
         print("      result: ", result)
         if result.status != herapy.CommitStatus.TX_OK:
-            print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            aergo.disconnect()
+            return
         else:
             print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
 
         time.sleep(3)
 
-        print("------ Check deployment of SC -----------")
+        print("------ Check TX status -----------")
         print("  > TX: {}".format(simple_tx.tx_hash))
         tx_result = aergo.get_tx_result(simple_tx.tx_hash)
         print("      result: ", tx_result)
@@ -74,7 +79,9 @@ def run():
             print("  > TX[{}]".format(i))
             print("{}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
             if result.status != herapy.CommitStatus.TX_OK:
-                print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+                eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+                aergo.disconnect()
+                return
             else:
                 print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
 

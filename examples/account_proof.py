@@ -9,14 +9,13 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         address = "AmPwBMCcYbqyetVmAupjtzR8GgnTAVduZAVE9SnJPzjhWEmhjSef"
 
         print("------ Fund a second account to pass test in testmode -------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test password",
-                                           private_key=sender_private_key)
+        sender_account = aergo.new_account(private_key=sender_private_key)
         simple_tx, result = aergo.send_payload(to_address=address,
                                                amount=10, payload=None,
                                                retry_nonce=3)
@@ -57,7 +56,7 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception as e:
+    except Exception:
         traceback.print_exception(*sys.exc_info())
 
 

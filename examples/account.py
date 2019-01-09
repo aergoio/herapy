@@ -9,7 +9,7 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         print("------ Get Accounts without State in Node -----------")
         accounts = aergo.get_node_accounts(skip_state=True)
@@ -37,7 +37,7 @@ def run():
 
         print("------ Create Account -----------")
         password = "test password"
-        account = aergo.new_account(password=password)
+        account = aergo.new_account()
 
         print("Private Key      = {}".format(account.private_key))
         print("Public Key       = {}".format(account.public_key))
@@ -73,7 +73,7 @@ def run():
             print("    > address       : {}".format(k[2]))
 
             # check account state
-            a = aergo.get_account(k[2])
+            a = aergo.get_account(address=k[2])
             print("    > account state : {}".format(a))
             print("      - balance        = {}".format(a.balance))
             print("        + aergo          = {}".format(aergo.account.balance.aergo))
@@ -85,7 +85,7 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception as e:
+    except Exception:
         traceback.print_exception(*sys.exc_info())
 
 

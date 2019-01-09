@@ -6,6 +6,7 @@ import json
 
 from . import account as acc
 from . import comm
+
 from .obj import block
 from .obj import transaction
 from .obj import address as addr
@@ -16,9 +17,13 @@ from .obj.call_info import CallInfo
 from .obj.tx_result import TxResult
 from .obj.sc_state import SCState
 from .obj.var_proof import VarProof
+
 from .errors.exception import CommunicationException
+from .errors.general_exception import GeneralException
+
 from .status.commit_status import CommitStatus
 from .status.smartcontract_status import SmartcontractStatus
+
 from .utils.encoding import encode_address, decode_address, \
     encode_private_key, decode_private_key, decode_root, \
     encode_tx_hash, decode_tx_hash
@@ -41,14 +46,15 @@ class Aergo:
     def account(self, a):
         self.__account = a
 
-    def new_account(self, password=None, private_key=None):
-        self.__account = acc.Account(password, private_key)
-        self.get_account()
+    def new_account(self, private_key=None, skip_state=False):
+        self.__account = acc.Account(private_key=private_key)
+        if not skip_state:
+            self.get_account()
         return self.__account
 
     # TODO how about making account_state class,
     #       or how about returning account and change method name
-    def get_account(self, address=None, proof=False, root=b'', compressed=True):
+    def get_account(self, account=None, address=None, proof=False, root=b'', compressed=True):
         """
         Return account information
         :param address:
@@ -60,49 +66,48 @@ class Aergo:
         if self.__comm is None:
             return None
 
-        self_acc = False
-        if address is None:
-            address = bytes(self.__account.address)
-            self_acc = True
-        elif isinstance(address, str):
-            address = decode_address(address)
-        elif type(address) is addr.Address:
-            address = bytes(address)
+        if account is None and address is None:
+            # self account
+            ret_account = self.__account
+            req_address = bytes(self.__account.address)
+        elif account is not None:
+            ret_account = account
+            req_address = bytes(account.address)
+        else:
+            if address is None:
+                raise GeneralException("Fail to get an account info. No designated account address.")
+            else:
+                ret_account = acc.Account(empty=True)
+                if isinstance(address, str):
+                    req_address = decode_address(address)
+                elif type(address) is addr.Address:
+                    req_address = bytes(address)
+                else:
+                    req_address = address
+                ret_account.address = req_address
 
         if proof:
             if isinstance(root, str) and len(root) != 0:
                 root = decode_root(root)
             try:
-                state_proof = self.__comm.get_account_state_proof(address,
+                state_proof = self.__comm.get_account_state_proof(req_address,
                                                                   root,
                                                                   compressed)
             except Exception as e:
                 raise CommunicationException(e) from e
 
-            if self_acc and len(root) == 0:
-                self.__account.state = state_proof.state
-                self.__account.state_proof = state_proof
-                account = self.__account
-            else:
-                account = acc.Account("", empty=True)
-                account.state = state_proof.state
-                account.state_proof = state_proof
-                account.address = address
+            ret_account.state = state_proof.state
+            ret_account.state_proof = state_proof
         else:
             try:
-                state = self.__comm.get_account_state(address)
+                state = self.__comm.get_account_state(req_address)
             except Exception as e:
                 raise CommunicationException(e) from e
 
-            if self_acc:
-                self.__account.state = state
-                self.__account.state_proof = None
-                account = self.__account
-            else:
-                account = acc.Account("", empty=True)
-                account.state = state
-                account.address = address
-        return account
+            ret_account.state = state
+            ret_account.state_proof = None
+
+        return ret_account
 
     def connect(self, target):
         """
@@ -184,10 +189,10 @@ class Aergo:
         accounts = []
         for a in result.accounts:
             if skip_state:
-                account = acc.Account("", empty=True)
+                account = acc.Account(empty=True)
                 account.address = a.address
             else:
-                account = self.get_account(a.address)
+                account = self.get_account(address=a.address)
             accounts.append(account)
 
         return accounts
@@ -203,12 +208,9 @@ class Aergo:
             raise CommunicationException(e) from e
 
         peers = []
-        for i in range(len(result.peers)):
-            p = result.peers[i]
-            s = result.states[i]
+        for i, p in enumerate(result.peers):
             peer = pr.Peer()
             peer.info = p
-            peer.state = s
             peers.append(peer)
 
         return peers
@@ -273,7 +275,10 @@ class Aergo:
     @staticmethod
     def _generate_tx(account, to_address, nonce, amount, fee_limit, fee_price,
                      payload):
-        tx = transaction.Transaction(from_address=bytes(account.address),
+        if to_address is not None:
+            to_address = addr.Address(to_address)
+
+        tx = transaction.Transaction(from_address=account.address,
                                      to_address=to_address,
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
@@ -354,7 +359,7 @@ class Aergo:
             results.append(tx_result)
         return signed_txs, results
 
-    def import_account(self, exported_data, password):
+    def import_account(self, exported_data, password, skip_state=False, skip_self=False):
         if exported_data is None or 0 == len(exported_data):
             # TODO unit test + exception handling
             assert 1 == 0
@@ -369,14 +374,21 @@ class Aergo:
         if isinstance(password, bytes):
             password = password.decode('utf-8')
 
-        self.__account = acc.Account.decrypt_account(exported_data, password)
-        return self.__account
+        account = acc.Account.decrypt_account(exported_data, password)
+        if not skip_self:
+            self.__account = account
+            if not skip_state:
+                self.get_account()
+        else:
+            if not skip_state:
+                self.get_account(account=account)
+        return account
 
-    def export_account(self, account=None):
+    def export_account(self, password, account=None):
         if account is None:
             account = self.__account
 
-        enc_acc = acc.Account.encrypt_account(account)
+        enc_acc = acc.Account.encrypt_account(account, password)
         return encode_private_key(enc_acc)
 
     def get_tx_result(self, tx_hash):
@@ -395,9 +407,15 @@ class Aergo:
             try:
                 tx_result.status = SmartcontractStatus(result.status)
                 tx_result.detail = result.ret
+
+                if 'error' in result.ret:
+                    raise ValueError
             except ValueError:
                 tx_result.status = SmartcontractStatus.ERROR
-                tx_result.detail = result.status
+                if 'CREATED' == result.status:
+                    tx_result.detail = result.ret
+                else:
+                    tx_result.detail = result.status
             tx_result.contract_address = encode_address(result.contractAddress)
         except Exception as e:
             raise CommunicationException(e) from e
@@ -480,7 +498,7 @@ class Aergo:
         except Exception as e:
             raise CommunicationException(e) from e
         var_proof = VarProof(result.varProof, var_name, var_index)
-        account = acc.Account("", empty=True)
+        account = acc.Account(empty=True)
         account.state = result.contractProof.state
         account.state_proof = result.contractProof
         account.address = sc_address

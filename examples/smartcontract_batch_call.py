@@ -5,6 +5,10 @@ import time
 import aergo.herapy as herapy
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
 def run():
     print("------ Payload -----------")
     """
@@ -32,12 +36,11 @@ abi.register(setItem, getItem)
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        aergo.connect('testnet.aergo.io:7845')
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
-        sender_account = aergo.new_account(password="test",
-                                           private_key=sender_private_key)
+        sender_account = aergo.new_account(private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address))
         print(herapy.utils.convert_bytes_to_int_str(bytes(sender_account.address)))
 
@@ -57,7 +60,9 @@ abi.register(setItem, getItem)
         print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
         if result.status != herapy.CommitStatus.TX_OK:
-            print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            aergo.disconnect()
+            return
         else:
             print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
             print(herapy.utils.convert_bytes_to_int_str(bytes(tx.tx_hash)))
@@ -68,7 +73,7 @@ abi.register(setItem, getItem)
         print("  > TX: {}".format(tx.tx_hash))
         result = aergo.get_tx_result(tx.tx_hash)
         if result.status != herapy.SmartcontractStatus.CREATED:
-            print("  > ERROR[{0}]:{1}: {2}".format(
+            eprint("  > ERROR[{0}]:{1}: {2}".format(
                 result.contract_address, result.status, result.detail))
             aergo.disconnect()
             return
@@ -93,7 +98,7 @@ abi.register(setItem, getItem)
             print("  > TX[{0}] Result: {1}".format(i, str(tx.tx_hash)))
             result = aergo.get_tx_result(tx.tx_hash)
             if result.status != herapy.SmartcontractStatus.SUCCESS:
-                print("  > ERROR[{0}]:{1}: {2}".format(
+                eprint("  > ERROR[{0}]:{1}: {2}".format(
                     result.contract_address, result.status, result.detail))
                 aergo.disconnect()
                 return
@@ -115,7 +120,7 @@ abi.register(setItem, getItem)
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception as e:
+    except Exception:
         traceback.print_exception(*sys.exc_info())
 
 

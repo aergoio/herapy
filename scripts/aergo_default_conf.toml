@@ -1,0 +1,75 @@
+# ----------------------------------------------------------------------------
+# Check keys from 'github.com/aergoio/aergo/config/types.go'
+# Check default value of keys from 'github.com/aergoio/aergo/config/config.go'
+# and fill the each default value
+# ----------------------------------------------------------------------------
+
+datadir = "${AERGO_HOME}/data"
+dbtype = "badgerdb"
+enableprofile = false
+profileport = 6060
+enablerest = false
+enabletestmode = false
+personal = true
+
+[rpc]
+netserviceaddr = "127.0.0.1"
+netserviceport = 7845
+netservicetrace = false
+nstls = false
+# TODO: Check whether it's necessary or not. It's not used anywhere in aergo
+#nscert = ""
+nskey = ""
+# TODO: Check whether it's necessary or not. It's not used anywhere in aergo
+#nsallowcors = false
+
+[rest]
+restport = 8080
+
+[p2p]
+netprotocoladdr = ""
+netprotocolport = 7846
+npbindaddr = ""
+npbindport = -1
+nptls = false
+npcert = ""
+npkey = ""
+npaddpeers = []
+nphiddenpeers = []
+npdiscoverpeers = true
+npmaxpeers = 100
+nppeerpool = 100
+npexposeself = true
+npusepolaris = true
+npaddpolarises = []
+
+[polaris]
+allowprivate = false
+genesisfile = ""
+
+[blockchain]
+maxblocksize = 1048576 # 1 << 20
+coinbaseaccount = ""
+maxanchorcount = 20
+usefastsyncer = false
+# TODO: Check it's necessary for any reason
+#verifiercount = 1 # Golang: int(math.Max(float64(runtime.NumCPU()/2), float64(1)))
+
+[mempool]
+showmetrics = false
+enablefadeout = false
+fadeoutperiod = 12
+# TODO: Check it's necessary for any reason
+#verifiers = 0 # Golang: runtime.NumCPU()
+dumpfilepath = "${AERGO_HOME}/mempool.dump"
+
+[consensus]
+enablebp = false
+blockinterval = 1
+
+[monitor]
+protocol = ""
+endpoint = ""
+
+[account]
+unlocktimeout = 60

@@ -12,8 +12,8 @@ herapy
 .. image:: https://travis-ci.com/aergoio/herapy.svg?token=bxpJA7kPFExuJMq3sBNb&branch=master
     :target: https://travis-ci.com/aergoio/herapy
 
-.. image:: https://readthedocs.org/projects/herapy/badge/?version=latest
-        :target: https://herapy.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/aergo-herapy/badge/?version=latest
+        :target: https://aergo-herapy.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/aergoio/herapy/shield.svg
@@ -48,6 +48,18 @@ or, install locally
     cd herapy
     make install
 
+------------
+Run examples
+------------
+
+After installing aergo-herapy, you can run examples
+
+.. code-block::
+
+    make ex
+
+The examples in the 'examples' directory connect the public Aergo testnet.
+
 -----
 Build
 -----
@@ -79,6 +91,19 @@ Using Pipenv, all dependencies will be installed automatically.
 
     pipenv shell
 
+If you cleaned up and setup again,
+
+.. code-block::
+
+    pipenv install
+
+If you want to test or contribute, then do not forget '--dev' option
+
+.. code-block::
+
+    pipenv install --dev
+    make test
+
 Updating Protocol
 =================
 
@@ -89,6 +114,30 @@ If need to upgrade a protocol,
     make protoc
 
 After this command, all protocol related source files will be generated if it's different.
+
+Updating Aergo Configurations
+=============================
+
+If need to upgrade Aergo Configurations,
+
+.. code-block::
+
+    make aergo-types
+
+After this command, 'aergo/herapy/obj/aergo_conf.py' will be generated if it's different.
+
+If occur the error message below
+
+.. code-block::
+
+    ERROR: Cannot find 'AERGO_TYPES_SRC'
+
+, find the source code 'aergo/config/types.go' and make this file path as an environment variable of 'AERGO_TYPES_SRC'
+
+.. code-block::
+
+    export AERGO_TYPES_SRC=`find ~ -path '*/aergo/config/types.go' 2>/dev/null`
+    make aergo-types
 
 
 -------------------------
@@ -105,12 +154,18 @@ please `open an issue <https://github.com/aergoio/herapy/issues>`_ and discuss w
 We appreciate all contributions.
 
 
+-------------
+Documentation
+-------------
+
+https://aergo-herapy.readthedocs.io
+
+
 -------
 License
 -------
 
 HeraPy is MIT license as found in the LICENSE file.
-* Documentation: https://herapy.readthedocs.io.
 
 
 -------

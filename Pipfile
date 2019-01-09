@@ -6,17 +6,24 @@ name = "pypi"
 [packages]
 base58 = "*"
 ecdsa = "*"
-protobuf = "*"
 googleapis-common-protos = "*"
+protobuf = "*"
+grpcio-tools = "*"
 cryptography = "*"
+toml = "*"
 
 [dev-packages]
-grpcio-tools = "*"
 pytest = "*"
 tox = "*"
 codecov = "*"
 pytest-cov = "*"
 pytest-mock = "*"
+flake8 = "*"
+setuptools = "*"
+wheel = "*"
+twine = "*"
+Sphinx = "*"
+sphinx_rtd_theme = "*"
 
 [requires]
 python_version = "3.7"

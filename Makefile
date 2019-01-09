@@ -26,6 +26,12 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
+ifndef AERGO_TYPES_SRC
+	TYPES_SRC := $(GOPATH)/src/github.com/aergoio/aergo/config/types.go
+else
+	TYPES_SRC := $(AERGO_TYPES_SRC)
+endif
+
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
@@ -52,7 +58,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -f coverage.xml
 
 lint: ## check style with flake8
-	flake8 herapy tests
+	flake8 herapy
+	flake8 --ignore=E501 tests
 
 test: ## run tests quickly with the default Python
 	PYTHONPATH=./
@@ -84,7 +91,10 @@ dist: clean ## builds source and wheel package
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
-protoc:
+uninstall: ## uninstall the package in the active Python's site-packages
+	pip uninstall aergo-herapy -y
+
+protoc: ## generate *_pb2.py and *_pb2_grpc.py in aergo/herapy/grpc from aergo-protobuf/proto/*.proto
 	python -m grpc_tools.protoc \
 		-I./aergo-protobuf/proto \
 		--python_out=./aergo/herapy/grpc \
@@ -93,5 +103,55 @@ protoc:
 	find ./aergo/herapy/grpc -type f -name '*_pb2.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
 	find ./aergo/herapy/grpc -type f -name '*_pb2_grpc.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
 
-protoclean:
+protoclean: ## remove all generated files in aergo/herapy/grpc by 'make protoc'
 	rm -f aergo/herapy/grpc/*_pb2*.py
+
+aergo-types: ## generate aergo/herapy/obj/aergo_conf.py from github.com/aergoio/aergo/config/types.go
+ifneq ($(wildcard $(TYPES_SRC)), )
+	python ./scripts/generate_aergo_conf.py $(TYPES_SRC) ./scripts/aergo_default_conf.toml > ./aergo/herapy/obj/aergo_conf.py
+else
+	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
+endif
+
+ex: ## run all examples in the examples directory
+	@echo "===============================" > make.ex.out
+	@echo "Result of 'examples/account.py'" >> make.ex.out
+	@echo "===============================" >> make.ex.out
+	@echo "Run ... 'examples/account.py'"
+	@python ./examples/account.py > make.ex.out
+	@echo "=======================================" >> make.ex.out
+	@echo "Result of 'examples/account_exp_imp.py'" >> make.ex.out
+	@echo "=======================================" >> make.ex.out
+	@echo "Run ... 'examples/account_exp_imp.py'"
+	@python ./examples/account_exp_imp.py >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Result of 'examples/account_proof.py'" >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Run ... 'examples/account_proof.py'"
+	@python ./examples/account_proof.py >> make.ex.out
+	@echo "==================================" >> make.ex.out
+	@echo "Result of 'examples/blockchain.py'" >> make.ex.out
+	@echo "==================================" >> make.ex.out
+	@echo "Run ... 'examples/blockchain.py'"
+	@python ./examples/blockchain.py >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract.py'" >> make.ex.out
+	@echo "=====================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract.py'"
+	@python ./examples/smartcontract.py >> make.ex.out
+	@echo "================================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract_batch_call.py'" >> make.ex.out
+	@echo "================================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract_batch_call.py'"
+	@python ./examples/smartcontract_batch_call.py >> make.ex.out
+	@echo "===========================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract_query.py'" >> make.ex.out
+	@echo "===========================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract_query.py'"
+	@python ./examples/smartcontract_query.py >> make.ex.out
+	@echo "===================================" >> make.ex.out
+	@echo "Result of 'examples/transaction.py'" >> make.ex.out
+	@echo "===================================" >> make.ex.out
+	@echo "Run ... 'examples/transaction.py'"
+	@python ./examples/transaction.py >> make.ex.out
+	@echo "See 'make.ex.out' to check the results"

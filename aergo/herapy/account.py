@@ -3,6 +3,7 @@
 import hashlib
 
 from google.protobuf.json_format import MessageToJson
+from cryptography.exceptions import InvalidTag
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from .obj import address as addr
@@ -12,26 +13,20 @@ from .obj import private_key as pk
 from .utils.encoding import decode_address, decode_root
 from .utils import merkle_proof as mp
 
+from .errors.general_exception import GeneralException
+
 
 class Account:
     """ Account can be a user account with private and public key,
     or a contract account.
     """
-    def __init__(self, password, private_key=None, empty=False):
+    def __init__(self, private_key=None, empty=False):
         if empty:
             self.__private_key = None
             self.__address = None
             self.__state = None
             self.__state_proof = None
             return
-
-        if password is None:
-            # TODO raise exception
-            assert 1 == 0
-
-        if isinstance(password, bytes):
-            password = password.decode('utf-8')
-        self.password = password
 
         self.__private_key = pk.PrivateKey(private_key)
         self.__address = addr.Address(self.__private_key.public_key)
@@ -130,13 +125,14 @@ class Account:
         return self.__state.sqlRecoveryPoint
 
     @staticmethod
-    def encrypt_account(account):
+    def encrypt_account(account, password):
         """
         https://cryptography.io/en/latest/hazmat/primitives/aead/
         :param account: account to export
         :return: encrypted account data (bytes)
         """
-        password = account.password.encode('utf-8')
+        if isinstance(password, str):
+            password = bytes(password, encoding='utf-8')
 
         m = hashlib.sha256()
         m.update(password)
@@ -173,13 +169,16 @@ class Account:
         m.update(hash_pw)
         dec_key = m.digest()
 
-        nonce = hash_pw[4:16]
-        aesgcm = AESGCM(dec_key)
-        dec_value = aesgcm.decrypt(nonce=nonce,
-                                   data=encrypted_bytes,
-                                   associated_data=b'')
+        try:
+            nonce = hash_pw[4:16]
+            aesgcm = AESGCM(dec_key)
+            dec_value = aesgcm.decrypt(nonce=nonce,
+                                       data=encrypted_bytes,
+                                       associated_data=b'')
+        except InvalidTag as e:
+            raise GeneralException("Fail to decrypt an account. Please check the password.") from e
 
-        return Account(password=password, private_key=dec_value)
+        return Account(private_key=dec_value)
 
     def verify_inclusion(self, root):
         """ verify_inclusion verifies the contract state is included in the
