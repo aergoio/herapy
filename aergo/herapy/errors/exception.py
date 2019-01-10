@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import inspect
+
 
 class AergoException(Exception):
     # Exception types
@@ -19,8 +21,10 @@ class AergoException(Exception):
 
 class CommunicationException(AergoException):
     def __init__(self, error):
-        self.error_code = error.code()
-        self.error_details = error.details()
+        if hasattr(error, 'code') and inspect.isfunction(error.code):
+            self.error_code = error.code()
+        if hasattr(error, 'details') and inspect.isfunction(error.details):
+            self.error_details = error.details()
         self.exception_type = AergoException.Comm
 
     def __str__(self):
