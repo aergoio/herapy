@@ -28,7 +28,13 @@ class CommunicationException(AergoException):
         self.exception_type = AergoException.Comm
 
     def __str__(self):
-        print_err = "{0} ({1}): {2}".format(self.exception_type, self.error_code, self.error_details)
+        if self.error_code is None:
+            if self.error_details is None:
+                print_err = "{0}: {1}".format(self.exception_type, "cannot recognize an error detail")
+            else:
+                print_err = "{0}: {1}".format(self.exception_type, self.error_details)
+        else:
+            print_err = "{0} ({1}): {2}".format(self.exception_type, self.error_code, self.error_details)
 
         return print_err
 
