@@ -10,13 +10,13 @@ class SCState:
     SCState is returned by aergo.query_sc_state() for easy merkle
     proof verification give a root.
     """
-    def __init__(self, account, var_proof):
+    def __init__(self, account, var_proofs):
         self.__account = account
-        self.__var_proof = var_proof
+        self.__var_proofs = var_proofs
 
     def __str__(self):
         account_str = MessageToJson(self.__account.state_proof)
-        var_str = str(self.__var_proof)
+        var_str = str(self.__var_proofs)
         return account_str + var_str
 
     @property
@@ -29,37 +29,18 @@ class SCState:
 
     @property
     def var_proof(self):
-        return self.__var_proof
+        return self.__var_proofs
 
     @var_proof.setter
     def var_proof(self, v):
-        self.__var_proof = v
+        self.__var_proofs = v
 
-    def verify_inclusion(self, root):
-        """ verify_inclusion verifies the contract state is included in the
-        general trie root and the variable state is included in that contract
-        state.
-        """
-        if not self.__account.verify_inclusion(root):
-            # The contract state doesnt exist
+    def verify_proof(self, root):
+        """ verify that the given inclusion and exclusion proofs are correct """
+        if not self.__account.verify_proof(root):
             return False
         sc_root = self.__account.state_proof.state.storageRoot
-        # Verify the variable state is included in the contract root
-        return self.__var_proof.verify_inclusion(sc_root)
-
-    def verify_exclusion(self, root):
-        """ verify_exclusion verifies that the contract state doesnt exist,
-        if it does then verify the variable is not included in that
-        contract state.
-        """
-        if self.__account.verify_exclusion(root):
-            # The contract state doesnt exist
-            return True
-        # First verify that the contract state does exist before proving
-        # that the variable state doesnt exist
-        if not self.__account.verify_inclusion(root):
-            # The contract state doesnt exist so the variable exclusion proof
-            # cannot be valid
+        if not self.__var_proofs.verify_proof(sc_root):
             return False
-        sc_root = self.__account.state_proof.state.storageRoot
-        return self.__var_proof.verify_exclusion(sc_root)
+        return True
+

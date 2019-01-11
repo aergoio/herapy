@@ -107,7 +107,7 @@ class AergoRPCServiceStub(object):
     self.GetStateAndProof = channel.unary_unary(
         '/types.AergoRPCService/GetStateAndProof',
         request_serializer=rpc__pb2.AccountAndRoot.SerializeToString,
-        response_deserializer=blockchain__pb2.StateProof.FromString,
+        response_deserializer=blockchain__pb2.AccountProof.FromString,
         )
     self.CreateAccount = channel.unary_unary(
         '/types.AergoRPCService/CreateAccount',
@@ -478,7 +478,7 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
       'GetStateAndProof': grpc.unary_unary_rpc_method_handler(
           servicer.GetStateAndProof,
           request_deserializer=rpc__pb2.AccountAndRoot.FromString,
-          response_serializer=blockchain__pb2.StateProof.SerializeToString,
+          response_serializer=blockchain__pb2.AccountProof.SerializeToString,
       ),
       'CreateAccount': grpc.unary_unary_rpc_method_handler(
           servicer.CreateAccount,

@@ -96,33 +96,33 @@ def run():
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         block = aergo.get_block(best_block_hash)
         root = block.blocks_root_hash
-        result = aergo.query_sc_state(sc_address, "a", root=root)
+        result = aergo.query_sc_state(sc_address, ["_sv_a"], root=root)
         print(result)
-        print(result.var_proof.var_proof.value)
+        print(result.var_proof.var_proof[0].value)
         print("valid inclusion proof compressed:",
-              result.verify_inclusion(root))
-        result = aergo.query_sc_state(sc_address, "a", root=root,
+              result.verify_proof(root))
+        result = aergo.query_sc_state(sc_address, ["_sv_a"], root=root,
                                       compressed=False)
         print(result)
-        print("valid inclusion proof:", result.verify_inclusion(root))
+        print("valid inclusion proof:", result.verify_proof(root))
 
         result = aergo.query_sc_state(sc_address, "not included var",
                                       root=root)
         print("valid exclusion proof compressed:",
-              result.verify_exclusion(root))
+              result.verify_proof(root))
         result = aergo.query_sc_state(sc_address, "not included var",
                                       root=root, compressed=False)
-        print("valid exclusion proof :", result.verify_exclusion(root))
+        print("valid exclusion proof :", result.verify_proof(root))
 
 
         address = "AmMejL8z3wW2doksBzzMiWM2xTb6WtZniLkLyxwqWKiLJKK8Yvqd"
-        result = aergo.query_sc_state(address, "a", root=root)
+        result = aergo.query_sc_state(address, "_sv_a", root=root)
         print("valid exclusion proof unknown address compressed:",
-              result.verify_exclusion(root))
-        result = aergo.query_sc_state(address, "a", root=root,
+              result.verify_proof(root))
+        result = aergo.query_sc_state(address, "_sv_a", root=root,
                                       compressed=False)
         print("valid exclusion proof unknown address:",
-              result.verify_exclusion(root))
+              result.verify_proof(root))
 
 
         print("------ Disconnect AERGO -----------")

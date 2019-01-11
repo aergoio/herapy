@@ -16,7 +16,7 @@ from .obj import tx_hash as th
 from .obj.call_info import CallInfo
 from .obj.tx_result import TxResult
 from .obj.sc_state import SCState
-from .obj.var_proof import VarProof
+from .obj.var_proof import VarProofs
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
@@ -481,7 +481,7 @@ class Aergo:
 
         return result.value
 
-    def query_sc_state(self, sc_address, var_name, var_index="", root=b'',
+    def query_sc_state(self, sc_address, storage_keys, root=b'',
                        compressed=True):
         """ query_sc_state returns a SCState object containing the contract
         state and variable state with their respective merkle proofs.
@@ -492,14 +492,13 @@ class Aergo:
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
         try:
-            result = self.__comm.query_contract_state(sc_address, var_name,
-                                                      var_index, root,
-                                                      compressed)
+            result = self.__comm.query_contract_state(sc_address, storage_keys,
+                                                      root, compressed)
         except Exception as e:
             raise CommunicationException(e) from e
-        var_proof = VarProof(result.varProof, var_name, var_index)
+        var_proofs = VarProofs(result.varProofs)
         account = acc.Account(empty=True)
         account.state = result.contractProof.state
         account.state_proof = result.contractProof
         account.address = sc_address
-        return SCState(account, var_proof)
+        return SCState(account, var_proofs)
