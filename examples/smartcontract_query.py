@@ -120,6 +120,23 @@ def run():
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         block = aergo.get_block(best_block_hash)
         root = block.blocks_root_hash
+        result = aergo.query_sc_state(sc_address, ["_sv_a"], root=root)
+        print(result)
+        print(result.var_proof.var_proof[0].value)
+        print("valid inclusion proof compressed:",
+              result.verify_proof(root))
+        result = aergo.query_sc_state(sc_address, ["_sv_a"], root=root,
+                                      compressed=False)
+        print(result)
+        print("valid inclusion proof:", result.verify_proof(root))
+
+        result = aergo.query_sc_state(sc_address, "not included var",
+                                      root=root)
+        print("valid exclusion proof compressed:",
+              result.verify_proof(root))
+        result = aergo.query_sc_state(sc_address, "not included var",
+                                      root=root, compressed=False)
+        print("valid exclusion proof :", result.verify_proof(root))
 
         sc_states = aergo.query_sc_state(sc_address,
                                          [{'key':'a', 'index':None}, ['b', ], 'c'],
@@ -180,42 +197,14 @@ def run():
             print()
 
         address = "AmMejL8z3wW2doksBzzMiWM2xTb6WtZniLkLyxwqWKiLJKK8Yvqd"
-        sc_states = aergo.query_sc_state(address, ["a"], root=root)
-        print("valid inclusion proof unknown address compressed:",
-              sc_states[0].verify_inclusion(root))
+        result = aergo.query_sc_state(address, "_sv_a", root=root)
         print("valid exclusion proof unknown address compressed:",
-              sc_states[0].verify_exclusion(root))
-        sc_states = aergo.query_sc_state(address, ["a"], root=root, compressed=False)
-        print("valid inclusion proof unknown address:",
-              sc_states[0].verify_inclusion(root))
+              result.verify_proof(root))
+        result = aergo.query_sc_state(address, "_sv_a", root=root,
+                                      compressed=False)
         print("valid exclusion proof unknown address:",
-              sc_states[0].verify_exclusion(root))
+              result.verify_proof(root))
 
-        # combination of variables exist and not-exist
-        sc_states = aergo.query_sc_state(sc_address, ['a', '_sv_b', 'c', 'abc', 'b'], root=root)
-        for i, sc_state in enumerate(sc_states):
-            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
-            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
-            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
-            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
-            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
-            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
-            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
-            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
-            print("  valid inclusion proof:",
-                  sc_state.verify_inclusion(root))
-        sc_states = aergo.query_sc_state(sc_address, ['a', '_sv_b', 'c', 'abc', 'b'], root=root, compressed=False)
-        for i, sc_state in enumerate(sc_states):
-            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
-            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
-            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
-            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
-            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
-            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
-            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
-            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
-            print("  valid inclusion proof:",
-                  sc_state.verify_inclusion(root))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()

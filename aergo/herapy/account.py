@@ -192,44 +192,38 @@ class Account:
 
         return Account(private_key=dec_value)
 
-    def verify_inclusion(self, root):
-        """ verify_inclusion verifies the contract state is included in the
-        general trie root.
-        """
+    def verify_proof(self, root):
+        """ verify that the given inclusion and exclusion proofs are correct """
         if self.__state_proof is None:
             return False
 
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
-
+        if self.__address != self.__state_proof.key:
+            return False
+        trie_key = hashlib.sha256(self.__state_proof.key).digest()
+        value = hashlib.sha256(self.__state_proof.state.SerializeToString()).digest()
         ap = self.__state_proof.auditPath
         key = hashlib.sha256(bytes(self.__address)).digest()
         value = hashlib.sha256(self.__state.SerializeToString()).digest()
         if self.__state_proof.bitmap:
             height = self.__state_proof.height
             bitmap = self.__state_proof.bitmap
-
-            return mp.verify_inclusion_c(ap, height, bitmap, root, key, value)
-
-        return mp.verify_inclusion(ap, root, key, value)
-
-    def verify_exclusion(self, root):
-        """ verify_exclusion verifies that the contract state doesnt exist
-        in the general trie root.
-        """
-        if self.__state_proof is None:
-            return False
-        key = hashlib.sha256(bytes(self.__address)).digest()
-        if self.__state_proof.bitmap:
-            return mp.verify_exclusion_c(root,
-                                         self.__state_proof.auditPath,
-                                         self.__state_proof.height,
-                                         self.__state_proof.bitmap,
-                                         key,
-                                         self.__state_proof.proofKey,
-                                         self.__state_proof.proofVal)
-        return mp.verify_exclusion(root,
-                                   self.__state_proof.auditPath,
-                                   key,
-                                   self.__state_proof.proofKey,
-                                   self.__state_proof.proofVal)
+            if self.__state_proof.inclusion:
+                if not mp.verify_inclusion_c(ap, height, bitmap, root, trie_key, value):
+                    return False
+            else:
+                if not mp.verify_exclusion_c(root, ap, height, bitmap, trie_key,
+                                             self.__state_proof.proofKey,
+                                             self.__state_proof.proofVal):
+                    return False
+        else:
+            if self.__state_proof.inclusion:
+                if not mp.verify_inclusion(ap, root, trie_key, value):
+                    return False
+            else:
+                if not mp.verify_exclusion(root, ap, trie_key,
+                                           self.__state_proof.proofKey,
+                                           self.__state_proof.proofVal):
+                    return False
+        return True

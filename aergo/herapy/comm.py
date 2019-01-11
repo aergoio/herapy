@@ -116,9 +116,9 @@ class Comm:
         query.queryinfo = query_info
         return self.__rpc_stub.QueryContract(query)
 
-    def query_contract_state(self, sc_address, var_keys, root, compressed):
+    def query_contract_state(self, sc_address, storage_keys, root, compressed):
         state_query = blockchain_pb2.StateQuery(contractAddress=sc_address,
-                                                storageKeys=var_keys,
+                                                storageKeys=storage_keys,
                                                 root=root,
                                                 compressed=compressed)
         return self.__rpc_stub.QueryContractState(state_query)
