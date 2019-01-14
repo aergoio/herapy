@@ -23,17 +23,9 @@ class SCState:
     def account(self):
         return self.__account
 
-    @account.setter
-    def account(self, v):
-        self.__account = v
-
     @property
-    def var_proof(self):
+    def var_proofs(self):
         return self.__var_proofs
-
-    @var_proof.setter
-    def var_proof(self, v):
-        self.__var_proofs = v
 
     def verify_proof(self, root):
         """ verify that the given inclusion and exclusion proofs are correct """

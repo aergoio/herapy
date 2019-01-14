@@ -20,24 +20,8 @@ class VarProofs:
         return json_string
 
     @property
-    def var_index(self):
-        return self.__var_index
-
-    @property
-    def var_name(self):
-        return self.__var_name
-
-    @property
-    def trie_key(self):
-        return self.__trie_key
-
-    @property
-    def var_proof(self):
+    def var_proofs(self):
         return self.__var_proofs
-
-    @var_proof.setter
-    def var_proof(self, v):
-        self.__var_proofs = v
 
     def verify_proof(self, root):
         """ verify that the given inclusion and exclusion proofs are correct """
