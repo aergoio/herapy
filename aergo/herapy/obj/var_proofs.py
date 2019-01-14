@@ -6,28 +6,22 @@ from google.protobuf.json_format import MessageToJson
 from aergo.herapy.utils import merkle_proof as mp
 
 
-class VarProofs:
-    """ VarProof holds the inclusion/exclusion proof of a variable state
+class VarProofs(list):
+    """ VarProofs holds the inclusion/exclusion proof of a variable state
     inside a contract state trie
     """
-    def __init__(self, var_proofs):
-        self.__var_proofs = var_proofs
 
     def __str__(self):
         json_string = ""
-        for proof in self.__var_proofs:
+        for proof in self:
             json_string += MessageToJson(proof)
         return json_string
 
-    @property
-    def var_proofs(self):
-        return self.__var_proofs
-
     def verify_proof(self, root):
         """ verify that the given inclusion and exclusion proofs are correct """
-        if self.__var_proofs is None:
+        if self is None:
             return False
-        for storage_proof in self.__var_proofs:
+        for storage_proof in self:
             var_id = bytes(storage_proof.key, 'utf-8')
             trie_key = hashlib.sha256(var_id).digest()
             value = hashlib.sha256(storage_proof.value).digest()

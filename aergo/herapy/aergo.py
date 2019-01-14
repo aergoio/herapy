@@ -16,7 +16,7 @@ from .obj import tx_hash as th
 from .obj.call_info import CallInfo
 from .obj.tx_result import TxResult
 from .obj.sc_state import SCState
-from .obj.var_proof import VarProofs
+from .obj.var_proofs import VarProofs
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
