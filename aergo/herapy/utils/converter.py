@@ -91,6 +91,9 @@ def convert_bytes_to_hex_str(v):
 
 
 def convert_ip_bytes_to_str(v):
+    if isinstance(v, str):
+        return v
+
     l = len(v)
 
     # IPv4

@@ -12,7 +12,7 @@ def eprint(*args, **kwargs):
 def run():
     print("------ Payload -----------")
     """
-    'payload' is compiled by aergoluac from
+-- 'payload' is compiled by aergoluac from
 function setItem(key, value)
     system.print('setItem: key='..key..', value='..value)
     system.setItem(key, value)
@@ -25,7 +25,7 @@ end
 
 abi.register(setItem, getItem)
     """
-    payload_str = "66F7XWcStRbqYNe9yeEHPUjCpJxuwQphf6G3NAz91wtMB9Zaa4hVq6s3pXpNtK5WRqi4aS9iNTyHmZN4sWDEvdjhEbvSCqUKAJBsuDSBhtkvrSD2dasKwZX7S5NBRoAuMrMEMRXVpDmQcoh37RBtSBCcB55QWNxgpztLzGJdhFRakqJ3FEQXQ3AzsrRGvULxgFUW4pt7Nb3ZQwgK7NBV2fHPxKA2PWYF6Qs2EifhYoLdyKxZzkdtjD6P2igRCn34EeUiRhYC7NLiAX4djnVEzcLdfjQyLWaauFyjXatCpAy1ajssL32aZs9AbRyMew5ozdDXRQgk1FNvsNq5H7eMQVG81ii6mNQJx6R5nen5ZPrCXZRLt353xniyFn1HNDAsn4TbTx5kkU7EgWAZj2tPcqokCLB7msZTnmFFaHcirdF6qFLFMzmoaaszqYeabiBekdcVRuVfBiozeL4b4i1fU4Q4ok4H96XN3H6KURtr1RzVy3rAoK13kbLQiXqdhshSV1GJaMS7By9HpQ2Nj6fuLok9kBk7MSENDq4cEmv63SV15PnKD5qfYgBYrZwJad1tZNJPWWixrUL5WCCf36J1DZ5M1zNQP6jLSUF9on4mCA9q3cdHbU"
+    payload_str = "246oyQ629vXweGRbeS8r29poBjGsiqJL23BBaYh8TaSgvGhMAXHrk9vUXetphe6m9xCPrRDpQH3fHap4SZUpNWartsHTnJxQXp2zs5mMwK5cwiCgSCePwefA1U4fwyt94Q249MxQ2evTKc7vcUVjjn6AnKCqMJTGCgVtnLrpeVMiVEcYBszJtprA3YQmgA8vsnfcw5ocw4149wDhV8drF4zviYJSfhGP5TRj7NhLLBstiktq2DzPW8yCrVu2fEnyzfJc1yY9ENuu2K7LyxC7arqGTafZEzsQrrfNo63PXfsSq6oSW7Ev89Y3cFfRjpQfr8mHZPmfCRykUF7aepvkH64r6S7Sg3uUpgrZCnDKuDRuBCizBHUxJDUCua3tJNA2dKFtx9dpSTfPFkdvPoBFsTjegu6DwHgDop5zZMPV5S4Q5oi5vB1UsvSoX81cMAfp38kJe45ko9rLZKk83zpSfgzMLnjDZWccmjtNdnHFhUp9KZG3JRZnr7QRmAHwvTYLd83AS9uCVJhwg5oGhVNgMeTnN2f1xZ9Gd9C5NfJTvwYHPVysD7HRwyXVTwYgQhjxwTrxkGcz54gJzF2eTDqWnEQKZN61322SZG"
     payload = herapy.utils.decode_address(payload_str)
     print(''.join('{:d} '.format(x) for x in payload))
 

@@ -33,9 +33,10 @@ def run():
         account2 = aergo.get_account(address=address, proof=True,
                                      compressed=False, root=root)
 
-        print(account)
+        print("account = {}".format(account))
         print(int.from_bytes(account.state_proof.state.balance, 'big'))
-        print(account2)
+        print("balance = {}".format(account.balance.aergo))
+        print("account2 = {}".format(account2))
         print(int.from_bytes(account2.state_proof.state.balance, 'big'))
 
         print("------ Verify inclusion proof -----------")
