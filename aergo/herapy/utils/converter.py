@@ -114,7 +114,7 @@ def convert_luajson_to_json(v):
 def convert_bigint_to_bytes(number):
     q, r = divmod(len(bin(number))-2, 8)
     bytes_to_fit_number = q if r == 0 else q + 1
-    return number.to_bytes(bytes_to_fit_number, 'little')
+    return number.to_bytes(bytes_to_fit_number, 'big')
 
 
 def bigint_to_bytes(v):
