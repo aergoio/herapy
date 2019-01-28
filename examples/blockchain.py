@@ -12,7 +12,7 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('testnet.aergo.io:7845')
+        aergo.connect('localhost:7845')
 
         print("------ Get Blockchain Status -----------")
         best_block_hash, best_block_height = aergo.get_blockchain_status()

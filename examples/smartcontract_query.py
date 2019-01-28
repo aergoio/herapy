@@ -47,7 +47,7 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('testnet.aergo.io:7845')
+        aergo.connect('localhost:7845')
 
         print("------ Set Sender Account -----------")
         sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
