@@ -41,8 +41,8 @@ def run():
 
         print("------ Verify inclusion proof -----------")
         print("valid inclusion proof compressed: ",
-              account.verify_proof(root))
-        print("valid inclusion proof: ", account2.verify_proof(root))
+              account.verify_inclusion(root))
+        print("valid inclusion proof: ", account2.verify_inclusion(root))
 
         print("------ Verify Non inclusion proof -----------")
         address = "AmMejL8z3wW2doksBzzMiWM2xTb6WtZniLkLyxwqWKiLJKK8Yvqd"
@@ -52,8 +52,8 @@ def run():
         print(account)
         print(account2)
         print("valid exclusion proof compressed: ",
-              account.verify_proof(root))
-        print("valid exclusion proof: ", account2.verify_proof(root))
+              account.verify_exclusion(root))
+        print("valid exclusion proof: ", account2.verify_exclusion(root))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
