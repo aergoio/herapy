@@ -8,11 +8,12 @@ base58 = "*"
 ecdsa = "*"
 googleapis-common-protos = "*"
 protobuf = "*"
-grpcio-tools = "*"
 cryptography = "*"
 toml = "*"
+grpcio = "==1.13.0"
 
 [dev-packages]
+grpcio-tools = "*"
 pytest = "*"
 tox = "*"
 codecov = "*"

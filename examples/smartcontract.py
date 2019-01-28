@@ -71,6 +71,7 @@ def run():
         print("  > Receiver Address: {}".format(receiver_address))
 
         print("------ Deploy SC -----------")
+        aergo.account.nonce += 1
         tx, result = aergo.deploy_sc(amount=0, payload=payload, args=1234)
         print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
