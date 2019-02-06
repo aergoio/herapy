@@ -17,7 +17,7 @@ def run():
         aergo.connect('localhost:7845')
 
         print("------ Set Sender Account -----------")
-        sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
+        sender_private_key = "eHoEcHnaxpGpgzknXjuwon8VFVrLkKHC4FckGuGkQ8depiDDfyUAWC3L"
         sender_account = aergo.new_account(private_key=sender_private_key)
         print("  > Sender Address: {}".format(sender_account.address))
         aergo.get_account()
@@ -28,7 +28,7 @@ def run():
         print("      - storage root   = {}".format(sender_account.storage_root))
 
         print("------ Set Receiver Account -----------")
-        receiver_address = "AmNHbk46L5ZaFH942mxDrunhUb34S8xRd7ygNnqaW5nqJDt5ugKD"
+        receiver_address = "AmMPQqRJ4pd8bS9xdkw5pjExtLjaUXaYGB5kagzHu4A9ckKgnBV2"
         print("  > Receiver Address: {}".format(receiver_address))
 
         print("------ Simple Send Tx -----------")

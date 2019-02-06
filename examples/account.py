@@ -57,7 +57,7 @@ def run():
 
         print("------ Get Configured Account -----------")
         conf_keys_str = """
-1:6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW:AmPESicKLcPYXJC7ufgK6ti3fVS1r1SbqfxhVDEnTUc5cPXT1474
+1:eHoEcHnaxpGpgzknXjuwon8VFVrLkKHC4FckGuGkQ8depiDDfyUAWC3L:AmPZKCJpT98V9Tc8dBUbRg78M1jgoB1ZEh97Rs1r5KewPcCiURf7
 """
         conf_keys_line = conf_keys_str.split('\n')
         conf_keys = []

@@ -27,8 +27,10 @@ def run():
         except herapy.errors.GeneralException:
             print("It should be failed.")
 
-        print("------ Import Account -----------")
-        exported_txt = "485ccQXjmT3JeUHV16n16LzAJhhfHHkv9HU9k7c5PeJDyPMAdLcCu8Yqws19UzMP4K4Rq2MkQ"
+        print("------ Import Account with Exported Data -----------")
+        #exported_txt = "485ccQXjmT3JeUHV16n16LzAJhhfHHkv9HU9k7c5PeJDyPMAdLcCu8Yqws19UzMP4K4Rq2MkQ"
+        exported_txt = "MNxKz7jPTaWW8xZc6HSbgTPXDj6yGq6PrLbboSyV5psBfKyRmbo5qoVHgWTEXucisaUy8Y3PGf4UBc"
+        print("Exported Data is {}".format(exported_txt))
         account = aergo.import_account(exported_txt, password='1234')
         print("Account private key is {}".format(account.private_key))
         print("Account address is {}".format(account.address))

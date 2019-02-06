@@ -27,7 +27,7 @@ def run():
 
         print("------ Get Block Status -----------")
         block = aergo.get_block(best_block_hash)
-        print(block)
+        print(json.dumps(block.json(), indent=2))
         print("Block Hash = ", block.hash)
         print("  Height = ", block.height)
         print("  Timestamp = ", block.timestamp)
