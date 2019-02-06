@@ -16,18 +16,32 @@ requirements = [
     "ecdsa",
     "googleapis-common-protos",
     "protobuf",
-    "grpcio-tools",
     "cryptography",
-    "toml"
+    "toml",
+    "grpcio",
 ]
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = [
+    'setuptools',
+    'flake8',
+    'wheel',
+    'twine',
+    'Sphinx',
+    'sphinx_rtd_theme',
+]
 
-test_requirements = ['pytest', ]
+test_requirements = [
+    'grpcio-tools',
+    'pytest',
+    'tox',
+    'codecov',
+    'pytest-cov',
+    'pytest-mock',
+]
 
 setup(
     name='aergo-herapy',
-    version='0.10.1',
+    version='0.10.2',
     description="python SDK for AERGO",
     keywords='herapy',
     author="aergo.io",
