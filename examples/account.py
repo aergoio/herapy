@@ -16,27 +16,28 @@ def run():
         for i, account in enumerate(accounts):
             print("  > account state : {}".format(account))
             print("    - balance")
-            print("        + aergo      = {}".format(account.balance.aergo))
-            print("        + gaer       = {}".format(account.balance.gaer))
-            print("        + aer        = {}".format(account.balance.aer))
-            print("    - nonce          = {}".format(account.nonce))
-            print("    - code hash      = {}".format(account.code_hash))
-            print("    - storage root   = {}".format(account.storage_root))
+            print("        + aergo              = {}".format(account.balance.aergo))
+            print("        + gaer               = {}".format(account.balance.gaer))
+            print("        + aer                = {}".format(account.balance.aer))
+            print("    - nonce                  = {}".format(account.nonce))
+            print("    - code hash              = {}".format(account.code_hash))
+            print("    - storage root           = {}".format(account.storage_root))
+            print("    - sql recovery point     = {}".format(account.sql_recovery_point))
 
         print("------ Get Accounts in Node -----------")
         accounts = aergo.get_node_accounts()
         for i, account in enumerate(accounts):
             print("  > account state : {}".format(account))
             print("    - balance")
-            print("        + aergo      = {}".format(account.balance.aergo))
-            print("        + gaer       = {}".format(account.balance.gaer))
-            print("        + aer        = {}".format(account.balance.aer))
-            print("    - nonce          = {}".format(account.nonce))
-            print("    - code hash      = {}".format(account.code_hash))
-            print("    - storage root   = {}".format(account.storage_root))
+            print("        + aergo              = {}".format(account.balance.aergo))
+            print("        + gaer               = {}".format(account.balance.gaer))
+            print("        + aer                = {}".format(account.balance.aer))
+            print("    - nonce                  = {}".format(account.nonce))
+            print("    - code hash              = {}".format(account.code_hash))
+            print("    - storage root           = {}".format(account.storage_root))
+            print("    - sql recovery point     = {}".format(account.sql_recovery_point))
 
         print("------ Create Account -----------")
-        password = "test password"
         account = aergo.new_account()
 
         print("Private Key      = {}".format(account.private_key))
@@ -46,42 +47,39 @@ def run():
         print("------ Get Account State -----------")
         aergo.get_account()
         print("  > account state in 'aergo'")
-        print('    - Nonce:        %s' % aergo.account.nonce)
         print("    - balance")
-        print("        + aergo      = {}".format(aergo.account.balance.aergo))
-        print("        + gaer       = {}".format(aergo.account.balance.gaer))
-        print("        + aer        = {}".format(aergo.account.balance.aer))
-        print('    - Code Hash:    %s' % aergo.account.code_hash)
-        print('    - Storage Root: %s' % aergo.account.storage_root)
+        print("        + aergo              = {}".format(account.balance.aergo))
+        print("        + gaer               = {}".format(account.balance.gaer))
+        print("        + aer                = {}".format(account.balance.aer))
+        print("    - nonce                  = {}".format(account.nonce))
+        print("    - code hash              = {}".format(account.code_hash))
+        print("    - storage root           = {}".format(account.storage_root))
+        print("    - sql recovery point     = {}".format(account.sql_recovery_point))
         print(account)
 
         print("------ Get Configured Account -----------")
-        conf_keys_str = """
-1:eHoEcHnaxpGpgzknXjuwon8VFVrLkKHC4FckGuGkQ8depiDDfyUAWC3L:AmPZKCJpT98V9Tc8dBUbRg78M1jgoB1ZEh97Rs1r5KewPcCiURf7
-"""
-        conf_keys_line = conf_keys_str.split('\n')
-        conf_keys = []
-        for l in conf_keys_line:
-            if 0 == len(l):
-                continue
-            conf_keys.append(l.split(':'))
-        print("  - Configured Keys:\n{}".format(conf_keys))
-
-        for k in conf_keys:
-            print("  [{}]".format(k[0]))
-            print("    > private key   : {}".format(k[1]))
-            print("    > address       : {}".format(k[2]))
+        accounts = [
+            {
+                "private_key": "eHoEcHnaxpGpgzknXjuwon8VFVrLkKHC4FckGuGkQ8depiDDfyUAWC3L",
+                "address": "AmPZKCJpT98V9Tc8dBUbRg78M1jgoB1ZEh97Rs1r5KewPcCiURf7",
+            },
+        ]
+        for i, account in enumerate(accounts):
+            print("  [{}]".format(i))
+            print("    > private key   : {}".format(account['private_key']))
+            print("    > address       : {}".format(account['address']))
 
             # check account state
-            a = aergo.get_account(address=k[2])
+            a = aergo.get_account(address=account['address'])
             print("    > account state : {}".format(a))
-            print("      - balance        = {}".format(a.balance))
-            print("        + aergo          = {}".format(aergo.account.balance.aergo))
-            print("        + gaer           = {}".format(aergo.account.balance.gaer))
-            print("        + aer            = {}".format(aergo.account.balance.aer))
-            print("      - nonce          = {}".format(a.nonce))
-            print("      - code hash      = {}".format(a.code_hash))
-            print("      - storage root   = {}".format(a.storage_root))
+            print("    - balance")
+            print("        + aergo              = {}".format(a.balance.aergo))
+            print("        + gaer               = {}".format(a.balance.gaer))
+            print("        + aer                = {}".format(a.balance.aer))
+            print("    - nonce                  = {}".format(a.nonce))
+            print("    - code hash              = {}".format(a.code_hash))
+            print("    - storage root           = {}".format(a.storage_root))
+            print("    - sql recovery point     = {}".format(a.sql_recovery_point))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
