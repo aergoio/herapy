@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
+import json
 
 from google.protobuf.json_format import MessageToJson
 from cryptography.exceptions import InvalidTag
@@ -34,11 +35,20 @@ class Account:
         self.__state_proof = None
 
     def __str__(self):
+        state = self.state
         if self.__state_proof:
-            return MessageToJson(self.__state_proof)
-        elif self.__state:
-            return self.state
-        return super().__str__()
+            state = MessageToJson(self.__state_proof)
+
+        if state:
+            state = json.loads(state)
+
+        account = {
+            "address": str(self.__address),
+            "balance": str(self.balance),
+            "nonce": str(self.nonce),
+            "state": state,
+        }
+        return json.dumps(account, indent=2)
 
     def sign_msg_hash(self, msg_hash):
         return self.__private_key.sign_msg(msg_hash)
@@ -68,7 +78,9 @@ class Account:
 
         if isinstance(v, str):
             v = decode_address(v)
-        self.__address = v
+
+        self.__address = addr.Address(None, empty=True)
+        self.__address.value = v
 
     @property
     def state(self):
@@ -96,8 +108,8 @@ class Account:
 
     @nonce.setter
     def nonce(self, v):
-        if self.__state.nonce >= v:
-            return
+        if self.__state.nonce > v:
+            raise ValueError("the nonce value should be bigger than the current nonce value: {}".format(self.__state.nonce))
         self.__state.nonce = v
 
     @property
@@ -186,15 +198,19 @@ class Account:
         """
         if self.__state_proof is None:
             return False
+
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
-        key = hashlib.sha256(self.__address).digest()
-        value = hashlib.sha256(self.__state.SerializeToString()).digest()
+
         ap = self.__state_proof.auditPath
+        key = hashlib.sha256(bytes(self.__address)).digest()
+        value = hashlib.sha256(self.__state.SerializeToString()).digest()
         if self.__state_proof.bitmap:
             height = self.__state_proof.height
             bitmap = self.__state_proof.bitmap
+
             return mp.verify_inclusion_c(ap, height, bitmap, root, key, value)
+
         return mp.verify_inclusion(ap, root, key, value)
 
     def verify_exclusion(self, root):
