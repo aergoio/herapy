@@ -113,7 +113,7 @@ else
 	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
 endif
 
-ex: ## run all examples in the examples directory
+ex: uninstall install ## run all examples in the examples directory
 	@echo "===============================" > make.ex.out
 	@echo "Result of 'examples/account.py'" >> make.ex.out
 	@echo "===============================" >> make.ex.out
