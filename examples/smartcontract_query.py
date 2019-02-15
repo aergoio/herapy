@@ -121,35 +121,61 @@ def run():
         block = aergo.get_block(best_block_hash)
         root = block.blocks_root_hash
 
-        sc_states = aergo.query_sc_state(sc_address, ['a', 'b', 'c'], root=root)
+        sc_states = aergo.query_sc_state(sc_address,
+                                         [{'key':'a', 'index':None}, ['b', ], 'c'],
+                                         root=root)
         for i, sc_state in enumerate(sc_states):
-            print("Compressed [{}]".format(i))
-            print(sc_state)
-            print("valid inclusion proof:",
+            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
+            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
+            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
+            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
+            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
+            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
+            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
+            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
+            print("  valid inclusion proof:",
                   sc_state.verify_inclusion(root))
             print()
 
         sc_states = aergo.query_sc_state(sc_address, ['a', 'b', 'c'], root=root, compressed=False)
         for i, sc_state in enumerate(sc_states):
-            print("Uncompressed [{}]".format(i))
-            print(sc_state)
-            print("valid inclusion proof:",
+            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
+            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
+            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
+            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
+            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
+            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
+            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
+            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
+            print("  valid inclusion proof:",
                   sc_state.verify_inclusion(root))
             print()
 
         sc_states = aergo.query_sc_state(sc_address, ['not', 'included', 'var'], root=root)
         for i, sc_state in enumerate(sc_states):
-            print("Compressed [{}]".format(i))
-            print(sc_state)
-            print("valid exclusion proof:",
+            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
+            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
+            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
+            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
+            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
+            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
+            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
+            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
+            print("  valid exclusion proof:",
                   sc_state.verify_exclusion(root))
             print()
 
         sc_states = aergo.query_sc_state(sc_address, ['not', 'included', 'var'], root=root, compressed=False)
         for i, sc_state in enumerate(sc_states):
-            print("Uncompressed [{}]".format(i))
-            print(sc_state)
-            print("valid exclusion proof:",
+            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
+            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
+            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
+            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
+            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
+            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
+            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
+            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
+            print("  valid exclusion proof:",
                   sc_state.verify_exclusion(root))
             print()
 
@@ -164,6 +190,32 @@ def run():
               sc_states[0].verify_inclusion(root))
         print("valid exclusion proof unknown address:",
               sc_states[0].verify_exclusion(root))
+
+        # combination of variables exist and not-exist
+        sc_states = aergo.query_sc_state(sc_address, ['a', '_sv_b', 'c', 'abc', 'b'], root=root)
+        for i, sc_state in enumerate(sc_states):
+            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
+            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
+            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
+            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
+            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
+            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
+            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
+            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
+            print("  valid inclusion proof:",
+                  sc_state.verify_inclusion(root))
+        sc_states = aergo.query_sc_state(sc_address, ['a', '_sv_b', 'c', 'abc', 'b'], root=root, compressed=False)
+        for i, sc_state in enumerate(sc_states):
+            print("[{0}] Compressed? {1}".format(i, sc_state.compressed))
+            print("  var_proof.key          = {}".format(sc_state.var_proof.key))
+            print("  var_proof.value        = {}".format(sc_state.var_proof.value))
+            print("  var_proof.inclusion    = {}".format(sc_state.var_proof.inclusion))
+            print("  var_proof.proof_key    = {}".format(sc_state.var_proof.proof_key))
+            print("  var_proof.proof_value  = {}".format(sc_state.var_proof.proof_value))
+            print("  var_proof.bitmap       = {}".format(sc_state.var_proof.bitmap))
+            print("  var_proof.height       = {}".format(sc_state.var_proof.height))
+            print("  valid inclusion proof:",
+                  sc_state.verify_inclusion(root))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()

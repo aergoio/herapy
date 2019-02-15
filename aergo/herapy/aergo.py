@@ -484,8 +484,32 @@ class Aergo:
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
 
+        storage_keys = {}
+        for vk in var_keys:
+            idx = None
+
+            if isinstance(vk, dict):
+                key = vk['key']
+                if 'index' in vk and vk['index'] is not None and 0 != len(vk['index']):
+                    idx = vk['index']
+            elif isinstance(vk, (tuple, list)):
+                key = vk[0]
+                if 2 == len(vk):
+                    idx = vk[1]
+            else:
+                key = vk
+
+            if idx:
+                storage_key = "_sv_{0}-{1}".format(key, idx)
+            else:
+                storage_key = "_sv_{0}".format(key)
+
+            storage_keys[storage_key] = {'key': key, 'idx': idx}
+
         try:
-            result = self.__comm.query_contract_state(sc_address, var_keys, root, compressed)
+            result = self.__comm.query_contract_state(sc_address,
+                                                      list(storage_keys.keys()),
+                                                      root, compressed)
         except Exception as e:
             raise CommunicationException(e) from e
 
@@ -496,11 +520,14 @@ class Aergo:
 
         sc_states = []
         if 0 == len(result.varProofs):
-            for key in var_keys:
-                sc_states.append(SCState(account=account, var_proof=None))
+            for _ in range(len(var_keys)):
+                sc_states.append(SCState(account=account, var_proof=None, compressed=compressed))
         else:
             for vp in result.varProofs:
-                var_proof = VarProof(vp, vp.key)
-                sc_states.append(SCState(account=account, var_proof=var_proof))
+                var_proof = VarProof(var_proof=vp,
+                                     var_name=storage_keys[vp.key]['key'],
+                                     var_index=storage_keys[vp.key]['idx'],
+                                     storage_key=vp.key)
+                sc_states.append(SCState(account=account, var_proof=var_proof, compressed=compressed))
 
         return sc_states

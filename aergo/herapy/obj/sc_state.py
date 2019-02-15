@@ -10,9 +10,10 @@ class SCState:
     SCState is returned by aergo.query_sc_state() for easy merkle
     proof verification give a root.
     """
-    def __init__(self, account, var_proof):
+    def __init__(self, account, var_proof, compressed=True):
         self.__account = account
         self.__var_proof = var_proof
+        self.compressed = compressed
 
     def __str__(self):
         account_str = MessageToJson(self.__account.state_proof)
@@ -44,7 +45,8 @@ class SCState:
 
         assert self.__var_proof is not None
         # Verify the variable state is included in the contract root
-        return self.__var_proof.verify_inclusion(sc_root)
+        result = self.__var_proof.verify_inclusion(sc_root)
+        return result
 
     def verify_exclusion(self, root):
         """ verify_exclusion verifies that the contract state doesnt exist,
