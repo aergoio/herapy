@@ -30,14 +30,20 @@ def run():
         print("------ Set Receiver Account -----------")
         receiver_address = "AmMPQqRJ4pd8bS9xdkw5pjExtLjaUXaYGB5kagzHu4A9ckKgnBV2"
         print("  > Receiver Address: {}".format(receiver_address))
+        receiver_account = aergo.get_account(address=receiver_address)
+        print("    > account state of Sender")
+        print("      - balance        = {}".format(receiver_account.balance))
+        print("      - nonce          = {}".format(receiver_account.nonce))
+        print("      - code hash      = {}".format(receiver_account.code_hash))
+        print("      - storage root   = {}".format(receiver_account.storage_root))
 
         print("------ Simple Send Tx -----------")
         simple_tx, result = aergo.send_payload(to_address=receiver_address,
                                                amount=10, payload=None,
                                                retry_nonce=3)
         print("  > simple TX[{}]".format(simple_tx.calculate_hash()))
-        print("{}".format(herapy.utils.convert_tx_to_formatted_json(simple_tx)))
-        print("      result: ", result)
+        print("{}".format(str(simple_tx)))
+        print("  > result: ", result)
         if result.status != herapy.CommitStatus.TX_OK:
             eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
             aergo.disconnect()
@@ -48,10 +54,16 @@ def run():
         time.sleep(3)
 
         print("------ Check TX status -----------")
-        print("  > TX: {}".format(simple_tx.tx_hash))
+        print("  > TX: {}".format(str(simple_tx.tx_hash)))
         tx_result = aergo.get_tx_result(simple_tx.tx_hash)
         print("      result: ", tx_result)
+        if tx_result.status != herapy.TxResultStatus.SUCCESS:
+            eprint("  > ERROR[{0}]:{1}: {2}".format(
+                tx_result.contract_address, tx_result.status, tx_result.detail))
+            aergo.disconnect()
+            return
 
+        print("------ Get Sender Account Info -----------")
         aergo.get_account()
         print("    > account state of Sender")
         print("      - balance        = {}".format(sender_account.balance))

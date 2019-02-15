@@ -79,7 +79,7 @@ def run():
         print("------ Check deployment of SC -----------")
         print("  > TX: {}".format(tx.tx_hash))
         result = aergo.get_tx_result(tx.tx_hash)
-        if result.status != herapy.SmartcontractStatus.CREATED:
+        if result.status != herapy.TxResultStatus.CREATED:
             eprint("  > ERROR[{0}]:{1}: {2}".format(
                 result.contract_address, result.status, result.detail))
             aergo.disconnect()
