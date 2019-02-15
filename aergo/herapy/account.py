@@ -219,7 +219,7 @@ class Account:
         """
         if self.__state_proof is None:
             return False
-        key = hashlib.sha256(self.__address).digest()
+        key = hashlib.sha256(bytes(self.__address)).digest()
         if self.__state_proof.bitmap:
             return mp.verify_exclusion_c(root,
                                          self.__state_proof.auditPath,
