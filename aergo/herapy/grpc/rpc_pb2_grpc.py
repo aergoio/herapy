@@ -34,6 +34,11 @@ class AergoRPCServiceStub(object):
         request_serializer=rpc__pb2.Empty.SerializeToString,
         response_deserializer=rpc__pb2.BlockchainStatus.FromString,
         )
+    self.GetChainInfo = channel.unary_unary(
+        '/types.AergoRPCService/GetChainInfo',
+        request_serializer=rpc__pb2.Empty.SerializeToString,
+        response_deserializer=rpc__pb2.ChainInfo.FromString,
+        )
     self.ListBlockHeaders = channel.unary_unary(
         '/types.AergoRPCService/ListBlockHeaders',
         request_serializer=rpc__pb2.ListParams.SerializeToString,
@@ -58,6 +63,16 @@ class AergoRPCServiceStub(object):
         '/types.AergoRPCService/GetBlock',
         request_serializer=rpc__pb2.SingleBytes.SerializeToString,
         response_deserializer=blockchain__pb2.Block.FromString,
+        )
+    self.GetBlockMetadata = channel.unary_unary(
+        '/types.AergoRPCService/GetBlockMetadata',
+        request_serializer=rpc__pb2.SingleBytes.SerializeToString,
+        response_deserializer=rpc__pb2.BlockMetadata.FromString,
+        )
+    self.GetBlockBody = channel.unary_unary(
+        '/types.AergoRPCService/GetBlockBody',
+        request_serializer=rpc__pb2.BlockBodyParams.SerializeToString,
+        response_deserializer=rpc__pb2.BlockBodyPaged.FromString,
         )
     self.GetTX = channel.unary_unary(
         '/types.AergoRPCService/GetTX',
@@ -107,7 +122,7 @@ class AergoRPCServiceStub(object):
     self.GetStateAndProof = channel.unary_unary(
         '/types.AergoRPCService/GetStateAndProof',
         request_serializer=rpc__pb2.AccountAndRoot.SerializeToString,
-        response_deserializer=blockchain__pb2.StateProof.FromString,
+        response_deserializer=blockchain__pb2.AccountProof.FromString,
         )
     self.CreateAccount = channel.unary_unary(
         '/types.AergoRPCService/CreateAccount',
@@ -198,6 +213,13 @@ class AergoRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetChainInfo(self, request, context):
+    """Returns current blockchain's basic information
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def ListBlockHeaders(self, request, context):
     """Returns list of Blocks without body according to request
     """
@@ -227,7 +249,21 @@ class AergoRPCServiceServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetBlock(self, request, context):
-    """Return a single block, queried by hash or number
+    """Return a single block incl. header and body, queried by hash or number
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetBlockMetadata(self, request, context):
+    """Return a single block's metdata (hash, header, and number of transactions), queried by hash or number
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetBlockBody(self, request, context):
+    """Return a single block's body, queried by hash or number and list parameters
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -405,6 +441,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           request_deserializer=rpc__pb2.Empty.FromString,
           response_serializer=rpc__pb2.BlockchainStatus.SerializeToString,
       ),
+      'GetChainInfo': grpc.unary_unary_rpc_method_handler(
+          servicer.GetChainInfo,
+          request_deserializer=rpc__pb2.Empty.FromString,
+          response_serializer=rpc__pb2.ChainInfo.SerializeToString,
+      ),
       'ListBlockHeaders': grpc.unary_unary_rpc_method_handler(
           servicer.ListBlockHeaders,
           request_deserializer=rpc__pb2.ListParams.FromString,
@@ -429,6 +470,16 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.GetBlock,
           request_deserializer=rpc__pb2.SingleBytes.FromString,
           response_serializer=blockchain__pb2.Block.SerializeToString,
+      ),
+      'GetBlockMetadata': grpc.unary_unary_rpc_method_handler(
+          servicer.GetBlockMetadata,
+          request_deserializer=rpc__pb2.SingleBytes.FromString,
+          response_serializer=rpc__pb2.BlockMetadata.SerializeToString,
+      ),
+      'GetBlockBody': grpc.unary_unary_rpc_method_handler(
+          servicer.GetBlockBody,
+          request_deserializer=rpc__pb2.BlockBodyParams.FromString,
+          response_serializer=rpc__pb2.BlockBodyPaged.SerializeToString,
       ),
       'GetTX': grpc.unary_unary_rpc_method_handler(
           servicer.GetTX,
@@ -478,7 +529,7 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
       'GetStateAndProof': grpc.unary_unary_rpc_method_handler(
           servicer.GetStateAndProof,
           request_deserializer=rpc__pb2.AccountAndRoot.FromString,
-          response_serializer=blockchain__pb2.StateProof.SerializeToString,
+          response_serializer=blockchain__pb2.AccountProof.SerializeToString,
       ),
       'CreateAccount': grpc.unary_unary_rpc_method_handler(
           servicer.CreateAccount,

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\x10\x62lockchain.proto\x12\x05types\"Y\n\x05\x42lock\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x1e\n\x04\x62ody\x18\x03 \x01(\x0b\x32\x10.types.BlockBody\"\xe9\x01\n\x0b\x42lockHeader\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\x15\n\rprevBlockHash\x18\x02 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x03 \x01(\x04\x12\x11\n\ttimestamp\x18\x04 \x01(\x03\x12\x16\n\x0e\x62locksRootHash\x18\x05 \x01(\x0c\x12\x13\n\x0btxsRootHash\x18\x06 \x01(\x0c\x12\x18\n\x10receiptsRootHash\x18\x07 \x01(\x0c\x12\x10\n\x08\x63onfirms\x18\x08 \x01(\x04\x12\x0e\n\x06pubKey\x18\t \x01(\x0c\x12\x17\n\x0f\x63oinbaseAccount\x18\n \x01(\x0c\x12\x0c\n\x04sign\x18\x0b \x01(\x0c\"#\n\tBlockBody\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\" \n\x06TxList\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\"/\n\x02Tx\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x1b\n\x04\x62ody\x18\x02 \x01(\x0b\x32\r.types.TxBody\"\xa5\x01\n\x06TxBody\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0c\x12\x11\n\trecipient\x18\x03 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x04 \x01(\x0c\x12\x0f\n\x07payload\x18\x05 \x01(\x0c\x12\r\n\x05limit\x18\x06 \x01(\x04\x12\r\n\x05price\x18\x07 \x01(\x0c\x12\x1b\n\x04type\x18\x08 \x01(\x0e\x32\r.types.TxType\x12\x0c\n\x04sign\x18\t \x01(\x0c\"\'\n\x05TxIdx\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0b\n\x03idx\x18\x02 \x01(\x05\"?\n\tTxInBlock\x12\x1b\n\x05txIdx\x18\x01 \x01(\x0b\x32\x0c.types.TxIdx\x12\x15\n\x02tx\x18\x02 \x01(\x0b\x32\t.types.Tx\"h\n\x05State\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x62\x61lance\x18\x02 \x01(\x0c\x12\x10\n\x08\x63odeHash\x18\x03 \x01(\x0c\x12\x13\n\x0bstorageRoot\x18\x04 \x01(\x0c\x12\x18\n\x10sqlRecoveryPoint\x18\x05 \x01(\x04\"\x93\x01\n\nStateProof\x12\x1b\n\x05state\x18\x01 \x01(\x0b\x32\x0c.types.State\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x10\n\x08proofKey\x18\x03 \x01(\x0c\x12\x10\n\x08proofVal\x18\x04 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x05 \x01(\x0c\x12\x0e\n\x06height\x18\x06 \x01(\r\x12\x11\n\tauditPath\x18\x07 \x03(\x0c\"\x8b\x01\n\x10\x43ontractVarProof\x12\r\n\x05value\x18\x01 \x01(\x0c\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x10\n\x08proofKey\x18\x03 \x01(\x0c\x12\x10\n\x08proofVal\x18\x04 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x05 \x01(\x0c\x12\x0e\n\x06height\x18\x06 \x01(\r\x12\x11\n\tauditPath\x18\x07 \x03(\x0c\"f\n\x0fStateQueryProof\x12(\n\rcontractProof\x18\x01 \x01(\x0b\x32\x11.types.StateProof\x12)\n\x08varProof\x18\x02 \x01(\x0b\x32\x17.types.ContractVarProof\"?\n\x07Receipt\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x0b\n\x03ret\x18\x03 \x01(\t\"\x1a\n\nFnArgument\x12\x0c\n\x04name\x18\x01 \x01(\t\">\n\x08\x46unction\x12\x0c\n\x04name\x18\x01 \x01(\t\x12$\n\targuments\x18\x02 \x03(\x0b\x32\x11.types.FnArgument\"&\n\x08StateVar\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\"v\n\x03\x41\x42I\x12\x0f\n\x07version\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\"\n\tfunctions\x18\x03 \x03(\x0b\x32\x0f.types.Function\x12(\n\x0fstate_variables\x18\x04 \x03(\x0b\x32\x0f.types.StateVar\"3\n\x05Query\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\tqueryinfo\x18\x02 \x01(\x0c\"j\n\nStateQuery\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x0f\n\x07varName\x18\x02 \x01(\t\x12\x10\n\x08varIndex\x18\x03 \x01(\t\x12\x0c\n\x04root\x18\x04 \x01(\x0c\x12\x12\n\ncompressed\x18\x05 \x01(\x08*$\n\x06TxType\x12\n\n\x06NORMAL\x10\x00\x12\x0e\n\nGOVERNANCE\x10\x01\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_pb=_b('\n\x10\x62lockchain.proto\x12\x05types\"Y\n\x05\x42lock\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x1e\n\x04\x62ody\x18\x03 \x01(\x0b\x32\x10.types.BlockBody\"\xe9\x01\n\x0b\x42lockHeader\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\x15\n\rprevBlockHash\x18\x02 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x03 \x01(\x04\x12\x11\n\ttimestamp\x18\x04 \x01(\x03\x12\x16\n\x0e\x62locksRootHash\x18\x05 \x01(\x0c\x12\x13\n\x0btxsRootHash\x18\x06 \x01(\x0c\x12\x18\n\x10receiptsRootHash\x18\x07 \x01(\x0c\x12\x10\n\x08\x63onfirms\x18\x08 \x01(\x04\x12\x0e\n\x06pubKey\x18\t \x01(\x0c\x12\x17\n\x0f\x63oinbaseAccount\x18\n \x01(\x0c\x12\x0c\n\x04sign\x18\x0b \x01(\x0c\"#\n\tBlockBody\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\" \n\x06TxList\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\"/\n\x02Tx\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x1b\n\x04\x62ody\x18\x02 \x01(\x0b\x32\r.types.TxBody\"\xa5\x01\n\x06TxBody\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0c\x12\x11\n\trecipient\x18\x03 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x04 \x01(\x0c\x12\x0f\n\x07payload\x18\x05 \x01(\x0c\x12\r\n\x05limit\x18\x06 \x01(\x04\x12\r\n\x05price\x18\x07 \x01(\x0c\x12\x1b\n\x04type\x18\x08 \x01(\x0e\x32\r.types.TxType\x12\x0c\n\x04sign\x18\t \x01(\x0c\"\'\n\x05TxIdx\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0b\n\x03idx\x18\x02 \x01(\x05\"?\n\tTxInBlock\x12\x1b\n\x05txIdx\x18\x01 \x01(\x0b\x32\x0c.types.TxIdx\x12\x15\n\x02tx\x18\x02 \x01(\x0b\x32\t.types.Tx\"h\n\x05State\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x62\x61lance\x18\x02 \x01(\x0c\x12\x10\n\x08\x63odeHash\x18\x03 \x01(\x0c\x12\x13\n\x0bstorageRoot\x18\x04 \x01(\x0c\x12\x18\n\x10sqlRecoveryPoint\x18\x05 \x01(\x04\"\xa2\x01\n\x0c\x41\x63\x63ountProof\x12\x1b\n\x05state\x18\x01 \x01(\x0b\x32\x0c.types.State\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x0b\n\x03key\x18\x03 \x01(\x0c\x12\x10\n\x08proofKey\x18\x04 \x01(\x0c\x12\x10\n\x08proofVal\x18\x05 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x06 \x01(\x0c\x12\x0e\n\x06height\x18\x07 \x01(\r\x12\x11\n\tauditPath\x18\x08 \x03(\x0c\"\x98\x01\n\x10\x43ontractVarProof\x12\r\n\x05value\x18\x01 \x01(\x0c\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x0b\n\x03key\x18\x03 \x01(\t\x12\x10\n\x08proofKey\x18\x04 \x01(\x0c\x12\x10\n\x08proofVal\x18\x05 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x06 \x01(\x0c\x12\x0e\n\x06height\x18\x07 \x01(\r\x12\x11\n\tauditPath\x18\x08 \x03(\x0c\"i\n\x0fStateQueryProof\x12*\n\rcontractProof\x18\x01 \x01(\x0b\x32\x13.types.AccountProof\x12*\n\tvarProofs\x18\x02 \x03(\x0b\x32\x17.types.ContractVarProof\"?\n\x07Receipt\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x0b\n\x03ret\x18\x03 \x01(\t\"\x1a\n\nFnArgument\x12\x0c\n\x04name\x18\x01 \x01(\t\">\n\x08\x46unction\x12\x0c\n\x04name\x18\x01 \x01(\t\x12$\n\targuments\x18\x02 \x03(\x0b\x32\x11.types.FnArgument\"&\n\x08StateVar\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\"v\n\x03\x41\x42I\x12\x0f\n\x07version\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\"\n\tfunctions\x18\x03 \x03(\x0b\x32\x0f.types.Function\x12(\n\x0fstate_variables\x18\x04 \x03(\x0b\x32\x0f.types.StateVar\"3\n\x05Query\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\tqueryinfo\x18\x02 \x01(\x0c\"\\\n\nStateQuery\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x13\n\x0bstorageKeys\x18\x02 \x03(\t\x12\x0c\n\x04root\x18\x03 \x01(\x0c\x12\x12\n\ncompressed\x18\x04 \x01(\x08*$\n\x06TxType\x12\n\n\x06NORMAL\x10\x00\x12\x0e\n\nGOVERNANCE\x10\x01\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
 )
 
 _TXTYPE = _descriptor.EnumDescriptor(
@@ -40,8 +40,8 @@ _TXTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1728,
-  serialized_end=1764,
+  serialized_start=1745,
+  serialized_end=1781,
 )
 _sym_db.RegisterEnumDescriptor(_TXTYPE)
 
@@ -519,58 +519,65 @@ _STATE = _descriptor.Descriptor(
 )
 
 
-_STATEPROOF = _descriptor.Descriptor(
-  name='StateProof',
-  full_name='types.StateProof',
+_ACCOUNTPROOF = _descriptor.Descriptor(
+  name='AccountProof',
+  full_name='types.AccountProof',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='state', full_name='types.StateProof.state', index=0,
+      name='state', full_name='types.AccountProof.state', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='inclusion', full_name='types.StateProof.inclusion', index=1,
+      name='inclusion', full_name='types.AccountProof.inclusion', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='proofKey', full_name='types.StateProof.proofKey', index=2,
+      name='key', full_name='types.AccountProof.key', index=2,
       number=3, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='proofVal', full_name='types.StateProof.proofVal', index=3,
+      name='proofKey', full_name='types.AccountProof.proofKey', index=3,
       number=4, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bitmap', full_name='types.StateProof.bitmap', index=4,
+      name='proofVal', full_name='types.AccountProof.proofVal', index=4,
       number=5, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='height', full_name='types.StateProof.height', index=5,
-      number=6, type=13, cpp_type=3, label=1,
+      name='bitmap', full_name='types.AccountProof.bitmap', index=5,
+      number=6, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='height', full_name='types.AccountProof.height', index=6,
+      number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='auditPath', full_name='types.StateProof.auditPath', index=6,
-      number=7, type=12, cpp_type=9, label=3,
+      name='auditPath', full_name='types.AccountProof.auditPath', index=7,
+      number=8, type=12, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -588,7 +595,7 @@ _STATEPROOF = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=855,
-  serialized_end=1002,
+  serialized_end=1017,
 )
 
 
@@ -614,36 +621,43 @@ _CONTRACTVARPROOF = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='proofKey', full_name='types.ContractVarProof.proofKey', index=2,
-      number=3, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b(""),
+      name='key', full_name='types.ContractVarProof.key', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='proofVal', full_name='types.ContractVarProof.proofVal', index=3,
+      name='proofKey', full_name='types.ContractVarProof.proofKey', index=3,
       number=4, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bitmap', full_name='types.ContractVarProof.bitmap', index=4,
+      name='proofVal', full_name='types.ContractVarProof.proofVal', index=4,
       number=5, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='height', full_name='types.ContractVarProof.height', index=5,
-      number=6, type=13, cpp_type=3, label=1,
+      name='bitmap', full_name='types.ContractVarProof.bitmap', index=5,
+      number=6, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='height', full_name='types.ContractVarProof.height', index=6,
+      number=7, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='auditPath', full_name='types.ContractVarProof.auditPath', index=6,
-      number=7, type=12, cpp_type=9, label=3,
+      name='auditPath', full_name='types.ContractVarProof.auditPath', index=7,
+      number=8, type=12, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -660,8 +674,8 @@ _CONTRACTVARPROOF = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1005,
-  serialized_end=1144,
+  serialized_start=1020,
+  serialized_end=1172,
 )
 
 
@@ -680,9 +694,9 @@ _STATEQUERYPROOF = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='varProof', full_name='types.StateQueryProof.varProof', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='varProofs', full_name='types.StateQueryProof.varProofs', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -698,8 +712,8 @@ _STATEQUERYPROOF = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1146,
-  serialized_end=1248,
+  serialized_start=1174,
+  serialized_end=1279,
 )
 
 
@@ -743,8 +757,8 @@ _RECEIPT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1250,
-  serialized_end=1313,
+  serialized_start=1281,
+  serialized_end=1344,
 )
 
 
@@ -774,8 +788,8 @@ _FNARGUMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1315,
-  serialized_end=1341,
+  serialized_start=1346,
+  serialized_end=1372,
 )
 
 
@@ -812,8 +826,8 @@ _FUNCTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1343,
-  serialized_end=1405,
+  serialized_start=1374,
+  serialized_end=1436,
 )
 
 
@@ -850,8 +864,8 @@ _STATEVAR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1407,
-  serialized_end=1445,
+  serialized_start=1438,
+  serialized_end=1476,
 )
 
 
@@ -902,8 +916,8 @@ _ABI = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1447,
-  serialized_end=1565,
+  serialized_start=1478,
+  serialized_end=1596,
 )
 
 
@@ -940,8 +954,8 @@ _QUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1567,
-  serialized_end=1618,
+  serialized_start=1598,
+  serialized_end=1649,
 )
 
 
@@ -960,29 +974,22 @@ _STATEQUERY = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='varName', full_name='types.StateQuery.varName', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='storageKeys', full_name='types.StateQuery.storageKeys', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='varIndex', full_name='types.StateQuery.varIndex', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='root', full_name='types.StateQuery.root', index=3,
-      number=4, type=12, cpp_type=9, label=1,
+      name='root', full_name='types.StateQuery.root', index=2,
+      number=3, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='compressed', full_name='types.StateQuery.compressed', index=4,
-      number=5, type=8, cpp_type=7, label=1,
+      name='compressed', full_name='types.StateQuery.compressed', index=3,
+      number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -999,8 +1006,8 @@ _STATEQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1620,
-  serialized_end=1726,
+  serialized_start=1651,
+  serialized_end=1743,
 )
 
 _BLOCK.fields_by_name['header'].message_type = _BLOCKHEADER
@@ -1011,9 +1018,9 @@ _TX.fields_by_name['body'].message_type = _TXBODY
 _TXBODY.fields_by_name['type'].enum_type = _TXTYPE
 _TXINBLOCK.fields_by_name['txIdx'].message_type = _TXIDX
 _TXINBLOCK.fields_by_name['tx'].message_type = _TX
-_STATEPROOF.fields_by_name['state'].message_type = _STATE
-_STATEQUERYPROOF.fields_by_name['contractProof'].message_type = _STATEPROOF
-_STATEQUERYPROOF.fields_by_name['varProof'].message_type = _CONTRACTVARPROOF
+_ACCOUNTPROOF.fields_by_name['state'].message_type = _STATE
+_STATEQUERYPROOF.fields_by_name['contractProof'].message_type = _ACCOUNTPROOF
+_STATEQUERYPROOF.fields_by_name['varProofs'].message_type = _CONTRACTVARPROOF
 _FUNCTION.fields_by_name['arguments'].message_type = _FNARGUMENT
 _ABI.fields_by_name['functions'].message_type = _FUNCTION
 _ABI.fields_by_name['state_variables'].message_type = _STATEVAR
@@ -1026,7 +1033,7 @@ DESCRIPTOR.message_types_by_name['TxBody'] = _TXBODY
 DESCRIPTOR.message_types_by_name['TxIdx'] = _TXIDX
 DESCRIPTOR.message_types_by_name['TxInBlock'] = _TXINBLOCK
 DESCRIPTOR.message_types_by_name['State'] = _STATE
-DESCRIPTOR.message_types_by_name['StateProof'] = _STATEPROOF
+DESCRIPTOR.message_types_by_name['AccountProof'] = _ACCOUNTPROOF
 DESCRIPTOR.message_types_by_name['ContractVarProof'] = _CONTRACTVARPROOF
 DESCRIPTOR.message_types_by_name['StateQueryProof'] = _STATEQUERYPROOF
 DESCRIPTOR.message_types_by_name['Receipt'] = _RECEIPT
@@ -1102,12 +1109,12 @@ State = _reflection.GeneratedProtocolMessageType('State', (_message.Message,), d
   ))
 _sym_db.RegisterMessage(State)
 
-StateProof = _reflection.GeneratedProtocolMessageType('StateProof', (_message.Message,), dict(
-  DESCRIPTOR = _STATEPROOF,
+AccountProof = _reflection.GeneratedProtocolMessageType('AccountProof', (_message.Message,), dict(
+  DESCRIPTOR = _ACCOUNTPROOF,
   __module__ = 'blockchain_pb2'
-  # @@protoc_insertion_point(class_scope:types.StateProof)
+  # @@protoc_insertion_point(class_scope:types.AccountProof)
   ))
-_sym_db.RegisterMessage(StateProof)
+_sym_db.RegisterMessage(AccountProof)
 
 ContractVarProof = _reflection.GeneratedProtocolMessageType('ContractVarProof', (_message.Message,), dict(
   DESCRIPTOR = _CONTRACTVARPROOF,
