@@ -48,7 +48,7 @@ def run():
             aergo.generate_tx(to_address=receiver_address, nonce=nonce+5, amount='90000 aer'),
         ]
 
-        txs, results = aergo.send_tx(signed_txs=txs)
+        txs, results = aergo.batch_tx(signed_txs=txs)
         for i, tx in enumerate(txs):
             print("[{}]".format(i))
             print("  > tx: ", str(tx))

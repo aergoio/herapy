@@ -295,11 +295,11 @@ class Aergo:
                               nonce=nonce, amount=amount,
                               fee_limit=0, fee_price=0,
                               payload=payload)
-        signed_txs, results = self.send_tx(signed_txs=[tx])
+        signed_tx, result = self.send_tx(signed_tx=tx)
 
-        if results[0].status == CommitStatus.TX_OK:
+        if result.status == CommitStatus.TX_OK:
             self.__account.nonce = nonce
-        elif results[0].status == CommitStatus.TX_HAS_SAME_NONCE:
+        elif result.status == CommitStatus.TX_HAS_SAME_NONCE:
             while retry_nonce > 0:
                 retry_nonce -= 1
 
@@ -308,16 +308,16 @@ class Aergo:
                                       nonce=nonce, amount=amount,
                                       fee_limit=0, fee_price=0,
                                       payload=payload)
-                signed_txs, results = self.send_tx(signed_txs=[tx])
+                signed_tx, result = self.send_tx(signed_tx=tx)
 
-                es = results[0].status
+                es = result.status
                 if es == CommitStatus.TX_OK:
                     self.__account.nonce = nonce
                     break
                 elif es != CommitStatus.TX_HAS_SAME_NONCE:
                     break
 
-        return signed_txs[0], results[0]
+        return signed_tx, result
 
     def send_unsigned_tx(self, unsigned_tx):
         """
@@ -334,7 +334,17 @@ class Aergo:
 
         return result
 
-    def send_tx(self, signed_txs):
+    def send_tx(self, signed_tx):
+        """
+        Send a signed transaction.
+        This transaction will push to the memory pool after verifying.
+        :param signed_tx:
+        :return:
+        """
+        signed_txs, results = self.batch_tx(signed_txs=[signed_tx])
+        return signed_txs[0], results[0]
+
+    def batch_tx(self, signed_txs):
         """
         Send a set of signed transactions simultaneously.
         These transactions will push to the memory pool after verifying.
@@ -437,7 +447,7 @@ class Aergo:
                                 fee_limit=0, fee_price=0, payload=payload)
 
     def batch_call_sc(self, sc_txs):
-        return self.send_tx(sc_txs)
+        return self.batch_tx(sc_txs)
 
     def call_sc(self, sc_address, func_name, amount=0, args=None):
         sc_tx = self.new_call_sc_tx(sc_address=sc_address, func_name=func_name,

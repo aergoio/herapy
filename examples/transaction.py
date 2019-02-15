@@ -86,16 +86,14 @@ def run():
         print("  > TX : {}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
 
         print("------ Send Tx -----------")
-        txs, results = aergo.send_tx(tx)
-        for i, tx in enumerate(txs):
-            print("  > TX[{}]".format(i))
-            print("{}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
-            if result.status != herapy.CommitStatus.TX_OK:
-                eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
-                aergo.disconnect()
-                return
-            else:
-                print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
+        tx, result = aergo.send_tx(tx)
+        print("{}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
+        if result.status != herapy.CommitStatus.TX_OK:
+            eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            aergo.disconnect()
+            return
+        else:
+            print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
 
         # wait to generate a block
         time.sleep(3)
