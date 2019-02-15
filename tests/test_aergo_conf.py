@@ -7,9 +7,9 @@ DEFAULT_AERGO_CONFIG = """datadir = "${AERGO_HOME}/data"
 dbtype = "badgerdb"
 enableprofile = false
 profileport = 6060
-enablerest = false
 enabletestmode = false
 personal = true
+authdir = "${AERGO_HOME}/auth"
 
 [rpc]
 netserviceaddr = "127.0.0.1"
@@ -17,9 +17,6 @@ netserviceport = 7845
 netservicetrace = false
 nstls = false
 nskey = ""
-
-[rest]
-restport = 8080
 
 [p2p]
 netprotocoladdr = ""
@@ -30,7 +27,6 @@ nptls = false
 npcert = ""
 npkey = ""
 npaddpeers = []
-nphiddenpeers = []
 npdiscoverpeers = true
 npmaxpeers = 100
 nppeerpool = 100
@@ -46,7 +42,7 @@ genesisfile = ""
 maxblocksize = 1048576
 coinbaseaccount = ""
 maxanchorcount = 20
-usefastsyncer = false
+forceresetheight = 0
 
 [mempool]
 showmetrics = false
@@ -87,7 +83,7 @@ TEST_AERGO_CONFIG = """
 datadir = "/Users/yp/work/blocko/go/src/github.com/aergoio/aergo/bin/alone/data"
 enableprofile = false
 profileport = 6060
-enablerest = false
+#enablerest = false
 enabletestmode = true
 
 [rpc]
@@ -98,8 +94,8 @@ nscert = ""
 nskey = ""
 nsallowcors = false
 
-[rest]
-restport = "8080"
+#[rest]
+#restport = "8080"
 
 [p2p]
 netprotocoladdr = "127.0.0.1"
@@ -139,9 +135,11 @@ def test_success():
     assert aergo_conf.dbtype == herapy.AERGO_DEFAULT_CONF['dbtype']
     assert aergo_conf.enableprofile is False
     assert aergo_conf.profileport == 6060
-    assert aergo_conf.enablerest is False
+    with pytest.raises(KeyError):
+        herapy.AERGO_DEFAULT_CONF['enablerest']
     assert aergo_conf.enabletestmode is True
     assert aergo_conf.personal is herapy.AERGO_DEFAULT_CONF['personal']
+    assert aergo_conf.authdir is herapy.AERGO_DEFAULT_CONF['authdir']
     # check rcp config
     assert aergo_conf.rpc_netserviceaddr == "127.0.0.1"
     assert aergo_conf.rpc_netserviceport == 7845
@@ -155,7 +153,7 @@ def test_success():
         herapy.AERGO_DEFAULT_CONF['rpc']['nsallowcors']
     assert aergo_conf.rpc_nsallowcors is False
     # check rest config
-    assert aergo_conf.rest_restport == 8080
+    #assert aergo_conf.rest_restport == 8080
     # check p2p config
     assert aergo_conf.p2p_netprotocoladdr != herapy.AERGO_DEFAULT_CONF['p2p']['netprotocoladdr']
     assert aergo_conf.p2p_netprotocoladdr == "127.0.0.1"
@@ -173,7 +171,8 @@ def test_success():
     assert aergo_conf.blockchain_maxblocksize == 1048576
     assert aergo_conf.blockchain_coinbaseaccount == herapy.AERGO_DEFAULT_CONF['blockchain']['coinbaseaccount']
     assert aergo_conf.blockchain_maxanchorcount == herapy.AERGO_DEFAULT_CONF['blockchain']['maxanchorcount']
-    assert aergo_conf.blockchain_usefastsyncer is herapy.AERGO_DEFAULT_CONF['blockchain']['usefastsyncer']
+    #assert aergo_conf.blockchain_usefastsyncer is herapy.AERGO_DEFAULT_CONF['blockchain']['usefastsyncer']
+    assert aergo_conf.blockchain_forceresetheight == herapy.AERGO_DEFAULT_CONF['blockchain']['forceresetheight']
     # check mempool config
     assert aergo_conf.mempool_showmetrics is False
     with pytest.raises(KeyError):
@@ -187,3 +186,5 @@ def test_success():
     # check monitor config
     assert aergo_conf.monitor_protocol == herapy.AERGO_DEFAULT_CONF['monitor']['protocol']
     assert aergo_conf.monitor_endpoint == herapy.AERGO_DEFAULT_CONF['monitor']['endpoint']
+    # check account config
+    assert aergo_conf.account_unlocktimeout == herapy.AERGO_DEFAULT_CONF['account']['unlocktimeout']
