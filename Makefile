@@ -154,4 +154,9 @@ ex: ## run all examples in the examples directory
 	@echo "===================================" >> make.ex.out
 	@echo "Run ... 'examples/transaction.py'"
 	@python ./examples/transaction.py >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Result of 'examples/transaction_batch.py'" >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Run ... 'examples/transaction_batch.py'"
+	@python ./examples/transaction.py >> make.ex.out
 	@echo "See 'make.ex.out' to check the results"
