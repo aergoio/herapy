@@ -432,9 +432,9 @@ class Aergo:
         payload = json.dumps(call_info, separators=(',', ':')).encode('utf-8')
 
         self.__account.nonce += 1
-        return self._generate_tx(account=self.__account, to_address=sc_address,
-                                 nonce=self.__account.nonce, amount=amount,
-                                 fee_limit=0, fee_price=0, payload=payload)
+        return self.generate_tx(to_address=sc_address,
+                                nonce=self.__account.nonce, amount=amount,
+                                fee_limit=0, fee_price=0, payload=payload)
 
     def batch_call_sc(self, sc_txs):
         return self.send_tx(sc_txs)
