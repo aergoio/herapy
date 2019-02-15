@@ -80,14 +80,18 @@ def main():
         eprint("!!!MISSING ARGUMENTS: " + sys.argv[0] + " <'types.go' file path> <'aergo_default_conf.toml' file path>")
         return
 
+    types_f = None
+    line = None
+    conf_type = {}
+
+    go_src_path = sys.argv[1]
+    default_conf_file = sys.argv[2]
+
+    eprint(">> Parsing Go Source file:", go_src_path)
     try:
-        go_src_path = sys.argv[1]
-        eprint("Parsing Go Source file:", go_src_path)
 
         types_f = open(go_src_path)
         line = types_f.readline()
-
-        conf_type = {}
 
         # parsing source file
         while line:
@@ -105,10 +109,12 @@ def main():
         eprint("ERROR: to parse line: ", line)
         traceback.print_exception(*sys.exc_info())
     finally:
-        types_f.close()
+        if types_f:
+            types_f.close()
 
     # check default values of all configurations are set
-    with open(sys.argv[2]) as toml_f:
+    eprint(">> Check default value of Keys:", default_conf_file)
+    with open(default_conf_file) as toml_f:
         default_conf = toml.loads(toml_f.read())
     toml_f.close()
 
@@ -139,7 +145,10 @@ def main():
                     "category": k,
                     "key": k2
                 })
+    if len(no_default_keys) > 0:
+        eprint("Check the '{}' file for all missing default keys.".format(default_conf_file))
 
+    eprint(">> Generate python source code.")
     try:
         # generate python source code
         aergo_config_src = """
@@ -287,10 +296,9 @@ class AergoConfig:
                 aergo_config_src += setter_func
 
         print(aergo_config_src)
+        eprint(">> Done.")
     except Exception as e:
         traceback.print_exception(*sys.exc_info())
-    finally:
-        types_f.close()
 
 
 if __name__ == '__main__':
