@@ -39,7 +39,10 @@ class SCState:
         if not self.__account.verify_inclusion(root):
             # The contract state doesnt exist
             return False
+
         sc_root = self.__account.state_proof.state.storageRoot
+
+        assert self.__var_proof is not None
         # Verify the variable state is included in the contract root
         return self.__var_proof.verify_inclusion(sc_root)
 
@@ -51,11 +54,15 @@ class SCState:
         if self.__account.verify_exclusion(root):
             # The contract state doesnt exist
             return True
+
         # First verify that the contract state does exist before proving
         # that the variable state doesnt exist
         if not self.__account.verify_inclusion(root):
             # The contract state doesnt exist so the variable exclusion proof
             # cannot be valid
             return False
+
         sc_root = self.__account.state_proof.state.storageRoot
+
+        assert self.__var_proof is not None
         return self.__var_proof.verify_exclusion(sc_root)

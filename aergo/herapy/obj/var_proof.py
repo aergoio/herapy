@@ -10,22 +10,15 @@ class VarProof:
     """ VarProof holds the inclusion/exclusion proof of a variable state
     inside a contract state trie
     """
-    def __init__(self, var_proof, var_name, var_index=""):
+    def __init__(self, var_proof, var_name):
         self.__var_proof = var_proof
         self.__var_name = var_name
-        self.__var_index = var_index
-        if len(var_index) != 0:
-            var_id = bytes("_sv_" + var_name + "-" + var_index, "utf-8")
-        else:
-            var_id = bytes("_sv_" + var_name, "utf-8")
+
+        var_id = bytes("_sv_" + var_name, "utf-8")
         self.__trie_key = hashlib.sha256(var_id).digest()
 
     def __str__(self):
         return MessageToJson(self.__var_proof)
-
-    @property
-    def var_index(self):
-        return self.__var_index
 
     @property
     def var_name(self):

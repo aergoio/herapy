@@ -15,32 +15,56 @@ def run():
         -- Define global variables.
         state.var {
             a = state.value(),
+            b = state.value(),
+            c = state.value(),
         }
 
         function constructor(name)
-            a:set(name)
+            a:set("a_" .. name)
+            b:set("b_" .. name)
+            c:set("c_" .. name)
         end
 
-        function set_name(name)
-            a:set(name)
+        function set_name(key, name)
+            if key == "a" then
+                a:set(name)
+            elseif key == "b" then
+                b:set(name)
+            else
+                c:set(name)
+            end
         end
 
-        function get_name()
-            return a:get()
+        function get_name(key)
+            if key == "a" then
+                a:get()
+            elseif key == "b" then
+                b:get()
+            else
+                c:get()
+            end
         end
 
-        function test_array(array)
-            a:set(array[1])
+        function test_array(key, array)
+            if key == "a" then
+                a:set(array[1])
+            elseif key == "b" then
+                b:set(array[1])
+            else
+                c:set(array[1])
+            end
         end
 
         function say_hello()
-            a:set("hello")
+            a:set("hello A")
+            b:set("hello B")
+            c:set("hello C")
         end
 
 
         abi.register(set_name, get_name, test_array, say_hello)
     """
-    payload_str = "2bTAKwCcCqs1n91vFF5YnBBcaTLNsxhqzGgM8vcVAG3HqQLp1uZZSwvmnj8CEEm9GTvogDf3r6ioqHjbfBisjRzwUJxr6msFuf4vVuzbWEXtbShu43ZpLbJdT1NECStCEDGFPRsn3pc7jQ1FumPGB9GwGY7Y7wNN1t4kLMQPNxJCmDFAwLA6BAyCGpzW2g5rtHuWodTMTposF4EBRxbvsXYWvrDYLTK7JGbDsq4neBzXVtmJjereb7i6fX8Fug1LJ9GgYskTKdqcBjugxEoipjsAALtnr7mcUPoPFygbQzXbHsW13UwjhBxKsEvWYZm1hC8QxCeiRbHdx8VY5ES2ugR8Dt4uhiboAbaLofpnGRcPofgFGXiwDfESQgNZBjHP1DeEzh7gGh6fzABcw3LSjQLC9RETFWyUnWY3dU4iqH3PsVNhBFgHCUepBBphvwPT6UoictgsWzsnFdf1peiDsfXFE9uSTKWDCMhqgaETSLZdn8QiGBwMvZ1pEkP6xmh9389mFXCZ4ERNGUGkk6xNfN7xdZhRCeXxZupgtNDREX5PrHPveXEMbzThAMV7Rqzy3MazDaCFxjkbUVgQjWsHYhwEBRMvYSd2p621nZzcb9GFbh9tpXhwoLYpLp89Qhi9oTy61AD2GVFgQmdWF9neD1GvauVkCNFzWmEUkdSU3F6yBRwBm2cs8oJEieFu1zETLsMyXydTN5WqHFuGs2PaV1XRwPVRLeYiwo2xmgJMssHaGtR8pmb8TrQpTJbJdgreCVn8GiGzYizvEcRz9m8aFdompJ2m2QR7TDLCCjZx2UqRJdcQZmyxEAtzjnCCgD7Gwj95ZHkFxzoEEHTLYbG6uaneRrQWnzabAaRe2392qJnEkiNug9gkdJfsRFapbVxupH9zkoAmFP5xoWeGrkknUw61E4tX"
+    payload_str = "SwLu5Jt217gMrbi2ApmQzTRYxBBJdP6Sp65VZfsSLUASo3GYwLbm4Zu2rvJtZoEJuWQAYVNpBY2YCFqn9YCmSyKftLYacAxSt44GB1F5VYqXdftpCQPMgzmYLyw5YkeP6Kmp58JxPdtFwDt721PhSi9hxb6unv7ZzCqqTh2TSUg9bo66ZLyULZdYRiPdk1uFarRVV8wtkPGeZQYmpMBRKzkew8o8PTCDuavHwHJZNKoyXcg1dT7TZfk5p7xQE4kgKZov8rYhoKSJN9Y3cbh5rwhzwwUnPtWEo4jMcfksz3fJQKdvYzp89ZZUVJ8hfQhoLgDnqnqcRh5bq9nQZjiDuLpWB9eo33uWpPzaV64zgrime6QsSia1LH89boqD7PwzJEfYL31XpxNHpbeLCQNE79LYAvkaMPhgm8MvoefvrWksEM2wVSLABgfxMZm6yAhB7YfvHuyeumdFTEQjZnvTGzDxv9RfepTWVbBJ9TSgEyzvSx1V7qG3AHkbCpzr4amKvxpT7igRy696nRHTT4ZKuDiZEWMMPybUQAE4mNbg3RQaFjW3bMDYp59mfyjwp3trzwhD1iMRG4TAWF68sobsbi1fzAbaJQYb7vreg8FuLw26K8581E5FqjGvKoKhS7MfT84aqcu1f7KnWRQhK9WsRVn8wipaWsQE14TzYeZUm92cnS1QdrRtCgWaNt3JDaDCbwBgJL8D4Ku2XaozEz6kCsTk7VHKQbm88BpfzXNKReJxnRZ8AbX1C7k5eHpjkBKfMYgeD7kSheJSPTSGToVWoF3oGA2RHE2xdQ8GW16XJJZD1xQjaPkj4u6CiBYWRGHxUj1PqwK6svNkLJSRczVqdU6JGAXqfAkZwfkX9Rcs6H55GagK46XmybH5CZXHaKDTrgQZZ6zeRzzTZHfkJdVL3C1hGsUFZQaZmyecUvonUFi6VE3jeFFTSK7a7aL1EFawjbN8bEFAkUDzUoEe2dp6gvCJyfmKSZD4Jzii7tKi6NUSkt759uba41F1v22JaWEmRwN9jSDdJ3HntDXUp9mBnhG3VK9y8a1dCFjC35bSM913i1ipDNXDn7L4xs1aTwwkiiARs8qd7SVF1PKv1ThhQYoxCzV9CTu6VsCWPRuevDhdujdMjmyhFRF1HMNgWm7ZVyEcdsAcfggkk1TXQJqxdoGnsJLXuRUVa6Hb9gkEEa19Z8NdZ3ztSa437p5xS3WkqQRSRTqMuTMBJ5x9EstjDMeM9uUaW9PfEWWQ19agj9WLL4ymRuiVLc5x4tUk1qVAQSUNPAvPH6kUWgcr3iLCsUNKpo5C1Qzm82vBPqGTT7LtrTaq4FoDLsmNN2ULx98EUSRpzSNcVqZgM74uJwGftuPMx6aqxx9kagBtkBGJyAb9aMbDuKyvhZ3RZQAi54GGBJbnHyjc86wATpgYFFvSvuuFQvawF9f1Hc1qX18SyaRQUPLEM5mRLQCN6nDMqGpmgu6h6CrvNnL3cr7jz8aToYCAodNuFaqk2n9rxe7Lwt7cNeiM7UFMMgpAFYPpA5sUxGjJw8t72HqhUVZS8ovfTKGhkRWStjfbKdGP"
     payload = herapy.utils.decode_address(payload_str)
 
     try:
@@ -96,38 +120,54 @@ def run():
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         block = aergo.get_block(best_block_hash)
         root = block.blocks_root_hash
-        result = aergo.query_sc_state(sc_address, "a", root=root)
-        print(result)
-        print(result.var_proof.var_proof.value)
-        print("valid inclusion proof compressed:",
-              result.verify_inclusion(root))
-        result = aergo.query_sc_state(sc_address, "a", root=root,
-                                      compressed=False)
-        print(result)
-        print("valid inclusion proof:", result.verify_inclusion(root))
 
-        result = aergo.query_sc_state(sc_address, "not included var",
-                                      root=root)
-        print("valid exclusion proof compressed:",
-              result.verify_exclusion(root))
-        result = aergo.query_sc_state(sc_address, "not included var",
-                                      root=root, compressed=False)
-        print("valid exclusion proof :", result.verify_exclusion(root))
+        sc_states = aergo.query_sc_state(sc_address, ['a', 'b', 'c'], root=root)
+        for i, sc_state in enumerate(sc_states):
+            print("Compressed [{}]".format(i))
+            print(sc_state)
+            print("valid inclusion proof:",
+                  sc_state.verify_inclusion(root))
+            print()
 
+        sc_states = aergo.query_sc_state(sc_address, ['a', 'b', 'c'], root=root, compressed=False)
+        for i, sc_state in enumerate(sc_states):
+            print("Uncompressed [{}]".format(i))
+            print(sc_state)
+            print("valid inclusion proof:",
+                  sc_state.verify_inclusion(root))
+            print()
+
+        sc_states = aergo.query_sc_state(sc_address, ['not', 'included', 'var'], root=root)
+        for i, sc_state in enumerate(sc_states):
+            print("Compressed [{}]".format(i))
+            print(sc_state)
+            print("valid exclusion proof:",
+                  sc_state.verify_exclusion(root))
+            print()
+
+        sc_states = aergo.query_sc_state(sc_address, ['not', 'included', 'var'], root=root, compressed=False)
+        for i, sc_state in enumerate(sc_states):
+            print("Uncompressed [{}]".format(i))
+            print(sc_state)
+            print("valid exclusion proof:",
+                  sc_state.verify_exclusion(root))
+            print()
 
         address = "AmMejL8z3wW2doksBzzMiWM2xTb6WtZniLkLyxwqWKiLJKK8Yvqd"
-        result = aergo.query_sc_state(address, "a", root=root)
+        sc_states = aergo.query_sc_state(address, ["a"], root=root)
+        print("valid inclusion proof unknown address compressed:",
+              sc_states[0].verify_inclusion(root))
         print("valid exclusion proof unknown address compressed:",
-              result.verify_exclusion(root))
-        result = aergo.query_sc_state(address, "a", root=root,
-                                      compressed=False)
+              sc_states[0].verify_exclusion(root))
+        sc_states = aergo.query_sc_state(address, ["a"], root=root, compressed=False)
+        print("valid inclusion proof unknown address:",
+              sc_states[0].verify_inclusion(root))
         print("valid exclusion proof unknown address:",
-              result.verify_exclusion(root))
-
+              sc_states[0].verify_exclusion(root))
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception as e:
+    except Exception:
         traceback.print_exception(*sys.exc_info())
 
 

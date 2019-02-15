@@ -473,25 +473,34 @@ class Aergo:
 
         return result.value
 
-    def query_sc_state(self, sc_address, var_name, var_index="", root=b'',
-                       compressed=True):
+    def query_sc_state(self, sc_address, var_keys, root=b'', compressed=True):
         """ query_sc_state returns a SCState object containing the contract
         state and variable state with their respective merkle proofs.
         """
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = decode_address(sc_address)
+
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
+
         try:
-            result = self.__comm.query_contract_state(sc_address, var_name,
-                                                      var_index, root,
-                                                      compressed)
+            result = self.__comm.query_contract_state(sc_address, var_keys, root, compressed)
         except Exception as e:
             raise CommunicationException(e) from e
-        var_proof = VarProof(result.varProof, var_name, var_index)
+
         account = acc.Account(empty=True)
         account.state = result.contractProof.state
         account.state_proof = result.contractProof
         account.address = sc_address
-        return SCState(account, var_proof)
+
+        sc_states = []
+        if 0 == len(result.varProofs):
+            for key in var_keys:
+                sc_states.append(SCState(account=account, var_proof=None))
+        else:
+            for vp in result.varProofs:
+                var_proof = VarProof(vp, vp.key)
+                sc_states.append(SCState(account=account, var_proof=var_proof))
+
+        return sc_states
