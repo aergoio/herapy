@@ -64,10 +64,6 @@ def tx_to_json(v):
     return convert_tx_to_json(v)
 
 
-def tx_to_json(v):
-    return convert_tx_to_json(v)
-
-
 def convert_tx_to_formatted_json(tx):
     if tx is None:
         return None
