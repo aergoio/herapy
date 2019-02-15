@@ -6,7 +6,11 @@ from ..utils.encoding import encode_address, decode_address
 
 
 class Address:
-    def __init__(self, pubkey):
+    def __init__(self, pubkey, empty=False):
+        if empty:
+            self.__empty = True
+            return
+
         if pubkey is None:
             assert 1 == 0
 
@@ -17,6 +21,18 @@ class Address:
             self.__address = pubkey
         else:
             self.__generate_address(pubkey)
+
+    @property
+    def value(self):
+        return self.__address
+
+    @value.setter
+    def value(self, v):
+        if self.__empty:
+            if isinstance(v, str):
+                self.__address = decode_address(v)
+            elif isinstance(v, bytes):
+                self.__address = v
 
     def __str__(self):
         return encode_address(self.__address)
