@@ -12,5 +12,5 @@ from .obj.transaction import Transaction
 from .obj.block import Block
 from .obj.peer import Peer
 from .status.commit_status import CommitStatus
-from .status.smartcontract_status import SmartcontractStatus
+from .status.tx_result_status import TxResultStatus
 

@@ -22,9 +22,8 @@ from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
 
 from .status.commit_status import CommitStatus
-from .status.smartcontract_status import SmartcontractStatus
 
-from .utils.encoding import encode_address, decode_address, \
+from .utils.encoding import decode_address, \
     encode_private_key, decode_private_key, decode_root, \
     encode_tx_hash, decode_tx_hash
 
@@ -272,18 +271,16 @@ class Aergo:
 
         return result
 
-    @staticmethod
-    def _generate_tx(account, to_address, nonce, amount, fee_limit, fee_price,
-                     payload):
+    def generate_tx(self, to_address, nonce, amount, fee_limit=0, fee_price=0, payload=None):
         if to_address is not None:
             to_address = addr.Address(to_address)
 
-        tx = transaction.Transaction(from_address=account.address,
+        tx = transaction.Transaction(from_address=self.__account.address,
                                      to_address=to_address,
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
                                      payload=payload)
-        tx.sign = account.sign_msg_hash(tx.calculate_hash(including_sign=False))
+        tx.sign = self.__account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         return tx
 
     def send_payload(self, amount, payload, to_address=None, retry_nonce=0):
@@ -294,11 +291,11 @@ class Aergo:
             to_address = decode_address(to_address)
 
         nonce = self.__account.nonce + 1
-        tx = self._generate_tx(account=self.__account, to_address=to_address,
-                               nonce=nonce, amount=amount,
-                               fee_limit=0, fee_price=0,
-                               payload=payload)
-        signed_txs, results = self.send_tx(tx)
+        tx = self.generate_tx(to_address=to_address,
+                              nonce=nonce, amount=amount,
+                              fee_limit=0, fee_price=0,
+                              payload=payload)
+        signed_txs, results = self.send_tx(signed_txs=[tx])
 
         if results[0].status == CommitStatus.TX_OK:
             self.__account.nonce = nonce
@@ -307,12 +304,11 @@ class Aergo:
                 retry_nonce -= 1
 
                 nonce += 1
-                tx = self._generate_tx(account=self.__account,
-                                       to_address=to_address,
-                                       nonce=nonce, amount=amount,
-                                       fee_limit=0, fee_price=0,
-                                       payload=payload)
-                signed_txs, results = self.send_tx(tx)
+                tx = self.generate_tx(to_address=to_address,
+                                      nonce=nonce, amount=amount,
+                                      fee_limit=0, fee_price=0,
+                                      payload=payload)
+                signed_txs, results = self.send_tx(signed_txs=[tx])
 
                 es = results[0].status
                 if es == CommitStatus.TX_OK:
@@ -345,9 +341,6 @@ class Aergo:
         :param signed_txs:
         :return:
         """
-        if not isinstance(signed_txs, (list, tuple)):
-            signed_txs = [signed_txs]
-
         try:
             result_list = self.__comm.commit_txs(signed_txs)
         except Exception as e:
@@ -355,7 +348,9 @@ class Aergo:
 
         results = []
         for i, r in enumerate(result_list.results):
-            tx_result = TxResult(signed_txs[i], result_list.results[i])
+            tx_result = TxResult(tx=signed_txs[i], result=result_list.results[i])
+            if tx_result.status == CommitStatus.TX_OK:
+                self.__account.nonce += 1
             results.append(tx_result)
         return signed_txs, results
 
@@ -402,21 +397,8 @@ class Aergo:
 
         try:
             result = self.__comm.get_receipt(tx_hash)
-            tx_result = TxResult()
+            tx_result = TxResult(result=result)
             tx_result.tx_id = encode_tx_hash(tx_hash)
-            try:
-                tx_result.status = SmartcontractStatus(result.status)
-                tx_result.detail = result.ret
-
-                if 'error' in result.ret:
-                    raise ValueError
-            except ValueError:
-                tx_result.status = SmartcontractStatus.ERROR
-                if 'CREATED' == result.status:
-                    tx_result.detail = result.ret
-                else:
-                    tx_result.detail = result.status
-            tx_result.contract_address = encode_address(result.contractAddress)
         except Exception as e:
             raise CommunicationException(e) from e
 

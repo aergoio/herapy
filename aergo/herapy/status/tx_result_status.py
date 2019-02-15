@@ -6,7 +6,7 @@ import enum
 
 
 @enum.unique
-class SmartcontractStatus(enum.Enum):
+class TxResultStatus(enum.Enum):
     CREATED = "CREATED"
     SUCCESS = "SUCCESS"
     ERROR = "ERROR"
