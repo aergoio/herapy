@@ -199,31 +199,27 @@ class Account:
 
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
-        if self.__address != self.__state_proof.key:
+
+        if bytes(self.__address) != self.__state_proof.key:
             return False
+
         trie_key = hashlib.sha256(self.__state_proof.key).digest()
         value = hashlib.sha256(self.__state_proof.state.SerializeToString()).digest()
         ap = self.__state_proof.auditPath
-        key = hashlib.sha256(bytes(self.__address)).digest()
-        value = hashlib.sha256(self.__state.SerializeToString()).digest()
+
         if self.__state_proof.bitmap:
             height = self.__state_proof.height
             bitmap = self.__state_proof.bitmap
             if self.__state_proof.inclusion:
-                if not mp.verify_inclusion_c(ap, height, bitmap, root, trie_key, value):
-                    return False
+                return mp.verify_inclusion_c(ap, height, bitmap, root, trie_key, value)
             else:
-                if not mp.verify_exclusion_c(root, ap, height, bitmap, trie_key,
+                return mp.verify_exclusion_c(root, ap, height, bitmap, trie_key,
                                              self.__state_proof.proofKey,
-                                             self.__state_proof.proofVal):
-                    return False
+                                             self.__state_proof.proofVal)
         else:
             if self.__state_proof.inclusion:
-                if not mp.verify_inclusion(ap, root, trie_key, value):
-                    return False
+                return mp.verify_inclusion(ap, root, trie_key, value)
             else:
-                if not mp.verify_exclusion(root, ap, trie_key,
+                return mp.verify_exclusion(root, ap, trie_key,
                                            self.__state_proof.proofKey,
-                                           self.__state_proof.proofVal):
-                    return False
-        return True
+                                           self.__state_proof.proofVal)

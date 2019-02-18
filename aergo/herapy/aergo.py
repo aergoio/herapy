@@ -15,7 +15,7 @@ from .obj import peer as pr
 from .obj import tx_hash as th
 from .obj.call_info import CallInfo
 from .obj.tx_result import TxResult
-from .obj.sc_state import SCState
+from .obj.sc_state import SCState, SCStateVar
 from .obj.var_proof import VarProofs
 
 from .errors.exception import CommunicationException
@@ -485,36 +485,25 @@ class Aergo:
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
 
-        storage_keys = {}
-        for vk in var_keys:
-            idx = None
-
-            if isinstance(vk, dict):
-                key = vk['key']
-                if 'index' in vk and vk['index'] is not None and 0 != len(vk['index']):
-                    idx = vk['index']
-            elif isinstance(vk, (tuple, list)):
-                key = vk[0]
-                if 2 == len(vk):
-                    idx = vk[1]
+        sk_dict = {}
+        for sk in storage_keys:
+            if isinstance(sk, str):
+                sk_dict[sk] = SCStateVar(None, empty=True)
+                sk_dict[sk].storage_key = sk
             else:
-                key = vk
-
-            if idx:
-                storage_key = "_sv_{0}-{1}".format(key, idx)
-            else:
-                storage_key = "_sv_{0}".format(key)
-
-            storage_keys[storage_key] = {'key': key, 'idx': idx}
+                sk_dict[str(sk)] = sk
 
         try:
-            result = self.__comm.query_contract_state(sc_address, storage_keys,
+            result = self.__comm.query_contract_state(sc_address, list(sk_dict.keys()),
                                                       root, compressed)
         except Exception as e:
             raise CommunicationException(e) from e
-        var_proofs = VarProofs(result.varProofs)
+
         account = acc.Account(empty=True)
         account.state = result.contractProof.state
         account.state_proof = result.contractProof
         account.address = sc_address
-        return SCState(account, var_proofs)
+
+        var_proofs = VarProofs(result.varProofs)
+
+        return SCState(account=account, var_proofs=var_proofs)
