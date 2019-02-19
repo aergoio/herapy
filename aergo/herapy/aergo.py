@@ -485,16 +485,11 @@ class Aergo:
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)
 
-        sk_dict = {}
-        for sk in storage_keys:
-            if isinstance(sk, str):
-                sk_dict[sk] = SCStateVar(None, empty=True)
-                sk_dict[sk].storage_key = sk
-            else:
-                sk_dict[str(sk)] = sk
+        # convert SCStateVar objects to trie storage key strings
+        storage_keys = [str(key) for key in storage_keys]
 
         try:
-            result = self.__comm.query_contract_state(sc_address, list(sk_dict.keys()),
+            result = self.__comm.query_contract_state(sc_address, storage_keys,
                                                       root, compressed)
         except Exception as e:
             raise CommunicationException(e) from e
