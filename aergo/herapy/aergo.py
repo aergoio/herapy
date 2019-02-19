@@ -430,7 +430,7 @@ class Aergo:
         tx, result = self.send_payload(amount=amount, payload=payload_bytes)
         return tx, result
 
-    def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None):
+    def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None, nonce=None):
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = decode_address(sc_address)
@@ -441,9 +441,11 @@ class Aergo:
         call_info = CallInfo(func_name, args).__dict__
         payload = json.dumps(call_info, separators=(',', ':')).encode('utf-8')
 
-        self.__account.nonce += 1
+        if nonce is None:
+            nonce = self.__account.nonce + 1
+
         return self.generate_tx(to_address=sc_address,
-                                nonce=self.__account.nonce, amount=amount,
+                                nonce=nonce, amount=amount,
                                 fee_limit=0, fee_price=0, payload=payload)
 
     def batch_call_sc(self, sc_txs):

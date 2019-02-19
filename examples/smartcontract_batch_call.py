@@ -82,12 +82,13 @@ abi.register(setItem, getItem)
         print("  > SC Address: {}".format(sc_address))
 
         print("------ Batch Call SC -----------")
+        nonce = aergo.account.nonce + 1
         sc_txs = [
-            aergo.new_call_sc_tx(sc_address, "setItem", args=["key1", "value1"]),
-            aergo.new_call_sc_tx(sc_address, "setItem", args=["key2", "value2"]),
-            aergo.new_call_sc_tx(sc_address, "setItem", args=["key3", "value3"]),
-            aergo.new_call_sc_tx(sc_address, "setItem", args=["key4", "value4"]),
-            aergo.new_call_sc_tx(sc_address, "setItem", args=["key5", "value5"]),
+            aergo.new_call_sc_tx(sc_address, "setItem", args=["key1", "value1"], nonce=nonce),
+            aergo.new_call_sc_tx(sc_address, "setItem", args=["key2", "value2"], nonce=nonce+1),
+            aergo.new_call_sc_tx(sc_address, "setItem", args=["key3", "value3"], nonce=nonce+2),
+            aergo.new_call_sc_tx(sc_address, "setItem", args=["key4", "value4"], nonce=nonce+3),
+            aergo.new_call_sc_tx(sc_address, "setItem", args=["key5", "value5"], nonce=nonce+4),
         ]
         aergo.batch_call_sc(sc_txs)
 
