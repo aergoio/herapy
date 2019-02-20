@@ -36,6 +36,8 @@ Features
 Install
 -------
 
+Install the latest version in `the Python Package Index <https://pypi.org/project/aergo-herapy/>`_
+
 .. code-block::
 
     pip install aergo-herapy
