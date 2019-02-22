@@ -3,9 +3,10 @@
 import ecdsa
 import hashlib
 
-from ecdsa.util import number_to_string, string_to_number
+from ecdsa.util import string_to_number
 
 from ..utils.encoding import encode_private_key, decode_private_key
+from ..utils.signature import deserialize_sig, serialize_sig
 
 
 class PrivateKey:
@@ -59,71 +60,13 @@ class PrivateKey:
         d = self.__private_key.secret_multiplier
         return d.to_bytes((d.bit_length() + 7) // 8, byteorder='big')
 
-    def __canonicalize_int(self, n, order):
-        b = number_to_string(n, order)
-        if (b[0] & 80) != 0:
-            b = bytes([0]) + b
-        return b
-
-    def __serialize(self, r, s):
-        order = self.__private_key.public_key.generator.order()
-        half_order = order >> 1
-        if s > half_order:
-            s = order - s
-
-        rb = self.__canonicalize_int(r, order)
-        sb = self.__canonicalize_int(s, order)
-
-        length = 4 + len(rb) + len(sb)
-        b = b'\x30' + bytes([length])
-        b += b'\x02' + bytes([len(rb)]) + rb
-        b += b'\x02' + bytes([len(sb)]) + sb
-        return b
-
-    def __deserialize(self, sig):
-        idx = 0
-        if b'\x30'[0] != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-
-        length = len(sig) - 2
-        if length != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-
-        # check R bytes
-        if b'\x02'[0] != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-        r_len = sig[idx]
-        idx += 1
-        rb = sig[idx:idx+r_len]
-        idx += r_len
-
-        # check S bytes
-        if b'\x02'[0] != sig[idx]:
-            # TODO error handling
-            return None, None
-
-        idx += 1
-        s_len = sig[idx]
-        idx += 1
-        sb = sig[idx:idx+s_len]
-
-        return string_to_number(rb), string_to_number(sb)
-
     def sign_msg(self, msg):
         r, s = self.__signing_key.sign_number(string_to_number(msg))
-        return self.__serialize(r, s)
+        order = self.__private_key.public_key.generator.order()
+        return serialize_sig(r, s, order)
 
     def verify_sign(self, msg, sign):
-        r, s = self.__deserialize(sign)
+        r, s = deserialize_sig(sign)
         signature = ecdsa.ecdsa.Signature(r, s)
         return self.__private_key.public_key.verifies(string_to_number(msg), signature)
 
