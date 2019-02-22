@@ -10,11 +10,14 @@ def test_fail():
     with pytest.raises(AssertionError):
         Address(None)
 
-    with pytest.raises(AttributeError):
+    with pytest.raises(TypeError):
         Address(1234)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         Address("1234")
+
+    with pytest.raises(TypeError):
+        Address(["1234"])
 
 
 def test_success():

@@ -12,6 +12,7 @@ def canonicalize_int(n, order):
         b = bytes([0]) + b
     return b
 
+
 def serialize_sig(r, s, order):
     half_order = order >> 1
     if s > half_order:
@@ -65,16 +66,18 @@ def deserialize_sig(sig):
 
     return string_to_number(rb), string_to_number(sb)
 
+
 def uncompress_key(compressed_key_hex):
     """
-    source : https://stackoverflow.com/questions/43629265/deriving-an-ecdsa-uncompressed-public-key-from-a-compressed-one?rq=1
+    base source : https://stackoverflow.com/questions/43629265/deriving-an-ecdsa-uncompressed-public-key-from-a-compressed-one?rq=1
     The code from bitcointalk sometimes produces a hex string uncompressed key of uneven length.
     """
-    p_hex = 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F'
-    p = int(p_hex, 16)
+    curve = ecdsa.SECP256k1
+
+    prefix = compressed_key_hex[0:2]
     x_hex = compressed_key_hex[2:66]
     x = int(x_hex, 16)
-    prefix = compressed_key_hex[0:2]
+    p = curve.curve.p()
 
     y_square = (pow(x, 3, p)  + 7) % p
     y_square_square_root = pow(y_square, (p+1)//4, p)
@@ -90,10 +93,9 @@ def uncompress_key(compressed_key_hex):
     return computed_uncompressed_key
 
 
-
 def verify_sig(msg, sig, address):
     """
-        Verify that the signature 'sig' of the message 'msg' was made by 'address')
+    Verify that the signature 'sig' of the message 'msg' was made by 'address')
     """
     # format signature
     r, s = deserialize_sig(sig)

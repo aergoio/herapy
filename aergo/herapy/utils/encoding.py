@@ -2,6 +2,7 @@
 
 import base58
 import base64
+import ecdsa
 
 from ..constants import *
 
@@ -111,3 +112,15 @@ def decode_signature(sign):
     if is_empty(sign):
         return None
     return decode_b58(sign)
+
+
+def decode_public_key(public_key, curve=ecdsa.SECP256k1):
+    v = decode_address(public_key)
+    head = v[:1]
+    x_bytes = v[1:curve.baselen]
+
+    if PUBLIC_KEY_UNCOMPRESSED == head:
+        y_bytes = v[curve.baselen+1:]
+    else:
+        y_bytes = None
+    return head, x_bytes, y_bytes

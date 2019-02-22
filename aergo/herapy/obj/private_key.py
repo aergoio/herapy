@@ -5,6 +5,8 @@ import hashlib
 
 from ecdsa.util import string_to_number
 
+from . import address
+
 from ..utils.encoding import encode_private_key, decode_private_key
 from ..utils.signature import deserialize_sig, serialize_sig
 
@@ -15,6 +17,8 @@ class PrivateKey:
             self.__get_key(pk)
         else:
             self.__generate_new_key()
+
+        self.__address = address.Address(self.__private_key.public_key)
 
     def __str__(self):
         return encode_private_key(self.__get_private_key_bytes())
@@ -73,3 +77,13 @@ class PrivateKey:
     @property
     def public_key(self):
         return self.__private_key.public_key
+
+    @property
+    def address(self):
+        return self.__address
+
+    def get_address(self):
+        return str(self.__address)
+
+    def get_public_key(self, compressed=True):
+        return self.__address.get_public_key(compressed=compressed)
