@@ -105,7 +105,7 @@ class Account:
     @property
     def nonce(self):
         if self.__state is None:
-            return -1
+            return 0
         return self.__state.nonce
 
     @nonce.setter
