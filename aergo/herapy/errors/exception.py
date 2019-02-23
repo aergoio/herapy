@@ -23,8 +23,14 @@ class CommunicationException(AergoException):
     def __init__(self, error):
         if hasattr(error, 'code') and inspect.isfunction(error.code):
             self.error_code = error.code()
+        else:
+            self.error_code = None
+
         if hasattr(error, 'details') and inspect.isfunction(error.details):
             self.error_details = error.details()
+        else:
+            self.error_details = None
+
         self.exception_type = AergoException.Comm
 
     def __str__(self):
