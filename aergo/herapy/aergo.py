@@ -280,8 +280,8 @@ class Aergo:
         tx = Transaction(read_only=True,
                          tx_hash=result_tx.hash,
                          nonce=result_tx.body.nonce,
-                         from_address=addr.Address(result_tx.body.account),
-                         to_address=addr.Address(result_tx.body.recipient),
+                         from_address=addr.Address(address=result_tx.body.account),
+                         to_address=addr.Address(address=result_tx.body.recipient),
                          amount=result_tx.body.amount,
                          payload=result_tx.body.payload,
                          fee_price=result_tx.body.price,
@@ -326,7 +326,7 @@ class Aergo:
 
     def generate_tx(self, to_address, nonce, amount, fee_limit=0, fee_price=0, payload=None):
         if to_address is not None:
-            to_address = addr.Address(to_address)
+            to_address = addr.Address(address=to_address)
 
         tx = transaction.Transaction(from_address=self.__account.address,
                                      to_address=to_address,

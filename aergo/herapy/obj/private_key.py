@@ -18,7 +18,7 @@ class PrivateKey:
         else:
             self.__generate_new_key()
 
-        self.__address = address.Address(self.__private_key.public_key)
+        self.__address = address.Address(pubkey=self.__private_key.public_key)
 
     def __str__(self):
         return encode_private_key(self.__get_private_key_bytes())

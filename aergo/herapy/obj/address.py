@@ -8,7 +8,7 @@ from ..constants import *
 
 
 class Address:
-    def __init__(self, pubkey, address=None, curve=ecdsa.SECP256k1, empty=False):
+    def __init__(self, pubkey=None, address=None, curve=ecdsa.SECP256k1, empty=False):
         self.__curve = curve
 
         if empty:
@@ -45,6 +45,9 @@ class Address:
             return public_key
 
         head = public_key[:1]
+        if head not in (PUBLIC_KEY_UNCOMPRESSED, PUBLIC_KEY_COMPRESSED_O, PUBLIC_KEY_COMPRESSED_E):
+            raise ValueError("public key is not proper")
+
         x_bytes = public_key[1:curve.baselen+1]
         x = ecdsa.util.string_to_number(x_bytes)
 

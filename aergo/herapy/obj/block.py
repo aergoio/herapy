@@ -53,8 +53,8 @@ class Block:
         self.__tx_list = []
         for i, tx in enumerate(v.body.txs):
             block_tx = Transaction(read_only=True, tx_hash=tx.hash, nonce=tx.body.nonce,
-                                   from_address=Address(tx.body.account),
-                                   to_address=Address(tx.body.recipient),
+                                   from_address=Address(address=tx.body.account),
+                                   to_address=Address(address=tx.body.recipient),
                                    amount=tx.body.amount, payload=tx.body.payload,
                                    fee_price=tx.body.price, fee_limit=tx.body.limit,
                                    tx_sign=tx.body.sign, tx_type=tx.body.type,

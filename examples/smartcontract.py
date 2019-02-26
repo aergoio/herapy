@@ -114,9 +114,6 @@ def run():
             aergo.disconnect()
             return
 
-        sc_address = result.contract_address
-        print("  > SC Address: {}".format(sc_address))
-
         print("------ Query SC -----------")
         result = aergo.query_sc(sc_address, "get_name")
         print(result)
