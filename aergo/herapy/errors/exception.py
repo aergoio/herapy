@@ -21,12 +21,14 @@ class AergoException(Exception):
 
 class CommunicationException(AergoException):
     def __init__(self, error):
-        if hasattr(error, 'code') and inspect.isfunction(error.code):
+        if hasattr(error, 'code') \
+                and (inspect.isfunction(error.code) or inspect.ismethod(error.code)):
             self.error_code = error.code()
         else:
             self.error_code = None
 
-        if hasattr(error, 'details') and inspect.isfunction(error.details):
+        if hasattr(error, 'details') \
+                and (inspect.isfunction(error.details) or inspect.ismethod(error.details)):
             self.error_details = error.details()
         else:
             self.error_details = None

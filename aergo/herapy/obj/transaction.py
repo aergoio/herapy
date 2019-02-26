@@ -35,7 +35,8 @@ class Transaction:
 
     def __init__(self, from_address=None, to_address=None,
                  nonce=0, amount=0, payload=None, fee_price=0, fee_limit=0,
-                 read_only=False, tx_hash=None, tx_sign=None, tx_type=TxType.NORMAL):
+                 read_only=False, tx_hash=None, tx_sign=None, tx_type=TxType.NORMAL,
+                 block=None, index_in_block=-1, is_in_mempool=False):
         self.__from_address = from_address
         self.__to_address = to_address
         self.__nonce = nonce
@@ -55,6 +56,14 @@ class Transaction:
         if isinstance(tx_sign, str):
             tx_sign = decode_signature(tx_sign)
         self.__sign = tx_sign
+
+        self.__is_in_mempool = is_in_mempool
+        if is_in_mempool:
+            self.__block = None
+            self.__index_in_block = -1
+        else:
+            self.__block = block
+            self.__index_in_block = index_in_block
 
     def calculate_hash(self, including_sign=True):
         m = hashlib.sha256()
@@ -88,6 +97,18 @@ class Transaction:
             m.update(self.__sign)
 
         return m.digest()
+
+    @property
+    def block(self):
+        return self.__block
+
+    @property
+    def index_in_block(self):
+        return self.__index_in_block
+
+    @property
+    def is_in_mempool(self):
+        return self.__is_in_mempool
 
     @property
     def nonce(self):
@@ -206,8 +227,8 @@ class Transaction:
             return self.__tx_hash
         return txh.TxHash(self.calculate_hash())
 
-    def json(self):
-        return {
+    def json(self, without_block=False):
+        tx_json = {
             "Hash": str(self.tx_hash),
             "Body": {
                 "Nonce": self.nonce,
@@ -219,8 +240,15 @@ class Transaction:
                 "Price": str(self.fee_price),
                 "Sign": self.sign_str,
                 "Type": self.tx_type.name,
-            }
+            },
+            "IsInMempool": self.__is_in_mempool,
+            "IndexInBlock": self.__index_in_block,
         }
+
+        if not without_block:
+            tx_json["Block"] = self.__block.json(header_only=True) if self.__block is not None else None,
+
+        return tx_json
 
     def __str__(self):
         return json.dumps(self.json(), indent=2)

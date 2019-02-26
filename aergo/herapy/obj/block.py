@@ -51,13 +51,15 @@ class Block:
         self.__coinbase_account = header.coinbaseAccount
         # body
         self.__tx_list = []
-        for tx in v.body.txs:
-            self.__tx_list.append(Transaction(read_only=True, tx_hash=tx.hash, nonce=tx.body.nonce,
-                                              from_address=Address(tx.body.account),
-                                              to_address=Address(tx.body.recipient),
-                                              amount=tx.body.amount, payload=tx.body.payload,
-                                              fee_price=tx.body.price, fee_limit=tx.body.limit,
-                                              tx_sign=tx.body.sign, tx_type=tx.body.type))
+        for i, tx in enumerate(v.body.txs):
+            block_tx = Transaction(read_only=True, tx_hash=tx.hash, nonce=tx.body.nonce,
+                                   from_address=Address(tx.body.account),
+                                   to_address=Address(tx.body.recipient),
+                                   amount=tx.body.amount, payload=tx.body.payload,
+                                   fee_price=tx.body.price, fee_limit=tx.body.limit,
+                                   tx_sign=tx.body.sign, tx_type=tx.body.type,
+                                   block=self, index_in_block=i, is_in_mempool=False)
+            self.__tx_list.append(block_tx)
 
     @property
     def hash(self):
@@ -115,12 +117,11 @@ class Block:
     def tx_list(self):
         return self.__tx_list
 
-    def json(self):
-        tx_list = []
-        for tx in self.tx_list:
-            tx_list.append(tx.json())
+    def get_tx(self, index):
+        return self.__tx_list[index]
 
-        return {
+    def json(self, header_only=False):
+        body_json = {
             "Hash": str(self.hash),
             "Header": {
                 "ChainID": encode_b58(self.chain_id),
@@ -135,10 +136,18 @@ class Block:
                 "Sign": encode_b58(self.sign),
                 "CoinbaseAccount": encode_b58(self.coinbase_account),
             },
-            "Body": {
-                "Txs": tx_list,
-            },
         }
+
+        if not header_only:
+            tx_list = []
+            for tx in self.tx_list:
+                tx_list.append(tx.json())
+
+            body_json["Body"] = {
+                "Txs": tx_list,
+            }
+
+        return body_json
 
     def __str__(self):
         return json.dumps(self.json(), indent=2)

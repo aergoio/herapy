@@ -14,6 +14,8 @@ from .obj import block_hash as bh
 from .obj import peer as pr
 from .obj import tx_hash as th
 from .obj.call_info import CallInfo
+from .obj.transaction import Transaction
+from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
 from .obj.sc_state import SCState, SCStateVar
 from .obj.var_proof import VarProofs
@@ -227,18 +229,69 @@ class Aergo:
         json_txt = result.value.decode('utf8').replace("'", '"')
         return json.loads(json_txt)
 
-    def get_tx(self, tx_hash):
+    def get_tx(self, tx_hash, mempool_only=False, skip_block=False):
         """
         Returns info on transaction with hash `tx_hash`.
         :param tx_hash:
         :return:
         """
+        if isinstance(tx_hash, str):
+            tx_hash = decode_tx_hash(tx_hash)
+        elif type(tx_hash) == TxHash:
+            tx_hash = bytes(tx_hash)
+
+        result_tx = None
+        result_tx_block_hash = None
+        result_tx_index = None
+        result_tx_is_in_mempool = False
+
         try:
             result = self.__comm.get_tx(tx_hash)
+            result_tx = result.tx
+            result_tx_block_hash = None
+            result_tx_index = None
+            result_tx_is_in_mempool = True
+            get_result = True
         except Exception as e:
-            raise CommunicationException(e) from e
+            if mempool_only:
+                raise CommunicationException(e) from e
+            else:
+                get_result = False
 
-        return result
+        if not get_result:
+            try:
+                result = self.__comm.get_block_tx(tx_hash)
+                result_tx = result.tx
+                result_tx_block_hash = result.txIdx.blockHash
+                result_tx_index = result.txIdx.idx
+                result_tx_is_in_mempool = False
+            except Exception as e:
+                raise CommunicationException(e) from e
+
+        if result_tx_block_hash is not None:
+            if skip_block:
+                result_tx_block = block.Block(hash_value=result_tx_block_hash,
+                                              height=None)
+            else:
+                result_tx_block = self.get_block(block_hash=result_tx_block_hash)
+        else:
+            result_tx_block = None
+
+        tx = Transaction(read_only=True,
+                         tx_hash=result_tx.hash,
+                         nonce=result_tx.body.nonce,
+                         from_address=addr.Address(result_tx.body.account),
+                         to_address=addr.Address(result_tx.body.recipient),
+                         amount=result_tx.body.amount,
+                         payload=result_tx.body.payload,
+                         fee_price=result_tx.body.price,
+                         fee_limit=result_tx.body.limit,
+                         tx_sign=result_tx.body.sign,
+                         tx_type=result_tx.body.type,
+                         block=result_tx_block, index_in_block=result_tx_index,
+                         is_in_mempool=result_tx_is_in_mempool)
+
+        return tx
 
     def lock_account(self, address, passphrase):
         """

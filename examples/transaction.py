@@ -51,6 +51,15 @@ def run():
         else:
             print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
 
+        time.sleep(1)
+        # Can check TX in mem pool or block after almost 1 sec later
+
+        print("------ Check TX in Aergo -----------", flush=True)
+        tx = aergo.get_tx(simple_tx.tx_hash)
+        print(" TX from Aergo: ", str(tx))
+        tx = tx.block.get_tx(tx.index_in_block)
+        print(" TX in Block: ", str(tx))
+
         time.sleep(3)
 
         print("------ Check TX status -----------")

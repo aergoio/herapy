@@ -76,6 +76,11 @@ class Comm:
         single_bytes.value = tx_hash
         return self.__rpc_stub.GetTX(single_bytes)
 
+    def get_block_tx(self, tx_hash):
+        single_bytes = rpc_pb2.SingleBytes()
+        single_bytes.value = tx_hash
+        return self.__rpc_stub.GetBlockTX(single_bytes)
+
     def unlock_account(self, address, passphrase):
         account = account_pb2.Account(address=address)
         personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
@@ -85,9 +90,6 @@ class Comm:
         account = account_pb2.Account(address=address)
         personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
         return self.__rpc_stub.LockAccount(request=personal)
-
-    def get_peers(self):
-        return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
 
     # This RPC is for making and sending Tx inside a node.
     # Don't use it for sending TX which is made by a client.
