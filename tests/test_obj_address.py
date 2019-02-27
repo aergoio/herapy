@@ -26,7 +26,7 @@ def test_fail():
     with pytest.raises(ValueError):
         Address(pubkey=["1234"])
 
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         Address(address=["1234"])
 
 

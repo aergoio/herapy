@@ -21,10 +21,12 @@ class Address:
 
         if pubkey is not None:
             self.__public_key = self.__derive_public_key(pubkey)
+            if self.__public_key is None:
+                raise ValueError("public key is not proper")
+            self.__generate_address()
         else:
-            self.__public_key = self.__get_public_key(address)
+            self.__get_public_key(address)
 
-        self.__generate_address()
 
     @property
     def public_key(self):
@@ -46,7 +48,9 @@ class Address:
 
         head = public_key[:1]
         if head not in (PUBLIC_KEY_UNCOMPRESSED, PUBLIC_KEY_COMPRESSED_O, PUBLIC_KEY_COMPRESSED_E):
-            raise ValueError("public key is not proper")
+            # can be a smart contract address, so no error
+            return None
+
 
         x_bytes = public_key[1:curve.baselen+1]
         x = ecdsa.util.string_to_number(x_bytes)
@@ -77,11 +81,15 @@ class Address:
 
     def __get_public_key(self, address):
         if isinstance(address, str):
-            pubkey = decode_address(address)
-        else:
-            pubkey = address
+            address = decode_address(address)
+        elif not isinstance(address, bytes):
+            raise TypeError('address can be only string or bytes')
 
-        return self.__derive_public_key(pubkey)
+        self.__public_key = self.__derive_public_key(address)
+        if self.__public_key is None:
+            self.__address = address
+        else:
+            self.__generate_address()
 
     def __generate_address(self):
         x = self.__public_key.point.x()
