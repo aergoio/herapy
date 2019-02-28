@@ -246,8 +246,7 @@ class Aergo:
         result_tx_is_in_mempool = False
 
         try:
-            result = self.__comm.get_tx(tx_hash)
-            result_tx = result.tx
+            result_tx = self.__comm.get_tx(tx_hash)
             result_tx_block_hash = None
             result_tx_index = None
             result_tx_is_in_mempool = True
@@ -277,11 +276,16 @@ class Aergo:
         else:
             result_tx_block = None
 
+        from_address = addr.Address(None, empty=True)
+        from_address.value = result_tx.body.account
+        to_address = addr.Address(None, empty=True)
+        to_address.value = result_tx.body.recipient
+
         tx = Transaction(read_only=True,
                          tx_hash=result_tx.hash,
                          nonce=result_tx.body.nonce,
-                         from_address=addr.Address(address=result_tx.body.account),
-                         to_address=addr.Address(address=result_tx.body.recipient),
+                         from_address=from_address,
+                         to_address=to_address,
                          amount=result_tx.body.amount,
                          payload=result_tx.body.payload,
                          fee_price=result_tx.body.price,
@@ -326,7 +330,9 @@ class Aergo:
 
     def generate_tx(self, to_address, nonce, amount, fee_limit=0, fee_price=0, payload=None):
         if to_address is not None:
-            to_address = addr.Address(address=to_address)
+            address = addr.Address(None, empty=True)
+            address.value = to_address
+            to_address = address
 
         tx = transaction.Transaction(from_address=self.__account.address,
                                      to_address=to_address,

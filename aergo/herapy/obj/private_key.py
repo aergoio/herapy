@@ -18,7 +18,7 @@ class PrivateKey:
         else:
             self.__generate_new_key()
 
-        self.__address = address.Address(pubkey=self.__private_key.public_key)
+        self.__address = address.Address(self.__private_key.public_key)
 
     def __str__(self):
         return encode_private_key(self.__get_private_key_bytes())
@@ -81,9 +81,3 @@ class PrivateKey:
     @property
     def address(self):
         return self.__address
-
-    def get_address(self):
-        return str(self.__address)
-
-    def get_public_key(self, compressed=True):
-        return self.__address.get_public_key(compressed=compressed)

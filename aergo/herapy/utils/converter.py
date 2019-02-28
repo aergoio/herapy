@@ -5,9 +5,11 @@
 import json
 import toml
 import socket
+import ecdsa
 
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
+from ..constants import *
 
 
 def convert_toml_to_aergo_conf(v):
@@ -102,14 +104,6 @@ def convert_ip_bytes_to_str(v):
     return socket.inet_ntop(socket.AF_INET6, v)
 
 
-""" Deprecated
-def convert_luajson_to_json(v):
-    v = v.decode('utf-8').replace('\\', '')
-    v = v[1:len(v)-1]
-    return json.loads(v)
-"""
-
-
 def convert_bigint_to_bytes(number):
     q, r = divmod(len(bin(number))-2, 8)
     bytes_to_fit_number = q if r == 0 else q + 1
@@ -118,3 +112,70 @@ def convert_bigint_to_bytes(number):
 
 def bigint_to_bytes(v):
     return convert_bigint_to_bytes(v)
+
+
+def convert_public_key_to_bytes(pubkey, curve=ecdsa.SECP256k1, compressed=True):
+    if not isinstance(pubkey, ecdsa.ecdsa.Public_key):
+        raise TypeError('value is not a valid public key')
+
+    x = pubkey.point.x()
+    x_bytes = ecdsa.util.number_to_string(x, curve.order)
+
+    y = pubkey.point.y()
+    if compressed:
+        head = PUBLIC_KEY_COMPRESSED_E if 0 == y % 2 else PUBLIC_KEY_COMPRESSED_O
+        y_bytes = b''
+    else:
+        head = PUBLIC_KEY_UNCOMPRESSED
+        y_bytes = ecdsa.util.number_to_string(y, curve.order)
+
+    return head + x_bytes + y_bytes
+
+
+def public_key_to_bytes(pubkey, curve=ecdsa.SECP256k1, compressed=True):
+    return convert_public_key_to_bytes(pubkey=pubkey,
+                                       curve=curve,
+                                       compressed=compressed)
+
+
+def convert_bytes_to_public_key(v, curve=ecdsa.SECP256k1):
+    if not isinstance(v, bytes):
+        raise TypeError('value is not bytes')
+
+    head = v[:1]
+    if head not in (PUBLIC_KEY_UNCOMPRESSED,
+                    PUBLIC_KEY_COMPRESSED_O,
+                    PUBLIC_KEY_COMPRESSED_E):
+        # can be a smart contract address, so no error
+        raise ValueError("public key is not proper")
+
+    x_bytes = v[1:curve.baselen+1]
+    x = ecdsa.util.string_to_number(x_bytes)
+
+    if PUBLIC_KEY_UNCOMPRESSED == head:
+        y_bytes = v[curve.baselen+1:]
+        y = ecdsa.util.string_to_number(y_bytes)
+    else:
+        a = curve.curve.a()
+        b = curve.curve.b()
+        p = curve.curve.p()
+
+        if ecdsa.SECP256k1 == curve:
+            # source: https://stackoverflow.com/questions/43629265/deriving-an-ecdsa-uncompressed-public-key-from-a-compressed-one?rq=1
+            y_square = (pow(x, 3, p) + a * x + b) % p
+            y_square_square_root = pow(y_square, (p+1)//4, p)
+            if ((head == PUBLIC_KEY_COMPRESSED_E and y_square_square_root & 1) or
+                    (head == PUBLIC_KEY_COMPRESSED_O and not y_square_square_root & 1)):
+                y = (-y_square_square_root) % p
+            else:
+                y = y_square_square_root
+        else:
+            # if supporting more formula, need to implement
+            assert 1 == 0
+
+    point = ecdsa.ellipticcurve.Point(curve.curve, x, y, curve.order)
+    return ecdsa.ecdsa.Public_key(curve.generator, point)
+
+
+def bytes_to_public_key(v, curve=ecdsa.SECP256k1):
+    return convert_bytes_to_public_key(v, curve=curve)

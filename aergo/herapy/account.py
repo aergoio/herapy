@@ -62,16 +62,13 @@ class Account:
 
     @property
     def public_key(self):
-        if self.__address is None:
-            return None
+        if self.__private_key is not None:
+            return self.__private_key.public_key
 
-        return self.__address.public_key
+        if self.__address is not None:
+            return self.__address.public_key
 
-    def get_public_key(self, compressed=True):
-        if self.__address is None:
-            return None
-
-        return self.__address.get_public_key(compressed=compressed)
+        return None
 
     @property
     def address(self):
@@ -82,7 +79,8 @@ class Account:
         if self.__address is not None:
             raise ValueError('not empty account')
 
-        self.__address = addr.Address(None, address=v)
+        self.__address = addr.Address(None, empty=True)
+        self.__address.value = v
 
     @property
     def state(self):

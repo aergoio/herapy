@@ -52,13 +52,22 @@ class Block:
         # body
         self.__tx_list = []
         for i, tx in enumerate(v.body.txs):
-            block_tx = Transaction(read_only=True, tx_hash=tx.hash, nonce=tx.body.nonce,
-                                   from_address=Address(address=tx.body.account),
-                                   to_address=Address(address=tx.body.recipient),
-                                   amount=tx.body.amount, payload=tx.body.payload,
-                                   fee_price=tx.body.price, fee_limit=tx.body.limit,
+            from_address = Address(None, empty=True)
+            from_address.value = tx.body.account
+            to_address = Address(None, empty=True)
+            to_address.value = tx.body.recipient
+
+            block_tx = Transaction(read_only=True, tx_hash=tx.hash,
+                                   nonce=tx.body.nonce,
+                                   from_address=from_address,
+                                   to_address=to_address,
+                                   amount=tx.body.amount,
+                                   payload=tx.body.payload,
+                                   fee_price=tx.body.price,
+                                   fee_limit=tx.body.limit,
                                    tx_sign=tx.body.sign, tx_type=tx.body.type,
-                                   block=self, index_in_block=i, is_in_mempool=False)
+                                   block=self, index_in_block=i,
+                                   is_in_mempool=False)
             self.__tx_list.append(block_tx)
 
     @property
