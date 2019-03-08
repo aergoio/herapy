@@ -3,7 +3,7 @@ base58==1.0.3
 cffi==1.12.2
 cryptography==2.6.1
 ecdsa==0.13
-googleapis-common-protos==1.5.5
+googleapis-common-protos==1.5.8
 grpcio==1.17.1
 idna==2.8
 protobuf==3.6.1
