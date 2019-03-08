@@ -227,8 +227,6 @@ def test_fail():
         aergo_conf.enableprofile = ['1234', 1234, ]
     # check profileport type
     with pytest.raises(TypeError):
-        aergo_conf.profileport = True
-    with pytest.raises(TypeError):
         aergo_conf.profileport = '1234'
     with pytest.raises(TypeError):
         aergo_conf.profileport = (1234, '1234')

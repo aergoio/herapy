@@ -20,11 +20,10 @@ class Aer:
             value = int.from_bytes(value, byteorder='big')
         self.__aer = self._parsing_value(value)
 
-    @staticmethod
-    def _parsing_value(v):
+    def _parsing_value(self, v):
         try:
             decimal.Decimal(v)
-            v = str(v) + ' aer'
+            v = self._decimal_to_str(v) + ' aer'
         except decimal.InvalidOperation:
             v = v.strip().lower()
 
@@ -83,7 +82,7 @@ class Aer:
 
     @property
     def aer(self):
-        return str(self.__aer) + ' aer'
+        return self._decimal_to_str(self.__aer) + ' aer'
 
     @property
     def gaer(self):
@@ -107,8 +106,7 @@ class Aer:
 
     @dec.setter
     def dec(self, v):
-        decimal.getcontext().prec = UNITS_SIZE['aergo']
-        self.__aer = v
+        self.__aer = self._parsing_value(v)
 
     def __str__(self):
         return self.aer
