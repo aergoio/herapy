@@ -166,7 +166,7 @@ class AergoRPCServiceStub(object):
         )
     self.GetPeers = channel.unary_unary(
         '/types.AergoRPCService/GetPeers',
-        request_serializer=rpc__pb2.Empty.SerializeToString,
+        request_serializer=rpc__pb2.PeersParams.SerializeToString,
         response_deserializer=rpc__pb2.PeerList.FromString,
         )
     self.GetVotes = channel.unary_unary(
@@ -183,6 +183,16 @@ class AergoRPCServiceStub(object):
         '/types.AergoRPCService/GetNameInfo',
         request_serializer=rpc__pb2.Name.SerializeToString,
         response_deserializer=rpc__pb2.NameInfo.FromString,
+        )
+    self.ListEventStream = channel.unary_stream(
+        '/types.AergoRPCService/ListEventStream',
+        request_serializer=blockchain__pb2.FilterInfo.SerializeToString,
+        response_deserializer=blockchain__pb2.Event.FromString,
+        )
+    self.ListEvents = channel.unary_unary(
+        '/types.AergoRPCService/ListEvents',
+        request_serializer=blockchain__pb2.FilterInfo.SerializeToString,
+        response_deserializer=rpc__pb2.EventList.FromString,
         )
 
 
@@ -423,6 +433,20 @@ class AergoRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def ListEventStream(self, request, context):
+    """Returns a stream of event as they get added to the blockchain
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def ListEvents(self, request, context):
+    """Returns list of event
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_AergoRPCServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -573,7 +597,7 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
       ),
       'GetPeers': grpc.unary_unary_rpc_method_handler(
           servicer.GetPeers,
-          request_deserializer=rpc__pb2.Empty.FromString,
+          request_deserializer=rpc__pb2.PeersParams.FromString,
           response_serializer=rpc__pb2.PeerList.SerializeToString,
       ),
       'GetVotes': grpc.unary_unary_rpc_method_handler(
@@ -590,6 +614,16 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.GetNameInfo,
           request_deserializer=rpc__pb2.Name.FromString,
           response_serializer=rpc__pb2.NameInfo.SerializeToString,
+      ),
+      'ListEventStream': grpc.unary_stream_rpc_method_handler(
+          servicer.ListEventStream,
+          request_deserializer=blockchain__pb2.FilterInfo.FromString,
+          response_serializer=blockchain__pb2.Event.SerializeToString,
+      ),
+      'ListEvents': grpc.unary_unary_rpc_method_handler(
+          servicer.ListEvents,
+          request_deserializer=blockchain__pb2.FilterInfo.FromString,
+          response_serializer=rpc__pb2.EventList.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
