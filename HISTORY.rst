@@ -2,6 +2,13 @@
 History
 =======
 
+0.12.0 (2019-03-08)
+-------------------
+
+* Apply v0.12.0 protocol
+* Bug fix
+  * get a genesis block with a block height 0
+
 0.11.0 (2019-02-20)
 -------------------
 
