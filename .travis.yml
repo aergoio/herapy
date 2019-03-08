@@ -12,7 +12,7 @@ install:
 script:
   - make coverage
 after-success: 
-  - codecov
+  - codecov -e CODECOV_TOKEN
 notifications:
   email: false
   slack:
