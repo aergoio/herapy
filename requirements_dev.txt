@@ -6,7 +6,7 @@ Babel==2.6.0
 base58==1.0.3
 bleach==3.0.2
 certifi==2018.11.29
-cffi==1.11.5
+cffi==1.12.2
 chardet==3.0.4
 codecov==2.0.15
 coverage==4.5.2
