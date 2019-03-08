@@ -68,9 +68,15 @@ def test_default():
     generate_toml = herapy.utils.convert_aergo_conf_to_toml(aergo_conf)
     assert DEFAULT_AERGO_CONFIG == generate_toml
     with pytest.raises(KeyError):
+        aergo_conf.usetestnet
+    with pytest.raises(KeyError):
         aergo_conf.rpc_nscert
     with pytest.raises(KeyError):
         aergo_conf.rpc_nsallowcors
+    with pytest.raises(KeyError):
+        aergo_conf.p2p_nphiddenpeers
+    with pytest.raises(KeyError):
+        aergo_conf.p2p_logfullpeerid
     with pytest.raises(KeyError):
         aergo_conf.blockchain_verifiercount
     with pytest.raises(KeyError):
@@ -142,9 +148,13 @@ def test_success():
     assert aergo_conf.authdir is herapy.AERGO_DEFAULT_CONF['authdir']
     # check rcp config
     assert aergo_conf.rpc_netserviceaddr == "127.0.0.1"
+    assert aergo_conf.rpc['netserviceaddr'] == aergo_conf.rpc_netserviceaddr
     assert aergo_conf.rpc_netserviceport == 7845
+    assert aergo_conf.rpc['netserviceport'] == aergo_conf.rpc_netserviceport
     assert aergo_conf.rpc_netservicetrace is False
+    assert aergo_conf.rpc['netservicetrace'] == aergo_conf.rpc_netservicetrace
     assert aergo_conf.rpc_nstls is False
+    assert aergo_conf.rpc['nstls'] == aergo_conf.rpc_nstls
     with pytest.raises(KeyError):
         herapy.AERGO_DEFAULT_CONF['rpc']['nscert']
     assert aergo_conf.rpc_nscert == ""
@@ -157,16 +167,25 @@ def test_success():
     # check p2p config
     assert aergo_conf.p2p_netprotocoladdr != herapy.AERGO_DEFAULT_CONF['p2p']['netprotocoladdr']
     assert aergo_conf.p2p_netprotocoladdr == "127.0.0.1"
+    assert aergo_conf.p2p['netprotocoladdr'] == aergo_conf.p2p_netprotocoladdr
     assert aergo_conf.p2p_netprotocolport == 7846
+    assert aergo_conf.p2p['netprotocolport'] == aergo_conf.p2p_netprotocolport
     assert aergo_conf.p2p_npbindaddr == herapy.AERGO_DEFAULT_CONF['p2p']['npbindaddr']
+    assert aergo_conf.p2p['npbindaddr'] == aergo_conf.p2p_npbindaddr
     assert aergo_conf.p2p_npbindport == herapy.AERGO_DEFAULT_CONF['p2p']['npbindport']
+    assert aergo_conf.p2p['npbindport'] == aergo_conf.p2p_npbindport
     assert aergo_conf.p2p_nptls is False
+    assert aergo_conf.p2p['nptls'] == aergo_conf.p2p_nptls
     assert aergo_conf.p2p_npcert == ""
+    assert aergo_conf.p2p['npcert'] == aergo_conf.p2p_npcert
     assert aergo_conf.p2p_npkey == ""
+    assert aergo_conf.p2p['npkey'] == aergo_conf.p2p_npkey
     assert isinstance(aergo_conf.p2p_npaddpeers, list)
     assert 0 == len(aergo_conf.p2p_npaddpeers)
     assert aergo_conf.p2p_npmaxpeers == 100
+    assert int(aergo_conf.p2p['npmaxpeers']) == aergo_conf.p2p_npmaxpeers
     assert aergo_conf.p2p_nppeerpool == 100
+    assert int(aergo_conf.p2p['nppeerpool']) == aergo_conf.p2p_nppeerpool
     # check blockchain config
     assert aergo_conf.blockchain_maxblocksize == 1048576
     assert aergo_conf.blockchain_coinbaseaccount == herapy.AERGO_DEFAULT_CONF['blockchain']['coinbaseaccount']
@@ -193,6 +212,7 @@ def test_success():
 def test_fail():
     aergo_conf = herapy.AergoConfig()
     # check datadir type
+    aergo_conf.datadir = 'str'
     with pytest.raises(TypeError):
         aergo_conf.datadir = 1234
     with pytest.raises(TypeError):
@@ -204,6 +224,7 @@ def test_fail():
     with pytest.raises(TypeError):
         aergo_conf.datadir = ['1234', 1234, ]
     # check dbtype type
+    aergo_conf.dbtype = 'str'
     with pytest.raises(TypeError):
         aergo_conf.dbtype = 1234
     with pytest.raises(TypeError):
@@ -215,6 +236,7 @@ def test_fail():
     with pytest.raises(TypeError):
         aergo_conf.dbtype = ['1234', 1234, ]
     # check enableprofile type
+    aergo_conf.enableprofile = True
     with pytest.raises(TypeError):
         aergo_conf.enableprofile = 1234
     with pytest.raises(TypeError):
@@ -226,6 +248,8 @@ def test_fail():
     with pytest.raises(TypeError):
         aergo_conf.enableprofile = ['1234', 1234, ]
     # check profileport type
+    aergo_conf.profileport = 1234
+    aergo_conf.profileport = False
     with pytest.raises(TypeError):
         aergo_conf.profileport = '1234'
     with pytest.raises(TypeError):
@@ -235,6 +259,7 @@ def test_fail():
     with pytest.raises(TypeError):
         aergo_conf.profileport = ['1234', 1234, ]
     # check enabletestmode type
+    aergo_conf.enabletestmode = True
     with pytest.raises(TypeError):
         aergo_conf.enabletestmode = 1234
     with pytest.raises(TypeError):
@@ -245,3 +270,122 @@ def test_fail():
         aergo_conf.enabletestmode = {'1234'}
     with pytest.raises(TypeError):
         aergo_conf.enabletestmode = ['1234', 1234, ]
+    # check personal type
+    aergo_conf.personal = True
+    with pytest.raises(TypeError):
+        aergo_conf.personal = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.personal = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.personal = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.personal = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.personal = ['1234', 1234, ]
+    # check authdir type
+    aergo_conf.authdir = 'str'
+    with pytest.raises(TypeError):
+        aergo_conf.authdir = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.authdir = True
+    with pytest.raises(TypeError):
+        aergo_conf.authdir = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.authdir = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.authdir = ['1234', 1234, ]
+    # check usetestnet type
+    aergo_conf.usetestnet = True
+    with pytest.raises(TypeError):
+        aergo_conf.usetestnet = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.usetestnet = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.usetestnet = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.usetestnet = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.usetestnet = ['1234', 1234, ]
+    # check rpc_netserviceaddr type
+    aergo_conf.rpc_netserviceaddr = 'str'
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceaddr = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceaddr = True
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceaddr = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceaddr = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceaddr = ['1234', 1234, ]
+    # check rpc_netserviceport type
+    aergo_conf.rpc_netserviceport = 1234
+    aergo_conf.rpc_netserviceport = False
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceport = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceport = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceport = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netserviceport = ['1234', 1234, ]
+    # check rpc_netservicetrace type
+    aergo_conf.rpc_netservicetrace = True
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netservicetrace = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netservicetrace = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netservicetrace = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netservicetrace = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_netservicetrace = ['1234', 1234, ]
+    # check rpc_nstls type
+    aergo_conf.rpc_nstls = True
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nstls = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nstls = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nstls = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nstls = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nstls = ['1234', 1234, ]
+    # check rpc_nscert type
+    aergo_conf.rpc_nscert = 'str'
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nscert = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nscert = True
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nscert = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nscert = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nscert = ['1234', 1234, ]
+    # check rpc_nskey type
+    aergo_conf.rpc_nskey = 'str'
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nskey = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nskey = True
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nskey = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nskey = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nskey = ['1234', 1234, ]
+    # check rpc_nsallowcors type
+    aergo_conf.rpc_nsallowcors = True
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nsallowcors = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nsallowcors = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nsallowcors = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nsallowcors = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.rpc_nsallowcors = ['1234', 1234, ]

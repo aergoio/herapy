@@ -13,7 +13,7 @@ script:
   - make test-all
   - make coverage
 after-success: 
-  - codecov -t edf94592-dde4-4934-8d37-1b2fc2ed95d8
+  - bash < (curl -s https://codecov.io/bash)
 notifications:
   email: false
   slack:
