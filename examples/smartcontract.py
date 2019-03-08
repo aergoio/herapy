@@ -7,6 +7,7 @@ import aergo.herapy as herapy
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
+    print(*args, **kwargs)
 
 
 def run():
@@ -83,6 +84,7 @@ def run():
             print(herapy.utils.convert_bytes_to_int_str(bytes(tx.tx_hash)))
 
         time.sleep(3)
+        aergo.get_account()
 
         print("------ Check deployment of SC -----------")
         print("  > TX: {}".format(tx.tx_hash))
@@ -120,7 +122,8 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception:
+    except Exception as e:
+        eprint(e)
         traceback.print_exception(*sys.exc_info())
 
 

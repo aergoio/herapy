@@ -3,8 +3,11 @@ import traceback
 import json
 
 import aergo.herapy as herapy
-from aergo.herapy.utils.converter import convert_bytes_to_hex_str, \
-                                         convert_bytes_to_int_str
+
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+    print(*args, **kwargs)
 
 
 def run():
@@ -57,7 +60,8 @@ def run():
         aergo2.disconnect()
         aergo3.disconnect()
         aergo4.disconnect()
-    except Exception:
+    except Exception as e:
+        eprint(e)
         traceback.print_exception(*sys.exc_info())
 
 

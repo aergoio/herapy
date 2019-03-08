@@ -7,6 +7,11 @@ from aergo.herapy.utils.converter import convert_bytes_to_hex_str, \
                                          convert_bytes_to_int_str
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+    print(*args, **kwargs)
+
+
 def run():
     try:
         aergo = herapy.Aergo()
@@ -66,7 +71,8 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception:
+    except Exception as e:
+        eprint(e)
         traceback.print_exception(*sys.exc_info())
 
 

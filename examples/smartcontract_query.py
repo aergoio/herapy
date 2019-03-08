@@ -8,6 +8,7 @@ from aergo.herapy.obj.sc_state import SCStateVar
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
+    print(*args, **kwargs)
 
 
 def run():
@@ -155,7 +156,8 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception:
+    except Exception as e:
+        eprint(e)
         traceback.print_exception(*sys.exc_info())
 
 

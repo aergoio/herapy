@@ -4,6 +4,11 @@ import traceback
 import aergo.herapy as herapy
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+    print(*args, **kwargs)
+
+
 def run():
     try:
         aergo = herapy.Aergo()
@@ -83,7 +88,8 @@ def run():
 
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
-    except Exception:
+    except Exception as e:
+        eprint(e)
         traceback.print_exception(*sys.exc_info())
 
 

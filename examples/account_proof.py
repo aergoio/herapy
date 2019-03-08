@@ -4,6 +4,11 @@ import traceback
 import aergo.herapy as herapy
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+    print(*args, **kwargs)
+
+
 def run():
     try:
         aergo = herapy.Aergo()
@@ -20,7 +25,7 @@ def run():
                                                amount=10, payload=None,
                                                retry_nonce=3)
         if result.status != herapy.CommitStatus.TX_OK:
-            print("    > ERROR[{0}]: {1}".format(result.status, result.detail))
+            eprint("    > ERROR[{0}]: {1}".format(result.status, result.detail))
         else:
             print("    > result[{0}] : {1}".format(result.tx_id,
                                                    result.status.name))
