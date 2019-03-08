@@ -21,7 +21,7 @@ grpcio-tools==1.19.0
 idna==2.8
 imagesize==1.1.0
 Jinja2==2.10
-MarkupSafe==1.1.0
+MarkupSafe==1.1.1
 mccabe==0.6.1
 more-itertools==5.0.0
 packaging==18.0
