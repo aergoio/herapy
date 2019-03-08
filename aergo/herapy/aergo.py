@@ -161,7 +161,7 @@ class Aergo:
         if self.__comm is None:
             return None
 
-        if block_height > 0:
+        if block_height >= 0:
             query = block_height.to_bytes(8, byteorder='little')
         else:
             if type(block_hash) is not bh.BlockHash:
