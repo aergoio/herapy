@@ -188,3 +188,62 @@ def test_success():
     assert aergo_conf.monitor_endpoint == herapy.AERGO_DEFAULT_CONF['monitor']['endpoint']
     # check account config
     assert aergo_conf.account_unlocktimeout == herapy.AERGO_DEFAULT_CONF['account']['unlocktimeout']
+
+
+def test_fail():
+    aergo_conf = herapy.AergoConfig()
+    # check datadir type
+    with pytest.raises(TypeError):
+        aergo_conf.datadir = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.datadir = True
+    with pytest.raises(TypeError):
+        aergo_conf.datadir = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.datadir = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.datadir = ['1234', 1234, ]
+    # check dbtype type
+    with pytest.raises(TypeError):
+        aergo_conf.dbtype = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.dbtype = True
+    with pytest.raises(TypeError):
+        aergo_conf.dbtype = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.dbtype = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.dbtype = ['1234', 1234, ]
+    # check enableprofile type
+    with pytest.raises(TypeError):
+        aergo_conf.enableprofile = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.enableprofile = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.enableprofile = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.enableprofile = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.enableprofile = ['1234', 1234, ]
+    # check profileport type
+    with pytest.raises(TypeError):
+        aergo_conf.profileport = True
+    with pytest.raises(TypeError):
+        aergo_conf.profileport = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.profileport = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.profileport = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.profileport = ['1234', 1234, ]
+    # check enabletestmode type
+    with pytest.raises(TypeError):
+        aergo_conf.enabletestmode = 1234
+    with pytest.raises(TypeError):
+        aergo_conf.enabletestmode = '1234'
+    with pytest.raises(TypeError):
+        aergo_conf.enabletestmode = (1234, '1234')
+    with pytest.raises(TypeError):
+        aergo_conf.enabletestmode = {'1234'}
+    with pytest.raises(TypeError):
+        aergo_conf.enabletestmode = ['1234', 1234, ]
