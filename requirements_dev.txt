@@ -36,7 +36,7 @@ Pygments==2.3.1
 pyparsing==2.3.1
 pytest==4.3.0
 pytest-cov==2.6.1
-pytest-mock==1.10.0
+pytest-mock==1.10.1
 pytz==2018.7
 readme-renderer==24.0
 requests==2.21.0
