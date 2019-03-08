@@ -10,10 +10,9 @@ install:
   - make install
 # command to run tests
 script:
-  - make test-all
   - make coverage
 after-success: 
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
 notifications:
   email: false
   slack:
