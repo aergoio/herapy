@@ -19,3 +19,4 @@ VENV/
 .env
 *.out
 *.diff
+htmlcov/

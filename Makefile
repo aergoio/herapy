@@ -69,7 +69,7 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	py.test --cov-report=xml --cov=aergo/ tests/
+	py.test --cov-report=html --cov=aergo/ tests/
 
 docs:
 	rm -rf docs/pydoc
