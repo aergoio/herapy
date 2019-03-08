@@ -1,2 +1,4 @@
 codecov:
         token: edf94592-dde4-4934-8d37-1b2fc2ed95d8
+        ignore:
+                - "tests/*"
