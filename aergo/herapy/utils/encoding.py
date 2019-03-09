@@ -124,3 +124,15 @@ def decode_public_key(public_key, curve=ecdsa.SECP256k1):
     else:
         y_bytes = None
     return head, x_bytes, y_bytes
+
+
+def encode_block_hash(block_hash):
+    if is_empty(block_hash):
+        return None
+    return encode_b58(block_hash)
+
+
+def decode_block_hash(block_hash):
+    if is_empty(block_hash):
+        return None
+    return decode_b58(block_hash)

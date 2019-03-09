@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import base58
+from ..utils.encoding import encode_block_hash, decode_block_hash
 
 
 class BlockHash:
     def __init__(self, bh):
         if isinstance(bh, str):
-            bh = BlockHash.decode_block_hash(bh)
+            bh = decode_block_hash(bh)
         self.__block_hash = bh
 
     @property
@@ -17,12 +17,4 @@ class BlockHash:
         return self.__block_hash
 
     def __str__(self):
-        return BlockHash.encode_block_hash(self.__block_hash)
-
-    @staticmethod
-    def encode_block_hash(b):
-        return base58.b58encode(b).decode('utf-8')
-
-    @staticmethod
-    def decode_block_hash(s):
-        return base58.b58decode(s)
+        return encode_block_hash(self.__block_hash)

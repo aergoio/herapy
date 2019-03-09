@@ -252,3 +252,6 @@ class Transaction:
 
     def __str__(self):
         return json.dumps(self.json(), indent=2)
+
+    def __bytes__(self):
+        return self.tx_hash
