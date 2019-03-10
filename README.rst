@@ -3,7 +3,7 @@
 herapy
 ======
 
-.. image:: https://codecov.io/gh/aergoio/herapy/branch/accounts/graph/badge.svg?token=JylbPsDrDB
+.. image:: https://codecov.io/gh/aergoio/herapy/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/aergoio/herapy
 
 .. image:: https://img.shields.io/pypi/v/aergo-herapy.svg
