@@ -14,7 +14,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../aergo'))
 
 
 # -- Project information -----------------------------------------------------
@@ -24,9 +24,9 @@ copyright = '2019, aergo'
 author = 'aergo'
 
 # The short X.Y version
-version = '0.9'
+version = '0.12'
 # The full version, including alpha/beta/rc tags
-release = '0.9.2'
+release = '0.12.0'
 
 
 # -- General configuration ---------------------------------------------------

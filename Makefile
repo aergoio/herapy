@@ -71,15 +71,6 @@ test-all: ## run tests on every Python version with tox
 coverage: ## check code coverage quickly with the default Python
 	py.test --cov-report=html --cov=aergo/ tests/
 
-docs:
-	rm -rf docs/pydoc
-	mkdir -p docs/pydoc
-	python3 -m pydoc -w `find . -name "*.py"` 2>&1 /dev/null
-	mv *.html docs/pydoc
-
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
-
 release: dist ## package and upload a release
 	twine upload dist/*
 
