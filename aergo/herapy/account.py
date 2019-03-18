@@ -13,6 +13,7 @@ from .obj import private_key as pk
 
 from .utils.encoding import decode_address, decode_root
 from .utils import merkle_proof as mp
+from .utils.converter import encrypt_bytes, decrypt_bytes
 
 from .errors.general_exception import GeneralException
 
@@ -143,23 +144,7 @@ class Account:
         :param account: account to export
         :return: encrypted account data (bytes)
         """
-        if isinstance(password, str):
-            password = bytes(password, encoding='utf-8')
-
-        m = hashlib.sha256()
-        m.update(password)
-        hash_pw = m.digest()
-
-        m = hashlib.sha256()
-        m.update(password)
-        m.update(hash_pw)
-        enc_key = m.digest()
-
-        nonce = hash_pw[4:16]
-        aesgcm = AESGCM(enc_key)
-        return aesgcm.encrypt(nonce=nonce,
-                              data=bytes(account.private_key),
-                              associated_data=b'')
+        return encrypt_bytes(bytes(account.private_key), password)
 
     @staticmethod
     def decrypt_account(encrypted_bytes, password):
@@ -169,27 +154,10 @@ class Account:
         :param password: to decrypt the exported bytes
         :return: account instance
         """
-        if isinstance(password, str):
-            password = password.encode('utf-8')
-
-        m = hashlib.sha256()
-        m.update(password)
-        hash_pw = m.digest()
-
-        m = hashlib.sha256()
-        m.update(password)
-        m.update(hash_pw)
-        dec_key = m.digest()
-
         try:
-            nonce = hash_pw[4:16]
-            aesgcm = AESGCM(dec_key)
-            dec_value = aesgcm.decrypt(nonce=nonce,
-                                       data=encrypted_bytes,
-                                       associated_data=b'')
+            dec_value = decrypt_bytes(encrypted_bytes, password)
         except InvalidTag as e:
             raise GeneralException("Fail to decrypt an account. Please check the password.") from e
-
         return Account(private_key=dec_value)
 
     def verify_proof(self, root):
