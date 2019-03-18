@@ -2,10 +2,12 @@
 
 """Common utility module for converting types."""
 
+import hashlib
 import json
 import toml
 import socket
 import ecdsa
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
@@ -179,3 +181,54 @@ def convert_bytes_to_public_key(v, curve=ecdsa.SECP256k1):
 
 def bytes_to_public_key(v, curve=ecdsa.SECP256k1):
     return convert_bytes_to_public_key(v, curve=curve)
+
+
+def encrypt_bytes(data, password):
+    """
+    https://cryptography.io/en/latest/hazmat/primitives/aead/
+    :param data: bytes to encrypt
+    :return: encrypted  data (bytes)
+    """
+    if isinstance(password, str):
+        password = bytes(password, encoding='utf-8')
+
+    m = hashlib.sha256()
+    m.update(password)
+    hash_pw = m.digest()
+
+    m = hashlib.sha256()
+    m.update(password)
+    m.update(hash_pw)
+    enc_key = m.digest()
+
+    nonce = hash_pw[4:16]
+    aesgcm = AESGCM(enc_key)
+    return aesgcm.encrypt(nonce=nonce,
+                          data=data,
+                          associated_data=b'')
+
+def decrypt_bytes(encrypted_bytes, password):
+    """
+    https://cryptography.io/en/latest/hazmat/primitives/aead/
+    :param encrypted_bytes: encrypted data (bytes)
+    :param password: to decrypt the exported bytes
+    :return: decrypted bytes
+    """
+    if isinstance(password, str):
+        password = password.encode('utf-8')
+
+    m = hashlib.sha256()
+    m.update(password)
+    hash_pw = m.digest()
+
+    m = hashlib.sha256()
+    m.update(password)
+    m.update(hash_pw)
+    dec_key = m.digest()
+
+    nonce = hash_pw[4:16]
+    aesgcm = AESGCM(dec_key)
+    dec_value = aesgcm.decrypt(nonce=nonce,
+                               data=encrypted_bytes,
+                               associated_data=b'')
+    return dec_value
