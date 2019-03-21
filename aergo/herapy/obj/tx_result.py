@@ -25,15 +25,18 @@ class TxResult:
             self.__type = TxResultType.RECEIPT
             try:
                 self.status = TxResultStatus(result.status)
+                self.detail = result.ret
             except:
                 self.status = TxResultStatus.ERROR
-            self.detail = result.ret
+                self.detail = result.status
             self.contract_address = encode_address(result.contractAddress)
 
+            """
             if result.ret is None or 0 == len(result.ret):
                 self.status = TxResultStatus.ERROR
                 if 'CREATED' != result.status:
                     self.detail = result.status
+            """
         elif type(result) == CommitResult:
             self.__type = TxResultType.COMMIT_RESULT
             self.tx_id = encode_tx_hash(self.__result.hash)

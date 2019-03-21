@@ -87,22 +87,22 @@ def test_grpc_receipt():
     tx_result3 = TxResult(grpc_result3)
     assert tx_result3.type == TxResultType.RECEIPT
     assert tx_result3.status == TxResultStatus.ERROR
-    assert tx_result3.detail == receipt['ret']
+    assert tx_result3.detail == grpc_result3.status
     assert tx_result3.contract_address == encode_address(receipt['contractAddress'])
 
     grpc_result3.status = 'CREATED'
     grpc_result3.ret = 'error is occurred'
     tx_result3 = TxResult(grpc_result3)
     assert tx_result3.status != TxResultStatus.SUCCESS
-    assert tx_result3.status == TxResultStatus.ERROR
+    assert tx_result3.status == TxResultStatus.CREATED
     assert tx_result3.detail == 'error is occurred'
 
     grpc_result3.status = 'SUCCESS'
     grpc_result3.ret = 'error is occurred'
     tx_result3 = TxResult(grpc_result3)
-    assert tx_result3.status != TxResultStatus.SUCCESS
-    assert tx_result3.status == TxResultStatus.ERROR
-    assert tx_result3.detail == 'SUCCESS'
+    assert tx_result3.status == TxResultStatus.SUCCESS
+    assert tx_result3.status != TxResultStatus.ERROR
+    assert tx_result3.detail == grpc_result3.ret
 
 
 def test_grpc_commit_result():

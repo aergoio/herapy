@@ -2,7 +2,7 @@
 History
 =======
 
-0.12.1 (2019-03-08)
+0.12.2 (2019-03-21)
 -------------------
 
 * encrypt/decrypt logic moves to 'util' for a general usage

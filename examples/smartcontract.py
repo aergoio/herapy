@@ -98,6 +98,13 @@ def run():
         sc_address = result.contract_address
         print("  > SC Address: {}".format(sc_address))
 
+        print("------ Fail SC -----------")
+        tx, result = aergo.call_sc(sc_address, "set_none")
+        time.sleep(3)
+        result = aergo.get_tx_result(tx.tx_hash)
+        print("  > ERROR[{0}]:{1}: {2}".format(
+            result.contract_address, result.status, result.detail))
+
         print("------ Query SC -----------")
         result = aergo.query_sc(sc_address, "get_name")
         print(result)

@@ -105,6 +105,7 @@ else
 endif
 
 ex: ## run all examples in the examples directory
+	pip show aergo-herapy
 	@echo "===============================" > make.ex.out
 	@echo "Result of 'examples/account.py'" >> make.ex.out
 	@echo "===============================" >> make.ex.out
