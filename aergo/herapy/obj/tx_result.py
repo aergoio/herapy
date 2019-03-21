@@ -30,7 +30,7 @@ class TxResult:
             self.detail = result.ret
             self.contract_address = encode_address(result.contractAddress)
 
-            if 'error' in result.ret:
+            if result.ret is None or 0 == len(result.ret):
                 self.status = TxResultStatus.ERROR
                 if 'CREATED' != result.status:
                     self.detail = result.status
