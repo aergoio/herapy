@@ -2,6 +2,13 @@
 History
 =======
 
+0.12.1 (2019-03-08)
+-------------------
+
+* encrypt/decrypt logic moves to 'util' for a general usage
+* Bug fix
+  * when tx result handling, get error message from a changed varialbe
+
 0.12.0 (2019-03-08)
 -------------------
 
