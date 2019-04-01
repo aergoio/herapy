@@ -31,6 +31,7 @@ Features
 * Creating/Exporting/Importing an account
 * Making and sending a transaction
 * Deploying/Calling/Querying a smart contract
+* Querying and prooving contract/account states
 
 -------
 Install

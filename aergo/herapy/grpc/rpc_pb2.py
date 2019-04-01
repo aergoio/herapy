@@ -25,7 +25,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\"@\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\"a\n\x07\x43hainId\x12\r\n\x05magic\x18\x01 \x01(\t\x12\x0e\n\x06public\x18\x02 \x01(\x08\x12\x0f\n\x07mainnet\x18\x03 \x01(\x08\x12\x13\n\x0b\x63oinbasefee\x18\x04 \x01(\x0c\x12\x11\n\tconsensus\x18\x05 \x01(\t\"\x7f\n\tChainInfo\x12\x1f\n\x07\x63hainid\x18\x01 \x01(\x0b\x32\x0e.types.ChainId\x12\x10\n\x08\x62pnumber\x18\x02 \x01(\r\x12\x14\n\x0cmaxblocksize\x18\x03 \x01(\x04\x12\x11\n\tmaxtokens\x18\x04 \x01(\x0c\x12\x16\n\x0estakingminimum\x18\x05 \x01(\x0c\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"\x99\x01\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\x12\x0e\n\x06hidden\x18\x04 \x01(\x08\x12\x11\n\tlashCheck\x18\x05 \x01(\x03\x12\x10\n\x08selfpeer\x18\x06 \x01(\x08\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"*\n\nPageParams\x12\x0e\n\x06offset\x18\x01 \x01(\r\x12\x0c\n\x04size\x18\x02 \x01(\r\"]\n\x0e\x42lockBodyPaged\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0e\n\x06offset\x18\x02 \x01(\r\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x1e\n\x04\x62ody\x18\x04 \x01(\x0b\x32\x10.types.BlockBody\"J\n\x0f\x42lockBodyParams\x12\x14\n\x0chashornumber\x18\x01 \x01(\x0c\x12!\n\x06paging\x18\x02 \x01(\x0b\x32\x11.types.PageParams\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"R\n\rBlockMetadata\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07txcount\x18\x03 \x01(\x05\"9\n\x11\x42lockMetadataList\x12$\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x14.types.BlockMetadata\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"&\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c\"\x14\n\x04Name\x12\x0c\n\x04name\x18\x01 \x01(\t\"I\n\x08NameInfo\x12\x19\n\x04name\x18\x01 \x01(\x0b\x32\x0b.types.Name\x12\r\n\x05owner\x18\x02 \x01(\x0c\x12\x13\n\x0b\x64\x65stination\x18\x03 \x01(\x0c\"1\n\x0bPeersParams\x12\x10\n\x08noHidden\x18\x01 \x01(\x08\x12\x10\n\x08showSelf\x18\x02 \x01(\x08\")\n\tEventList\x12\x1c\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x0c.types.Event*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xdb\x0e\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12\x30\n\x0cGetChainInfo\x12\x0c.types.Empty\x1a\x10.types.ChainInfo\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x42\n\x11ListBlockMetadata\x12\x11.types.ListParams\x1a\x18.types.BlockMetadataList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12\x41\n\x17ListBlockMetadataStream\x12\x0c.types.Empty\x1a\x14.types.BlockMetadata\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12>\n\x10GetBlockMetadata\x12\x12.types.SingleBytes\x1a\x14.types.BlockMetadata\"\x00\x12?\n\x0cGetBlockBody\x12\x16.types.BlockBodyParams\x1a\x15.types.BlockBodyPaged\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12@\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x13.types.AccountProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12\x31\n\x08GetPeers\x12\x12.types.PeersParams\x1a\x0f.types.PeerList\"\x00\x12\x31\n\x08GetVotes\x12\x12.types.SingleBytes\x1a\x0f.types.VoteList\"\x00\x12\x32\n\nGetStaking\x12\x12.types.SingleBytes\x1a\x0e.types.Staking\"\x00\x12-\n\x0bGetNameInfo\x12\x0b.types.Name\x1a\x0f.types.NameInfo\"\x00\x12\x36\n\x0fListEventStream\x12\x11.types.FilterInfo\x1a\x0c.types.Event\"\x00\x30\x01\x12\x33\n\nListEvents\x12\x11.types.FilterInfo\x1a\x10.types.EventList\"\x00\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\"t\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\x12\x16\n\x0e\x63onsensus_info\x18\x03 \x01(\t\x12\x1a\n\x12\x62\x65st_chain_id_hash\x18\x04 \x01(\x0c\"L\n\x07\x43hainId\x12\r\n\x05magic\x18\x01 \x01(\t\x12\x0e\n\x06public\x18\x02 \x01(\x08\x12\x0f\n\x07mainnet\x18\x03 \x01(\x08\x12\x11\n\tconsensus\x18\x04 \x01(\t\"\xb5\x01\n\tChainInfo\x12\x1a\n\x02id\x18\x01 \x01(\x0b\x32\x0e.types.ChainId\x12\x10\n\x08\x62pNumber\x18\x02 \x01(\r\x12\x14\n\x0cmaxblocksize\x18\x03 \x01(\x04\x12\x11\n\tmaxtokens\x18\x04 \x01(\x0c\x12\x16\n\x0estakingminimum\x18\x05 \x01(\x0c\x12\x14\n\x0ctotalstaking\x18\x06 \x01(\x0c\x12\x10\n\x08gasprice\x18\x07 \x01(\x0c\x12\x11\n\tnameprice\x18\x08 \x01(\x0c\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"\x1f\n\x0e\x41\x63\x63ountAddress\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"\x99\x01\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\x12\x0e\n\x06hidden\x18\x04 \x01(\x08\x12\x11\n\tlashCheck\x18\x05 \x01(\x03\x12\x10\n\x08selfpeer\x18\x06 \x01(\x08\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"*\n\nPageParams\x12\x0e\n\x06offset\x18\x01 \x01(\r\x12\x0c\n\x04size\x18\x02 \x01(\r\"]\n\x0e\x42lockBodyPaged\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0e\n\x06offset\x18\x02 \x01(\r\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x1e\n\x04\x62ody\x18\x04 \x01(\x0b\x32\x10.types.BlockBody\"J\n\x0f\x42lockBodyParams\x12\x14\n\x0chashornumber\x18\x01 \x01(\x0c\x12!\n\x06paging\x18\x02 \x01(\x0b\x32\x11.types.PageParams\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"R\n\rBlockMetadata\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07txcount\x18\x03 \x01(\x05\"9\n\x11\x42lockMetadataList\x12$\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x14.types.BlockMetadata\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"\'\n\nVoteParams\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x63ount\x18\x02 \x01(\r\"S\n\x0f\x41\x63\x63ountVoteInfo\x12\x1f\n\x07staking\x18\x01 \x01(\x0b\x32\x0e.types.Staking\x12\x1f\n\x06voting\x18\x02 \x03(\x0b\x32\x0f.types.VoteInfo\"*\n\x08VoteInfo\x12\n\n\x02id\x18\x02 \x01(\t\x12\x12\n\ncandidates\x18\x03 \x03(\t\"2\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\x12\n\n\x02id\x18\x02 \x01(\t\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c\"\x14\n\x04Name\x12\x0c\n\x04name\x18\x01 \x01(\t\"I\n\x08NameInfo\x12\x19\n\x04name\x18\x01 \x01(\x0b\x32\x0b.types.Name\x12\r\n\x05owner\x18\x02 \x01(\x0c\x12\x13\n\x0b\x64\x65stination\x18\x03 \x01(\x0c\"1\n\x0bPeersParams\x12\x10\n\x08noHidden\x18\x01 \x01(\x08\x12\x10\n\x08showSelf\x18\x02 \x01(\x08\")\n\tEventList\x12\x1c\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x0c.types.Event\"8\n\rConsensusInfo\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0c\n\x04info\x18\x02 \x01(\t\x12\x0b\n\x03\x62ps\x18\x03 \x03(\t*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xdb\x0f\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12\x30\n\x0cGetChainInfo\x12\x0c.types.Empty\x1a\x10.types.ChainInfo\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x42\n\x11ListBlockMetadata\x12\x11.types.ListParams\x1a\x18.types.BlockMetadataList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12\x41\n\x17ListBlockMetadataStream\x12\x0c.types.Empty\x1a\x14.types.BlockMetadata\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12>\n\x10GetBlockMetadata\x12\x12.types.SingleBytes\x1a\x14.types.BlockMetadata\"\x00\x12?\n\x0cGetBlockBody\x12\x16.types.BlockBodyParams\x1a\x15.types.BlockBodyPaged\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12@\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x13.types.AccountProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12\x31\n\x08GetPeers\x12\x12.types.PeersParams\x1a\x0f.types.PeerList\"\x00\x12\x30\n\x08GetVotes\x12\x11.types.VoteParams\x1a\x0f.types.VoteList\"\x00\x12\x42\n\x0fGetAccountVotes\x12\x15.types.AccountAddress\x1a\x16.types.AccountVoteInfo\"\x00\x12\x35\n\nGetStaking\x12\x15.types.AccountAddress\x1a\x0e.types.Staking\"\x00\x12-\n\x0bGetNameInfo\x12\x0b.types.Name\x1a\x0f.types.NameInfo\"\x00\x12\x36\n\x0fListEventStream\x12\x11.types.FilterInfo\x1a\x0c.types.Event\"\x00\x30\x01\x12\x33\n\nListEvents\x12\x11.types.FilterInfo\x1a\x10.types.EventList\"\x00\x12\x38\n\x10GetConsensusInfo\x12\x0c.types.Empty\x1a\x14.types.ConsensusInfo\"\x00\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
   ,
   dependencies=[blockchain__pb2.DESCRIPTOR,account__pb2.DESCRIPTOR,node__pb2.DESCRIPTOR,p2p__pb2.DESCRIPTOR,metric__pb2.DESCRIPTOR,])
 
@@ -74,8 +74,8 @@ _COMMITSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2052,
-  serialized_end=2262,
+  serialized_start=2411,
+  serialized_end=2621,
 )
 _sym_db.RegisterEnumDescriptor(_COMMITSTATUS)
 
@@ -101,8 +101,8 @@ _VERIFYSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2264,
-  serialized_end=2366,
+  serialized_start=2623,
+  serialized_end=2725,
 )
 _sym_db.RegisterEnumDescriptor(_VERIFYSTATUS)
 
@@ -143,6 +143,20 @@ _BLOCKCHAINSTATUS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='consensus_info', full_name='types.BlockchainStatus.consensus_info', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='best_chain_id_hash', full_name='types.BlockchainStatus.best_chain_id_hash', index=3,
+      number=4, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -156,7 +170,7 @@ _BLOCKCHAINSTATUS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=90,
-  serialized_end=154,
+  serialized_end=206,
 )
 
 
@@ -189,15 +203,8 @@ _CHAINID = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='coinbasefee', full_name='types.ChainId.coinbasefee', index=3,
-      number=4, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b(""),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='consensus', full_name='types.ChainId.consensus', index=4,
-      number=5, type=9, cpp_type=9, label=1,
+      name='consensus', full_name='types.ChainId.consensus', index=3,
+      number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -214,8 +221,8 @@ _CHAINID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=156,
-  serialized_end=253,
+  serialized_start=208,
+  serialized_end=284,
 )
 
 
@@ -227,14 +234,14 @@ _CHAININFO = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='chainid', full_name='types.ChainInfo.chainid', index=0,
+      name='id', full_name='types.ChainInfo.id', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bpnumber', full_name='types.ChainInfo.bpnumber', index=1,
+      name='bpNumber', full_name='types.ChainInfo.bpNumber', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -261,6 +268,27 @@ _CHAININFO = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='totalstaking', full_name='types.ChainInfo.totalstaking', index=5,
+      number=6, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='gasprice', full_name='types.ChainInfo.gasprice', index=6,
+      number=7, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='nameprice', full_name='types.ChainInfo.nameprice', index=7,
+      number=8, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -273,8 +301,8 @@ _CHAININFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=255,
-  serialized_end=382,
+  serialized_start=287,
+  serialized_end=468,
 )
 
 
@@ -325,8 +353,8 @@ _INPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=384,
-  serialized_end=453,
+  serialized_start=470,
+  serialized_end=539,
 )
 
 
@@ -377,8 +405,8 @@ _OUTPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=455,
-  serialized_end=526,
+  serialized_start=541,
+  serialized_end=612,
 )
 
 
@@ -401,8 +429,8 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=528,
-  serialized_end=535,
+  serialized_start=614,
+  serialized_end=621,
 )
 
 
@@ -432,8 +460,39 @@ _SINGLEBYTES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=537,
-  serialized_end=565,
+  serialized_start=623,
+  serialized_end=651,
+)
+
+
+_ACCOUNTADDRESS = _descriptor.Descriptor(
+  name='AccountAddress',
+  full_name='types.AccountAddress',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='types.AccountAddress.value', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=653,
+  serialized_end=684,
 )
 
 
@@ -477,8 +536,8 @@ _ACCOUNTANDROOT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=567,
-  serialized_end=634,
+  serialized_start=686,
+  serialized_end=753,
 )
 
 
@@ -543,8 +602,8 @@ _PEER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=637,
-  serialized_end=790,
+  serialized_start=756,
+  serialized_end=909,
 )
 
 
@@ -574,8 +633,8 @@ _PEERLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=792,
-  serialized_end=830,
+  serialized_start=911,
+  serialized_end=949,
 )
 
 
@@ -633,8 +692,8 @@ _LISTPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=832,
-  serialized_end=917,
+  serialized_start=951,
+  serialized_end=1036,
 )
 
 
@@ -671,8 +730,8 @@ _PAGEPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=919,
-  serialized_end=961,
+  serialized_start=1038,
+  serialized_end=1080,
 )
 
 
@@ -723,8 +782,8 @@ _BLOCKBODYPAGED = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=963,
-  serialized_end=1056,
+  serialized_start=1082,
+  serialized_end=1175,
 )
 
 
@@ -761,8 +820,8 @@ _BLOCKBODYPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1058,
-  serialized_end=1132,
+  serialized_start=1177,
+  serialized_end=1251,
 )
 
 
@@ -792,8 +851,8 @@ _BLOCKHEADERLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1134,
-  serialized_end=1181,
+  serialized_start=1253,
+  serialized_end=1300,
 )
 
 
@@ -837,8 +896,8 @@ _BLOCKMETADATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1183,
-  serialized_end=1265,
+  serialized_start=1302,
+  serialized_end=1384,
 )
 
 
@@ -868,8 +927,8 @@ _BLOCKMETADATALIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1267,
-  serialized_end=1324,
+  serialized_start=1386,
+  serialized_end=1443,
 )
 
 
@@ -913,8 +972,8 @@ _COMMITRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1326,
-  serialized_end=1406,
+  serialized_start=1445,
+  serialized_end=1525,
 )
 
 
@@ -944,8 +1003,8 @@ _COMMITRESULTLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1408,
-  serialized_end=1464,
+  serialized_start=1527,
+  serialized_end=1583,
 )
 
 
@@ -982,8 +1041,8 @@ _VERIFYRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1466,
-  serialized_end=1539,
+  serialized_start=1585,
+  serialized_end=1658,
 )
 
 
@@ -1020,8 +1079,8 @@ _PERSONAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1541,
-  serialized_end=1604,
+  serialized_start=1660,
+  serialized_end=1723,
 )
 
 
@@ -1065,8 +1124,8 @@ _IMPORTFORMAT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1606,
-  serialized_end=1687,
+  serialized_start=1725,
+  serialized_end=1806,
 )
 
 
@@ -1103,8 +1162,8 @@ _STAKING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1689,
-  serialized_end=1728,
+  serialized_start=1808,
+  serialized_end=1847,
 )
 
 
@@ -1141,8 +1200,122 @@ _VOTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1730,
-  serialized_end=1771,
+  serialized_start=1849,
+  serialized_end=1890,
+)
+
+
+_VOTEPARAMS = _descriptor.Descriptor(
+  name='VoteParams',
+  full_name='types.VoteParams',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='types.VoteParams.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='count', full_name='types.VoteParams.count', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1892,
+  serialized_end=1931,
+)
+
+
+_ACCOUNTVOTEINFO = _descriptor.Descriptor(
+  name='AccountVoteInfo',
+  full_name='types.AccountVoteInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='staking', full_name='types.AccountVoteInfo.staking', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='voting', full_name='types.AccountVoteInfo.voting', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1933,
+  serialized_end=2016,
+)
+
+
+_VOTEINFO = _descriptor.Descriptor(
+  name='VoteInfo',
+  full_name='types.VoteInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='types.VoteInfo.id', index=0,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='candidates', full_name='types.VoteInfo.candidates', index=1,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2018,
+  serialized_end=2060,
 )
 
 
@@ -1160,6 +1333,13 @@ _VOTELIST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='id', full_name='types.VoteList.id', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -1172,8 +1352,8 @@ _VOTELIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1773,
-  serialized_end=1811,
+  serialized_start=2062,
+  serialized_end=2112,
 )
 
 
@@ -1210,8 +1390,8 @@ _NODEREQ = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1813,
-  serialized_end=1858,
+  serialized_start=2114,
+  serialized_end=2159,
 )
 
 
@@ -1241,8 +1421,8 @@ _NAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1860,
-  serialized_end=1880,
+  serialized_start=2161,
+  serialized_end=2181,
 )
 
 
@@ -1286,8 +1466,8 @@ _NAMEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1882,
-  serialized_end=1955,
+  serialized_start=2183,
+  serialized_end=2256,
 )
 
 
@@ -1324,8 +1504,8 @@ _PEERSPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1957,
-  serialized_end=2006,
+  serialized_start=2258,
+  serialized_end=2307,
 )
 
 
@@ -1355,11 +1535,56 @@ _EVENTLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2008,
-  serialized_end=2049,
+  serialized_start=2309,
+  serialized_end=2350,
 )
 
-_CHAININFO.fields_by_name['chainid'].message_type = _CHAINID
+
+_CONSENSUSINFO = _descriptor.Descriptor(
+  name='ConsensusInfo',
+  full_name='types.ConsensusInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='type', full_name='types.ConsensusInfo.type', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='info', full_name='types.ConsensusInfo.info', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bps', full_name='types.ConsensusInfo.bps', index=2,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2352,
+  serialized_end=2408,
+)
+
+_CHAININFO.fields_by_name['id'].message_type = _CHAINID
 _PEER.fields_by_name['address'].message_type = node__pb2._PEERADDRESS
 _PEER.fields_by_name['bestblock'].message_type = p2p__pb2._NEWBLOCKNOTICE
 _PEERLIST.fields_by_name['peers'].message_type = _PEER
@@ -1374,6 +1599,8 @@ _VERIFYRESULT.fields_by_name['tx'].message_type = blockchain__pb2._TX
 _VERIFYRESULT.fields_by_name['error'].enum_type = _VERIFYSTATUS
 _PERSONAL.fields_by_name['account'].message_type = account__pb2._ACCOUNT
 _IMPORTFORMAT.fields_by_name['wif'].message_type = _SINGLEBYTES
+_ACCOUNTVOTEINFO.fields_by_name['staking'].message_type = _STAKING
+_ACCOUNTVOTEINFO.fields_by_name['voting'].message_type = _VOTEINFO
 _VOTELIST.fields_by_name['votes'].message_type = _VOTE
 _NAMEINFO.fields_by_name['name'].message_type = _NAME
 _EVENTLIST.fields_by_name['events'].message_type = blockchain__pb2._EVENT
@@ -1384,6 +1611,7 @@ DESCRIPTOR.message_types_by_name['Input'] = _INPUT
 DESCRIPTOR.message_types_by_name['Output'] = _OUTPUT
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['SingleBytes'] = _SINGLEBYTES
+DESCRIPTOR.message_types_by_name['AccountAddress'] = _ACCOUNTADDRESS
 DESCRIPTOR.message_types_by_name['AccountAndRoot'] = _ACCOUNTANDROOT
 DESCRIPTOR.message_types_by_name['Peer'] = _PEER
 DESCRIPTOR.message_types_by_name['PeerList'] = _PEERLIST
@@ -1401,12 +1629,16 @@ DESCRIPTOR.message_types_by_name['Personal'] = _PERSONAL
 DESCRIPTOR.message_types_by_name['ImportFormat'] = _IMPORTFORMAT
 DESCRIPTOR.message_types_by_name['Staking'] = _STAKING
 DESCRIPTOR.message_types_by_name['Vote'] = _VOTE
+DESCRIPTOR.message_types_by_name['VoteParams'] = _VOTEPARAMS
+DESCRIPTOR.message_types_by_name['AccountVoteInfo'] = _ACCOUNTVOTEINFO
+DESCRIPTOR.message_types_by_name['VoteInfo'] = _VOTEINFO
 DESCRIPTOR.message_types_by_name['VoteList'] = _VOTELIST
 DESCRIPTOR.message_types_by_name['NodeReq'] = _NODEREQ
 DESCRIPTOR.message_types_by_name['Name'] = _NAME
 DESCRIPTOR.message_types_by_name['NameInfo'] = _NAMEINFO
 DESCRIPTOR.message_types_by_name['PeersParams'] = _PEERSPARAMS
 DESCRIPTOR.message_types_by_name['EventList'] = _EVENTLIST
+DESCRIPTOR.message_types_by_name['ConsensusInfo'] = _CONSENSUSINFO
 DESCRIPTOR.enum_types_by_name['CommitStatus'] = _COMMITSTATUS
 DESCRIPTOR.enum_types_by_name['VerifyStatus'] = _VERIFYSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -1459,6 +1691,13 @@ SingleBytes = _reflection.GeneratedProtocolMessageType('SingleBytes', (_message.
   # @@protoc_insertion_point(class_scope:types.SingleBytes)
   ))
 _sym_db.RegisterMessage(SingleBytes)
+
+AccountAddress = _reflection.GeneratedProtocolMessageType('AccountAddress', (_message.Message,), dict(
+  DESCRIPTOR = _ACCOUNTADDRESS,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.AccountAddress)
+  ))
+_sym_db.RegisterMessage(AccountAddress)
 
 AccountAndRoot = _reflection.GeneratedProtocolMessageType('AccountAndRoot', (_message.Message,), dict(
   DESCRIPTOR = _ACCOUNTANDROOT,
@@ -1579,6 +1818,27 @@ Vote = _reflection.GeneratedProtocolMessageType('Vote', (_message.Message,), dic
   ))
 _sym_db.RegisterMessage(Vote)
 
+VoteParams = _reflection.GeneratedProtocolMessageType('VoteParams', (_message.Message,), dict(
+  DESCRIPTOR = _VOTEPARAMS,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.VoteParams)
+  ))
+_sym_db.RegisterMessage(VoteParams)
+
+AccountVoteInfo = _reflection.GeneratedProtocolMessageType('AccountVoteInfo', (_message.Message,), dict(
+  DESCRIPTOR = _ACCOUNTVOTEINFO,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.AccountVoteInfo)
+  ))
+_sym_db.RegisterMessage(AccountVoteInfo)
+
+VoteInfo = _reflection.GeneratedProtocolMessageType('VoteInfo', (_message.Message,), dict(
+  DESCRIPTOR = _VOTEINFO,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.VoteInfo)
+  ))
+_sym_db.RegisterMessage(VoteInfo)
+
 VoteList = _reflection.GeneratedProtocolMessageType('VoteList', (_message.Message,), dict(
   DESCRIPTOR = _VOTELIST,
   __module__ = 'rpc_pb2'
@@ -1621,6 +1881,13 @@ EventList = _reflection.GeneratedProtocolMessageType('EventList', (_message.Mess
   ))
 _sym_db.RegisterMessage(EventList)
 
+ConsensusInfo = _reflection.GeneratedProtocolMessageType('ConsensusInfo', (_message.Message,), dict(
+  DESCRIPTOR = _CONSENSUSINFO,
+  __module__ = 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.ConsensusInfo)
+  ))
+_sym_db.RegisterMessage(ConsensusInfo)
+
 
 DESCRIPTOR._options = None
 
@@ -1630,8 +1897,8 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=2369,
-  serialized_end=4252,
+  serialized_start=2728,
+  serialized_end=4739,
   methods=[
   _descriptor.MethodDescriptor(
     name='NodeState',
@@ -1908,23 +2175,32 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
     full_name='types.AergoRPCService.GetVotes',
     index=30,
     containing_service=None,
-    input_type=_SINGLEBYTES,
+    input_type=_VOTEPARAMS,
     output_type=_VOTELIST,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetAccountVotes',
+    full_name='types.AergoRPCService.GetAccountVotes',
+    index=31,
+    containing_service=None,
+    input_type=_ACCOUNTADDRESS,
+    output_type=_ACCOUNTVOTEINFO,
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='GetStaking',
     full_name='types.AergoRPCService.GetStaking',
-    index=31,
+    index=32,
     containing_service=None,
-    input_type=_SINGLEBYTES,
+    input_type=_ACCOUNTADDRESS,
     output_type=_STAKING,
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='GetNameInfo',
     full_name='types.AergoRPCService.GetNameInfo',
-    index=32,
+    index=33,
     containing_service=None,
     input_type=_NAME,
     output_type=_NAMEINFO,
@@ -1933,7 +2209,7 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ListEventStream',
     full_name='types.AergoRPCService.ListEventStream',
-    index=33,
+    index=34,
     containing_service=None,
     input_type=blockchain__pb2._FILTERINFO,
     output_type=blockchain__pb2._EVENT,
@@ -1942,10 +2218,19 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ListEvents',
     full_name='types.AergoRPCService.ListEvents',
-    index=34,
+    index=35,
     containing_service=None,
     input_type=blockchain__pb2._FILTERINFO,
     output_type=_EVENTLIST,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetConsensusInfo',
+    full_name='types.AergoRPCService.GetConsensusInfo',
+    index=36,
+    containing_service=None,
+    input_type=_EMPTY,
+    output_type=_CONSENSUSINFO,
     serialized_options=None,
   ),
 ])

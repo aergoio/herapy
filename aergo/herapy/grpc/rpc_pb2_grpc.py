@@ -171,12 +171,17 @@ class AergoRPCServiceStub(object):
         )
     self.GetVotes = channel.unary_unary(
         '/types.AergoRPCService/GetVotes',
-        request_serializer=rpc__pb2.SingleBytes.SerializeToString,
+        request_serializer=rpc__pb2.VoteParams.SerializeToString,
         response_deserializer=rpc__pb2.VoteList.FromString,
+        )
+    self.GetAccountVotes = channel.unary_unary(
+        '/types.AergoRPCService/GetAccountVotes',
+        request_serializer=rpc__pb2.AccountAddress.SerializeToString,
+        response_deserializer=rpc__pb2.AccountVoteInfo.FromString,
         )
     self.GetStaking = channel.unary_unary(
         '/types.AergoRPCService/GetStaking',
-        request_serializer=rpc__pb2.SingleBytes.SerializeToString,
+        request_serializer=rpc__pb2.AccountAddress.SerializeToString,
         response_deserializer=rpc__pb2.Staking.FromString,
         )
     self.GetNameInfo = channel.unary_unary(
@@ -193,6 +198,11 @@ class AergoRPCServiceStub(object):
         '/types.AergoRPCService/ListEvents',
         request_serializer=blockchain__pb2.FilterInfo.SerializeToString,
         response_deserializer=rpc__pb2.EventList.FromString,
+        )
+    self.GetConsensusInfo = channel.unary_unary(
+        '/types.AergoRPCService/GetConsensusInfo',
+        request_serializer=rpc__pb2.Empty.SerializeToString,
+        response_deserializer=rpc__pb2.ConsensusInfo.FromString,
         )
 
 
@@ -413,7 +423,14 @@ class AergoRPCServiceServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetVotes(self, request, context):
-    """Return list of votes
+    """Return result of vote
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetAccountVotes(self, request, context):
+    """Return staking, voting info for account
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -442,6 +459,13 @@ class AergoRPCServiceServicer(object):
 
   def ListEvents(self, request, context):
     """Returns list of event
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetConsensusInfo(self, request, context):
+    """Returns status of consensus and bps
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -602,12 +626,17 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
       ),
       'GetVotes': grpc.unary_unary_rpc_method_handler(
           servicer.GetVotes,
-          request_deserializer=rpc__pb2.SingleBytes.FromString,
+          request_deserializer=rpc__pb2.VoteParams.FromString,
           response_serializer=rpc__pb2.VoteList.SerializeToString,
+      ),
+      'GetAccountVotes': grpc.unary_unary_rpc_method_handler(
+          servicer.GetAccountVotes,
+          request_deserializer=rpc__pb2.AccountAddress.FromString,
+          response_serializer=rpc__pb2.AccountVoteInfo.SerializeToString,
       ),
       'GetStaking': grpc.unary_unary_rpc_method_handler(
           servicer.GetStaking,
-          request_deserializer=rpc__pb2.SingleBytes.FromString,
+          request_deserializer=rpc__pb2.AccountAddress.FromString,
           response_serializer=rpc__pb2.Staking.SerializeToString,
       ),
       'GetNameInfo': grpc.unary_unary_rpc_method_handler(
@@ -624,6 +653,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.ListEvents,
           request_deserializer=blockchain__pb2.FilterInfo.FromString,
           response_serializer=rpc__pb2.EventList.SerializeToString,
+      ),
+      'GetConsensusInfo': grpc.unary_unary_rpc_method_handler(
+          servicer.GetConsensusInfo,
+          request_deserializer=rpc__pb2.Empty.FromString,
+          response_serializer=rpc__pb2.ConsensusInfo.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
