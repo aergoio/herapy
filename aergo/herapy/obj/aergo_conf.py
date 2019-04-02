@@ -10,9 +10,9 @@ AERGO_CONF_KEYS = {
     "rpc": ["netserviceaddr", "netserviceport", "netservicetrace", "nstls", "nscert", "nskey", "nsallowcors", ],
     "p2p": ["netprotocoladdr", "netprotocolport", "npbindaddr", "npbindport", "nptls", "npcert", "npkey", "npaddpeers", "nphiddenpeers", "npdiscoverpeers", "npmaxpeers", "nppeerpool", "npexposeself", "npusepolaris", "npaddpolarises", "logfullpeerid", ],
     "polaris": ["allowprivate", "genesisfile", ],
-    "blockchain": ["maxblocksize", "coinbaseaccount", "maxanchorcount", "verifiercount", "forceresetheight", ],
+    "blockchain": ["maxblocksize", "coinbaseaccount", "maxanchorcount", "verifiercount", "forceresetheight", "zerofee", ],
     "mempool": ["showmetrics", "enablefadeout", "fadeoutperiod", "verifiers", "dumpfilepath", ],
-    "consensus": ["enablebp", "blockinterval", ],
+    "consensus": ["enablebp", "blockinterval", "raft", ],
     "monitor": ["protocol", "endpoint", ],
     "account": ["unlocktimeout", ],
 }
@@ -506,6 +506,16 @@ class AergoConfig:
         self.__conf['blockchain']['forceresetheight'] = v
 
     @property
+    def blockchain_zerofee(self):
+        return bool(self.__conf['blockchain']['zerofee'])
+
+    @blockchain_zerofee.setter
+    def blockchain_zerofee(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['blockchain']['zerofee'] = v
+
+    @property
     def mempool(self):
         return self.__conf['mempool']
 
@@ -582,6 +592,14 @@ class AergoConfig:
         if not isinstance(v, int):
             raise TypeError('input value should be an integer type')
         self.__conf['consensus']['blockinterval'] = v
+
+    @property
+    def consensus_raft(self):
+        return self.__conf['consensus']['raft']
+
+    @consensus_raft.setter
+    def consensus_raft(self, v):
+        self.__conf['consensus']['raft'] = v
 
     @property
     def monitor(self):

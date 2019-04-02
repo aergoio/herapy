@@ -3,6 +3,7 @@
 import sys
 import traceback
 import toml
+import string
 
 MAPSTRUCTURE = "mapstructure:"
 
@@ -89,7 +90,6 @@ def main():
 
     eprint(">> Parsing Go Source file:", go_src_path)
     try:
-
         types_f = open(go_src_path)
         line = types_f.readline()
 
@@ -102,7 +102,8 @@ def main():
                 find_conf_types(types_f, conf_type)
             elif line.startswith('type '):
                 _, child_conf, _ = line.split(None, 2)
-                find_conf_child_types(types_f, conf_type[child_conf])
+                if child_conf in conf_type:
+                    find_conf_child_types(types_f, conf_type[child_conf])
 
             line = types_f.readline()
     except Exception as e:
@@ -287,6 +288,8 @@ class AergoConfig:
                     property_func += "        return " + conf_target + "\n\n"
                     setter_func += "        if not isinstance(v, list):\n"
                     setter_func += "            raise TypeError('input value should be an array type')\n"
+                else:
+                    property_func += "        return " + conf_target + "\n\n"
                 setter_func += "        " + conf_target + " = v\n\n"
 
                 # generate property method
