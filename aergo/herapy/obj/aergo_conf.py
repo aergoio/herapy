@@ -57,6 +57,7 @@ AERGO_DEFAULT_CONF = {
         "coinbaseaccount": "",
         "maxanchorcount": 20,
         "forceresetheight": 0,
+        "fixedtxfee": "0",
     },
     "mempool": {
         "showmetrics": False,

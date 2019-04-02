@@ -57,7 +57,7 @@ maxanchorcount = 20
 # TODO: Check it's necessary for any reason
 #verifiercount = 1 # Golang: int(math.Max(float64(runtime.NumCPU()/2), float64(1)))
 forceresetheight = 0
-fixedtxfee = 0
+fixedtxfee = "0"
 
 [mempool]
 showmetrics = false

@@ -3,7 +3,6 @@
 import sys
 import traceback
 import toml
-import string
 
 MAPSTRUCTURE = "mapstructure:"
 
