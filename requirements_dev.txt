@@ -34,9 +34,9 @@ pycparser==2.19
 pyflakes==2.1.1
 Pygments==2.3.1
 pyparsing==2.3.1
-pytest==4.3.1
+pytest==4.4.0
 pytest-cov==2.6.1
-pytest-mock==1.10.2
+pytest-mock==1.10.3
 pytz==2018.9
 readme-renderer==24.0
 requests==2.21.0
@@ -47,7 +47,7 @@ Sphinx==2.0.0
 sphinx-rtd-theme==0.4.3
 sphinxcontrib-websupport==1.1.0
 toml==0.10.0
-tox==3.8.1
+tox==3.8.4
 tqdm==4.31.1
 twine==1.13.0
 urllib3==1.24.1
