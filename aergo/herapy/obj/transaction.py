@@ -28,15 +28,16 @@ class Transaction:
         to : byte of base58
         amount : uint
         payload : byte of base64
-        sign : byte of base64
         type : int
+        chain_id : bytes
+        sign : byte of base64
     }
     """
 
     def __init__(self, from_address=None, to_address=None,
                  nonce=0, amount=0, payload=None, fee_price=0, fee_limit=0,
                  read_only=False, tx_hash=None, tx_sign=None, tx_type=TxType.NORMAL,
-                 block=None, index_in_block=-1, is_in_mempool=False):
+                 chain_id=None, block=None, index_in_block=-1, is_in_mempool=False):
         self.__from_address = from_address
         self.__to_address = to_address
         self.__nonce = nonce
@@ -56,6 +57,8 @@ class Transaction:
         if isinstance(tx_sign, str):
             tx_sign = decode_signature(tx_sign)
         self.__sign = tx_sign
+
+        self.__chain_id = chain_id
 
         self.__is_in_mempool = is_in_mempool
         if is_in_mempool:
@@ -92,6 +95,8 @@ class Transaction:
         # type
         b = self.__tx_type.value.to_bytes(4, byteorder='little')
         m.update(b)
+        # chainIdHash
+        m.update(self.__chain_id)
         # sign
         if including_sign and self.__sign is not None:
             m.update(self.__sign)
@@ -203,6 +208,17 @@ class Transaction:
             return
 
         self.__tx_type = TxType(v)
+
+    @property
+    def chain_id(self):
+        return self.__chain_id
+
+    @chain_id.setter
+    def chain_id(self, v):
+        if self.__read_only:
+            return
+
+        self.__chain_id = v
 
     @property
     def sign(self):

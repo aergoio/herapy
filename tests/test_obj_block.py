@@ -54,8 +54,8 @@ def test_grpc_block():
     tx1.body.recipient = b'daniel'
     tx1.body.amount = bigint_to_bytes(1)
     tx1.body.payload = b'tx1_payload'
-    tx1.body.limit = 1
-    tx1.body.price = bigint_to_bytes(1)
+    tx1.body.gasLimit = 1
+    tx1.body.gasPrice = bigint_to_bytes(1)
     tx1.body.type = blockchain_pb2.GOVERNANCE
     tx1.body.sign = b'tx1_sign'
     tx2 = blockchain_pb2.Tx()
@@ -65,8 +65,8 @@ def test_grpc_block():
     tx2.body.recipient = b'hannah'
     tx2.body.amount = bigint_to_bytes(2)
     #tx2.body.payload = b'tx2_payload'
-    tx2.body.limit = 2
-    tx2.body.price = bigint_to_bytes(2)
+    tx2.body.gasLimit = 2
+    tx2.body.gasPrice = bigint_to_bytes(2)
     tx2.body.type = blockchain_pb2.NORMAL
     tx2.body.sign = b'tx2_sign'
     grpc_block.body.txs.extend([tx1, tx2,])

@@ -86,6 +86,7 @@ def run():
                                 nonce=sender_account.nonce + 1,
                                 amount=10)
         tx.to_address = herapy.utils.decode_address(receiver_address)
+        tx.chain_id = aergo.chain_id
         print("  > unsigned TX Hash: {}".format(tx.tx_hash))
         print("  > unsigned TX : {}".format(herapy.utils.convert_tx_to_formatted_json(tx)))
 

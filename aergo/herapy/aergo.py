@@ -125,6 +125,11 @@ class Aergo:
             self.__comm.connect()
         except Exception as e:
             raise CommunicationException(e) from e
+        try:
+            status = self.__comm.get_blockchain_status()
+        except Exception as e:
+            raise CommunicationException(e) from e
+        self.chain_id = status.best_chain_id_hash
 
     def disconnect(self):
         """
@@ -288,10 +293,11 @@ class Aergo:
                          to_address=to_address,
                          amount=result_tx.body.amount,
                          payload=result_tx.body.payload,
-                         fee_price=result_tx.body.price,
-                         fee_limit=result_tx.body.limit,
+                         fee_price=result_tx.body.gasPrice,
+                         fee_limit=result_tx.body.gasLimit,
                          tx_sign=result_tx.body.sign,
                          tx_type=result_tx.body.type,
+                         chain_id=result_tx.body.chainIdHash,
                          block=result_tx_block, index_in_block=result_tx_index,
                          is_in_mempool=result_tx_is_in_mempool)
 
@@ -338,7 +344,7 @@ class Aergo:
                                      to_address=to_address,
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
-                                     payload=payload)
+                                     payload=payload, chain_id=self.chain_id)
         tx.sign = self.__account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         return tx
 

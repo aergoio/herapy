@@ -45,9 +45,10 @@ def convert_tx_to_grpc_tx(tx):
         grpc_tx.body.amount = bytes(tx.amount)
     if tx.payload is not None:
         grpc_tx.body.payload = tx.payload
-    grpc_tx.body.limit = tx.fee_limit
-    grpc_tx.body.price = bytes(tx.fee_price)
+    grpc_tx.body.gasLimit = tx.fee_limit
+    grpc_tx.body.gasPrice = bytes(tx.fee_price)
     grpc_tx.body.type = tx.tx_type.value
+    grpc_tx.body.chainIdHash = tx.chain_id
     if tx.sign is not None:
         grpc_tx.body.sign = tx.sign
     return grpc_tx
