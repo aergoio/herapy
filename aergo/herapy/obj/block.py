@@ -6,6 +6,7 @@ from .address import Address
 from .block_hash import BlockHash
 from .transaction import Transaction
 from ..utils.encoding import encode_b58
+from ..utils.converter import get_hash
 
 
 class Block:
@@ -79,6 +80,18 @@ class Block:
         return self.__chain_id
 
     @property
+    def chain_id_hash(self):
+        if self.__chain_id is None:
+            return None
+        return get_hash(self.__chain_id, no_rand=True, no_encode=True)
+
+    @property
+    def chain_id_hash_b58(self):
+        if self.__chain_id is None:
+            return None
+        return get_hash(self.__chain_id, no_rand=True, no_encode=False)
+
+    @property
     def height(self):
         return self.__height
 
@@ -133,7 +146,7 @@ class Block:
         body_json = {
             "Hash": str(self.hash),
             "Header": {
-                "ChainID": encode_b58(self.chain_id),
+                "ChainID": self.chain_id_hash_b58,
                 "PreviousBlockHash": str(self.prev.hash) if self.prev is not None else None,
                 "BlockNo": self.block_no,
                 "Timestamp": self.timestamp,

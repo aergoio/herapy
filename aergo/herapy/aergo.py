@@ -13,6 +13,7 @@ from .obj import address as addr
 from .obj import block_hash as bh
 from .obj import peer as pr
 from .obj import tx_hash as th
+from .obj.blockchain_status import BlockchainStatus
 from .obj.call_info import CallInfo
 from .obj.transaction import Transaction
 from .obj.tx_hash import TxHash
@@ -141,9 +142,9 @@ class Aergo:
             except Exception as e:
                 raise CommunicationException(e) from e
 
-    def get_blockchain_status(self):
+    def get_status(self):
         """
-        Returns the highest block hash and block height so far.
+        Returns the blockchain status
         :return:
         """
         if self.__comm is None:
@@ -154,7 +155,15 @@ class Aergo:
         except Exception as e:
             raise CommunicationException(e) from e
 
-        return bh.BlockHash(status.best_block_hash), status.best_height
+        return BlockchainStatus(status)
+
+    def get_blockchain_status(self):
+        """
+        Returns the highest block hash and block height so far.
+        :return:
+        """
+        status = self.get_status()
+        return status.best_block_hash, status.best_block_height
 
     def get_block(self, block_hash=None, block_height=-1):
         """

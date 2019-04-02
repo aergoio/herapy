@@ -3,8 +3,9 @@ import traceback
 import json
 
 import aergo.herapy as herapy
+
 from aergo.herapy.utils.converter import convert_bytes_to_hex_str, \
-                                         convert_bytes_to_int_str
+                                         convert_bytes_to_int_str, get_hash
 
 
 def eprint(*args, **kwargs):
@@ -17,9 +18,22 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        aergo.connect('localhost:7845')
+        #aergo.connect('localhost:7845')
+        aergo.connect('ec2-35-178-173-137.eu-west-2.compute.amazonaws.com:7845')
 
         print("------ Get Blockchain Status -----------")
+        blockchain_status = aergo.get_status()
+        print("Best Block Hash      = {}".format(str(blockchain_status.best_block_hash)))
+        print("Best Block Height    = {}".format(blockchain_status.best_block_height))
+        print("Best Chain ID Hash         = {}".format(blockchain_status.best_chain_id_hash))
+        print("base58(Best Chain ID Hash) = {}".format(blockchain_status.best_chain_id_hash_b58))
+        consensus_info = blockchain_status.consensus_info
+        print("Consensus Info       = {}".format(consensus_info))
+        print("Consensus Info: type     = {}".format(consensus_info.type))
+        print("Consensus Info: status   = {}".format(consensus_info.status))
+        print("Consensus Info: LIB hash = {}".format(consensus_info.lib_hash))
+        print("Consensus Info: LIB no   = {}".format(consensus_info.lib_no))
+
         best_block_hash, best_block_height = aergo.get_blockchain_status()
         print("Best Block Hash      = {}".format(best_block_hash))
         print("str(Best Block Hash)     = {}".format(str(best_block_hash)))
@@ -32,7 +46,8 @@ def run():
 
         print("------ Get Block Status -----------")
         block = aergo.get_block(best_block_hash)
-        print(json.dumps(block.json(), indent=2))
+        print("Block Chain ID Hash         = ", block.chain_id_hash)
+        print("base58(Block Chain ID Hash) = ", block.chain_id_hash_b58)
         print("Block Hash = ", block.hash)
         print("  Height = ", block.height)
         print("  Timestamp = ", block.timestamp)
@@ -43,6 +58,7 @@ def run():
         print("  Sign = ", block.sign)
         print("  previous block hash =\n{}".format(block.prev))
         print("  Txs = ", block.tx_list)
+        print(json.dumps(block.json(), indent=2))
 
         block = aergo.get_block(block_height=best_block_height)
         print(block)

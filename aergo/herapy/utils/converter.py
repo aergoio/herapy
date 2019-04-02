@@ -7,11 +7,14 @@ import json
 import toml
 import socket
 import ecdsa
+import time
+
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
 from ..constants import *
+from .encoding import encode_b58
 
 
 def convert_toml_to_aergo_conf(v):
@@ -233,3 +236,18 @@ def decrypt_bytes(encrypted_bytes, password):
                                data=encrypted_bytes,
                                associated_data=b'')
     return dec_value
+
+
+def get_hash(*strings, no_rand=False, no_encode=False):
+    m = hashlib.sha256()
+    if not no_rand:
+        m.update(int(time.time()).to_bytes(8, 'little'))
+    for string in strings:
+        if isinstance(string, str):
+            string = string.encode('utf-8')
+        m.update(string)
+
+    if no_encode:
+        return m.digest()
+
+    return encode_b58(m.digest())

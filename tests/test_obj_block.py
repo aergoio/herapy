@@ -9,7 +9,7 @@ from aergo.herapy.obj.transaction import TxType
 from aergo.herapy.utils.encoding import encode_block_hash, decode_block_hash,\
     encode_tx_hash, decode_tx_hash, encode_payload, decode_payload,\
     encode_b58, decode_b58
-from aergo.herapy.utils.converter import bigint_to_bytes
+from aergo.herapy.utils.converter import bigint_to_bytes, get_hash
 from aergo.herapy.grpc import blockchain_pb2
 
 
@@ -94,7 +94,7 @@ def test_grpc_block():
     assert 'Hash' in block_json
     assert block_json['Hash'] == encode_block_hash(b'block_hash')
     assert 'Header' in block_json
-    assert block_json['Header']['ChainID'] == encode_b58(b'chain_id')
+    assert block_json['Header']['ChainID'] == get_hash(b'chain_id', no_rand=True, no_encode=False)
     assert block_json['Header']['PreviousBlockHash'] == encode_block_hash(b'prev_block_hash')
     assert block_json['Header']['BlocksRootHash'] == encode_b58(b'blocks_root_hash')
     assert block_json['Header']['TxsRootHash'] == encode_b58(b'txs_root_hash')
