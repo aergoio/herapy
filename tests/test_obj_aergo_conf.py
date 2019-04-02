@@ -43,6 +43,7 @@ maxblocksize = 1048576
 coinbaseaccount = ""
 maxanchorcount = 20
 forceresetheight = 0
+fixedtxfee = "0"
 
 [mempool]
 showmetrics = false
