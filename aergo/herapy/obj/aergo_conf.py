@@ -10,7 +10,7 @@ AERGO_CONF_KEYS = {
     "rpc": ["netserviceaddr", "netserviceport", "netservicetrace", "nstls", "nscert", "nskey", "nsallowcors", ],
     "p2p": ["netprotocoladdr", "netprotocolport", "npbindaddr", "npbindport", "nptls", "npcert", "npkey", "npaddpeers", "nphiddenpeers", "npdiscoverpeers", "npmaxpeers", "nppeerpool", "npexposeself", "npusepolaris", "npaddpolarises", "logfullpeerid", ],
     "polaris": ["allowprivate", "genesisfile", ],
-    "blockchain": ["maxblocksize", "coinbaseaccount", "maxanchorcount", "verifiercount", "forceresetheight", "zerofee", ],
+    "blockchain": ["maxblocksize", "coinbaseaccount", "maxanchorcount", "verifiercount", "forceresetheight", "fixedtxfee", ],
     "mempool": ["showmetrics", "enablefadeout", "fadeoutperiod", "verifiers", "dumpfilepath", ],
     "consensus": ["enablebp", "blockinterval", "raft", ],
     "monitor": ["protocol", "endpoint", ],
@@ -506,14 +506,14 @@ class AergoConfig:
         self.__conf['blockchain']['forceresetheight'] = v
 
     @property
-    def blockchain_zerofee(self):
-        return bool(self.__conf['blockchain']['zerofee'])
+    def blockchain_fixedtxfee(self):
+        return str(self.__conf['blockchain']['fixedtxfee'])
 
-    @blockchain_zerofee.setter
-    def blockchain_zerofee(self, v):
-        if not isinstance(v, bool):
-            raise TypeError('input value should be a boolean type')
-        self.__conf['blockchain']['zerofee'] = v
+    @blockchain_fixedtxfee.setter
+    def blockchain_fixedtxfee(self, v):
+        if not isinstance(v, str):
+            raise TypeError('input value should be a string type')
+        self.__conf['blockchain']['fixedtxfee'] = v
 
     @property
     def mempool(self):
