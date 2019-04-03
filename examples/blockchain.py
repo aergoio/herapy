@@ -23,6 +23,7 @@ def run():
 
         print("------ Get Blockchain Status -----------")
         blockchain_status = aergo.get_status()
+        print("Blockchain Status: {}".format(str(blockchain_status)))
         print("Best Block Hash      = {}".format(str(blockchain_status.best_block_hash)))
         print("Best Block Height    = {}".format(blockchain_status.best_block_height))
         print("Best Chain ID Hash         = {}".format(blockchain_status.best_chain_id_hash))
