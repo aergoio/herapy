@@ -51,6 +51,9 @@ class ConsensusInfo:
             else:
                 return None
 
+    def json(self):
+        return self._info
+
     def __str__(self):
         return json.dumps(self._info, indent=2)
 

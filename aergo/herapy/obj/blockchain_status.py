@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 from .block_hash import BlockHash
 from .consensus_info import ConsensusInfo
 from ..utils.encoding import encode_b58
@@ -30,3 +32,14 @@ class BlockchainStatus:
     @property
     def consensus_info(self):
         return self._consensus_info
+
+    def json(self):
+        return {
+            "best_block_hash": str(self.best_block_hash),
+            "best_block_height": self.best_block_height,
+            "best_chain_id_hash": self.best_chain_id_hash_b58,
+            "consensus_info": self.consensus_info.json(),
+        }
+
+    def __str__(self):
+        return json.dumps(self.json(), indent=2)
