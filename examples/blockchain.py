@@ -19,7 +19,18 @@ def run():
 
         print("------ Connect AERGO -----------")
         #aergo.connect('localhost:7845')
-        aergo.connect('ec2-35-178-173-137.eu-west-2.compute.amazonaws.com:7845')
+        #aergo.connect('ec2-35-178-173-137.eu-west-2.compute.amazonaws.com:7845')
+        aergo.connect('13.209.254.56:7845')
+
+        print("------ Get Blockchain Info -----------")
+        blockchain_info = aergo.get_chain_info()
+        print("Blockchain Info: {}".format(str(blockchain_info)))
+        blockchain_info = aergo.get_chain_info(with_consensus_info=False)
+        print("Blockchain Info: {}".format(str(blockchain_info)))
+
+        print("------ Get Consensus Info -----------")
+        consensus_info = aergo.get_consensus_info()
+        print("Consensus Info: {}".format(str(consensus_info)))
 
         print("------ Get Blockchain Status -----------")
         blockchain_status = aergo.get_status()

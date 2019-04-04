@@ -13,7 +13,9 @@ from .obj import address as addr
 from .obj import block_hash as bh
 from .obj import peer as pr
 from .obj import tx_hash as th
+from .obj.blockchain_info import BlockchainInfo
 from .obj.blockchain_status import BlockchainStatus
+from .obj.consensus_info import ConsensusInfo
 from .obj.call_info import CallInfo
 from .obj.transaction import Transaction
 from .obj.tx_hash import TxHash
@@ -141,6 +143,40 @@ class Aergo:
                 self.__comm.disconnect()
             except Exception as e:
                 raise CommunicationException(e) from e
+
+    def get_chain_info(self, with_consensus_info=True):
+        """
+        Returns the blockchain status
+        :return:
+        """
+        if self.__comm is None:
+            return None, -1
+
+        try:
+            chain_info = self.__comm.get_chain_info()
+            if with_consensus_info:
+                consensus_info = self.__comm.get_consensus_info()
+            else:
+                consensus_info = None
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return BlockchainInfo(chain_info, consensus_info)
+
+    def get_consensus_info(self):
+        """
+        Returns the blockchain status
+        :return:
+        """
+        if self.__comm is None:
+            return None, -1
+
+        try:
+            info = self.__comm.get_consensus_info()
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return ConsensusInfo(info)
 
     def get_status(self):
         """

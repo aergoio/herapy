@@ -44,6 +44,18 @@ class Comm:
                                                   Compressed=compressed)
         return self.__rpc_stub.GetStateAndProof(account_and_root)
 
+    def get_chain_info(self):
+        if self.__rpc_stub is None:
+            return None
+
+        return self.__rpc_stub.GetChainInfo(rpc_pb2.Empty())
+
+    def get_consensus_info(self):
+        if self.__rpc_stub is None:
+            return None
+
+        return self.__rpc_stub.GetConsensusInfo(rpc_pb2.Empty())
+
     def get_blockchain_status(self):
         if self.__rpc_stub is None:
             return None
