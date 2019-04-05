@@ -10,37 +10,55 @@ from ..utils.converter import get_hash
 
 
 class Block:
-    def __init__(self, hash_value=None, height=None, grpc_block=None):
+    def __init__(self, hash_value=None, height=None, grpc_block=None,
+                 grpc_block_header=None, tx_cnt=0):
         if grpc_block is not None:
             self._map_grpc_block(grpc_block)
-            return
+        elif grpc_block_header is not None:
+            if hash_value is None:
+                raise ValueError("Cannot set without a block hash value")
 
-        if type(hash_value) is not BlockHash:
-            hash_value = BlockHash(hash_value)
+            # block hash
+            if type(hash_value) is not BlockHash:
+                hash_value = BlockHash(hash_value)
+            self.__hash = hash_value
+            # header
+            self._map_grpc_block_header(grpc_block_header)
+            # body
+            self.__tx_list = []
+            self.__tx_cnt = tx_cnt
+        else:
+            if hash_value is None:
+                raise ValueError("Cannot set without a block hash value")
 
-        self.__hash = hash_value
+            # block hash
+            if type(hash_value) is not BlockHash:
+                hash_value = BlockHash(hash_value)
+            self.__hash = hash_value
+            # header
+            self.__chain_id = None
+            self.__prev_block = None
+            self.__height = height
+            self.__timestamp = None
+            self.__blocks_root_hash = None
+            self.__txs_root_hash = None
+            self.__receipts_root_hash = None
+            self.__confirms = None
+            self.__public_key = None
+            self.__sign = None
+            self.__coinbase_account = None
+            # body
+            self.__tx_list = []
+            self.__tx_cnt = tx_cnt
+
+    def _map_grpc_block_header(self, header):
         # header
-        self.__chain_id = None
-        self.__prev_block = None
-        self.__height = height
-        self.__timestamp = None
-        self.__blocks_root_hash = None
-        self.__txs_root_hash = None
-        self.__receipts_root_hash = None
-        self.__confirms = None
-        self.__public_key = None
-        self.__sign = None
-        self.__coinbase_account = None
-        # body
-        self.__tx_list = []
-
-    def _map_grpc_block(self, v):
-        self.__hash = BlockHash(v.hash)
-        # header
-        header = v.header
         self.__chain_id = header.chainID
-        self.__prev_block = Block(hash_value=header.prevBlockHash,
-                                  height=header.blockNo - 1)
+        if header.blockNo > 0:
+            self.__prev_block = Block(hash_value=header.prevBlockHash,
+                                      height=header.blockNo - 1)
+        else:
+            self.__prev_block = None
         self.__height = header.blockNo
         self.__timestamp = header.timestamp
         self.__blocks_root_hash = header.blocksRootHash
@@ -50,6 +68,11 @@ class Block:
         self.__public_key = header.pubKey
         self.__sign = header.sign
         self.__coinbase_account = header.coinbaseAccount
+
+    def _map_grpc_block(self, v):
+        self.__hash = BlockHash(v.hash)
+        # header
+        self._map_grpc_block_header(v.header)
         # body
         self.__tx_list = []
         for i, tx in enumerate(v.body.txs):
@@ -70,6 +93,7 @@ class Block:
                                    block=self, index_in_block=i,
                                    is_in_mempool=False)
             self.__tx_list.append(block_tx)
+        self.__tx_cnt = len(self.__tx_list)
 
     @property
     def hash(self):
@@ -139,6 +163,10 @@ class Block:
     def tx_list(self):
         return self.__tx_list
 
+    @property
+    def num_of_tx(self):
+        return self.__tx_cnt
+
     def get_tx(self, index):
         return self.__tx_list[index]
 
@@ -157,6 +185,7 @@ class Block:
                 "PubKey": encode_b58(self.public_key) if self.public_key is not None else None,
                 "Sign": encode_b58(self.sign),
                 "CoinbaseAccount": encode_b58(self.coinbase_account),
+                "TxCount": self.__tx_cnt
             },
         }
 

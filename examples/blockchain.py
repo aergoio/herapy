@@ -18,9 +18,7 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Connect AERGO -----------")
-        #aergo.connect('localhost:7845')
-        #aergo.connect('ec2-35-178-173-137.eu-west-2.compute.amazonaws.com:7845')
-        aergo.connect('13.209.254.56:7845')
+        aergo.connect('localhost:7845')
 
         print("------ Get Blockchain Info -----------")
         blockchain_info = aergo.get_chain_info()
@@ -55,6 +53,18 @@ def run():
         print("hex(Best Block Hash)     = {}"
               .format(convert_bytes_to_hex_str(bytes(best_block_hash))))
         print("Best Block Height    = {}".format(best_block_height))
+
+        print("------ Get Blockchain Headers-----------")
+        block_headers = aergo.get_block_headers(block_height=best_block_height,
+                                                offset=best_block_height-1)
+        for i, b in enumerate(block_headers):
+            print('[{}] block: {}'.format(i, str(b)))
+
+        print("------ Get Blockchain Headers-----------")
+        block_metas = aergo.get_block_metas(block_height=best_block_height,
+                                            offset=best_block_height-1)
+        for i, b in enumerate(block_metas):
+            print('[{}] block: {}'.format(i, str(b)))
 
         print("------ Get Block Status -----------")
         block = aergo.get_block(best_block_hash)

@@ -56,6 +56,81 @@ class Comm:
 
         return self.__rpc_stub.GetConsensusInfo(rpc_pb2.Empty())
 
+    def receive_event_stream(self, sc_address, event_name, start_block_no,
+                             end_block_no, with_desc, arg_filter,
+                             recent_block_cnt):
+        if self.__rpc_stub is None:
+            return None
+
+        filter = blockchain_pb2.FilterInfo()
+        filter.contractAddress = sc_address
+        filter.eventName = event_name
+        filter.blockfrom = start_block_no
+        filter.blockto = end_block_no
+        filter.desc = with_desc
+        if arg_filter is not None:
+            filter.argFilter = arg_filter
+        filter.recentBlockCnt = recent_block_cnt
+
+        return self.__rpc_stub.ListEventStream(filter)
+
+    def get_events(self, sc_address, event_name, start_block_no,
+                   end_block_no, with_desc, arg_filter, recent_block_cnt):
+        if self.__rpc_stub is None:
+            return None
+
+        filter = blockchain_pb2.FilterInfo()
+        filter.contractAddress = sc_address
+        filter.eventName = event_name
+        if start_block_no > 0:
+            filter.blockfrom = start_block_no
+        if end_block_no > 0:
+            filter.blockto = end_block_no
+        filter.desc = with_desc
+        if arg_filter is not None:
+            filter.argFilter = arg_filter
+        filter.recentBlockCnt = recent_block_cnt
+
+        return self.__rpc_stub.ListEvents(filter)
+
+    def receive_block_meta_stream(self):
+        if self.__rpc_stub is None:
+            return None
+        return self.__rpc_stub.ListBlockMetadataStream(rpc_pb2.Empty())
+
+    def receive_block_stream(self):
+        if self.__rpc_stub is None:
+            return None
+        return self.__rpc_stub.ListBlockStream(rpc_pb2.Empty())
+
+    def get_block_headers(self, block_hash, block_height, list_size, offset,
+                          is_asc_order):
+        if self.__rpc_stub is None:
+            return None
+        params = rpc_pb2.ListParams()
+        if block_hash is not None:
+            params.hash = block_hash
+        if block_height >= 0:
+            params.height = block_height
+        params.size = list_size
+        params.offset = offset
+        params.asc = is_asc_order
+        return self.__rpc_stub.ListBlockHeaders(params)
+
+    def get_block_metas(self, block_hash, block_height, list_size, offset,
+                          is_asc_order):
+        if self.__rpc_stub is None:
+            return None
+        params = rpc_pb2.ListParams()
+        if block_hash is not None:
+            params.hash = block_hash
+        if block_height >= 0:
+            params.height = block_height
+        params.size = list_size
+        params.offset = offset
+        params.asc = is_asc_order
+        return self.__rpc_stub.ListBlockMetadata(params)
+
     def get_blockchain_status(self):
         if self.__rpc_stub is None:
             return None
