@@ -194,8 +194,8 @@ class Block:
             for tx in self.tx_list:
                 tx_list.append(tx.json())
 
-            body_json["Body"] = {
-                "Txs": tx_list,
+            body_json["body"] = {
+                "tx_list": tx_list,
             }
 
         return body_json
