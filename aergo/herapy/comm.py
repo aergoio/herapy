@@ -56,6 +56,17 @@ class Comm:
 
         return self.__rpc_stub.GetConsensusInfo(rpc_pb2.Empty())
 
+    def get_node_info(self, keys):
+        if self.__rpc_stub is None:
+            return None
+
+        # currently not working
+        key_params = rpc_pb2.KeyParams()
+        if keys is not None:
+            key_params.key.extend(keys)
+
+        return self.__rpc_stub.GetServerInfo(key_params)
+
     def receive_event_stream(self, sc_address, event_name, start_block_no,
                              end_block_no, with_desc, arg_filter,
                              recent_block_cnt):

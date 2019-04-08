@@ -20,6 +20,12 @@ def run():
         print("------ Connect AERGO -----------")
         aergo.connect('localhost:7845')
 
+        print("------ Get Node Info -----------")
+        node_state = aergo.get_node_state()
+        print("Node State: {}".format(str(node_state)))
+        node_info = aergo.get_node_info()
+        print("Node Info: {}".format(str(node_info)))
+
         print("------ Get Blockchain Info -----------")
         blockchain_info = aergo.get_chain_info()
         print("Blockchain Info: {}".format(str(blockchain_info)))
@@ -54,17 +60,17 @@ def run():
               .format(convert_bytes_to_hex_str(bytes(best_block_hash))))
         print("Best Block Height    = {}".format(best_block_height))
 
-        print("------ Get Blockchain Headers-----------")
+        print("------ Get Blockchain Headers -----------")
         block_headers = aergo.get_block_headers(block_height=best_block_height,
                                                 offset=best_block_height-1)
         for i, b in enumerate(block_headers):
             print('[{}] block: {}'.format(i, str(b)))
 
-        print("------ Get Blockchain Headers-----------")
+        print("------ Get Blockchain metas -----------")
         block_metas = aergo.get_block_metas(block_height=best_block_height,
                                             offset=best_block_height-1)
         for i, b in enumerate(block_metas):
-            print('[{}] block: {}'.format(i, str(b)))
+            print('[{}] block: {}'.format(i, json.dumps(b.json(header_only=True), indent=2)))
 
         print("------ Get Block Status -----------")
         block = aergo.get_block(best_block_hash)

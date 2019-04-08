@@ -172,20 +172,20 @@ class Block:
 
     def json(self, header_only=False):
         body_json = {
-            "Hash": str(self.hash),
-            "Header": {
-                "ChainID": self.chain_id_hash_b58,
-                "PreviousBlockHash": str(self.prev.hash) if self.prev is not None else None,
-                "BlockNo": self.block_no,
-                "Timestamp": self.timestamp,
-                "BlocksRootHash": encode_b58(self.blocks_root_hash),
-                "TxsRootHash": encode_b58(self.txs_root_hash),
-                "ReceiptsRootHash": encode_b58(self.receipts_root_hash),
-                "Confirms": self.confirms,
-                "PubKey": encode_b58(self.public_key) if self.public_key is not None else None,
-                "Sign": encode_b58(self.sign),
-                "CoinbaseAccount": encode_b58(self.coinbase_account),
-                "TxCount": self.__tx_cnt
+            "hash": str(self.hash),
+            "header": {
+                "chain_id": self.chain_id_hash_b58,
+                "previous_block_hash": str(self.prev.hash) if self.prev is not None else None,
+                "block_no": self.block_no,
+                "timestamp": self.timestamp,
+                "blocks_root_hash": encode_b58(self.blocks_root_hash),
+                "txs_root_hash": encode_b58(self.txs_root_hash),
+                "receipts_root_hash": encode_b58(self.receipts_root_hash),
+                "confirms": self.confirms,
+                "pub_key": encode_b58(self.public_key) if self.public_key is not None else None,
+                "sign": encode_b58(self.sign),
+                "coinbase_account": encode_b58(self.coinbase_account),
+                "tx_count": self.__tx_cnt
             },
         }
 

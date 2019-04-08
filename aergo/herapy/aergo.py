@@ -19,6 +19,7 @@ from .obj.consensus_info import ConsensusInfo
 from .obj.call_info import CallInfo
 from .obj.event import Event
 from .obj.event_stream import EventStream
+from .obj.node_info import NodeInfo
 from .obj.transaction import Transaction
 from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
@@ -435,6 +436,21 @@ class Aergo:
             peers.append(peer)
 
         return peers
+
+    def get_node_info(self, keys=None):
+        """
+        Returns the consensus information
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            info = self.__comm.get_node_info(keys)
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return NodeInfo(info)
 
     def get_node_state(self, timeout=1):
         """
