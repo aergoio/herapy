@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import datetime
 
 from .address import Address
 from .block_hash import BlockHash
@@ -132,6 +133,13 @@ class Block:
         return self.__timestamp
 
     @property
+    def datetimestamp(self):
+        if self.__timestamp is None:
+            return None
+
+        return str(datetime.datetime.fromtimestamp(self.timestamp // 1000000000))
+
+    @property
     def blocks_root_hash(self):
         return self.__blocks_root_hash
 
@@ -178,6 +186,7 @@ class Block:
                 "previous_block_hash": str(self.prev.hash) if self.prev is not None else None,
                 "block_no": self.block_no,
                 "timestamp": self.timestamp,
+                "datetimestamp": self.datetimestamp,
                 "blocks_root_hash": encode_b58(self.blocks_root_hash),
                 "txs_root_hash": encode_b58(self.txs_root_hash),
                 "receipts_root_hash": encode_b58(self.receipts_root_hash),
