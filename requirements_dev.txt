@@ -16,7 +16,7 @@ ecdsa==0.13
 filelock==3.0.10
 flake8==3.7.7
 googleapis-common-protos==1.5.9
-grpcio==1.19.0
+grpcio==1.20.0
 grpcio-tools==1.19.0
 idna==2.8
 imagesize==1.1.0
