@@ -12,7 +12,7 @@ codecov==2.0.15
 coverage==4.5.3
 cryptography==2.6.1
 docutils==0.14
-ecdsa==0.13
+ecdsa==0.13.1
 filelock==3.0.10
 flake8==3.7.7
 googleapis-common-protos==1.5.9
