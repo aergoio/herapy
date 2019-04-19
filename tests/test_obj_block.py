@@ -87,28 +87,28 @@ def test_grpc_block():
     assert block.sign == b'block_sign'
     assert len(block.tx_list) == 2
     block_json = block.json(header_only=True)
-    assert 'Body' not in block_json
+    assert 'body' not in block_json
     block_json = block.json(header_only=False)
-    assert 'Body' in block_json
-    assert 'Txs' in block_json['Body']
-    assert 'Hash' in block_json
-    assert block_json['Hash'] == encode_block_hash(b'block_hash')
-    assert 'Header' in block_json
-    assert block_json['Header']['ChainID'] == get_hash(b'chain_id', no_rand=True, no_encode=False)
-    assert block_json['Header']['PreviousBlockHash'] == encode_block_hash(b'prev_block_hash')
-    assert block_json['Header']['BlocksRootHash'] == encode_b58(b'blocks_root_hash')
-    assert block_json['Header']['TxsRootHash'] == encode_b58(b'txs_root_hash')
-    assert block_json['Header']['ReceiptsRootHash'] == encode_b58(b'receipts_root_hash')
-    assert block_json['Header']['BlockNo'] == 123
-    assert block_json['Header']['Timestamp'] == 12345
-    assert block_json['Header']['Confirms'] == 10
-    assert block_json['Header']['PubKey'] == encode_b58(b'pub_key')
-    assert block_json['Header']['Sign'] == encode_b58(b'block_sign')
-    assert block_json['Header']['CoinbaseAccount'] == encode_b58(b'coinbase_account')
+    assert 'body' in block_json
+    assert 'tx_list' in block_json['body']
+    assert 'hash' in block_json
+    assert block_json['hash'] == encode_block_hash(b'block_hash')
+    assert 'header' in block_json
+    assert block_json['header']['chain_id'] == get_hash(b'chain_id', no_rand=True, no_encode=False)
+    assert block_json['header']['previous_block_hash'] == encode_block_hash(b'prev_block_hash')
+    assert block_json['header']['blocks_root_hash'] == encode_b58(b'blocks_root_hash')
+    assert block_json['header']['txs_root_hash'] == encode_b58(b'txs_root_hash')
+    assert block_json['header']['receipts_root_hash'] == encode_b58(b'receipts_root_hash')
+    assert block_json['header']['block_no'] == 123
+    assert block_json['header']['timestamp'] == 12345
+    assert block_json['header']['confirms'] == 10
+    assert block_json['header']['pub_key'] == encode_b58(b'pub_key')
+    assert block_json['header']['sign'] == encode_b58(b'block_sign')
+    assert block_json['header']['coinbase_account'] == encode_b58(b'coinbase_account')
     block_str = str(block)
-    assert 'Hash' in block_str
-    assert 'Header' in block_str
-    assert 'Body' in block_str
+    assert 'hash' in block_str
+    assert 'header' in block_str
+    assert 'body' in block_str
 
     # check tx1
     block_tx1 = block.get_tx(0)

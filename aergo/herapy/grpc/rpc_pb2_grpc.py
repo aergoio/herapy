@@ -199,6 +199,11 @@ class AergoRPCServiceStub(object):
         request_serializer=blockchain__pb2.FilterInfo.SerializeToString,
         response_deserializer=rpc__pb2.EventList.FromString,
         )
+    self.GetServerInfo = channel.unary_unary(
+        '/types.AergoRPCService/GetServerInfo',
+        request_serializer=rpc__pb2.KeyParams.SerializeToString,
+        response_deserializer=rpc__pb2.ServerInfo.FromString,
+        )
     self.GetConsensusInfo = channel.unary_unary(
         '/types.AergoRPCService/GetConsensusInfo',
         request_serializer=rpc__pb2.Empty.SerializeToString,
@@ -464,6 +469,13 @@ class AergoRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetServerInfo(self, request, context):
+    """Returns configs and statuses of server
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetConsensusInfo(self, request, context):
     """Returns status of consensus and bps
     """
@@ -653,6 +665,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.ListEvents,
           request_deserializer=blockchain__pb2.FilterInfo.FromString,
           response_serializer=rpc__pb2.EventList.SerializeToString,
+      ),
+      'GetServerInfo': grpc.unary_unary_rpc_method_handler(
+          servicer.GetServerInfo,
+          request_deserializer=rpc__pb2.KeyParams.FromString,
+          response_serializer=rpc__pb2.ServerInfo.SerializeToString,
       ),
       'GetConsensusInfo': grpc.unary_unary_rpc_method_handler(
           servicer.GetConsensusInfo,
