@@ -71,3 +71,16 @@ def test_sign():
         pk.verify_sign(msg_bytes, b'\x30\x04\x02\x00\x00\x00')
     with pytest.raises(ValueError):
         pk.verify_sign(msg_bytes, b'\x30\x04\x02\x00\x02\x00')
+
+
+def test_asym_sec_msg():
+    msg = "asymmetric encrypt/decrypt test"
+
+    pk1 = PrivateKey(None)
+    pk2 = PrivateKey(None)
+
+    enc_msg = pk1.asymmetric_encrypt_msg(pk2.address, msg)
+    dec_msg = pk2.asymmetric_decrypt_msg(pk1.address, enc_msg)
+    dec_msg = str(dec_msg, encoding='utf-8')
+
+    assert msg == dec_msg
