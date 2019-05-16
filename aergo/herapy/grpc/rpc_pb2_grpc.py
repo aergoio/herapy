@@ -4,6 +4,7 @@ import grpc
 from . import account_pb2 as account__pb2
 from . import blockchain_pb2 as blockchain__pb2
 from . import metric_pb2 as metric__pb2
+from . import raft_pb2 as raft__pb2
 from . import rpc_pb2 as rpc__pb2
 
 
@@ -38,6 +39,11 @@ class AergoRPCServiceStub(object):
         '/types.AergoRPCService/GetChainInfo',
         request_serializer=rpc__pb2.Empty.SerializeToString,
         response_deserializer=rpc__pb2.ChainInfo.FromString,
+        )
+    self.ChainStat = channel.unary_unary(
+        '/types.AergoRPCService/ChainStat',
+        request_serializer=rpc__pb2.Empty.SerializeToString,
+        response_deserializer=rpc__pb2.ChainStats.FromString,
         )
     self.ListBlockHeaders = channel.unary_unary(
         '/types.AergoRPCService/ListBlockHeaders',
@@ -209,6 +215,11 @@ class AergoRPCServiceStub(object):
         request_serializer=rpc__pb2.Empty.SerializeToString,
         response_deserializer=rpc__pb2.ConsensusInfo.FromString,
         )
+    self.ChangeMembership = channel.unary_unary(
+        '/types.AergoRPCService/ChangeMembership',
+        request_serializer=raft__pb2.MembershipChange.SerializeToString,
+        response_deserializer=raft__pb2.MembershipChangeReply.FromString,
+        )
 
 
 class AergoRPCServiceServicer(object):
@@ -240,6 +251,13 @@ class AergoRPCServiceServicer(object):
 
   def GetChainInfo(self, request, context):
     """Returns current blockchain's basic information
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def ChainStat(self, request, context):
+    """Returns current chain statistics
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -483,6 +501,13 @@ class AergoRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def ChangeMembership(self, request, context):
+    """Add & remove member of raft cluster
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_AergoRPCServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -505,6 +530,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.GetChainInfo,
           request_deserializer=rpc__pb2.Empty.FromString,
           response_serializer=rpc__pb2.ChainInfo.SerializeToString,
+      ),
+      'ChainStat': grpc.unary_unary_rpc_method_handler(
+          servicer.ChainStat,
+          request_deserializer=rpc__pb2.Empty.FromString,
+          response_serializer=rpc__pb2.ChainStats.SerializeToString,
       ),
       'ListBlockHeaders': grpc.unary_unary_rpc_method_handler(
           servicer.ListBlockHeaders,
@@ -675,6 +705,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.GetConsensusInfo,
           request_deserializer=rpc__pb2.Empty.FromString,
           response_serializer=rpc__pb2.ConsensusInfo.SerializeToString,
+      ),
+      'ChangeMembership': grpc.unary_unary_rpc_method_handler(
+          servicer.ChangeMembership,
+          request_deserializer=raft__pb2.MembershipChange.FromString,
+          response_serializer=raft__pb2.MembershipChangeReply.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
