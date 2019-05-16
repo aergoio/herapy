@@ -126,11 +126,26 @@ ex: ## run all examples in the examples directory
 	@echo "==================================" >> make.ex.out
 	@echo "Run ... 'examples/blockchain.py'"
 	@python ./examples/blockchain.py >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Result of 'examples/blockchain_stream.py'" >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Run ... 'examples/blockchain_stream.py'"
+	@python ./examples/blockchain_stream.py >> make.ex.out
 	@echo "=====================================" >> make.ex.out
 	@echo "Result of 'examples/smartcontract.py'" >> make.ex.out
 	@echo "=====================================" >> make.ex.out
 	@echo "Run ... 'examples/smartcontract.py'"
 	@python ./examples/smartcontract.py >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract_event.py'" >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract_event.py'"
+	@python ./examples/smartcontract_event.py >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Result of 'examples/smartcontract_event_stream.py'" >> make.ex.out
+	@echo "=========================================" >> make.ex.out
+	@echo "Run ... 'examples/smartcontract_event_stream.py'"
+	@python ./examples/smartcontract_event_stream.py >> make.ex.out
 	@echo "================================================" >> make.ex.out
 	@echo "Result of 'examples/smartcontract_batch_call.py'" >> make.ex.out
 	@echo "================================================" >> make.ex.out
@@ -150,5 +165,5 @@ ex: ## run all examples in the examples directory
 	@echo "Result of 'examples/transaction_batch.py'" >> make.ex.out
 	@echo "=========================================" >> make.ex.out
 	@echo "Run ... 'examples/transaction_batch.py'"
-	@python ./examples/transaction.py >> make.ex.out
+	@python ./examples/transaction_batch.py >> make.ex.out
 	@echo "See 'make.ex.out' to check the results"

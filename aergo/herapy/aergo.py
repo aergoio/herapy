@@ -7,19 +7,25 @@ import json
 from . import account as acc
 from . import comm
 
-from .obj import block
 from .obj import transaction
 from .obj import address as addr
 from .obj import block_hash as bh
 from .obj import peer as pr
 from .obj import tx_hash as th
+from .obj.block import Block
+from .obj.blockchain_info import BlockchainInfo
 from .obj.blockchain_status import BlockchainStatus
+from .obj.consensus_info import ConsensusInfo
 from .obj.call_info import CallInfo
+from .obj.event import Event
+from .obj.event_stream import EventStream
+from .obj.node_info import NodeInfo
 from .obj.transaction import Transaction
 from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
 from .obj.sc_state import SCState, SCStateVar
 from .obj.var_proof import VarProofs
+from .obj.block_stream import BlockStream
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
@@ -142,13 +148,47 @@ class Aergo:
             except Exception as e:
                 raise CommunicationException(e) from e
 
+    def get_chain_info(self, with_consensus_info=True):
+        """
+        Returns the blockchain info
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            chain_info = self.__comm.get_chain_info()
+            if with_consensus_info:
+                consensus_info = self.__comm.get_consensus_info()
+            else:
+                consensus_info = None
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return BlockchainInfo(chain_info, consensus_info)
+
+    def get_consensus_info(self):
+        """
+        Returns the consensus information
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            info = self.__comm.get_consensus_info()
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return ConsensusInfo(info)
+
     def get_status(self):
         """
         Returns the blockchain status
         :return:
         """
         if self.__comm is None:
-            return None, -1
+            return None
 
         try:
             status = self.__comm.get_blockchain_status()
@@ -156,6 +196,173 @@ class Aergo:
             raise CommunicationException(e) from e
 
         return BlockchainStatus(status)
+
+    def receive_block_meta_stream(self):
+        """
+        Returns the iterable block stream
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            stream = self.__comm.receive_block_meta_stream()
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return BlockStream(stream)
+
+    def receive_block_stream(self):
+        """
+        Returns the iterable block stream
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            stream = self.__comm.receive_block_stream()
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return BlockStream(stream)
+
+    def get_block_metas(self, block_hash=None, block_height=-1, list_size=20,
+                        offset=0, is_asc_order=False):
+        """
+        Returns the list of blocks.
+        :param block_hash:
+        :param block_height:
+        :param list_size: maximum number of results
+        :param offset: the start point to search until the block_hash or block_height
+        :param is_asc_order:
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        if block_hash is None and block_height < 0:
+            raise ValueError("Please insert a block hash or height")
+
+        try:
+            bms = self.__comm.get_block_metas(block_hash=block_hash,
+                                              block_height=block_height,
+                                              list_size=list_size,
+                                              offset=offset,
+                                              is_asc_order=is_asc_order)
+            block_headers = []
+            for bm in bms.blocks:
+                block_headers.append(Block(hash_value=bm.hash,
+                                           grpc_block_header=bm.header,
+                                           tx_cnt=bm.txcount))
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return block_headers
+
+    def receive_event_stream(self, sc_address, event_name, start_block_no=0,
+                             end_block_no=0, with_desc=False, arg_filter=None,
+                             recent_block_cnt=0):
+        if self.__comm is None:
+            return None
+
+        if isinstance(sc_address, str):
+            # TODO exception handling: raise ValueError("Invalid checksum")
+            sc_address = decode_address(sc_address)
+        elif isinstance(sc_address, TxHash):
+            sc_address = bytes(sc_address)
+
+        if arg_filter:
+            if isinstance(arg_filter, (dict, list, tuple)):
+                arg_filter = json.dumps(arg_filter)
+            arg_filter = arg_filter.encode('utf-8')
+
+        try:
+            es = self.__comm.receive_event_stream(sc_address=sc_address,
+                                                  event_name=event_name,
+                                                  start_block_no=start_block_no,
+                                                  end_block_no=end_block_no,
+                                                  with_desc=with_desc,
+                                                  arg_filter=arg_filter,
+                                                  recent_block_cnt=recent_block_cnt)
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return EventStream(es)
+
+    def get_events(self, sc_address, event_name, start_block_no=-1,
+                   end_block_no=-1, with_desc=False, arg_filter=None,
+                   recent_block_cnt=0):
+        if self.__comm is None:
+            return None
+
+        if isinstance(sc_address, str):
+            # TODO exception handling: raise ValueError("Invalid checksum")
+            sc_address = decode_address(sc_address)
+        elif isinstance(sc_address, TxHash):
+            sc_address = bytes(sc_address)
+
+        if arg_filter:
+            if isinstance(arg_filter, (dict, list, tuple)):
+                arg_filter = json.dumps(arg_filter)
+            arg_filter = arg_filter.encode('utf-8')
+
+        # max range = 10000
+        if start_block_no < 0 and end_block_no < 0:
+            recent_block_cnt = 10000
+        elif start_block_no < 0:
+            start_block_no = end_block_no - 10000
+            if start_block_no < 0:
+                start_block_no = 0
+        elif end_block_no < 0:
+            end_block_no = start_block_no + 10000
+
+        try:
+            result = self.__comm.get_events(sc_address=sc_address,
+                                            event_name=event_name,
+                                            start_block_no=start_block_no,
+                                            end_block_no=end_block_no,
+                                            with_desc=with_desc,
+                                            arg_filter=arg_filter,
+                                            recent_block_cnt=recent_block_cnt)
+            event_list = []
+            for e in result.events:
+                event_list.append(Event(e))
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return event_list
+
+    def get_block_headers(self, block_hash=None, block_height=-1, list_size=20,
+                          offset=0, is_asc_order=False):
+        """
+        Returns the list of blocks.
+        :param block_hash:
+        :param block_height:
+        :param list_size: maximum number of results
+        :param offset: the start point to search until the block_hash or block_height
+        :param is_asc_order:
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        if block_hash is None and block_height < 0:
+            raise ValueError("Please insert a block hash or height")
+
+        try:
+            bhs = self.__comm.get_block_headers(block_hash=block_hash,
+                                                block_height=block_height,
+                                                list_size=list_size,
+                                                offset=offset,
+                                                is_asc_order=is_asc_order)
+            block_headers = []
+            for b in bhs.blocks:
+                block_headers.append(Block(grpc_block=b))
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return block_headers
 
     def get_blockchain_status(self):
         """
@@ -187,7 +394,7 @@ class Aergo:
         except Exception as e:
             raise CommunicationException(e) from e
 
-        b = block.Block(grpc_block=result)
+        b = Block(grpc_block=result)
         return b
 
     def get_node_accounts(self, skip_state=False):
@@ -229,6 +436,21 @@ class Aergo:
             peers.append(peer)
 
         return peers
+
+    def get_node_info(self, keys=None):
+        """
+        Returns the consensus information
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            info = self.__comm.get_node_info(keys)
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return NodeInfo(info)
 
     def get_node_state(self, timeout=1):
         """
@@ -283,8 +505,8 @@ class Aergo:
 
         if result_tx_block_hash is not None:
             if skip_block:
-                result_tx_block = block.Block(hash_value=result_tx_block_hash,
-                                              height=None)
+                result_tx_block = Block(hash_value=result_tx_block_hash,
+                                        height=None)
             else:
                 result_tx_block = self.get_block(block_hash=result_tx_block_hash)
         else:
@@ -488,7 +710,7 @@ class Aergo:
 
         return tx_result
 
-    def deploy_sc(self, payload, amount=0, args=None):
+    def deploy_sc(self, payload, amount=0, args=None, retry_nonce=0):
         if isinstance(payload, str):
             payload = decode_address(payload)
 
@@ -501,7 +723,8 @@ class Aergo:
         json_args = json.dumps(args, separators=(',', ':'))
         payload_bytes += json_args.encode('utf-8')
 
-        tx, result = self.send_payload(amount=amount, payload=payload_bytes)
+        tx, result = self.send_payload(amount=amount, payload=payload_bytes,
+                                       retry_nonce=retry_nonce)
         return tx, result
 
     def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None, nonce=None):
