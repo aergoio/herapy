@@ -25,6 +25,14 @@ def run():
             a:set("a_" .. name)
             b[1] = "b_" .. name
             c["init"] = "c_" .. name
+            c[string.char(0x01)] = name
+            c[fromhex('61')] = name
+        end
+
+        function fromhex(str)
+            return (str:gsub('..', function (cc)
+                return string.char(tonumber(cc, 16))
+            end))
         end
 
         function set_name(key, name)
@@ -55,7 +63,7 @@ def run():
 
         abi.register(set_name, get_name, say_hello)
     """
-    payload_str = "2Jzi8odjCSuGxVM4TVcUt8S5zKHcoZdqrzQ7vfPvSMhTez6hDzd4ZcpQr18roCbaDBtdsWRBHQV1eGkzegNTPrshcHvXf1sSmP62YCNSvYzBDbhv5qkDjhK3qAE2x1MdUKUtJjMZ1Y9ZXQDFSwjzAkYomv7SnLr4fDfYEGdhULtc3LWsiafswkJXu1c4wiVg4hfQDgXepBR5o7qoSYdN7tKtRLP9X3gkqJX1Y8FauETxzewMWZWhDAJYbEL5PY8C1gtDzf9jG7446xHWEj2AMyu2KN7dnGQzUoFshYFE9CtbzRRGUJqUdx9EPbqC3VvqrqsJDYsn31UeUGfAfgVMxb2uig8cAqSVb8AKM7TVqZfXWcQdcvEgYnDb9ujSpyiazQpxYAtchenDeyU9Mud4yNNNQHW1zsJcZpgPiHdDRbZDwmiiJ4h6bA3fBwCujNqEkTHL5H8RgaFZ65WbthtpKV5FiLfu22YCaL8BP7YLQd2zKDQZdAVgtWndqUyKEJ9tAvcKd2ZoM7KLsusGvFkoCerqhRktVAvyjrsUh9ttSY6bcCX3F8gz7nfzuFGQ9UggNBtBCSMxLfWARugVrifBL8D2kA2BqA9Q67Vk4fTss5iHsVPunaEQaJCBvBWrda2fn6tKoDy5vM27zaN81tmMisR76r9M3SfjGZbWcaFDRqN8SFmnP4t9L9EcVgWaquKkGzchqQY5kvTZSphJkvBa9HoEjc8JQaMxuXj2mzwpzmcRM7EXMJSVRTBKbhekH1zNus7QWeq2G8iLP4jwKjcLT9cRj9MRCj5Tkfs4tMKQrVo72LN3JBTc5rNBGgHRE9uHb39bfNqpzvURPAxP7AREyJhVuzjaNmEbYo5Zw1b73TnKFPYTRa4SpDFajopoRa8KpBU6m6XhRpRNWW6eYWahF9gnYX2qYjeEzz27a7xuSEwW2Bx8LqoQzSVpkJ1qoVYLzWqCDPDzEPS295vnbrABnL6Q3vhaAG4nGqtnkftkWVSakESKRz5YcedQe2Y8t51J2hPS8k3t7VGQoYUxvdMSwyYcKBiRXMjCPxZ7QUKTd42Snwhmcy5s6PMbzdxGJT1EvUL2hJ9wMfVqkFkJoSJ2UXmjJE31J7KBCmpUiicAopDfrYAzgKnRHiTyPRmi3oFJe1KGBg9iuNJKQsEHvykySnuooyZhGoXChSMV4HMVBBr9LHajQE23TEJoQSSGihUHb38wtgpHm4r1APi95npgPcwJnRde7CyHJw8MAd7sUiGq"
+    payload_str = "MyFxtNVdegMvf25CroFLsQs1H8mNXEdTwT7QTHYakg8gx8EJdivi87GJpLu9RUmEB7kECTMhcEeNYNRF7uW1rozSCBJameJZejrs2u39E57zebBCmTvp4331tAeVTQzr5B4PCt6xVd9UtU4kCBiL4Jfi8YJpu9jE3cJ5qpW39yZCoaSNMRWEsoDLePn1tBxnvvKTzP37o7Zges9gLoThS6G7ioH6cFQhSxV9fPBoPfE1b6zMoSi97tyaDDc1XjDJ4YCLLBhaVeN55ZY5ayjajBCoKXGTUp8yiQNkGx3Jy5YwYPZxnvtiYxzpoKZtYz3nA6QRgkC16ecFtGBM8GYzFhYoDQpse24yjQfqwH5SkQh6EHGzUaCzX7AahivvjkyAtdpS5kfbJqquYUoYHoqXXLcLTj5CZ9Wzck6mdq25o8sQmM8DBnQ3DX6QQyyY9agCcRHYkK5Zr52vDmigsXS1qXJfDvBmrUTsvXFMfPE3EZUV5PaYTNubS7AGjReWQpou5FCpkshoAdfoiLLHTa1yCZJdCbjv8gpPWJCeivFbUo6Y2Xp41HreLExnZHHpEeZvEgat8ArA24ardELWWiVeE9ZkW3VE7gReDUJNWStZBrASNje7N8GsHhdvdKSKGJ8LAFkF4MrDSH4hPpjZkK6PJBu2jCuX9VoMUcR3p6RJ6NZFf7JudiWEkkZx7kULbeN31rpAhm3bXgFnU8eiamQk4ddY2Qur6kfzjCTmdu9SUwi71b778LsmxsosqbpoFnbvUhBuZKrjuNA1uJdhSoErDe6RkpkP5bm6asszpNK7zBu5iUyn1VepnbCyG2zWdeK7UQufcLGQh8yFamY2FqKpBkxaXkSFyfSjE41VT2mgGFhkMdz4E5ddmPjSg4RGYw33V1tCq3sRtFRe34zR3HrRsr54yFLLMbS1tyzt6tMREAghhTgXaKt9akigkeunczpntdRcBFzNgGqBx2BHyBXaRPzUWWdouvCBjaUzeZuxKVhodU1uts6tHQJWjk4yvgSmDB1mooTaYTuHAWgCLrjUEMyTNZWkdsgKkxfZtV5Q8rbqJ8FGQvSCucXDjFyCy5XPf5GNxhvdj7qYuewMxMM428qF6cR8MBqCo9LX85iRPCKdSVksAedk1GWehVAzwqGMGgMAE21P1EzCdTf3khhkXNT5xxYHtYVGtFUoWPKqi5Xr1jc6h3yYVPjXuUvYPPCDYQU6mboSSAfr211XFsJS42WRF2xHVFRn3jT76kgqfNxbCfXeWrcRVJfLcwE9FACfXGbp7GdUUZbcYKjCCjJ68W6qznwbZuph9oCiPsM1Y4A4UaesSwoijVUHxwSgZc1uJWjBBzuV1APQGTW7Z6DhfoZKfKhtDabTQhrafoUB9ZCbCqqDdTSGBufYRJ6qsSqTfr15YEyKgzdy5juRrXADF17P3f4XCeerD5N8neUjsUfVa8BWFuQfDWeHskzGWtLQnVs2qfhqM8tUefuMBEp2vG3CgRe247WKDLPPHpPeeern7PWiJgf5JzRt9h3brCcQy5qp39KKznEdrVrS6iNMEBK5qjtPHSqFbdSkkYEbqRp6gdisSPGFS2jraXFi2x"
     payload = herapy.utils.decode_address(payload_str)
 
     try:
@@ -109,16 +117,17 @@ def run():
         root = block.blocks_root_hash
         sc_state = aergo.query_sc_state(sc_address, ["_sv_a"], root=root)
         sc_root = sc_state.account.state_proof.state.storageRoot
-        print("Variable Proof: {}".format(sc_state.var_proofs.verify_var_proof(root=sc_root,
-                                                                               var_proof=sc_state.var_proofs[0])))
+        print("Variable Proof: {}".format(sc_state.var_proofs.verify_var_proof(
+            sc_root, sc_state.var_proofs[0], "_sv_a")))
         print("Variables Proof: {}".format(sc_state.var_proofs.verify_proof(root=sc_root)))
         print("Total Proof: {}".format(sc_state.verify_proof(root)))
 
-        sc_state = aergo.query_sc_state(sc_address, ["_sv_a", "_sv_b-1", "_sv_c-init"], root=root)
+        storage_keys = ["_sv_a", "_sv_b-1", "_sv_c-init", "_sv_c-\x01", "_sv_c-a"]
+        sc_state = aergo.query_sc_state(sc_address, storage_keys, root=root)
         print("Proof: {}".format(sc_state.verify_proof(root)))
         for i, vp in enumerate(sc_state.var_proofs):
-            print("[{0}] Variable Proof: {1}".format(i, sc_state.var_proofs.verify_var_proof(root=sc_root,
-                                                                                             var_proof=vp)))
+            print("[{0}] Variable Proof: {1}".format(i, sc_state.var_proofs.verify_var_proof(
+                sc_root, vp, storage_keys[i])))
             print("  var_proof.key          = {}".format(vp.key))
             print("  var_proof.value        = {}".format(vp.value))
             print("  var_proof.inclusion    = {}".format(vp.inclusion))

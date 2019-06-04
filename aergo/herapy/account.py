@@ -171,7 +171,7 @@ class Account:
         if bytes(self.__address) != self.__state_proof.key:
             return False
 
-        trie_key = hashlib.sha256(self.__state_proof.key).digest()
+        trie_key = hashlib.sha256(bytes(self.address)).digest()
         value = hashlib.sha256(self.__state_proof.state.SerializeToString()).digest()
         ap = self.__state_proof.auditPath
 

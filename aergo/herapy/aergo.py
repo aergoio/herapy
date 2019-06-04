@@ -798,6 +798,6 @@ class Aergo:
         account.state_proof = result.contractProof
         account.address = sc_address
 
-        var_proofs = VarProofs(result.varProofs)
+        var_proofs = VarProofs(result.varProofs, storage_keys)
 
         return SCState(account=account, var_proofs=var_proofs)

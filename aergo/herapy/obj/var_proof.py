@@ -10,8 +10,9 @@ class VarProofs(list):
     """ VarProof holds the inclusion/exclusion proof of a variable state
     inside a contract state trie
     """
-    def __init__(self, var_proofs):
+    def __init__(self, var_proofs, storage_keys):
         self.__var_proofs = var_proofs
+        self.__storage_keys = storage_keys
         list.__init__(self, var_proofs[:])
 
     def __str__(self):
@@ -24,13 +25,14 @@ class VarProofs(list):
     def var_proofs(self):
         return self.__var_proofs
 
-    @var_proofs.setter
-    def var_proofs(self, v):
-        self.__init__(v)
+    @property
+    def storage_keys(self):
+        return self.__storage_keys
 
-    def verify_var_proof(self, root, var_proof):
-        var_id = bytes(var_proof.key, 'utf-8')
-        trie_key = hashlib.sha256(var_id).digest()
+    def verify_var_proof(self, root, var_proof, key):
+        if var_proof.key != key:
+            return False
+        trie_key = hashlib.sha256(bytes(key, 'utf-8')).digest()
         value = hashlib.sha256(var_proof.value).digest()
         ap = var_proof.auditPath
 
@@ -53,11 +55,11 @@ class VarProofs(list):
                                            var_proof.proofVal)
 
     def verify_proof(self, root):
-        """ verify that the given inclusion and exclusion proofs are correct """
+        """verify that the given inclusion and exclusion proofs are correct """
         if self.__var_proofs is None or 0 == self.__len__():
             return False
 
-        for storage_proof in self.__var_proofs:
-            if not self.verify_var_proof(root, storage_proof):
+        for i, storage_proof in enumerate(self.__var_proofs):
+            if not self.verify_var_proof(root, storage_proof, self.storage_keys[i]):
                 return False
         return True
