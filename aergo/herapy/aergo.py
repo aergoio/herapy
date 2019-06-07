@@ -3,6 +3,7 @@
 """Main module."""
 
 import json
+import time
 
 from . import account as acc
 from . import comm
@@ -710,6 +711,23 @@ class Aergo:
 
         return tx_result
 
+    def wait_tx_result(self, tx_hash, timeout=30, tempo=0.2):
+        if self.__comm is None:
+            return None
+        if isinstance(tx_hash, str):
+            tx_hash = decode_tx_hash(tx_hash)
+        elif type(tx_hash) is th.TxHash:
+            tx_hash = bytes(tx_hash)
+
+        for _ in range(int(timeout/tempo)):
+            try:
+                return self.get_tx_result(tx_hash)
+            except CommunicationException as e:
+                if e.error_details is None or e.error_details[:12] != "tx not found":
+                    raise e
+            time.sleep(tempo)
+        return None
+            
     def deploy_sc(self, payload, amount=0, args=None, retry_nonce=0):
         if isinstance(payload, str):
             payload = decode_address(payload)
