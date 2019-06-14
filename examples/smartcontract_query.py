@@ -1,3 +1,4 @@
+import hashlib
 import sys
 import traceback
 import time
@@ -118,7 +119,7 @@ def run():
         sc_state = aergo.query_sc_state(sc_address, ["_sv_a"], root=root)
         sc_root = sc_state.account.state_proof.state.storageRoot
         print("Variable Proof: {}".format(sc_state.var_proofs.verify_var_proof(
-            sc_root, sc_state.var_proofs[0], "_sv_a")))
+            sc_root, sc_state.var_proofs[0], hashlib.sha256(bytes("_sv_a", 'latin-1')).digest())))
         print("Variables Proof: {}".format(sc_state.var_proofs.verify_proof(root=sc_root)))
         print("Total Proof: {}".format(sc_state.verify_proof(root)))
 
@@ -127,7 +128,7 @@ def run():
         print("Proof: {}".format(sc_state.verify_proof(root)))
         for i, vp in enumerate(sc_state.var_proofs):
             print("[{0}] Variable Proof: {1}".format(i, sc_state.var_proofs.verify_var_proof(
-                sc_root, vp, storage_keys[i])))
+                sc_root, vp, hashlib.sha256(bytes(storage_keys[i], 'latin-1')).digest())))
             print("  var_proof.key          = {}".format(vp.key))
             print("  var_proof.value        = {}".format(vp.value))
             print("  var_proof.inclusion    = {}".format(vp.inclusion))

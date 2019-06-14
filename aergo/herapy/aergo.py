@@ -2,6 +2,7 @@
 
 """Main module."""
 
+import hashlib
 import json
 
 from . import account as acc
@@ -785,10 +786,19 @@ class Aergo:
             root = decode_root(root)
 
         # convert SCStateVar objects to trie storage key strings
-        storage_keys = [str(key) for key in storage_keys]
+        trie_keys = []
+        for key in storage_keys:
+            if type(key) is bytes:
+                trie_keys.append(hashlib.sha256(key).digest())
+            elif type(key) is str:
+                trie_keys.append(hashlib.sha256(key.encode('latin-1')).digest())
+            elif type(key) is SCStateVar:
+                trie_keys.append(hashlib.sha256(bytes(key)).digest())
+            else:
+                assert False, "Invalid key type provided, must be bytes, str or SCStateVar"
 
         try:
-            result = self.__comm.query_contract_state(sc_address, storage_keys,
+            result = self.__comm.query_contract_state(sc_address, trie_keys,
                                                       root, compressed)
         except Exception as e:
             raise CommunicationException(e) from e
@@ -798,6 +808,6 @@ class Aergo:
         account.state_proof = result.contractProof
         account.address = sc_address
 
-        var_proofs = VarProofs(result.varProofs, storage_keys)
+        var_proofs = VarProofs(result.varProofs, trie_keys)
 
         return SCState(account=account, var_proofs=var_proofs)

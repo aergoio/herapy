@@ -220,6 +220,11 @@ class AergoRPCServiceStub(object):
         request_serializer=raft__pb2.MembershipChange.SerializeToString,
         response_deserializer=raft__pb2.MembershipChangeReply.FromString,
         )
+    self.GetEnterpriseConfig = channel.unary_unary(
+        '/types.AergoRPCService/GetEnterpriseConfig',
+        request_serializer=rpc__pb2.EnterpriseConfigKey.SerializeToString,
+        response_deserializer=rpc__pb2.EnterpriseConfig.FromString,
+        )
 
 
 class AergoRPCServiceServicer(object):
@@ -508,6 +513,13 @@ class AergoRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetEnterpriseConfig(self, request, context):
+    """Returns enterprise config
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_AergoRPCServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -710,6 +722,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.ChangeMembership,
           request_deserializer=raft__pb2.MembershipChange.FromString,
           response_serializer=raft__pb2.MembershipChangeReply.SerializeToString,
+      ),
+      'GetEnterpriseConfig': grpc.unary_unary_rpc_method_handler(
+          servicer.GetEnterpriseConfig,
+          request_deserializer=rpc__pb2.EnterpriseConfigKey.FromString,
+          response_serializer=rpc__pb2.EnterpriseConfig.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
