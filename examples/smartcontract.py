@@ -112,7 +112,13 @@ def run():
         print("------ Call SC -----------")
         tx, result = aergo.call_sc(sc_address, "test_array", args=[["a", "b"]])
 
-        time.sleep(3)
+        print("-------Wait for tx result--------")
+        result = aergo.wait_tx_result(tx.tx_hash)
+        if result.status != herapy.TxResultStatus.SUCCESS:
+            eprint("  > ERROR[{0}]:{1}: {2}".format(
+                result.contract_address, result.status, result.detail))
+            aergo.disconnect()
+            return
 
         print("------ Check result of Call SC -----------")
         print("  > TX: {}".format(tx.tx_hash))
