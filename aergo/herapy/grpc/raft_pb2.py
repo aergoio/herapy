@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\nraft.proto\x12\x05types\x1a\tp2p.proto\"C\n\nMemberAttr\x12\n\n\x02ID\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\t\x12\x0e\n\x06peerID\x18\x04 \x01(\x0c\"^\n\x10MembershipChange\x12)\n\x04type\x18\x01 \x01(\x0e\x32\x1b.types.MembershipChangeType\x12\x1f\n\x04\x61ttr\x18\x02 \x01(\x0b\x32\x11.types.MemberAttr\"8\n\x15MembershipChangeReply\x12\x1f\n\x04\x61ttr\x18\x01 \x01(\x0b\x32\x11.types.MemberAttr\"\x17\n\x15GetClusterInfoRequest\"]\n\x16GetClusterInfoResponse\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\r\n\x05\x65rror\x18\x02 \x01(\t\x12#\n\x08mbrAttrs\x18\x03 \x03(\x0b\x32\x11.types.MemberAttr*9\n\x14MembershipChangeType\x12\x0e\n\nADD_MEMBER\x10\x00\x12\x11\n\rREMOVE_MEMBER\x10\x01\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_pb=_b('\n\nraft.proto\x12\x05types\x1a\tp2p.proto\"C\n\nMemberAttr\x12\n\n\x02ID\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\t\x12\x0e\n\x06peerID\x18\x04 \x01(\x0c\"^\n\x10MembershipChange\x12)\n\x04type\x18\x01 \x01(\x0e\x32\x1b.types.MembershipChangeType\x12\x1f\n\x04\x61ttr\x18\x02 \x01(\x0b\x32\x11.types.MemberAttr\"8\n\x15MembershipChangeReply\x12\x1f\n\x04\x61ttr\x18\x01 \x01(\x0b\x32\x11.types.MemberAttr\"-\n\rHardStateInfo\x12\x0c\n\x04term\x18\x01 \x01(\x04\x12\x0e\n\x06\x63ommit\x18\x02 \x01(\x04\".\n\x15GetClusterInfoRequest\x12\x15\n\rbestBlockHash\x18\x01 \x01(\x0c\"\x9d\x01\n\x16GetClusterInfoResponse\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\x11\n\tclusterID\x18\x02 \x01(\x04\x12\r\n\x05\x65rror\x18\x03 \x01(\t\x12#\n\x08mbrAttrs\x18\x04 \x03(\x0b\x32\x11.types.MemberAttr\x12+\n\rhardStateInfo\x18\x05 \x01(\x0b\x32\x14.types.HardStateInfo*9\n\x14MembershipChangeType\x12\x0e\n\nADD_MEMBER\x10\x00\x12\x11\n\rREMOVE_MEMBER\x10\x01\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
   ,
   dependencies=[p2p__pb2.DESCRIPTOR,])
 
@@ -43,8 +43,8 @@ _MEMBERSHIPCHANGETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=375,
-  serialized_end=432,
+  serialized_start=510,
+  serialized_end=567,
 )
 _sym_db.RegisterEnumDescriptor(_MEMBERSHIPCHANGETYPE)
 
@@ -175,13 +175,27 @@ _MEMBERSHIPCHANGEREPLY = _descriptor.Descriptor(
 )
 
 
-_GETCLUSTERINFOREQUEST = _descriptor.Descriptor(
-  name='GetClusterInfoRequest',
-  full_name='types.GetClusterInfoRequest',
+_HARDSTATEINFO = _descriptor.Descriptor(
+  name='HardStateInfo',
+  full_name='types.HardStateInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
+    _descriptor.FieldDescriptor(
+      name='term', full_name='types.HardStateInfo.term', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='commit', full_name='types.HardStateInfo.commit', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -195,7 +209,38 @@ _GETCLUSTERINFOREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=255,
-  serialized_end=278,
+  serialized_end=300,
+)
+
+
+_GETCLUSTERINFOREQUEST = _descriptor.Descriptor(
+  name='GetClusterInfoRequest',
+  full_name='types.GetClusterInfoRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='bestBlockHash', full_name='types.GetClusterInfoRequest.bestBlockHash', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=302,
+  serialized_end=348,
 )
 
 
@@ -214,16 +259,30 @@ _GETCLUSTERINFORESPONSE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='error', full_name='types.GetClusterInfoResponse.error', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      name='clusterID', full_name='types.GetClusterInfoResponse.clusterID', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='error', full_name='types.GetClusterInfoResponse.error', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mbrAttrs', full_name='types.GetClusterInfoResponse.mbrAttrs', index=2,
-      number=3, type=11, cpp_type=10, label=3,
+      name='mbrAttrs', full_name='types.GetClusterInfoResponse.mbrAttrs', index=3,
+      number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hardStateInfo', full_name='types.GetClusterInfoResponse.hardStateInfo', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -239,17 +298,19 @@ _GETCLUSTERINFORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=280,
-  serialized_end=373,
+  serialized_start=351,
+  serialized_end=508,
 )
 
 _MEMBERSHIPCHANGE.fields_by_name['type'].enum_type = _MEMBERSHIPCHANGETYPE
 _MEMBERSHIPCHANGE.fields_by_name['attr'].message_type = _MEMBERATTR
 _MEMBERSHIPCHANGEREPLY.fields_by_name['attr'].message_type = _MEMBERATTR
 _GETCLUSTERINFORESPONSE.fields_by_name['mbrAttrs'].message_type = _MEMBERATTR
+_GETCLUSTERINFORESPONSE.fields_by_name['hardStateInfo'].message_type = _HARDSTATEINFO
 DESCRIPTOR.message_types_by_name['MemberAttr'] = _MEMBERATTR
 DESCRIPTOR.message_types_by_name['MembershipChange'] = _MEMBERSHIPCHANGE
 DESCRIPTOR.message_types_by_name['MembershipChangeReply'] = _MEMBERSHIPCHANGEREPLY
+DESCRIPTOR.message_types_by_name['HardStateInfo'] = _HARDSTATEINFO
 DESCRIPTOR.message_types_by_name['GetClusterInfoRequest'] = _GETCLUSTERINFOREQUEST
 DESCRIPTOR.message_types_by_name['GetClusterInfoResponse'] = _GETCLUSTERINFORESPONSE
 DESCRIPTOR.enum_types_by_name['MembershipChangeType'] = _MEMBERSHIPCHANGETYPE
@@ -275,6 +336,13 @@ MembershipChangeReply = _reflection.GeneratedProtocolMessageType('MembershipChan
   # @@protoc_insertion_point(class_scope:types.MembershipChangeReply)
   ))
 _sym_db.RegisterMessage(MembershipChangeReply)
+
+HardStateInfo = _reflection.GeneratedProtocolMessageType('HardStateInfo', (_message.Message,), dict(
+  DESCRIPTOR = _HARDSTATEINFO,
+  __module__ = 'raft_pb2'
+  # @@protoc_insertion_point(class_scope:types.HardStateInfo)
+  ))
+_sym_db.RegisterMessage(HardStateInfo)
 
 GetClusterInfoRequest = _reflection.GeneratedProtocolMessageType('GetClusterInfoRequest', (_message.Message,), dict(
   DESCRIPTOR = _GETCLUSTERINFOREQUEST,

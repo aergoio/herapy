@@ -29,10 +29,9 @@ class VarProofs(list):
     def storage_keys(self):
         return self.__storage_keys
 
-    def verify_var_proof(self, root, var_proof, key):
-        if var_proof.key != key:
+    def verify_var_proof(self, root, var_proof, trie_key):
+        if var_proof.key != trie_key:
             return False
-        trie_key = hashlib.sha256(bytes(key, 'utf-8')).digest()
         value = hashlib.sha256(var_proof.value).digest()
         ap = var_proof.auditPath
 

@@ -34,6 +34,9 @@ class SCStateVar:
     def __str__(self):
         return self.storage_key
 
+    def __bytes__(self):
+        return self.storage_key.encode('latin-1')
+
 
 class SCState:
     """ SCState holds the inclusion/exclusion proofs of a contract
