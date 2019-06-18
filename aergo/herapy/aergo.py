@@ -719,7 +719,7 @@ class Aergo:
         elif type(tx_hash) is th.TxHash:
             tx_hash = bytes(tx_hash)
 
-        for _ in range(int(timeout/tempo)):
+        for _ in range(int(timeout/tempo)+1):
             try:
                 return self.get_tx_result(tx_hash)
             except CommunicationException as e:
