@@ -86,6 +86,8 @@ def test_grpc_block():
     assert block.coinbase_account == b'coinbase_account'
     assert block.sign == b'block_sign'
     assert len(block.tx_list) == 2
+    assert block.num_of_tx == 2
+    assert block.size == 254
     block_json = block.json(header_only=True)
     assert 'body' not in block_json
     block_json = block.json(header_only=False)
