@@ -165,7 +165,7 @@ class Comm:
             return None
         v = rpc_pb2.SingleBytes()
         v.value = block_hash
-        return self.__rpc_stub.GetBlockMeta(v)
+        return self.__rpc_stub.GetBlockMetadata(v)
 
     def get_peers(self):
         return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
