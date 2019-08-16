@@ -22,8 +22,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='polarrpc.proto',
   package='types',
   syntax='proto3',
-  serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\x0epolarrpc.proto\x12\x05types\x1a\nnode.proto\x1a\trpc.proto\x1a\x0cmetric.proto\"(\n\x0bPaginations\x12\x0b\n\x03ref\x18\x01 \x01(\x0c\x12\x0c\n\x04size\x18\x03 \x01(\r\"T\n\x0fPolarisPeerList\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0f\n\x07hasNext\x18\x02 \x01(\x08\x12!\n\x05peers\x18\x03 \x03(\x0b\x32\x12.types.PolarisPeer\"h\n\x0bPolarisPeer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x11\n\tconnected\x18\x02 \x01(\x03\x12\x11\n\tlastCheck\x18\x03 \x01(\x03\x12\x0e\n\x06verion\x18\x04 \x01(\t2\xac\x02\n\x11PolarisRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12;\n\x0b\x43urrentList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tWhiteList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tBlackList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\x0epolarrpc.proto\x12\x05types\x1a\nnode.proto\x1a\trpc.proto\x1a\x0cmetric.proto\"(\n\x0bPaginations\x12\x0b\n\x03ref\x18\x01 \x01(\x0c\x12\x0c\n\x04size\x18\x03 \x01(\r\"T\n\x0fPolarisPeerList\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0f\n\x07hasNext\x18\x02 \x01(\x08\x12!\n\x05peers\x18\x03 \x03(\x0b\x32\x12.types.PolarisPeer\"h\n\x0bPolarisPeer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x11\n\tconnected\x18\x02 \x01(\x03\x12\x11\n\tlastCheck\x18\x03 \x01(\x03\x12\x0e\n\x06verion\x18\x04 \x01(\t2\xac\x02\n\x11PolarisRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12;\n\x0b\x43urrentList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tWhiteList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tBlackList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x62\x06proto3')
   ,
   dependencies=[node__pb2.DESCRIPTOR,rpc__pb2.DESCRIPTOR,metric__pb2.DESCRIPTOR,])
 
@@ -193,7 +193,6 @@ PolarisPeer = _reflection.GeneratedProtocolMessageType('PolarisPeer', (_message.
 _sym_db.RegisterMessage(PolarisPeer)
 
 
-DESCRIPTOR._options = None
 
 _POLARISRPCSERVICE = _descriptor.ServiceDescriptor(
   name='PolarisRPCService',

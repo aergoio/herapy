@@ -21,8 +21,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='raft.proto',
   package='types',
   syntax='proto3',
-  serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\nraft.proto\x12\x05types\x1a\tp2p.proto\"C\n\nMemberAttr\x12\n\n\x02ID\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\t\x12\x0e\n\x06peerID\x18\x04 \x01(\x0c\"^\n\x10MembershipChange\x12)\n\x04type\x18\x01 \x01(\x0e\x32\x1b.types.MembershipChangeType\x12\x1f\n\x04\x61ttr\x18\x02 \x01(\x0b\x32\x11.types.MemberAttr\"8\n\x15MembershipChangeReply\x12\x1f\n\x04\x61ttr\x18\x01 \x01(\x0b\x32\x11.types.MemberAttr\"-\n\rHardStateInfo\x12\x0c\n\x04term\x18\x01 \x01(\x04\x12\x0e\n\x06\x63ommit\x18\x02 \x01(\x04\".\n\x15GetClusterInfoRequest\x12\x15\n\rbestBlockHash\x18\x01 \x01(\x0c\"\x9d\x01\n\x16GetClusterInfoResponse\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\x11\n\tclusterID\x18\x02 \x01(\x04\x12\r\n\x05\x65rror\x18\x03 \x01(\t\x12#\n\x08mbrAttrs\x18\x04 \x03(\x0b\x32\x11.types.MemberAttr\x12+\n\rhardStateInfo\x18\x05 \x01(\x0b\x32\x14.types.HardStateInfo*9\n\x14MembershipChangeType\x12\x0e\n\nADD_MEMBER\x10\x00\x12\x11\n\rREMOVE_MEMBER\x10\x01\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\nraft.proto\x12\x05types\x1a\tp2p.proto\"G\n\nMemberAttr\x12\n\n\x02ID\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x01(\t\x12\x0e\n\x06peerID\x18\x04 \x01(\x0c\"q\n\x10MembershipChange\x12)\n\x04type\x18\x01 \x01(\x0e\x32\x1b.types.MembershipChangeType\x12\x11\n\trequestID\x18\x02 \x01(\x04\x12\x1f\n\x04\x61ttr\x18\x03 \x01(\x0b\x32\x11.types.MemberAttr\"8\n\x15MembershipChangeReply\x12\x1f\n\x04\x61ttr\x18\x01 \x01(\x0b\x32\x11.types.MemberAttr\"-\n\rHardStateInfo\x12\x0c\n\x04term\x18\x01 \x01(\x04\x12\x0e\n\x06\x63ommit\x18\x02 \x01(\x04\".\n\x15GetClusterInfoRequest\x12\x15\n\rbestBlockHash\x18\x01 \x01(\x0c\"\xb2\x01\n\x16GetClusterInfoResponse\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\x11\n\tclusterID\x18\x02 \x01(\x04\x12\r\n\x05\x65rror\x18\x03 \x01(\t\x12#\n\x08mbrAttrs\x18\x04 \x03(\x0b\x32\x11.types.MemberAttr\x12\x13\n\x0b\x62\x65stBlockNo\x18\x05 \x01(\x04\x12+\n\rhardStateInfo\x18\x06 \x01(\x0b\x32\x14.types.HardStateInfo\"l\n\x12\x43onfChangeProgress\x12%\n\x05State\x18\x01 \x01(\x0e\x32\x16.types.ConfChangeState\x12\x0b\n\x03\x45rr\x18\x02 \x01(\t\x12\"\n\x07Members\x18\x03 \x03(\x0b\x32\x11.types.MemberAttr\"H\n\x10SnapshotResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0f\n\x07message\x18\x02 \x01(\t*9\n\x14MembershipChangeType\x12\x0e\n\nADD_MEMBER\x10\x00\x12\x11\n\rREMOVE_MEMBER\x10\x01*m\n\x0f\x43onfChangeState\x12\x1e\n\x1a\x43ONF_CHANGE_STATE_PROPOSED\x10\x00\x12\x1b\n\x17\x43ONF_CHANGE_STATE_SAVED\x10\x01\x12\x1d\n\x19\x43ONF_CHANGE_STATE_APPLIED\x10\x02\x62\x06proto3')
   ,
   dependencies=[p2p__pb2.DESCRIPTOR,])
 
@@ -43,14 +43,44 @@ _MEMBERSHIPCHANGETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=510,
-  serialized_end=567,
+  serialized_start=738,
+  serialized_end=795,
 )
 _sym_db.RegisterEnumDescriptor(_MEMBERSHIPCHANGETYPE)
 
 MembershipChangeType = enum_type_wrapper.EnumTypeWrapper(_MEMBERSHIPCHANGETYPE)
+_CONFCHANGESTATE = _descriptor.EnumDescriptor(
+  name='ConfChangeState',
+  full_name='types.ConfChangeState',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='CONF_CHANGE_STATE_PROPOSED', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='CONF_CHANGE_STATE_SAVED', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='CONF_CHANGE_STATE_APPLIED', index=2, number=2,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=797,
+  serialized_end=906,
+)
+_sym_db.RegisterEnumDescriptor(_CONFCHANGESTATE)
+
+ConfChangeState = enum_type_wrapper.EnumTypeWrapper(_CONFCHANGESTATE)
 ADD_MEMBER = 0
 REMOVE_MEMBER = 1
+CONF_CHANGE_STATE_PROPOSED = 0
+CONF_CHANGE_STATE_SAVED = 1
+CONF_CHANGE_STATE_APPLIED = 2
 
 
 
@@ -76,7 +106,7 @@ _MEMBERATTR = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='url', full_name='types.MemberAttr.url', index=2,
+      name='address', full_name='types.MemberAttr.address', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -102,7 +132,7 @@ _MEMBERATTR = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=32,
-  serialized_end=99,
+  serialized_end=103,
 )
 
 
@@ -121,8 +151,15 @@ _MEMBERSHIPCHANGE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='attr', full_name='types.MembershipChange.attr', index=1,
-      number=2, type=11, cpp_type=10, label=1,
+      name='requestID', full_name='types.MembershipChange.requestID', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='attr', full_name='types.MembershipChange.attr', index=2,
+      number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -139,8 +176,8 @@ _MEMBERSHIPCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=101,
-  serialized_end=195,
+  serialized_start=105,
+  serialized_end=218,
 )
 
 
@@ -170,8 +207,8 @@ _MEMBERSHIPCHANGEREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=197,
-  serialized_end=253,
+  serialized_start=220,
+  serialized_end=276,
 )
 
 
@@ -208,8 +245,8 @@ _HARDSTATEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=255,
-  serialized_end=300,
+  serialized_start=278,
+  serialized_end=323,
 )
 
 
@@ -239,8 +276,8 @@ _GETCLUSTERINFOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=302,
-  serialized_end=348,
+  serialized_start=325,
+  serialized_end=371,
 )
 
 
@@ -280,8 +317,15 @@ _GETCLUSTERINFORESPONSE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='hardStateInfo', full_name='types.GetClusterInfoResponse.hardStateInfo', index=4,
-      number=5, type=11, cpp_type=10, label=1,
+      name='bestBlockNo', full_name='types.GetClusterInfoResponse.bestBlockNo', index=4,
+      number=5, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hardStateInfo', full_name='types.GetClusterInfoResponse.hardStateInfo', index=5,
+      number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -298,8 +342,91 @@ _GETCLUSTERINFORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=351,
-  serialized_end=508,
+  serialized_start=374,
+  serialized_end=552,
+)
+
+
+_CONFCHANGEPROGRESS = _descriptor.Descriptor(
+  name='ConfChangeProgress',
+  full_name='types.ConfChangeProgress',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='State', full_name='types.ConfChangeProgress.State', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Err', full_name='types.ConfChangeProgress.Err', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Members', full_name='types.ConfChangeProgress.Members', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=554,
+  serialized_end=662,
+)
+
+
+_SNAPSHOTRESPONSE = _descriptor.Descriptor(
+  name='SnapshotResponse',
+  full_name='types.SnapshotResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='types.SnapshotResponse.status', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='message', full_name='types.SnapshotResponse.message', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=664,
+  serialized_end=736,
 )
 
 _MEMBERSHIPCHANGE.fields_by_name['type'].enum_type = _MEMBERSHIPCHANGETYPE
@@ -307,13 +434,19 @@ _MEMBERSHIPCHANGE.fields_by_name['attr'].message_type = _MEMBERATTR
 _MEMBERSHIPCHANGEREPLY.fields_by_name['attr'].message_type = _MEMBERATTR
 _GETCLUSTERINFORESPONSE.fields_by_name['mbrAttrs'].message_type = _MEMBERATTR
 _GETCLUSTERINFORESPONSE.fields_by_name['hardStateInfo'].message_type = _HARDSTATEINFO
+_CONFCHANGEPROGRESS.fields_by_name['State'].enum_type = _CONFCHANGESTATE
+_CONFCHANGEPROGRESS.fields_by_name['Members'].message_type = _MEMBERATTR
+_SNAPSHOTRESPONSE.fields_by_name['status'].enum_type = p2p__pb2._RESULTSTATUS
 DESCRIPTOR.message_types_by_name['MemberAttr'] = _MEMBERATTR
 DESCRIPTOR.message_types_by_name['MembershipChange'] = _MEMBERSHIPCHANGE
 DESCRIPTOR.message_types_by_name['MembershipChangeReply'] = _MEMBERSHIPCHANGEREPLY
 DESCRIPTOR.message_types_by_name['HardStateInfo'] = _HARDSTATEINFO
 DESCRIPTOR.message_types_by_name['GetClusterInfoRequest'] = _GETCLUSTERINFOREQUEST
 DESCRIPTOR.message_types_by_name['GetClusterInfoResponse'] = _GETCLUSTERINFORESPONSE
+DESCRIPTOR.message_types_by_name['ConfChangeProgress'] = _CONFCHANGEPROGRESS
+DESCRIPTOR.message_types_by_name['SnapshotResponse'] = _SNAPSHOTRESPONSE
 DESCRIPTOR.enum_types_by_name['MembershipChangeType'] = _MEMBERSHIPCHANGETYPE
+DESCRIPTOR.enum_types_by_name['ConfChangeState'] = _CONFCHANGESTATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 MemberAttr = _reflection.GeneratedProtocolMessageType('MemberAttr', (_message.Message,), dict(
@@ -358,6 +491,19 @@ GetClusterInfoResponse = _reflection.GeneratedProtocolMessageType('GetClusterInf
   ))
 _sym_db.RegisterMessage(GetClusterInfoResponse)
 
+ConfChangeProgress = _reflection.GeneratedProtocolMessageType('ConfChangeProgress', (_message.Message,), dict(
+  DESCRIPTOR = _CONFCHANGEPROGRESS,
+  __module__ = 'raft_pb2'
+  # @@protoc_insertion_point(class_scope:types.ConfChangeProgress)
+  ))
+_sym_db.RegisterMessage(ConfChangeProgress)
 
-DESCRIPTOR._options = None
+SnapshotResponse = _reflection.GeneratedProtocolMessageType('SnapshotResponse', (_message.Message,), dict(
+  DESCRIPTOR = _SNAPSHOTRESPONSE,
+  __module__ = 'raft_pb2'
+  # @@protoc_insertion_point(class_scope:types.SnapshotResponse)
+  ))
+_sym_db.RegisterMessage(SnapshotResponse)
+
+
 # @@protoc_insertion_point(module_scope)

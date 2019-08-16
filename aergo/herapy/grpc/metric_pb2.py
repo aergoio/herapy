@@ -20,8 +20,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='metric.proto',
   package='types',
   syntax='proto3',
-  serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\x0cmetric.proto\x12\x05types\"2\n\x0eMetricsRequest\x12 \n\x05types\x18\x01 \x03(\x0e\x32\x11.types.MetricType\"+\n\x07Metrics\x12 \n\x05peers\x18\x01 \x03(\x0b\x32\x11.types.PeerMetric\"Z\n\nPeerMetric\x12\x0e\n\x06peerID\x18\x01 \x01(\x0c\x12\r\n\x05sumIn\x18\x02 \x01(\x03\x12\r\n\x05\x61vrIn\x18\x03 \x01(\x03\x12\x0e\n\x06sumOut\x18\x04 \x01(\x03\x12\x0e\n\x06\x61vrOut\x18\x05 \x01(\x03**\n\nMetricType\x12\x0b\n\x07NOTHING\x10\x00\x12\x0f\n\x0bP2P_NETWORK\x10\x01\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\x0cmetric.proto\x12\x05types\"2\n\x0eMetricsRequest\x12 \n\x05types\x18\x01 \x03(\x0e\x32\x11.types.MetricType\"+\n\x07Metrics\x12 \n\x05peers\x18\x01 \x03(\x0b\x32\x11.types.PeerMetric\"Z\n\nPeerMetric\x12\x0e\n\x06peerID\x18\x01 \x01(\x0c\x12\r\n\x05sumIn\x18\x02 \x01(\x03\x12\r\n\x05\x61vrIn\x18\x03 \x01(\x03\x12\x0e\n\x06sumOut\x18\x04 \x01(\x03\x12\x0e\n\x06\x61vrOut\x18\x05 \x01(\x03**\n\nMetricType\x12\x0b\n\x07NOTHING\x10\x00\x12\x0f\n\x0bP2P_NETWORK\x10\x01\x62\x06proto3')
 )
 
 _METRICTYPE = _descriptor.EnumDescriptor(
@@ -202,5 +202,4 @@ PeerMetric = _reflection.GeneratedProtocolMessageType('PeerMetric', (_message.Me
 _sym_db.RegisterMessage(PeerMetric)
 
 
-DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

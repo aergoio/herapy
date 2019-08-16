@@ -19,8 +19,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='node.proto',
   package='types',
   syntax='proto3',
-  serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\nnode.proto\x12\x05types\"<\n\x0bPeerAddress\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\r\x12\x0e\n\x06peerID\x18\x03 \x01(\x0c\x42 Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\nnode.proto\x12\x05types\"<\n\x0bPeerAddress\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\r\x12\x0e\n\x06peerID\x18\x03 \x01(\x0c\x62\x06proto3')
 )
 
 
@@ -81,5 +81,4 @@ PeerAddress = _reflection.GeneratedProtocolMessageType('PeerAddress', (_message.
 _sym_db.RegisterMessage(PeerAddress)
 
 
-DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

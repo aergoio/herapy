@@ -19,8 +19,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='account.proto',
   package='types',
   syntax='proto3',
-  serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\raccount.proto\x12\x05types\"\x1a\n\x07\x41\x63\x63ount\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0c\"/\n\x0b\x41\x63\x63ountList\x12 \n\x08\x61\x63\x63ounts\x18\x01 \x03(\x0b\x32\x0e.types.AccountB Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\raccount.proto\x12\x05types\"\x1a\n\x07\x41\x63\x63ount\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0c\"/\n\x0b\x41\x63\x63ountList\x12 \n\x08\x61\x63\x63ounts\x18\x01 \x03(\x0b\x32\x0e.types.Accountb\x06proto3')
 )
 
 
@@ -107,5 +107,4 @@ AccountList = _reflection.GeneratedProtocolMessageType('AccountList', (_message.
 _sym_db.RegisterMessage(AccountList)
 
 
-DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

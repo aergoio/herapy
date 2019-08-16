@@ -21,8 +21,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pmap.proto',
   package='types',
   syntax='proto3',
-  serialized_options=_b('Z\036github.com/aergoio/aergo/types'),
-  serialized_pb=_b('\n\npmap.proto\x12\x05types\x1a\nnode.proto\x1a\tp2p.proto\"X\n\x08MapQuery\x12\x1d\n\x06status\x18\x01 \x01(\x0b\x32\r.types.Status\x12\r\n\x05\x61\x64\x64Me\x18\x02 \x01(\x08\x12\x0c\n\x04size\x18\x03 \x01(\x05\x12\x10\n\x08\x65xcludes\x18\x04 \x03(\x0c\"j\n\x0bMapResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12%\n\taddresses\x18\x02 \x03(\x0b\x32\x12.types.PeerAddress\x12\x0f\n\x07message\x18\x03 \x01(\tB Z\x1egithub.com/aergoio/aergo/typesb\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\npmap.proto\x12\x05types\x1a\nnode.proto\x1a\tp2p.proto\"X\n\x08MapQuery\x12\x1d\n\x06status\x18\x01 \x01(\x0b\x32\r.types.Status\x12\r\n\x05\x61\x64\x64Me\x18\x02 \x01(\x08\x12\x0c\n\x04size\x18\x03 \x01(\x05\x12\x10\n\x08\x65xcludes\x18\x04 \x03(\x0c\"j\n\x0bMapResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12%\n\taddresses\x18\x02 \x03(\x0b\x32\x12.types.PeerAddress\x12\x0f\n\x07message\x18\x03 \x01(\tb\x06proto3')
   ,
   dependencies=[node__pb2.DESCRIPTOR,p2p__pb2.DESCRIPTOR,])
 
@@ -147,5 +147,4 @@ MapResponse = _reflection.GeneratedProtocolMessageType('MapResponse', (_message.
 _sym_db.RegisterMessage(MapResponse)
 
 
-DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

@@ -225,6 +225,11 @@ class AergoRPCServiceStub(object):
         request_serializer=rpc__pb2.EnterpriseConfigKey.SerializeToString,
         response_deserializer=rpc__pb2.EnterpriseConfig.FromString,
         )
+    self.GetConfChangeProgress = channel.unary_unary(
+        '/types.AergoRPCService/GetConfChangeProgress',
+        request_serializer=rpc__pb2.SingleBytes.SerializeToString,
+        response_deserializer=raft__pb2.ConfChangeProgress.FromString,
+        )
 
 
 class AergoRPCServiceServicer(object):
@@ -520,6 +525,13 @@ class AergoRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetConfChangeProgress(self, request, context):
+    """Return a status of changeCluster enterprise tx,  queried by requestID
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_AergoRPCServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -727,6 +739,11 @@ def add_AergoRPCServiceServicer_to_server(servicer, server):
           servicer.GetEnterpriseConfig,
           request_deserializer=rpc__pb2.EnterpriseConfigKey.FromString,
           response_serializer=rpc__pb2.EnterpriseConfig.SerializeToString,
+      ),
+      'GetConfChangeProgress': grpc.unary_unary_rpc_method_handler(
+          servicer.GetConfChangeProgress,
+          request_deserializer=rpc__pb2.SingleBytes.FromString,
+          response_serializer=raft__pb2.ConfChangeProgress.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
