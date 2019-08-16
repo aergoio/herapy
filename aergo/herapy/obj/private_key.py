@@ -34,9 +34,17 @@ class PrivateKey:
     def __generate_new_key(self):
         self.__signing_key = ecdsa.SigningKey.generate(curve=DEFAULT_CURVE,
                                                        hashfunc=hashlib.sha256)
+        self.__signing_key.get_verifying_key()
         self.__private_key = self.__signing_key.privkey
 
     def __get_singing_key_instance(self, private_key):
+        if len(private_key) > 32:   # if over default size,
+            # check bytes head
+            if private_key[:4] != "\x08\x02\x12\x20".encode("latin-1"):
+                raise ValueError("private key is incorrect")
+            else:
+                private_key = private_key[4:]
+
         d = int.from_bytes(private_key, byteorder='big')
         """
         sk = ecdsa.SigningKey.from_secret_exponent(secexp=d,
@@ -116,3 +124,6 @@ class PrivateKey:
     @property
     def address(self):
         return self.__address
+
+    def get_signing_key(self):
+        return self.__signing_key
