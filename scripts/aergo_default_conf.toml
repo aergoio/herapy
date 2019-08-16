@@ -11,6 +11,7 @@ dbtype = "badgerdb"
 enableprofile = false
 profileport = 6060
 enabletestmode = false
+usetestnet = false
 personal = true
 authdir = "${AERGO_HOME}/auth"
 
@@ -19,11 +20,10 @@ netserviceaddr = "127.0.0.1"
 netserviceport = 7845
 netservicetrace = false
 nstls = false
-# TODO: Check whether it's necessary or not. It's not used anywhere in aergo
-#nscert = ""
+nscert = ""
 nskey = ""
-# TODO: Check whether it's necessary or not. It's not used anywhere in aergo
-#nsallowcors = false
+nscacert = ""
+nsallowcors = false
 
 [p2p]
 # Set address and port to which the inbound peers connect, and don't set loopback address or private network unless used in local network
@@ -44,6 +44,10 @@ nppeerpool = 100
 npexposeself = true
 npusepolaris = true
 npaddpolarises = []
+logfullpeerid = false
+
+[auth]
+enablelocalconf = false
 
 [polaris]
 allowprivate = false
@@ -57,7 +61,9 @@ maxanchorcount = 20
 # TODO: Check it's necessary for any reason
 #verifiercount = 1 # Golang: int(math.Max(float64(runtime.NumCPU()/2), float64(1)))
 forceresetheight = 0
-fixedtxfee = "0"
+zerofee = true
+verifyonly = false
+statetrace = 0
 
 [mempool]
 showmetrics = false

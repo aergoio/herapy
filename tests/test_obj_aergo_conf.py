@@ -8,6 +8,7 @@ dbtype = "badgerdb"
 enableprofile = false
 profileport = 6060
 enabletestmode = false
+usetestnet = false
 personal = true
 authdir = "${AERGO_HOME}/auth"
 
@@ -16,7 +17,10 @@ netserviceaddr = "127.0.0.1"
 netserviceport = 7845
 netservicetrace = false
 nstls = false
+nscert = ""
 nskey = ""
+nscacert = ""
+nsallowcors = false
 
 [p2p]
 netprotocoladdr = ""
@@ -33,6 +37,7 @@ nppeerpool = 100
 npexposeself = true
 npusepolaris = true
 npaddpolarises = []
+logfullpeerid = false
 
 [polaris]
 allowprivate = false
@@ -43,7 +48,9 @@ maxblocksize = 1048576
 coinbaseaccount = ""
 maxanchorcount = 20
 forceresetheight = 0
-fixedtxfee = "0"
+zerofee = true
+verifyonly = false
+statetrace = 0
 
 [mempool]
 showmetrics = false
@@ -61,23 +68,19 @@ endpoint = ""
 
 [account]
 unlocktimeout = 60
+
+[auth]
+enablelocalconf = false
 """
 
 
 def test_default():
     aergo_conf = herapy.AergoConfig()
     generate_toml = herapy.utils.convert_aergo_conf_to_toml(aergo_conf)
+    #print(generate_toml)
     assert DEFAULT_AERGO_CONFIG == generate_toml
     with pytest.raises(KeyError):
-        aergo_conf.usetestnet
-    with pytest.raises(KeyError):
-        aergo_conf.rpc_nscert
-    with pytest.raises(KeyError):
-        aergo_conf.rpc_nsallowcors
-    with pytest.raises(KeyError):
         aergo_conf.p2p_nphiddenpeers
-    with pytest.raises(KeyError):
-        aergo_conf.p2p_logfullpeerid
     with pytest.raises(KeyError):
         aergo_conf.blockchain_verifiercount
     with pytest.raises(KeyError):
@@ -156,12 +159,8 @@ def test_success():
     assert aergo_conf.rpc['netservicetrace'] == aergo_conf.rpc_netservicetrace
     assert aergo_conf.rpc_nstls is False
     assert aergo_conf.rpc['nstls'] == aergo_conf.rpc_nstls
-    with pytest.raises(KeyError):
-        herapy.AERGO_DEFAULT_CONF['rpc']['nscert']
     assert aergo_conf.rpc_nscert == ""
     assert aergo_conf.rpc_nskey == ""
-    with pytest.raises(KeyError):
-        herapy.AERGO_DEFAULT_CONF['rpc']['nsallowcors']
     assert aergo_conf.rpc_nsallowcors is False
     # check rest config
     #assert aergo_conf.rest_restport == 8080

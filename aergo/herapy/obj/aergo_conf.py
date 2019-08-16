@@ -7,14 +7,15 @@
 #
 AERGO_CONF_KEYS = {
     "base": ["datadir", "dbtype", "enableprofile", "profileport", "enabletestmode", "usetestnet", "personal", "authdir", ],
-    "rpc": ["netserviceaddr", "netserviceport", "netservicetrace", "nstls", "nscert", "nskey", "nsallowcors", ],
+    "rpc": ["netserviceaddr", "netserviceport", "netservicetrace", "nstls", "nscert", "nskey", "nscacert", "nsallowcors", ],
     "p2p": ["netprotocoladdr", "netprotocolport", "npbindaddr", "npbindport", "nptls", "npcert", "npkey", "npaddpeers", "nphiddenpeers", "npdiscoverpeers", "npmaxpeers", "nppeerpool", "npexposeself", "npusepolaris", "npaddpolarises", "logfullpeerid", ],
     "polaris": ["allowprivate", "genesisfile", ],
-    "blockchain": ["maxblocksize", "coinbaseaccount", "maxanchorcount", "verifiercount", "forceresetheight", "fixedtxfee", ],
+    "blockchain": ["maxblocksize", "coinbaseaccount", "maxanchorcount", "verifiercount", "forceresetheight", "zerofee", "verifyonly", "statetrace", ],
     "mempool": ["showmetrics", "enablefadeout", "fadeoutperiod", "verifiers", "dumpfilepath", ],
     "consensus": ["enablebp", "blockinterval", "raft", ],
     "monitor": ["protocol", "endpoint", ],
     "account": ["unlocktimeout", ],
+    "auth": ["enablelocalconf", ],
 }
 
 AERGO_DEFAULT_CONF = {
@@ -23,6 +24,7 @@ AERGO_DEFAULT_CONF = {
     "enableprofile": False,
     "profileport": 6060,
     "enabletestmode": False,
+    "usetestnet": False,
     "personal": True,
     "authdir": "${AERGO_HOME}/auth",
     "rpc": {
@@ -30,7 +32,10 @@ AERGO_DEFAULT_CONF = {
         "netserviceport": 7845,
         "netservicetrace": False,
         "nstls": False,
+        "nscert": "",
         "nskey": "",
+        "nscacert": "",
+        "nsallowcors": False,
     },
     "p2p": {
         "netprotocoladdr": "",
@@ -47,6 +52,7 @@ AERGO_DEFAULT_CONF = {
         "npexposeself": True,
         "npusepolaris": True,
         "npaddpolarises": [],
+        "logfullpeerid": False,
     },
     "polaris": {
         "allowprivate": False,
@@ -57,7 +63,9 @@ AERGO_DEFAULT_CONF = {
         "coinbaseaccount": "",
         "maxanchorcount": 20,
         "forceresetheight": 0,
-        "fixedtxfee": "0",
+        "zerofee": True,
+        "verifyonly": False,
+        "statetrace": 0,
     },
     "mempool": {
         "showmetrics": False,
@@ -76,6 +84,9 @@ AERGO_DEFAULT_CONF = {
     "account": {
         "unlocktimeout": 60,
     },
+    "auth": {
+        "enablelocalconf": False,
+    },
 }
 
 
@@ -90,6 +101,7 @@ class AergoConfig:
         self.__conf['consensus'] = dict(AERGO_DEFAULT_CONF['consensus'])
         self.__conf['monitor'] = dict(AERGO_DEFAULT_CONF['monitor'])
         self.__conf['account'] = dict(AERGO_DEFAULT_CONF['account'])
+        self.__conf['auth'] = dict(AERGO_DEFAULT_CONF['auth'])
 
     def add_conf(self, k, v, c="base"):
         exist = False
@@ -253,6 +265,16 @@ class AergoConfig:
         if not isinstance(v, str):
             raise TypeError('input value should be a string type')
         self.__conf['rpc']['nskey'] = v
+
+    @property
+    def rpc_nscacert(self):
+        return str(self.__conf['rpc']['nscacert'])
+
+    @rpc_nscacert.setter
+    def rpc_nscacert(self, v):
+        if not isinstance(v, str):
+            raise TypeError('input value should be a string type')
+        self.__conf['rpc']['nscacert'] = v
 
     @property
     def rpc_nsallowcors(self):
@@ -507,14 +529,34 @@ class AergoConfig:
         self.__conf['blockchain']['forceresetheight'] = v
 
     @property
-    def blockchain_fixedtxfee(self):
-        return str(self.__conf['blockchain']['fixedtxfee'])
+    def blockchain_zerofee(self):
+        return bool(self.__conf['blockchain']['zerofee'])
 
-    @blockchain_fixedtxfee.setter
-    def blockchain_fixedtxfee(self, v):
-        if not isinstance(v, str):
-            raise TypeError('input value should be a string type')
-        self.__conf['blockchain']['fixedtxfee'] = v
+    @blockchain_zerofee.setter
+    def blockchain_zerofee(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['blockchain']['zerofee'] = v
+
+    @property
+    def blockchain_verifyonly(self):
+        return bool(self.__conf['blockchain']['verifyonly'])
+
+    @blockchain_verifyonly.setter
+    def blockchain_verifyonly(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['blockchain']['verifyonly'] = v
+
+    @property
+    def blockchain_statetrace(self):
+        return int(self.__conf['blockchain']['statetrace'])
+
+    @blockchain_statetrace.setter
+    def blockchain_statetrace(self, v):
+        if not isinstance(v, int):
+            raise TypeError('input value should be an integer type')
+        self.__conf['blockchain']['statetrace'] = v
 
     @property
     def mempool(self):
@@ -639,5 +681,19 @@ class AergoConfig:
         if not isinstance(v, int):
             raise TypeError('input value should be an integer type')
         self.__conf['account']['unlocktimeout'] = v
+
+    @property
+    def auth(self):
+        return self.__conf['auth']
+
+    @property
+    def auth_enablelocalconf(self):
+        return bool(self.__conf['auth']['enablelocalconf'])
+
+    @auth_enablelocalconf.setter
+    def auth_enablelocalconf(self, v):
+        if not isinstance(v, bool):
+            raise TypeError('input value should be a boolean type')
+        self.__conf['auth']['enablelocalconf'] = v
 
 
