@@ -222,3 +222,11 @@ class Comm:
                                                 root=root,
                                                 compressed=compressed)
         return self.__rpc_stub.QueryContractState(state_query)
+
+    def get_conf_change_progress(self, block_height):
+        if self.__rpc_stub is None:
+            return None
+
+        v = rpc_pb2.SingleBytes()
+        v.value = block_height.to_bytes(8, byteorder='little')
+        return self.__rpc_stub.GetConfChangeProgress(v)

@@ -2,12 +2,17 @@
 History
 =======
 
+
 -------------------
-1.2.1 (2019-08-22)
+1.2.3 (2019-08-22)
 -------------------
 
+* support redploy tx type
+* support 'GetConfChangeProgress' protocol to find a state of 'changeCluster' system contract
 * support 'name' (string) address
 * support enterprise consensus info
+* Bug fix
+  * miss match a tx type in tx
 
 
 -------------------

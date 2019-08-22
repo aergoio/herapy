@@ -28,6 +28,7 @@ from .obj.tx_result import TxResult
 from .obj.sc_state import SCState, SCStateVar
 from .obj.var_proof import VarProofs
 from .obj.block_stream import BlockStream
+from .obj.conf_change_state import ChangeConfInfo
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
@@ -866,3 +867,18 @@ class Aergo:
         var_proofs = VarProofs(result.varProofs, trie_keys)
 
         return SCState(account=account, var_proofs=var_proofs)
+
+    def get_conf_change_progress(self, block_height):
+        """
+        Returns the RAFT change config progress status after 'changeCluster' system contract
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            status = self.__comm.get_conf_change_progress(block_height)
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return ChangeConfInfo(status)

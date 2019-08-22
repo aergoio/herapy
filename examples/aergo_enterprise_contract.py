@@ -41,7 +41,7 @@ def run():
         print("      - storage root   = {}".format(sender_account.storage_root))
 
         print("------ Call SC: appendAdmin -----------")
-        tx, result = aergo.call_sc(SC_ADDRESS, "appendAdmin", args=[[str(sender_account.address)]])
+        tx, result = aergo.call_sc(SC_ADDRESS, "appendAdmin", args=[str(sender_account.address)])
 
         print("-------Wait for tx result--------")
         result = aergo.wait_tx_result(tx.tx_hash)
@@ -60,8 +60,38 @@ def run():
             aergo.disconnect()
             return
 
+        print("------ Call SC: changeCluster -----------")
+        args = {
+            "command": "add",
+            "name": "aergonew",
+            "address": "/ip4/127.0.0.1/tcp/11001",
+            "peerid": "16Uiu2HAmAAtqye6QQbeG9EZnrWJbGK8Xw74cZxpnGGEAZAB3zJ8B"
+        }
+        tx, result = aergo.call_sc(SC_ADDRESS, "changeCluster",
+                                   args=[args])
+
+        print("-------Wait for tx result--------")
+        result = aergo.wait_tx_result(tx.tx_hash)
+        if result.status != herapy.TxResultStatus.SUCCESS:
+            eprint("  > ERROR[{0}]:{1}: {2}".format(
+                result.contract_address, result.status, result.detail))
+            aergo.disconnect()
+            return
+
+        print("------ Check result of Call SC -----------")
+        print("  > TX: {}".format(tx.tx_hash))
+        result = aergo.get_tx_result(tx.tx_hash)
+        if result.status != herapy.TxResultStatus.SUCCESS:
+            eprint("  > ERROR[{0}]:{1}: {2}".format(
+                result.contract_address, result.status, result.detail))
+            aergo.disconnect()
+            return
+
+        status = aergo.get_conf_change_progress(result.block_no)
+        print(status)
+
         print("------ Call SC: removeAdmin -----------")
-        tx, result = aergo.call_sc(SC_ADDRESS, "removeAdmin", args=[[str(sender_account.address)]])
+        tx, result = aergo.call_sc(SC_ADDRESS, "removeAdmin", args=[str(sender_account.address)])
 
         print("-------Wait for tx result--------")
         result = aergo.wait_tx_result(tx.tx_hash)
