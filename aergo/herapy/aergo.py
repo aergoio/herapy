@@ -586,7 +586,16 @@ class Aergo:
             return None, None
 
         if isinstance(to_address, str):
-            to_address = decode_address(to_address)
+            if addr.check_name_address(to_address):
+                to_address = to_address.encode()
+            else:
+                try:
+                    to_address = decode_address(to_address)
+                except Exception as e:
+                    raise ValueError("Invalid receiver address: {}".format(e))
+        elif isinstance(to_address, addr.GovernanceTxAddress):
+            if addr.check_name_address(to_address.value):
+                to_address = to_address.value.encode()
 
         nonce = self.__account.nonce + 1
         tx = self.generate_tx(to_address=to_address,
