@@ -748,8 +748,16 @@ class Aergo:
 
     def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None, nonce=None):
         if isinstance(sc_address, str):
-            # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = decode_address(sc_address)
+            if addr.check_name_address(sc_address):
+                sc_address = sc_address.encode()
+            else:
+                try:
+                    sc_address = decode_address(sc_address)
+                except Exception as e:
+                    raise ValueError("Invalid smart contract address: {}".format(e))
+        elif isinstance(sc_address, addr.GovernanceTxAddress):
+            if addr.check_name_address(sc_address.value):
+                sc_address = sc_address.value.encode()
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
