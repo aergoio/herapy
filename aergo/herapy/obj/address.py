@@ -20,11 +20,11 @@ class GovernanceTxAddress(enum.Enum):
 
 def check_name_address(addr):
     if len(addr) <= MAX_NAME_ADDRESS_LEN:
-        return True
+        return 1
     elif addr in set(e.value for e in GovernanceTxAddress):
-        return True
+        return 2
     else:
-        return False
+        return 0
 
 
 class Address:
