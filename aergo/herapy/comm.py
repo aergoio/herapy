@@ -153,18 +153,18 @@ class Comm:
             return None
         return self.__rpc_stub.GetAccounts(rpc_pb2.Empty())
 
-    def get_block(self, block_hash):
+    def get_block(self, query):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
-        v.value = block_hash
+        v.value = query
         return self.__rpc_stub.GetBlock(v)
 
-    def get_block_meta(self, block_hash):
+    def get_block_meta(self, query):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
-        v.value = block_hash
+        v.value = query
         return self.__rpc_stub.GetBlockMetadata(v)
 
     def get_peers(self):

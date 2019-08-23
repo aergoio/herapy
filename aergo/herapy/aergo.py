@@ -378,7 +378,7 @@ class Aergo:
 
     def get_block(self, block_hash=None, block_height=-1):
         """
-        Returns information about block `block_hash`.
+        Returns block information for `block_hash` or `block_height`.
         :param block_hash:
         :param block_height:
         :return:
@@ -403,7 +403,7 @@ class Aergo:
 
     def get_block_meta(self, block_hash=None, block_height=-1):
         """
-        Returns information about block `block_hash`.
+        Returns block metadata for `block_hash` or `block_height`.
         :param block_hash:
         :param block_height:
         :return:
