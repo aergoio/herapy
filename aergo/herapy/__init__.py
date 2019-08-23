@@ -6,11 +6,13 @@ __all__ = ["errors", "utils"]
 
 from .aergo import Aergo
 from .account import Account
+from .obj.address import GovernanceTxAddress
 from .obj.aer import Aer
 from .obj.aergo_conf import AergoConfig, AERGO_DEFAULT_CONF
-from .obj.transaction import Transaction
 from .obj.block import Block
+from .obj.conf_change_state import ChangeConfState
 from .obj.peer import Peer
+from .obj.transaction import Transaction
 from .status.commit_status import CommitStatus
 from .status.tx_result_status import TxResultStatus
 

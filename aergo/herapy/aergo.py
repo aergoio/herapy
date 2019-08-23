@@ -22,12 +22,13 @@ from .obj.call_info import CallInfo
 from .obj.event import Event
 from .obj.event_stream import EventStream
 from .obj.node_info import NodeInfo
-from .obj.transaction import Transaction
+from .obj.transaction import Transaction, TxType
 from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
 from .obj.sc_state import SCState, SCStateVar
 from .obj.var_proof import VarProofs
 from .obj.block_stream import BlockStream
+from .obj.conf_change_state import ChangeConfInfo
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
@@ -232,7 +233,7 @@ class Aergo:
     def get_block_metas(self, block_hash=None, block_height=-1, list_size=20,
                         offset=0, is_asc_order=False):
         """
-        Returns the list of blocks.
+        Returns the list of metadata of queried blocks.
         :param block_hash:
         :param block_height:
         :param list_size: maximum number of results
@@ -377,7 +378,7 @@ class Aergo:
 
     def get_block(self, block_hash=None, block_height=-1):
         """
-        Returns information about block `block_hash`.
+        Returns block information for `block_hash` or `block_height`.
         :param block_hash:
         :param block_height:
         :return:
@@ -402,7 +403,7 @@ class Aergo:
 
     def get_block_meta(self, block_hash=None, block_height=-1):
         """
-        Returns information about block `block_hash`.
+        Returns block metadata for `block_hash` or `block_height`.
         :param block_hash:
         :param block_height:
         :return:
@@ -596,13 +597,15 @@ class Aergo:
 
         return result
 
-    def generate_tx(self, to_address, nonce, amount, fee_limit=0, fee_price=0, payload=None):
+    def generate_tx(self, to_address, nonce, amount, fee_limit=0, fee_price=0,
+                    payload=None, tx_type=TxType.NORMAL):
         if to_address is not None:
             address = addr.Address(None, empty=True)
             address.value = to_address
             to_address = address
 
-        tx = transaction.Transaction(from_address=self.__account.address,
+        tx = transaction.Transaction(tx_type=tx_type,
+                                     from_address=self.__account.address,
                                      to_address=to_address,
                                      nonce=nonce, amount=amount,
                                      fee_limit=fee_limit, fee_price=fee_price,
@@ -610,18 +613,32 @@ class Aergo:
         tx.sign = self.__account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         return tx
 
-    def send_payload(self, amount, payload, to_address=None, retry_nonce=0):
+    def send_payload(self, amount, payload, to_address=None, retry_nonce=0,
+                     tx_type=TxType.NORMAL):
         if self.__comm is None:
             return None, None
 
         if isinstance(to_address, str):
-            to_address = decode_address(to_address)
+            address_type = addr.check_name_address(to_address)
+            if address_type > 0:
+                to_address = to_address.encode()
+                if 2 == address_type:
+                    tx_type = TxType.GOVERNANCE
+            else:
+                try:
+                    to_address = decode_address(to_address)
+                except Exception as e:
+                    raise ValueError("Invalid receiver address: {}".format(e))
+        elif isinstance(to_address, addr.GovernanceTxAddress):
+            if addr.check_name_address(to_address.value):
+                to_address = to_address.value.encode()
+                tx_type = TxType.GOVERNANCE
 
         nonce = self.__account.nonce + 1
         tx = self.generate_tx(to_address=to_address,
                               nonce=nonce, amount=amount,
                               fee_limit=0, fee_price=0,
-                              payload=payload)
+                              payload=payload, tx_type=tx_type)
         signed_tx, result = self.send_tx(signed_tx=tx)
 
         if result.status == CommitStatus.TX_OK:
@@ -634,7 +651,7 @@ class Aergo:
                 tx = self.generate_tx(to_address=to_address,
                                       nonce=nonce, amount=amount,
                                       fee_limit=0, fee_price=0,
-                                      payload=payload)
+                                      payload=payload, tx_type=tx_type)
                 signed_tx, result = self.send_tx(signed_tx=tx)
 
                 es = result.status
@@ -758,7 +775,8 @@ class Aergo:
             time.sleep(tempo)
         return None
             
-    def deploy_sc(self, payload, amount=0, args=None, retry_nonce=0):
+    def deploy_sc(self, payload, amount=0, args=None, retry_nonce=0,
+                  redeploy=False):
         if isinstance(payload, str):
             payload = decode_address(payload)
 
@@ -771,14 +789,33 @@ class Aergo:
         json_args = json.dumps(args, separators=(',', ':'))
         payload_bytes += json_args.encode('utf-8')
 
+        if redeploy:
+            tx_type = TxType.REDPLOY
+        else:
+            tx_type = TxType.NORMAL
+
         tx, result = self.send_payload(amount=amount, payload=payload_bytes,
-                                       retry_nonce=retry_nonce)
+                                       retry_nonce=retry_nonce, tx_type=tx_type)
         return tx, result
 
-    def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None, nonce=None):
+    def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None,
+                       nonce=None):
+        tx_type = TxType.NORMAL
         if isinstance(sc_address, str):
-            # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = decode_address(sc_address)
+            address_type = addr.check_name_address(sc_address)
+            if address_type > 0:
+                sc_address = sc_address.encode()
+                if 2 == address_type:
+                    tx_type = TxType.GOVERNANCE
+            else:
+                try:
+                    sc_address = decode_address(sc_address)
+                except Exception as e:
+                    raise ValueError("Invalid smart contract address: {}".format(e))
+        elif isinstance(sc_address, addr.GovernanceTxAddress):
+            if addr.check_name_address(sc_address.value):
+                sc_address = sc_address.value.encode()
+                tx_type = TxType.GOVERNANCE
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
@@ -791,7 +828,8 @@ class Aergo:
 
         return self.generate_tx(to_address=sc_address,
                                 nonce=nonce, amount=amount,
-                                fee_limit=0, fee_price=0, payload=payload)
+                                fee_limit=0, fee_price=0,
+                                payload=payload, tx_type=tx_type)
 
     def batch_call_sc(self, sc_txs):
         return self.batch_tx(sc_txs)
@@ -858,3 +896,18 @@ class Aergo:
         var_proofs = VarProofs(result.varProofs, trie_keys)
 
         return SCState(account=account, var_proofs=var_proofs)
+
+    def get_conf_change_progress(self, block_height):
+        """
+        Returns the RAFT change config progress status after 'changeCluster' system contract
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        try:
+            status = self.__comm.get_conf_change_progress(block_height)
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return ChangeConfInfo(status)

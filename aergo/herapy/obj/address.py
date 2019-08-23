@@ -1,10 +1,30 @@
 # -*- coding: utf-8 -*-
 
 import ecdsa
+import enum
 
 from ..utils.encoding import encode_address, decode_address
 from ..utils.converter import convert_bytes_to_public_key, \
     convert_public_key_to_bytes
+
+
+MAX_NAME_ADDRESS_LEN = 12
+
+
+@enum.unique
+class GovernanceTxAddress(enum.Enum):
+    SYSTEM = "aergo.system"
+    NAME = "aergo.name"
+    ENTERPRISE = "aergo.enterprise"
+
+
+def check_name_address(addr):
+    if len(addr) <= MAX_NAME_ADDRESS_LEN:
+        return 1
+    elif addr in set(e.value for e in GovernanceTxAddress):
+        return 2
+    else:
+        return 0
 
 
 class Address:

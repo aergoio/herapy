@@ -22,6 +22,8 @@ class ConsensusInfo:
         if isinstance(info, str):
             info = json.loads(info)
             self._info = info
+            self._info_detail = None
+            self._status = None
             self._type = _get_dict_value(info, 'Type')
             self._status = _get_dict_value(info, 'Status')
             lib_hash = _get_dict_value(info, 'LibHash')
@@ -34,14 +36,26 @@ class ConsensusInfo:
         elif type(info) == CInfo:
             self._info = info
             self._type = info.type
-            self._status = None
-            self._lib_hash = None
-            self._lib_no = None
-            self._block_producer_list = []
-            for bp in info.bps:
-                self._block_producer_list.append(json.loads(bp))
+            if self._type == 'raft':
+                self._info_detail = json.loads(info.info)
+                self._status = _get_dict_value(self._info_detail, 'Status')
+                self._lib_hash = None
+                self._lib_no = None
+                self._block_producer_list = []
+                for bp in info.bps:
+                    self._block_producer_list.append(json.loads(bp))
+            else:
+                self._info_detail = None
+                self._status = None
+                self._lib_hash = None
+                self._lib_no = None
+                self._block_producer_list = []
+                for bp in info.bps:
+                    self._block_producer_list.append(json.loads(bp))
         elif consensus_type:
             self._info = None
+            self._info_detail = None
+            self._status = None
             self._type = consensus_type
             self._status = None
             self._lib_hash = None
@@ -53,6 +67,10 @@ class ConsensusInfo:
     @property
     def type(self):
         return self._type
+
+    @property
+    def detail(self):
+        return self._info_detail
 
     @property
     def status(self):
@@ -85,6 +103,7 @@ class ConsensusInfo:
             'lib_hash': self.lib_hash,
             'lib_no': self.lib_no,
             'block_producer_list': self.block_producer_list,
+            'detail': self.detail,
         }
 
     def __str__(self):

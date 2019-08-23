@@ -41,7 +41,7 @@ test_requirements = [
 
 setup(
     name='aergo-herapy',
-    version='1.1.0.0',
+    version='1.2.3',
     description="python SDK for AERGO",
     keywords='herapy',
     author="aergo.io",
@@ -55,6 +55,7 @@ setup(
     ],
     install_requires=requirements,
     license="MIT license",
+    long_description_content_type='text/x-rst',
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     packages=find_packages(include=['aergo']),

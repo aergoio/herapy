@@ -2,6 +2,20 @@
 History
 =======
 
+
+-------------------
+1.2.3 (2019-08-22)
+-------------------
+
+* support redploy tx type
+* support 'GetConfChangeProgress' protocol to find a state of 'changeCluster' system contract
+* support 'name' (string) address
+* support enterprise consensus info
+* Bug fix
+  * miss match a tx type in tx
+
+
+-------------------
 0.12.2 (2019-03-21)
 -------------------
 
@@ -9,6 +23,8 @@ History
 * Bug fix
   * when tx result handling, get error message from a changed varialbe
 
+
+-------------------
 0.12.0 (2019-03-08)
 -------------------
 
@@ -16,6 +32,8 @@ History
 * Bug fix
   * get a genesis block with a block height 0
 
+
+-------------------
 0.11.0 (2019-02-20)
 -------------------
 
@@ -25,6 +43,8 @@ History
 * Support multiple proof queries with the array of Storage Keys
 * Simplify verifying proof as the 'verify_proof' function from 'verify_inclusion' and 'verify_exclusion'
 
+
+------------------
 0.9.0 (2018-12-31)
 ------------------
 
@@ -32,6 +52,7 @@ History
 * First public release on PyPI.
 
 
+------------------
 0.1.0 (2018-11-07)
 ------------------
 

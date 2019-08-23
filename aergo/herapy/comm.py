@@ -129,7 +129,7 @@ class Comm:
         return self.__rpc_stub.ListBlockHeaders(params)
 
     def get_block_metas(self, block_hash, block_height, list_size, offset,
-                          is_asc_order):
+                        is_asc_order):
         if self.__rpc_stub is None:
             return None
         params = rpc_pb2.ListParams()
@@ -153,18 +153,18 @@ class Comm:
             return None
         return self.__rpc_stub.GetAccounts(rpc_pb2.Empty())
 
-    def get_block(self, block_hash):
+    def get_block(self, query):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
-        v.value = block_hash
+        v.value = query
         return self.__rpc_stub.GetBlock(v)
 
-    def get_block_meta(self, block_hash):
+    def get_block_meta(self, query):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
-        v.value = block_hash
+        v.value = query
         return self.__rpc_stub.GetBlockMetadata(v)
 
     def get_peers(self):
@@ -228,3 +228,11 @@ class Comm:
                                                 root=root,
                                                 compressed=compressed)
         return self.__rpc_stub.QueryContractState(state_query)
+
+    def get_conf_change_progress(self, block_height):
+        if self.__rpc_stub is None:
+            return None
+
+        v = rpc_pb2.SingleBytes()
+        v.value = block_height.to_bytes(8, byteorder='little')
+        return self.__rpc_stub.GetConfChangeProgress(v)

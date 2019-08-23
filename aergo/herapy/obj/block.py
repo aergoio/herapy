@@ -201,7 +201,8 @@ class Block:
                 "pub_key": encode_b58(self.public_key) if self.public_key is not None else None,
                 "sign": encode_b58(self.sign),
                 "coinbase_account": encode_b58(self.coinbase_account),
-                "tx_count": self.__tx_cnt
+                "tx_count": self.__tx_cnt,
+                "size": self.__size
             },
         }
 
