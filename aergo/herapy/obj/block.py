@@ -12,7 +12,7 @@ from ..utils.converter import get_hash
 
 class Block:
     def __init__(self, hash_value=None, height=None, grpc_block=None,
-                 grpc_block_header=None, tx_cnt=0):
+                 grpc_block_header=None, tx_cnt=0, size=0):
         if grpc_block is not None:
             self._map_grpc_block(grpc_block)
         elif grpc_block_header is not None:
@@ -28,6 +28,7 @@ class Block:
             # body
             self.__tx_list = []
             self.__tx_cnt = tx_cnt
+            self.__size = size
         else:
             if hash_value is None:
                 raise ValueError("Cannot set without a block hash value")
@@ -51,6 +52,7 @@ class Block:
             # body
             self.__tx_list = []
             self.__tx_cnt = tx_cnt
+            self.__size = size
 
     def _map_grpc_block_header(self, header):
         # header
@@ -95,6 +97,7 @@ class Block:
                                    is_in_mempool=False)
             self.__tx_list.append(block_tx)
         self.__tx_cnt = len(self.__tx_list)
+        self.__size = v.ByteSize()
 
     @property
     def hash(self):
@@ -174,6 +177,10 @@ class Block:
     @property
     def num_of_tx(self):
         return self.__tx_cnt
+
+    @property
+    def size(self):
+        return self.__size
 
     def get_tx(self, index):
         return self.__tx_list[index]
