@@ -233,7 +233,7 @@ class Aergo:
     def get_block_metas(self, block_hash=None, block_height=-1, list_size=20,
                         offset=0, is_asc_order=False):
         """
-        Returns the list of blocks.
+        Returns the list of metadata of queried blocks.
         :param block_hash:
         :param block_height:
         :param list_size: maximum number of results

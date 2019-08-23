@@ -129,7 +129,7 @@ class Comm:
         return self.__rpc_stub.ListBlockHeaders(params)
 
     def get_block_metas(self, block_hash, block_height, list_size, offset,
-                          is_asc_order):
+                        is_asc_order):
         if self.__rpc_stub is None:
             return None
         params = rpc_pb2.ListParams()
