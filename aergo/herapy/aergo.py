@@ -256,7 +256,8 @@ class Aergo:
             for bm in bms.blocks:
                 block_headers.append(Block(hash_value=bm.hash,
                                            grpc_block_header=bm.header,
-                                           tx_cnt=bm.txcount))
+                                           tx_cnt=bm.txcount,
+                                           size=bm.size))
         except Exception as e:
             raise CommunicationException(e) from e
 
@@ -397,6 +398,34 @@ class Aergo:
             raise CommunicationException(e) from e
 
         b = Block(grpc_block=result)
+        return b
+
+    def get_block_meta(self, block_hash=None, block_height=-1):
+        """
+        Returns information about block `block_hash`.
+        :param block_hash:
+        :param block_height:
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        if block_height >= 0:
+            query = block_height.to_bytes(8, byteorder='little')
+        else:
+            if type(block_hash) is not bh.BlockHash:
+                block_hash = bh.BlockHash(block_hash)
+            query = block_hash.value
+
+        try:
+            bm = self.__comm.get_block_meta(query)
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        b = Block(hash_value=bm.hash,
+                  grpc_block_header=bm.header,
+                  tx_cnt=bm.txcount,
+                  size=bm.size)
         return b
 
     def get_node_accounts(self, skip_state=False):
