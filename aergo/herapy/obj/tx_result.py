@@ -84,7 +84,7 @@ class TxResult:
             'fee_used': str(self.fee_used) if self.fee_used is not None else None,
             'cumulative_fee_used': str(self.cumulative_fee_used) if self.cumulative_fee_used is not None else None,
             'bloom': encode_b58(self.bloom) if self.bloom is not None else None,
-            'event_list': self.event_list,
+            'event_list': [event.json() for event in self.event_list],
             'block_no': self.block_no,
             'block_hash': str(self.block_hash) if self.block_hash is not None else None,
             'tx_index': self.tx_index,
