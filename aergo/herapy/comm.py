@@ -236,3 +236,12 @@ class Comm:
         v = rpc_pb2.SingleBytes()
         v.value = block_height.to_bytes(8, byteorder='little')
         return self.__rpc_stub.GetConfChangeProgress(v)
+
+    def get_name_info(self, name, block_height):
+        if self.__rpc_stub is None:
+            return None
+
+        n = rpc_pb2.Name()
+        n.name = name
+        n.blockNo = block_height
+        return self.__rpc_stub.GetNameInfo(n)

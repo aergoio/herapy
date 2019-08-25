@@ -15,20 +15,21 @@ from .obj import block_hash as bh
 from .obj import peer as pr
 from .obj import tx_hash as th
 from .obj.block import Block
+from .obj.block_stream import BlockStream
 from .obj.blockchain_info import BlockchainInfo
 from .obj.blockchain_status import BlockchainStatus
-from .obj.consensus_info import ConsensusInfo
 from .obj.call_info import CallInfo
+from .obj.change_conf_info import ChangeConfInfo
+from .obj.consensus_info import ConsensusInfo
 from .obj.event import Event
 from .obj.event_stream import EventStream
+from .obj.name_info import NameInfo
 from .obj.node_info import NodeInfo
+from .obj.sc_state import SCState, SCStateVar
 from .obj.transaction import Transaction, TxType
 from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
-from .obj.sc_state import SCState, SCStateVar
 from .obj.var_proof import VarProofs
-from .obj.block_stream import BlockStream
-from .obj.conf_change_state import ChangeConfInfo
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
@@ -911,3 +912,24 @@ class Aergo:
             raise CommunicationException(e) from e
 
         return ChangeConfInfo(status)
+
+    def get_name_info(self, name, block_height=-1):
+        """
+        Returns information of name which is designated by the system contract
+        :param name:
+        :param block_height:
+        :return:
+        """
+        if self.__comm is None:
+            return None
+
+        if block_height < 0:
+            # set current block height
+            block_height = self.get_status().best_block_height
+
+        try:
+            info = self.__comm.get_name_info(name, block_height)
+        except Exception as e:
+            raise CommunicationException(e) from e
+
+        return NameInfo(info)

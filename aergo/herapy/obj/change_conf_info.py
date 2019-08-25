@@ -21,9 +21,9 @@ class ChangeConfInfo:
     """ ChangeConfInfo shows the state of the request 'changeCluster'
     to change configuration of RAFT cluster and member list of the cluster.
     """
-    def __init__(self, state):
-        self.__info = json.loads(MessageToJson(state))
-        self.__state = ChangeConfState(state.State)
+    def __init__(self, info):
+        self.__info = json.loads(MessageToJson(info))
+        self.__state = ChangeConfState(info.State)
         self.__members = self.__info["Members"]
 
     def __str__(self):
