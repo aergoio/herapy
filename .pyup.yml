@@ -15,7 +15,8 @@ branch: develop
 # update schedule
 # default: empty
 # allowed: "every day", "every week", ..
-schedule: "every two weeks on monday"
+#schedule: "every two weeks on monday"
+schedule: "every month"
 
 # search for requirement files
 # default: True
@@ -27,14 +28,16 @@ search: True
 # allowed: list
 requirements:
   - requirements.txt:
-#      # update all dependencies and pin them
-#      update: all
-      # update insecure only, pin all
-      update: insecure
-      pin: True
+      # update all dependencies and pin them
+      update: all
+#      # update insecure only, pin all
+#      update: insecure
+#      pin: True
   - requirements_dev.txt:
       # don't update dependencies, use global 'pin' default
-      update: False
+#      update: False
+      # update all dependencies and pin them
+      update: all
 #  - requirements/prod.txt:
 #      # update insecure only, pin all
 #      update: insecure
@@ -54,7 +57,7 @@ requirements:
 
 # configure the branch prefix the bot is using
 # default: pyup-
-branch_prefix: pyup/
+branch_prefix: pyup-
 
 # set a global prefix for PRs
 # default: empty
