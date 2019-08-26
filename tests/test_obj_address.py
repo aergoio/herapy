@@ -87,7 +87,10 @@ def test_success():
 
 def test_encode_empty():
     addr = Address(None, empty=True)
-    #addr.value = bytes([])
+    assert str(addr) == ''
+
+    addr = Address(None, empty=True)
+    addr.value = bytes([])
     assert str(addr) == ''
 
 def test_encode_govname():
