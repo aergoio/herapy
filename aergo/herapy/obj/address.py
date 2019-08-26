@@ -51,6 +51,9 @@ class Address:
     def __str__(self):
         if self.__address is None or 0 == len(self.__address):
             return ''
+        elif len(self.__address) < 32:
+            return str(self.__address, 'UTF-8')
+
         return encode_address(self.__address)
 
     def __bytes__(self):
