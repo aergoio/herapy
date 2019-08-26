@@ -84,3 +84,8 @@ def test_success():
     assert str(addr4) == str(addr5)
     assert bytes(addr4) == bytes(addr5)
     assert addr4.public_key.point == addr5.public_key.point
+
+def test_encode_empty():
+    addr = Address(None, empty=True)
+    addr.value = bytes([])
+    assert str(addr) == ''
