@@ -4,9 +4,10 @@ History
 
 
 -------------------
-1.2.4 (2019-08-26)
+1.2.5 (2019-08-26)
 -------------------
 
+* support an empty string and governance string address for `Address`
 * support `get_name_info`
 * Bug fix
   * miss value from `get_conf_change_progress`
