@@ -5,7 +5,6 @@ import base64
 import ecdsa
 
 from ..constants import *
-from ..obj import address as addr
 
 
 def is_empty(v):
