@@ -25,6 +25,7 @@ class ChangeConfInfo:
         self.__info = json.loads(MessageToJson(info))
         self.__state = ChangeConfState(info.State)
         self.__members = self.__info["Members"]
+        self.__err = info.Err
 
     def __str__(self):
         return json.dumps(self.json(), indent=2)
@@ -39,3 +40,7 @@ class ChangeConfInfo:
     @property
     def members(self):
         return self.__members
+
+    @property
+    def error(self):
+        return self.__err

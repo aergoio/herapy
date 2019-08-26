@@ -4,6 +4,15 @@ History
 
 
 -------------------
+1.2.4 (2019-08-26)
+-------------------
+
+* support `get_name_info`
+* Bug fix
+  * miss value from `get_conf_change_progress`
+
+
+-------------------
 1.2.3 (2019-08-22)
 -------------------
 
