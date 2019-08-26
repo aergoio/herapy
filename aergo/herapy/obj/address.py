@@ -49,8 +49,6 @@ class Address:
                                                      compressed=True)
 
     def __str__(self):
-        if len(self.__address) == 0:
-            return ''
         return encode_address(self.__address)
 
     def __bytes__(self):

@@ -89,3 +89,8 @@ def test_encode_empty():
     addr = Address(None, empty=True)
     addr.value = bytes([])
     assert str(addr) == ''
+
+def test_encode_govname():
+    addr = Address(None, empty=True)
+    addr.value = bytes([0x61, 0x65, 0x72, 0x67, 0x6f, 0x2e, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65])
+    assert str(addr) == 'aergo.enterprise'
