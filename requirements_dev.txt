@@ -11,7 +11,7 @@ chardet==3.0.4
 codecov==2.0.15
 coverage==4.5.4
 cryptography==2.7
-docutils==0.14
+docutils==0.15.2
 ecdsa==0.13.2
 filelock==3.0.10
 flake8==3.7.7
