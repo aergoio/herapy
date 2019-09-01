@@ -13,7 +13,7 @@ coverage==4.5.4
 cryptography==2.7
 docutils==0.15.2
 ecdsa==0.13.2
-filelock==3.0.10
+filelock==3.0.12
 flake8==3.7.7
 googleapis-common-protos==1.6.0
 grpcio==1.23.0
