@@ -2,14 +2,14 @@
 
 import json
 
+from .address import Address
 from .block_hash import BlockHash
 from .tx_hash import TxHash
-from ..utils.encoding import encode_address
 
 
 class Event:
     def __init__(self, grpc_event):
-        self.__contract_address = encode_address(grpc_event.contractAddress)
+        self.__contract_address = Address.encode(grpc_event.contractAddress)
         self.__name = grpc_event.eventName
         self.__index = grpc_event.eventIdx
         try:

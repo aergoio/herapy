@@ -49,7 +49,7 @@ class Address:
                                                      compressed=True)
 
     def __str__(self):
-        return encode_address(self.__address)
+        return self.encode(self.__address)
 
     def __bytes__(self):
         return self.__address
@@ -62,7 +62,7 @@ class Address:
     def value(self, v):
         if self.__empty:
             if isinstance(v, str):
-                self.__address = decode_address(v)
+                self.__address = self.decode(v)
             elif isinstance(v, bytes):
                 self.__address = v
         else:
@@ -75,3 +75,27 @@ class Address:
     @property
     def public_key(self):
         return convert_bytes_to_public_key(self.__address, curve=self.__curve)
+
+    @staticmethod
+    def encode(addr):
+        try:
+            if addr is None or 0 == len(addr):
+                return ''
+            elif len(addr) < 32:
+                return str(addr, 'UTF-8')
+        except:
+            pass
+
+        return encode_address(addr)
+
+    @staticmethod
+    def decode(addr):
+        try:
+            if addr is None or 0 == len(addr):
+                return b''
+            elif check_name_address(addr) > 0:
+                return addr.encode()
+        except:
+            pass
+
+        return decode_address(addr)

@@ -4,6 +4,24 @@ History
 
 
 -------------------
+1.2.6 (2019-09-04)
+-------------------
+
+* Bug fix
+  * issue from https://github.com/aergoio/herapy/issues/68
+
+
+-------------------
+1.2.5 (2019-08-26)
+-------------------
+
+* support an empty string and governance string address for `Address`
+* support `get_name_info`
+* Bug fix
+  * miss value from `get_conf_change_progress`
+
+
+-------------------
 1.2.3 (2019-08-22)
 -------------------
 

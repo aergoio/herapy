@@ -3,7 +3,7 @@ import pytest
 from aergo.herapy.obj.tx_result import TxResult, TxResultType,\
     TxResultStatus, CommitStatus
 from aergo.herapy.grpc import rpc_pb2, blockchain_pb2
-from aergo.herapy.utils.encoding import encode_tx_hash, encode_address
+from aergo.herapy.utils.encoding import encode_tx_hash
 
 
 def test_grpc_receipt():
@@ -35,7 +35,7 @@ def test_grpc_receipt():
     assert tx_result2.type == TxResultType.RECEIPT
     assert tx_result2.status == TxResultStatus.CREATED
     assert tx_result2.detail == receipt['ret']
-    assert tx_result2.contract_address == encode_address(receipt['contractAddress'])
+    assert tx_result2.contract_address == str(receipt['contractAddress'], 'UTF-8')
 
     grpc_result3 = blockchain_pb2.Receipt()
     grpc_result3.contractAddress = b'contract_address'
@@ -88,7 +88,7 @@ def test_grpc_receipt():
     assert tx_result3.type == TxResultType.RECEIPT
     assert tx_result3.status == TxResultStatus.ERROR
     assert tx_result3.detail == grpc_result3.status
-    assert tx_result3.contract_address == encode_address(receipt['contractAddress'])
+    assert tx_result3.contract_address == str(receipt['contractAddress'], 'UTF-8')
 
     grpc_result3.status = 'CREATED'
     grpc_result3.ret = 'error is occurred'
