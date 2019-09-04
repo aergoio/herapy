@@ -4,16 +4,15 @@ import json
 
 from google.protobuf.json_format import MessageToJson
 
-from ..utils.encoding import encode_address
-
+from .address import Address
 
 class NameInfo():
     """ NameInfo is used to store information of name system."""
     def __init__(self, info):
         self.__info = json.loads(MessageToJson(info))
         self.__name = info.name.name
-        self.__owner = info.owner
-        self.__dest = info.destination
+        self.__owner = Address.encode(info.owner)
+        self.__dest = Address.encode(info.destination)
 
     @property
     def info(self):
@@ -32,20 +31,10 @@ class NameInfo():
         return self.__dest
 
     def json(self):
-        if self.owner is not None:
-            owner = encode_address(self.owner)
-        else:
-            owner = ""
-
-        if self.destination is not None:
-            dest = encode_address(self.destination)
-        else:
-            dest = ""
-
         return {
             'name': self.name,
-            'owner': owner,
-            'destination': dest
+            'owner': self.owner,
+            'destination': self.destination
         }
 
     def __str__(self):

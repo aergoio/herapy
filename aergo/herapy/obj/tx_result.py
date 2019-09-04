@@ -3,6 +3,7 @@
 import json
 import enum
 
+from .address import Address
 from .aer import Aer
 from .block_hash import BlockHash
 from .event import Event
@@ -11,7 +12,7 @@ from ..status.commit_status import CommitStatus
 from ..status.tx_result_status import TxResultStatus
 from ..grpc.rpc_pb2 import CommitResult
 from ..grpc.blockchain_pb2 import Receipt
-from ..utils.encoding import encode_tx_hash, encode_address, encode_b58
+from ..utils.encoding import encode_tx_hash, encode_b58
 
 
 @enum.unique
@@ -33,7 +34,7 @@ class TxResult:
             except:
                 self.status = TxResultStatus.ERROR
                 self.detail = result.status
-            self.contract_address = encode_address(result.contractAddress)
+            self.contract_address = Address.encode(result.contractAddress)
             self.fee_used = Aer(result.feeUsed)
             self.cumulative_fee_used = Aer(result.cumulativeFeeUsed)
             self.bloom = result.bloom
@@ -44,8 +45,8 @@ class TxResult:
             self.block_hash = BlockHash(result.blockHash)
             self.tx_index = result.txIndex
             self.tx_hash = TxHash(result.txHash)
-            self.from_address = encode_address(getattr(result, 'from'))
-            self.to_address = encode_address(result.to)
+            self.from_address = Address.encode(getattr(result, 'from'))
+            self.to_address = Address.encode(result.to)
 
             """
             if result.ret is None or 0 == len(result.ret):

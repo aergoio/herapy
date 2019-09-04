@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import ecdsa
 from ecdsa.util import number_to_string, string_to_number
 

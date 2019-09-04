@@ -91,7 +91,7 @@ class Aergo:
             else:
                 ret_account = acc.Account(empty=True)
                 if isinstance(address, str):
-                    req_address = decode_address(address)
+                    req_address = addr.Address.decode(address)
                 elif type(address) is addr.Address:
                     req_address = bytes(address)
                 else:
@@ -273,7 +273,7 @@ class Aergo:
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = decode_address(sc_address)
+            sc_address = addr.Address.decode(sc_address)
         elif isinstance(sc_address, TxHash):
             sc_address = bytes(sc_address)
 
@@ -303,7 +303,7 @@ class Aergo:
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = decode_address(sc_address)
+            sc_address = addr.Address.decode(sc_address)
         elif isinstance(sc_address, TxHash):
             sc_address = bytes(sc_address)
 
@@ -844,7 +844,7 @@ class Aergo:
     def query_sc(self, sc_address, func_name, args=None):
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = decode_address(sc_address)
+            sc_address = addr.Address.decode(sc_address)
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
@@ -866,7 +866,7 @@ class Aergo:
         """
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
-            sc_address = decode_address(sc_address)
+            sc_address = addr.Address.decode(sc_address)
 
         if isinstance(root, str) and len(root) != 0:
             root = decode_root(root)

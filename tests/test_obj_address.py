@@ -95,12 +95,21 @@ def test_encode_empty():
     assert str(addr) == ''
 
 
-def test_encode_govname():
+def test_govname():
     addr = Address(None, empty=True)
     name = 'abcdetest'
     addr.value = name.encode()
     assert len(str(addr)) == len(name)
 
     addr = Address(None, empty=True)
-    addr.value = bytes([0x61, 0x65, 0x72, 0x67, 0x6f, 0x2e, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65])
+    baddr = bytes([0x61, 0x65, 0x72, 0x67, 0x6f, 0x2e, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65])
+    addr.value = baddr
     assert str(addr) == 'aergo.enterprise'
+    assert str(addr) == Address.encode(baddr)
+    assert bytes(addr) == Address.decode('aergo.enterprise')
+    assert baddr == Address.decode('aergo.enterprise')
+
+    addr = Address(None, empty=True)
+    addr.value = 'aergo.system'
+    assert str(addr) == 'aergo.system'
+    assert bytes(addr) == Address.decode('aergo.system')
