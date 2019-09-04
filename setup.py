@@ -41,7 +41,7 @@ test_requirements = [
 
 setup(
     name='aergo-herapy',
-    version='1.2.5',
+    version='1.2.6',
     description="python SDK for AERGO",
     keywords='herapy',
     author="aergo.io",
