@@ -1,24 +1,29 @@
 
+
+.. image:: https://github.com/aergoio/herapy/blob/develop/images/hera_py.jpg?raw=true
+    :target: https://github.com/aergoio/herapy/
+
+
 ======
 herapy
 ======
 
 .. image:: https://codecov.io/gh/aergoio/herapy/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/aergoio/herapy
+    :target: https://codecov.io/gh/aergoio/herapy
 
 .. image:: https://img.shields.io/pypi/v/aergo-herapy.svg
-        :target: https://pypi.python.org/pypi/aergo-herapy
+    :target: https://pypi.python.org/pypi/aergo-herapy
 
 .. image:: https://travis-ci.com/aergoio/herapy.svg?token=bxpJA7kPFExuJMq3sBNb&branch=master
     :target: https://travis-ci.com/aergoio/herapy
 
 .. image:: https://readthedocs.org/projects/aergo-herapy/badge/?version=latest
-        :target: https://aergo-herapy.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
+    :target: https://aergo-herapy.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/aergoio/herapy/shield.svg
-     :target: https://pyup.io/repos/github/aergoio/herapy/
-     :alt: Updates
+    :target: https://pyup.io/repos/github/aergoio/herapy/
+    :alt: Updates
 
 HeraPy is a Python package for AERGO that provides the features below.
 
