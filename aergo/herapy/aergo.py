@@ -31,6 +31,7 @@ from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
 from .obj.var_proof import VarProofs
 from .obj.abi import Abi
+from .obj.enterprise_config import EnterpriseConfig
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
@@ -913,6 +914,16 @@ class Aergo:
             raise CommunicationException(e) from e
 
         return ChangeConfInfo(status)
+
+    def get_enterprise_config(self, key):
+        if self.__comm is None:
+            return None
+
+        try:
+            conf = self.__comm.get_enterprise_config(key)
+        except Exception as e:
+            raise CommunicationException(e) from e
+        return EnterpriseConfig(conf)
 
     def get_name_info(self, name, block_height=-1):
         """

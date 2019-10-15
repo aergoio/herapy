@@ -237,6 +237,14 @@ class Comm:
         v.value = block_height.to_bytes(8, byteorder='little')
         return self.__rpc_stub.GetConfChangeProgress(v)
 
+    def get_enterprise_config(self, key):
+        if self.__rpc_stub is None:
+            return None
+
+        v = rpc_pb2.EnterpriseConfigKey()
+        v.key = key
+        return self.__rpc_stub.GetEnterpriseConfig(v)
+
     def get_name_info(self, name, block_height):
         if self.__rpc_stub is None:
             return None

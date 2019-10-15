@@ -60,6 +60,9 @@ def run():
             aergo.disconnect()
             return
 
+        config = aergo.get_enterprise_config('ADMINS')
+        print(config.values)
+
         print("------ Call SC: changeCluster -----------")
         args = {
             "command": "add",
@@ -95,6 +98,7 @@ def run():
 
         print("-------Wait for tx result--------")
         result = aergo.wait_tx_result(tx.tx_hash)
+        print(result)
         if result.status != herapy.TxResultStatus.SUCCESS:
             eprint("  > ERROR[{0}]:{1}: {2}".format(
                 result.contract_address, result.status, result.detail))
