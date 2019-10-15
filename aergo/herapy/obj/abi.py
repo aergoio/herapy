@@ -7,7 +7,7 @@ from google.protobuf.json_format import MessageToJson
 
 
 class Abi():
-    """ NameInfo is used to store information of name system."""
+    """ Abi stores a contract abi."""
     def __init__(self, abi):
         self.__json = json.loads(MessageToJson(abi))
         self.__version = self.__json.get('version', None)
