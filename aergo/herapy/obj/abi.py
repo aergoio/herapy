@@ -10,10 +10,10 @@ class Abi():
     """ NameInfo is used to store information of name system."""
     def __init__(self, abi):
         self.__json = json.loads(MessageToJson(abi))
-        self.__version = self.__json['version']
-        self.__language = self.__json['language']
-        self.__functions = self.__json['functions']
-        self.__state_variables = self.__json['stateVariables']
+        self.__version = self.__json.get('version', None)
+        self.__language = self.__json.get('language', None)
+        self.__functions = self.__json.get('functions', [])
+        self.__state_variables = self.__json.get('stateVariables', [])
 
     @property
     def version(self):
