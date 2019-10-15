@@ -245,3 +245,10 @@ class Comm:
         n.name = name
         n.blockNo = block_height
         return self.__rpc_stub.GetNameInfo(n)
+
+    def get_abi(self, addr_bytes):
+        if self.__rpc_stub is None:
+            return None
+        v = rpc_pb2.SingleBytes()
+        v.value = addr_bytes
+        return self.__rpc_stub.GetABI(v)

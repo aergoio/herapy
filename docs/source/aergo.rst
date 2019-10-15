@@ -6,12 +6,12 @@ Subpackages
 
 .. toctree::
 
-    aergo.herapy
+   aergo.herapy
 
 Module contents
 ---------------
 
 .. automodule:: aergo
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
