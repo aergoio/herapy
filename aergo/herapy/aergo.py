@@ -30,6 +30,7 @@ from .obj.transaction import Transaction, TxType
 from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
 from .obj.var_proof import VarProofs
+from .obj.abi import Abi
 
 from .errors.exception import CommunicationException
 from .errors.general_exception import GeneralException
@@ -933,3 +934,15 @@ class Aergo:
             raise CommunicationException(e) from e
 
         return NameInfo(info)
+
+    def get_abi(self, contract_addr=None, addr_bytes=None):
+        """ Returns the abi of given contract address. """
+        if self.__comm is None:
+            return None
+        if contract_addr is not None:
+            addr_bytes = decode_address(contract_addr)
+        try:
+            abi = self.__comm.get_abi(addr_bytes)
+        except Exception as e:
+            raise CommunicationException(e) from e
+        return Abi(abi)

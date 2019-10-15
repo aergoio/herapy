@@ -133,6 +133,10 @@ def run():
         result = aergo.query_sc(sc_address, "get_name")
         print(result)
 
+        print("------- Get smart contract abi --------")
+        abi = aergo.get_abi(sc_address)
+        print(abi.functions[0])
+
         print("------ Disconnect AERGO -----------")
         aergo.disconnect()
     except Exception as e:
