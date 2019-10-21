@@ -92,18 +92,18 @@ DESCRIPTOR.message_types_by_name['Account'] = _ACCOUNT
 DESCRIPTOR.message_types_by_name['AccountList'] = _ACCOUNTLIST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Account = _reflection.GeneratedProtocolMessageType('Account', (_message.Message,), dict(
-  DESCRIPTOR = _ACCOUNT,
-  __module__ = 'account_pb2'
+Account = _reflection.GeneratedProtocolMessageType('Account', (_message.Message,), {
+  'DESCRIPTOR' : _ACCOUNT,
+  '__module__' : 'account_pb2'
   # @@protoc_insertion_point(class_scope:types.Account)
-  ))
+  })
 _sym_db.RegisterMessage(Account)
 
-AccountList = _reflection.GeneratedProtocolMessageType('AccountList', (_message.Message,), dict(
-  DESCRIPTOR = _ACCOUNTLIST,
-  __module__ = 'account_pb2'
+AccountList = _reflection.GeneratedProtocolMessageType('AccountList', (_message.Message,), {
+  'DESCRIPTOR' : _ACCOUNTLIST,
+  '__module__' : 'account_pb2'
   # @@protoc_insertion_point(class_scope:types.AccountList)
-  ))
+  })
 _sym_db.RegisterMessage(AccountList)
 
 

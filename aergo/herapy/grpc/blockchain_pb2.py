@@ -1306,151 +1306,151 @@ DESCRIPTOR.message_types_by_name['FilterInfo'] = _FILTERINFO
 DESCRIPTOR.enum_types_by_name['TxType'] = _TXTYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Block = _reflection.GeneratedProtocolMessageType('Block', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCK,
-  __module__ = 'blockchain_pb2'
+Block = _reflection.GeneratedProtocolMessageType('Block', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCK,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.Block)
-  ))
+  })
 _sym_db.RegisterMessage(Block)
 
-BlockHeader = _reflection.GeneratedProtocolMessageType('BlockHeader', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKHEADER,
-  __module__ = 'blockchain_pb2'
+BlockHeader = _reflection.GeneratedProtocolMessageType('BlockHeader', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKHEADER,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockHeader)
-  ))
+  })
 _sym_db.RegisterMessage(BlockHeader)
 
-BlockBody = _reflection.GeneratedProtocolMessageType('BlockBody', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKBODY,
-  __module__ = 'blockchain_pb2'
+BlockBody = _reflection.GeneratedProtocolMessageType('BlockBody', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKBODY,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockBody)
-  ))
+  })
 _sym_db.RegisterMessage(BlockBody)
 
-TxList = _reflection.GeneratedProtocolMessageType('TxList', (_message.Message,), dict(
-  DESCRIPTOR = _TXLIST,
-  __module__ = 'blockchain_pb2'
+TxList = _reflection.GeneratedProtocolMessageType('TxList', (_message.Message,), {
+  'DESCRIPTOR' : _TXLIST,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.TxList)
-  ))
+  })
 _sym_db.RegisterMessage(TxList)
 
-Tx = _reflection.GeneratedProtocolMessageType('Tx', (_message.Message,), dict(
-  DESCRIPTOR = _TX,
-  __module__ = 'blockchain_pb2'
+Tx = _reflection.GeneratedProtocolMessageType('Tx', (_message.Message,), {
+  'DESCRIPTOR' : _TX,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.Tx)
-  ))
+  })
 _sym_db.RegisterMessage(Tx)
 
-TxBody = _reflection.GeneratedProtocolMessageType('TxBody', (_message.Message,), dict(
-  DESCRIPTOR = _TXBODY,
-  __module__ = 'blockchain_pb2'
+TxBody = _reflection.GeneratedProtocolMessageType('TxBody', (_message.Message,), {
+  'DESCRIPTOR' : _TXBODY,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.TxBody)
-  ))
+  })
 _sym_db.RegisterMessage(TxBody)
 
-TxIdx = _reflection.GeneratedProtocolMessageType('TxIdx', (_message.Message,), dict(
-  DESCRIPTOR = _TXIDX,
-  __module__ = 'blockchain_pb2'
+TxIdx = _reflection.GeneratedProtocolMessageType('TxIdx', (_message.Message,), {
+  'DESCRIPTOR' : _TXIDX,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.TxIdx)
-  ))
+  })
 _sym_db.RegisterMessage(TxIdx)
 
-TxInBlock = _reflection.GeneratedProtocolMessageType('TxInBlock', (_message.Message,), dict(
-  DESCRIPTOR = _TXINBLOCK,
-  __module__ = 'blockchain_pb2'
+TxInBlock = _reflection.GeneratedProtocolMessageType('TxInBlock', (_message.Message,), {
+  'DESCRIPTOR' : _TXINBLOCK,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.TxInBlock)
-  ))
+  })
 _sym_db.RegisterMessage(TxInBlock)
 
-State = _reflection.GeneratedProtocolMessageType('State', (_message.Message,), dict(
-  DESCRIPTOR = _STATE,
-  __module__ = 'blockchain_pb2'
+State = _reflection.GeneratedProtocolMessageType('State', (_message.Message,), {
+  'DESCRIPTOR' : _STATE,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.State)
-  ))
+  })
 _sym_db.RegisterMessage(State)
 
-AccountProof = _reflection.GeneratedProtocolMessageType('AccountProof', (_message.Message,), dict(
-  DESCRIPTOR = _ACCOUNTPROOF,
-  __module__ = 'blockchain_pb2'
+AccountProof = _reflection.GeneratedProtocolMessageType('AccountProof', (_message.Message,), {
+  'DESCRIPTOR' : _ACCOUNTPROOF,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.AccountProof)
-  ))
+  })
 _sym_db.RegisterMessage(AccountProof)
 
-ContractVarProof = _reflection.GeneratedProtocolMessageType('ContractVarProof', (_message.Message,), dict(
-  DESCRIPTOR = _CONTRACTVARPROOF,
-  __module__ = 'blockchain_pb2'
+ContractVarProof = _reflection.GeneratedProtocolMessageType('ContractVarProof', (_message.Message,), {
+  'DESCRIPTOR' : _CONTRACTVARPROOF,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.ContractVarProof)
-  ))
+  })
 _sym_db.RegisterMessage(ContractVarProof)
 
-StateQueryProof = _reflection.GeneratedProtocolMessageType('StateQueryProof', (_message.Message,), dict(
-  DESCRIPTOR = _STATEQUERYPROOF,
-  __module__ = 'blockchain_pb2'
+StateQueryProof = _reflection.GeneratedProtocolMessageType('StateQueryProof', (_message.Message,), {
+  'DESCRIPTOR' : _STATEQUERYPROOF,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.StateQueryProof)
-  ))
+  })
 _sym_db.RegisterMessage(StateQueryProof)
 
-Receipt = _reflection.GeneratedProtocolMessageType('Receipt', (_message.Message,), dict(
-  DESCRIPTOR = _RECEIPT,
-  __module__ = 'blockchain_pb2'
+Receipt = _reflection.GeneratedProtocolMessageType('Receipt', (_message.Message,), {
+  'DESCRIPTOR' : _RECEIPT,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.Receipt)
-  ))
+  })
 _sym_db.RegisterMessage(Receipt)
 
-Event = _reflection.GeneratedProtocolMessageType('Event', (_message.Message,), dict(
-  DESCRIPTOR = _EVENT,
-  __module__ = 'blockchain_pb2'
+Event = _reflection.GeneratedProtocolMessageType('Event', (_message.Message,), {
+  'DESCRIPTOR' : _EVENT,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.Event)
-  ))
+  })
 _sym_db.RegisterMessage(Event)
 
-FnArgument = _reflection.GeneratedProtocolMessageType('FnArgument', (_message.Message,), dict(
-  DESCRIPTOR = _FNARGUMENT,
-  __module__ = 'blockchain_pb2'
+FnArgument = _reflection.GeneratedProtocolMessageType('FnArgument', (_message.Message,), {
+  'DESCRIPTOR' : _FNARGUMENT,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.FnArgument)
-  ))
+  })
 _sym_db.RegisterMessage(FnArgument)
 
-Function = _reflection.GeneratedProtocolMessageType('Function', (_message.Message,), dict(
-  DESCRIPTOR = _FUNCTION,
-  __module__ = 'blockchain_pb2'
+Function = _reflection.GeneratedProtocolMessageType('Function', (_message.Message,), {
+  'DESCRIPTOR' : _FUNCTION,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.Function)
-  ))
+  })
 _sym_db.RegisterMessage(Function)
 
-StateVar = _reflection.GeneratedProtocolMessageType('StateVar', (_message.Message,), dict(
-  DESCRIPTOR = _STATEVAR,
-  __module__ = 'blockchain_pb2'
+StateVar = _reflection.GeneratedProtocolMessageType('StateVar', (_message.Message,), {
+  'DESCRIPTOR' : _STATEVAR,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.StateVar)
-  ))
+  })
 _sym_db.RegisterMessage(StateVar)
 
-ABI = _reflection.GeneratedProtocolMessageType('ABI', (_message.Message,), dict(
-  DESCRIPTOR = _ABI,
-  __module__ = 'blockchain_pb2'
+ABI = _reflection.GeneratedProtocolMessageType('ABI', (_message.Message,), {
+  'DESCRIPTOR' : _ABI,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.ABI)
-  ))
+  })
 _sym_db.RegisterMessage(ABI)
 
-Query = _reflection.GeneratedProtocolMessageType('Query', (_message.Message,), dict(
-  DESCRIPTOR = _QUERY,
-  __module__ = 'blockchain_pb2'
+Query = _reflection.GeneratedProtocolMessageType('Query', (_message.Message,), {
+  'DESCRIPTOR' : _QUERY,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.Query)
-  ))
+  })
 _sym_db.RegisterMessage(Query)
 
-StateQuery = _reflection.GeneratedProtocolMessageType('StateQuery', (_message.Message,), dict(
-  DESCRIPTOR = _STATEQUERY,
-  __module__ = 'blockchain_pb2'
+StateQuery = _reflection.GeneratedProtocolMessageType('StateQuery', (_message.Message,), {
+  'DESCRIPTOR' : _STATEQUERY,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.StateQuery)
-  ))
+  })
 _sym_db.RegisterMessage(StateQuery)
 
-FilterInfo = _reflection.GeneratedProtocolMessageType('FilterInfo', (_message.Message,), dict(
-  DESCRIPTOR = _FILTERINFO,
-  __module__ = 'blockchain_pb2'
+FilterInfo = _reflection.GeneratedProtocolMessageType('FilterInfo', (_message.Message,), {
+  'DESCRIPTOR' : _FILTERINFO,
+  '__module__' : 'blockchain_pb2'
   # @@protoc_insertion_point(class_scope:types.FilterInfo)
-  ))
+  })
 _sym_db.RegisterMessage(FilterInfo)
 
 

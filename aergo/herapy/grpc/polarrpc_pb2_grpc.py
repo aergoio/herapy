@@ -41,6 +41,21 @@ class PolarisRPCServiceStub(object):
         request_serializer=polarrpc__pb2.Paginations.SerializeToString,
         response_deserializer=polarrpc__pb2.PolarisPeerList.FromString,
         )
+    self.ListBLEntries = channel.unary_unary(
+        '/types.PolarisRPCService/ListBLEntries',
+        request_serializer=rpc__pb2.Empty.SerializeToString,
+        response_deserializer=polarrpc__pb2.BLConfEntries.FromString,
+        )
+    self.AddBLEntry = channel.unary_unary(
+        '/types.PolarisRPCService/AddBLEntry',
+        request_serializer=polarrpc__pb2.AddEntryParams.SerializeToString,
+        response_deserializer=rpc__pb2.SingleString.FromString,
+        )
+    self.RemoveBLEntry = channel.unary_unary(
+        '/types.PolarisRPCService/RemoveBLEntry',
+        request_serializer=polarrpc__pb2.RmEntryParams.SerializeToString,
+        response_deserializer=rpc__pb2.SingleString.FromString,
+        )
 
 
 class PolarisRPCServiceServicer(object):
@@ -82,6 +97,27 @@ class PolarisRPCServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def ListBLEntries(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def AddBLEntry(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def RemoveBLEntry(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_PolarisRPCServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -109,6 +145,21 @@ def add_PolarisRPCServiceServicer_to_server(servicer, server):
           servicer.BlackList,
           request_deserializer=polarrpc__pb2.Paginations.FromString,
           response_serializer=polarrpc__pb2.PolarisPeerList.SerializeToString,
+      ),
+      'ListBLEntries': grpc.unary_unary_rpc_method_handler(
+          servicer.ListBLEntries,
+          request_deserializer=rpc__pb2.Empty.FromString,
+          response_serializer=polarrpc__pb2.BLConfEntries.SerializeToString,
+      ),
+      'AddBLEntry': grpc.unary_unary_rpc_method_handler(
+          servicer.AddBLEntry,
+          request_deserializer=polarrpc__pb2.AddEntryParams.FromString,
+          response_serializer=rpc__pb2.SingleString.SerializeToString,
+      ),
+      'RemoveBLEntry': grpc.unary_unary_rpc_method_handler(
+          servicer.RemoveBLEntry,
+          request_deserializer=polarrpc__pb2.RmEntryParams.FromString,
+          response_serializer=rpc__pb2.SingleString.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

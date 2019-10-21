@@ -27,7 +27,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\x1a\nraft.proto\"\x9a\x01\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\x12\x16\n\x0e\x63onsensus_info\x18\x03 \x01(\t\x12\x1a\n\x12\x62\x65st_chain_id_hash\x18\x04 \x01(\x0c\x12$\n\nchain_info\x18\x05 \x01(\x0b\x32\x10.types.ChainInfo\"L\n\x07\x43hainId\x12\r\n\x05magic\x18\x01 \x01(\t\x12\x0e\n\x06public\x18\x02 \x01(\x08\x12\x0f\n\x07mainnet\x18\x03 \x01(\x08\x12\x11\n\tconsensus\x18\x04 \x01(\t\"\xb5\x01\n\tChainInfo\x12\x1a\n\x02id\x18\x01 \x01(\x0b\x32\x0e.types.ChainId\x12\x10\n\x08\x62pNumber\x18\x02 \x01(\r\x12\x14\n\x0cmaxblocksize\x18\x03 \x01(\x04\x12\x11\n\tmaxtokens\x18\x04 \x01(\x0c\x12\x16\n\x0estakingminimum\x18\x05 \x01(\x0c\x12\x14\n\x0ctotalstaking\x18\x06 \x01(\x0c\x12\x10\n\x08gasprice\x18\x07 \x01(\x0c\x12\x11\n\tnameprice\x18\x08 \x01(\x0c\"\x1c\n\nChainStats\x12\x0e\n\x06report\x18\x01 \x01(\t\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"\x1f\n\x0e\x41\x63\x63ountAddress\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"\xaa\x01\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\x12\x0e\n\x06hidden\x18\x04 \x01(\x08\x12\x11\n\tlashCheck\x18\x05 \x01(\x03\x12\x10\n\x08selfpeer\x18\x06 \x01(\x08\x12\x0f\n\x07version\x18\x07 \x01(\t\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"*\n\nPageParams\x12\x0e\n\x06offset\x18\x01 \x01(\r\x12\x0c\n\x04size\x18\x02 \x01(\r\"]\n\x0e\x42lockBodyPaged\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0e\n\x06offset\x18\x02 \x01(\r\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x1e\n\x04\x62ody\x18\x04 \x01(\x0b\x32\x10.types.BlockBody\"J\n\x0f\x42lockBodyParams\x12\x14\n\x0chashornumber\x18\x01 \x01(\x0c\x12!\n\x06paging\x18\x02 \x01(\x0b\x32\x11.types.PageParams\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"`\n\rBlockMetadata\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07txcount\x18\x03 \x01(\x05\x12\x0c\n\x04size\x18\x04 \x01(\x03\"9\n\x11\x42lockMetadataList\x12$\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x14.types.BlockMetadata\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"\'\n\nVoteParams\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x63ount\x18\x02 \x01(\r\"S\n\x0f\x41\x63\x63ountVoteInfo\x12\x1f\n\x07staking\x18\x01 \x01(\x0b\x32\x0e.types.Staking\x12\x1f\n\x06voting\x18\x02 \x03(\x0b\x32\x0f.types.VoteInfo\"*\n\x08VoteInfo\x12\n\n\x02id\x18\x02 \x01(\t\x12\x12\n\ncandidates\x18\x03 \x03(\t\"2\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\x12\n\n\x02id\x18\x02 \x01(\t\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c\"%\n\x04Name\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"I\n\x08NameInfo\x12\x19\n\x04name\x18\x01 \x01(\x0b\x32\x0b.types.Name\x12\r\n\x05owner\x18\x02 \x01(\x0c\x12\x13\n\x0b\x64\x65stination\x18\x03 \x01(\x0c\"1\n\x0bPeersParams\x12\x10\n\x08noHidden\x18\x01 \x01(\x08\x12\x10\n\x08showSelf\x18\x02 \x01(\x08\"\x18\n\tKeyParams\x12\x0b\n\x03key\x18\x01 \x03(\t\"\xdb\x01\n\nServerInfo\x12-\n\x06status\x18\x01 \x03(\x0b\x32\x1d.types.ServerInfo.StatusEntry\x12-\n\x06\x63onfig\x18\x02 \x03(\x0b\x32\x1d.types.ServerInfo.ConfigEntry\x1a-\n\x0bStatusEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.types.ConfigItem:\x02\x38\x01\"g\n\nConfigItem\x12+\n\x05props\x18\x02 \x03(\x0b\x32\x1c.types.ConfigItem.PropsEntry\x1a,\n\nPropsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\")\n\tEventList\x12\x1c\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x0c.types.Event\"8\n\rConsensusInfo\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0c\n\x04info\x18\x02 \x01(\t\x12\x0b\n\x03\x62ps\x18\x03 \x03(\t\"\"\n\x13\x45nterpriseConfigKey\x12\x0b\n\x03key\x18\x01 \x01(\t\";\n\x10\x45nterpriseConfig\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\n\n\x02on\x18\x02 \x01(\x08\x12\x0e\n\x06values\x18\x03 \x03(\t*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xa8\x12\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12\x30\n\x0cGetChainInfo\x12\x0c.types.Empty\x1a\x10.types.ChainInfo\"\x00\x12.\n\tChainStat\x12\x0c.types.Empty\x1a\x11.types.ChainStats\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x42\n\x11ListBlockMetadata\x12\x11.types.ListParams\x1a\x18.types.BlockMetadataList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12\x41\n\x17ListBlockMetadataStream\x12\x0c.types.Empty\x1a\x14.types.BlockMetadata\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12>\n\x10GetBlockMetadata\x12\x12.types.SingleBytes\x1a\x14.types.BlockMetadata\"\x00\x12?\n\x0cGetBlockBody\x12\x16.types.BlockBodyParams\x1a\x15.types.BlockBodyPaged\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12@\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x13.types.AccountProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12\x31\n\x08GetPeers\x12\x12.types.PeersParams\x1a\x0f.types.PeerList\"\x00\x12\x30\n\x08GetVotes\x12\x11.types.VoteParams\x1a\x0f.types.VoteList\"\x00\x12\x42\n\x0fGetAccountVotes\x12\x15.types.AccountAddress\x1a\x16.types.AccountVoteInfo\"\x00\x12\x35\n\nGetStaking\x12\x15.types.AccountAddress\x1a\x0e.types.Staking\"\x00\x12-\n\x0bGetNameInfo\x12\x0b.types.Name\x1a\x0f.types.NameInfo\"\x00\x12\x36\n\x0fListEventStream\x12\x11.types.FilterInfo\x1a\x0c.types.Event\"\x00\x30\x01\x12\x33\n\nListEvents\x12\x11.types.FilterInfo\x1a\x10.types.EventList\"\x00\x12\x36\n\rGetServerInfo\x12\x10.types.KeyParams\x1a\x11.types.ServerInfo\"\x00\x12\x38\n\x10GetConsensusInfo\x12\x0c.types.Empty\x1a\x14.types.ConsensusInfo\"\x00\x12K\n\x10\x43hangeMembership\x12\x17.types.MembershipChange\x1a\x1c.types.MembershipChangeReply\"\x00\x12L\n\x13GetEnterpriseConfig\x12\x1a.types.EnterpriseConfigKey\x1a\x17.types.EnterpriseConfig\"\x00\x12H\n\x15GetConfChangeProgress\x12\x12.types.SingleBytes\x1a\x19.types.ConfChangeProgress\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\x1a\nraft.proto\"\x9a\x01\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\x12\x16\n\x0e\x63onsensus_info\x18\x03 \x01(\t\x12\x1a\n\x12\x62\x65st_chain_id_hash\x18\x04 \x01(\x0c\x12$\n\nchain_info\x18\x05 \x01(\x0b\x32\x10.types.ChainInfo\"L\n\x07\x43hainId\x12\r\n\x05magic\x18\x01 \x01(\t\x12\x0e\n\x06public\x18\x02 \x01(\x08\x12\x0f\n\x07mainnet\x18\x03 \x01(\x08\x12\x11\n\tconsensus\x18\x04 \x01(\t\"\xb5\x01\n\tChainInfo\x12\x1a\n\x02id\x18\x01 \x01(\x0b\x32\x0e.types.ChainId\x12\x10\n\x08\x62pNumber\x18\x02 \x01(\r\x12\x14\n\x0cmaxblocksize\x18\x03 \x01(\x04\x12\x11\n\tmaxtokens\x18\x04 \x01(\x0c\x12\x16\n\x0estakingminimum\x18\x05 \x01(\x0c\x12\x14\n\x0ctotalstaking\x18\x06 \x01(\x0c\x12\x10\n\x08gasprice\x18\x07 \x01(\x0c\x12\x11\n\tnameprice\x18\x08 \x01(\x0c\"\x1c\n\nChainStats\x12\x0e\n\x06report\x18\x01 \x01(\t\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"\x1d\n\x0cSingleString\x12\r\n\x05value\x18\x01 \x01(\t\"\x1f\n\x0e\x41\x63\x63ountAddress\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"\xaa\x01\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\x12\x0e\n\x06hidden\x18\x04 \x01(\x08\x12\x11\n\tlashCheck\x18\x05 \x01(\x03\x12\x10\n\x08selfpeer\x18\x06 \x01(\x08\x12\x0f\n\x07version\x18\x07 \x01(\t\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"*\n\nPageParams\x12\x0e\n\x06offset\x18\x01 \x01(\r\x12\x0c\n\x04size\x18\x02 \x01(\r\"]\n\x0e\x42lockBodyPaged\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0e\n\x06offset\x18\x02 \x01(\r\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x1e\n\x04\x62ody\x18\x04 \x01(\x0b\x32\x10.types.BlockBody\"J\n\x0f\x42lockBodyParams\x12\x14\n\x0chashornumber\x18\x01 \x01(\x0c\x12!\n\x06paging\x18\x02 \x01(\x0b\x32\x11.types.PageParams\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"`\n\rBlockMetadata\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07txcount\x18\x03 \x01(\x05\x12\x0c\n\x04size\x18\x04 \x01(\x03\"9\n\x11\x42lockMetadataList\x12$\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x14.types.BlockMetadata\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"\'\n\nVoteParams\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x63ount\x18\x02 \x01(\r\"S\n\x0f\x41\x63\x63ountVoteInfo\x12\x1f\n\x07staking\x18\x01 \x01(\x0b\x32\x0e.types.Staking\x12\x1f\n\x06voting\x18\x02 \x03(\x0b\x32\x0f.types.VoteInfo\"*\n\x08VoteInfo\x12\n\n\x02id\x18\x02 \x01(\t\x12\x12\n\ncandidates\x18\x03 \x03(\t\"2\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\x12\n\n\x02id\x18\x02 \x01(\t\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c\"%\n\x04Name\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"I\n\x08NameInfo\x12\x19\n\x04name\x18\x01 \x01(\x0b\x32\x0b.types.Name\x12\r\n\x05owner\x18\x02 \x01(\x0c\x12\x13\n\x0b\x64\x65stination\x18\x03 \x01(\x0c\"1\n\x0bPeersParams\x12\x10\n\x08noHidden\x18\x01 \x01(\x08\x12\x10\n\x08showSelf\x18\x02 \x01(\x08\"\x18\n\tKeyParams\x12\x0b\n\x03key\x18\x01 \x03(\t\"\xdb\x01\n\nServerInfo\x12-\n\x06status\x18\x01 \x03(\x0b\x32\x1d.types.ServerInfo.StatusEntry\x12-\n\x06\x63onfig\x18\x02 \x03(\x0b\x32\x1d.types.ServerInfo.ConfigEntry\x1a-\n\x0bStatusEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.types.ConfigItem:\x02\x38\x01\"g\n\nConfigItem\x12+\n\x05props\x18\x02 \x03(\x0b\x32\x1c.types.ConfigItem.PropsEntry\x1a,\n\nPropsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\")\n\tEventList\x12\x1c\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x0c.types.Event\"8\n\rConsensusInfo\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0c\n\x04info\x18\x02 \x01(\t\x12\x0b\n\x03\x62ps\x18\x03 \x03(\t\"\"\n\x13\x45nterpriseConfigKey\x12\x0b\n\x03key\x18\x01 \x01(\t\";\n\x10\x45nterpriseConfig\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\n\n\x02on\x18\x02 \x01(\x08\x12\x0e\n\x06values\x18\x03 \x03(\t*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xa8\x12\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12\x30\n\x0cGetChainInfo\x12\x0c.types.Empty\x1a\x10.types.ChainInfo\"\x00\x12.\n\tChainStat\x12\x0c.types.Empty\x1a\x11.types.ChainStats\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x42\n\x11ListBlockMetadata\x12\x11.types.ListParams\x1a\x18.types.BlockMetadataList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12\x41\n\x17ListBlockMetadataStream\x12\x0c.types.Empty\x1a\x14.types.BlockMetadata\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12>\n\x10GetBlockMetadata\x12\x12.types.SingleBytes\x1a\x14.types.BlockMetadata\"\x00\x12?\n\x0cGetBlockBody\x12\x16.types.BlockBodyParams\x1a\x15.types.BlockBodyPaged\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12@\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x13.types.AccountProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12\x31\n\x08GetPeers\x12\x12.types.PeersParams\x1a\x0f.types.PeerList\"\x00\x12\x30\n\x08GetVotes\x12\x11.types.VoteParams\x1a\x0f.types.VoteList\"\x00\x12\x42\n\x0fGetAccountVotes\x12\x15.types.AccountAddress\x1a\x16.types.AccountVoteInfo\"\x00\x12\x35\n\nGetStaking\x12\x15.types.AccountAddress\x1a\x0e.types.Staking\"\x00\x12-\n\x0bGetNameInfo\x12\x0b.types.Name\x1a\x0f.types.NameInfo\"\x00\x12\x36\n\x0fListEventStream\x12\x11.types.FilterInfo\x1a\x0c.types.Event\"\x00\x30\x01\x12\x33\n\nListEvents\x12\x11.types.FilterInfo\x1a\x10.types.EventList\"\x00\x12\x36\n\rGetServerInfo\x12\x10.types.KeyParams\x1a\x11.types.ServerInfo\"\x00\x12\x38\n\x10GetConsensusInfo\x12\x0c.types.Empty\x1a\x14.types.ConsensusInfo\"\x00\x12K\n\x10\x43hangeMembership\x12\x17.types.MembershipChange\x1a\x1c.types.MembershipChangeReply\"\x00\x12L\n\x13GetEnterpriseConfig\x12\x1a.types.EnterpriseConfigKey\x1a\x17.types.EnterpriseConfig\"\x00\x12H\n\x15GetConfChangeProgress\x12\x12.types.SingleBytes\x1a\x19.types.ConfChangeProgress\"\x00\x62\x06proto3')
   ,
   dependencies=[blockchain__pb2.DESCRIPTOR,account__pb2.DESCRIPTOR,node__pb2.DESCRIPTOR,p2p__pb2.DESCRIPTOR,metric__pb2.DESCRIPTOR,raft__pb2.DESCRIPTOR,])
 
@@ -76,8 +76,8 @@ _COMMITSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2990,
-  serialized_end=3200,
+  serialized_start=3021,
+  serialized_end=3231,
 )
 _sym_db.RegisterEnumDescriptor(_COMMITSTATUS)
 
@@ -103,8 +103,8 @@ _VERIFYSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=3202,
-  serialized_end=3304,
+  serialized_start=3233,
+  serialized_end=3335,
 )
 _sym_db.RegisterEnumDescriptor(_VERIFYSTATUS)
 
@@ -505,6 +505,37 @@ _SINGLEBYTES = _descriptor.Descriptor(
 )
 
 
+_SINGLESTRING = _descriptor.Descriptor(
+  name='SingleString',
+  full_name='types.SingleString',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='types.SingleString.value', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=734,
+  serialized_end=763,
+)
+
+
 _ACCOUNTADDRESS = _descriptor.Descriptor(
   name='AccountAddress',
   full_name='types.AccountAddress',
@@ -531,8 +562,8 @@ _ACCOUNTADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=734,
-  serialized_end=765,
+  serialized_start=765,
+  serialized_end=796,
 )
 
 
@@ -576,8 +607,8 @@ _ACCOUNTANDROOT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=767,
-  serialized_end=834,
+  serialized_start=798,
+  serialized_end=865,
 )
 
 
@@ -649,8 +680,8 @@ _PEER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=837,
-  serialized_end=1007,
+  serialized_start=868,
+  serialized_end=1038,
 )
 
 
@@ -680,8 +711,8 @@ _PEERLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1009,
-  serialized_end=1047,
+  serialized_start=1040,
+  serialized_end=1078,
 )
 
 
@@ -739,8 +770,8 @@ _LISTPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1049,
-  serialized_end=1134,
+  serialized_start=1080,
+  serialized_end=1165,
 )
 
 
@@ -777,8 +808,8 @@ _PAGEPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1136,
-  serialized_end=1178,
+  serialized_start=1167,
+  serialized_end=1209,
 )
 
 
@@ -829,8 +860,8 @@ _BLOCKBODYPAGED = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1180,
-  serialized_end=1273,
+  serialized_start=1211,
+  serialized_end=1304,
 )
 
 
@@ -867,8 +898,8 @@ _BLOCKBODYPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1275,
-  serialized_end=1349,
+  serialized_start=1306,
+  serialized_end=1380,
 )
 
 
@@ -898,8 +929,8 @@ _BLOCKHEADERLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1351,
-  serialized_end=1398,
+  serialized_start=1382,
+  serialized_end=1429,
 )
 
 
@@ -950,8 +981,8 @@ _BLOCKMETADATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1400,
-  serialized_end=1496,
+  serialized_start=1431,
+  serialized_end=1527,
 )
 
 
@@ -981,8 +1012,8 @@ _BLOCKMETADATALIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1498,
-  serialized_end=1555,
+  serialized_start=1529,
+  serialized_end=1586,
 )
 
 
@@ -1026,8 +1057,8 @@ _COMMITRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1557,
-  serialized_end=1637,
+  serialized_start=1588,
+  serialized_end=1668,
 )
 
 
@@ -1057,8 +1088,8 @@ _COMMITRESULTLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1639,
-  serialized_end=1695,
+  serialized_start=1670,
+  serialized_end=1726,
 )
 
 
@@ -1095,8 +1126,8 @@ _VERIFYRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1697,
-  serialized_end=1770,
+  serialized_start=1728,
+  serialized_end=1801,
 )
 
 
@@ -1133,8 +1164,8 @@ _PERSONAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1772,
-  serialized_end=1835,
+  serialized_start=1803,
+  serialized_end=1866,
 )
 
 
@@ -1178,8 +1209,8 @@ _IMPORTFORMAT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1837,
-  serialized_end=1918,
+  serialized_start=1868,
+  serialized_end=1949,
 )
 
 
@@ -1216,8 +1247,8 @@ _STAKING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1920,
-  serialized_end=1959,
+  serialized_start=1951,
+  serialized_end=1990,
 )
 
 
@@ -1254,8 +1285,8 @@ _VOTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1961,
-  serialized_end=2002,
+  serialized_start=1992,
+  serialized_end=2033,
 )
 
 
@@ -1292,8 +1323,8 @@ _VOTEPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2004,
-  serialized_end=2043,
+  serialized_start=2035,
+  serialized_end=2074,
 )
 
 
@@ -1330,8 +1361,8 @@ _ACCOUNTVOTEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2045,
-  serialized_end=2128,
+  serialized_start=2076,
+  serialized_end=2159,
 )
 
 
@@ -1368,8 +1399,8 @@ _VOTEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2130,
-  serialized_end=2172,
+  serialized_start=2161,
+  serialized_end=2203,
 )
 
 
@@ -1406,8 +1437,8 @@ _VOTELIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2174,
-  serialized_end=2224,
+  serialized_start=2205,
+  serialized_end=2255,
 )
 
 
@@ -1444,8 +1475,8 @@ _NODEREQ = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2226,
-  serialized_end=2271,
+  serialized_start=2257,
+  serialized_end=2302,
 )
 
 
@@ -1482,8 +1513,8 @@ _NAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2273,
-  serialized_end=2310,
+  serialized_start=2304,
+  serialized_end=2341,
 )
 
 
@@ -1527,8 +1558,8 @@ _NAMEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2312,
-  serialized_end=2385,
+  serialized_start=2343,
+  serialized_end=2416,
 )
 
 
@@ -1565,8 +1596,8 @@ _PEERSPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2387,
-  serialized_end=2436,
+  serialized_start=2418,
+  serialized_end=2467,
 )
 
 
@@ -1596,8 +1627,8 @@ _KEYPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2438,
-  serialized_end=2462,
+  serialized_start=2469,
+  serialized_end=2493,
 )
 
 
@@ -1634,8 +1665,8 @@ _SERVERINFO_STATUSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2573,
-  serialized_end=2618,
+  serialized_start=2604,
+  serialized_end=2649,
 )
 
 _SERVERINFO_CONFIGENTRY = _descriptor.Descriptor(
@@ -1671,8 +1702,8 @@ _SERVERINFO_CONFIGENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2620,
-  serialized_end=2684,
+  serialized_start=2651,
+  serialized_end=2715,
 )
 
 _SERVERINFO = _descriptor.Descriptor(
@@ -1708,8 +1739,8 @@ _SERVERINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2465,
-  serialized_end=2684,
+  serialized_start=2496,
+  serialized_end=2715,
 )
 
 
@@ -1746,8 +1777,8 @@ _CONFIGITEM_PROPSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2745,
-  serialized_end=2789,
+  serialized_start=2776,
+  serialized_end=2820,
 )
 
 _CONFIGITEM = _descriptor.Descriptor(
@@ -1776,8 +1807,8 @@ _CONFIGITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2686,
-  serialized_end=2789,
+  serialized_start=2717,
+  serialized_end=2820,
 )
 
 
@@ -1807,8 +1838,8 @@ _EVENTLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2791,
-  serialized_end=2832,
+  serialized_start=2822,
+  serialized_end=2863,
 )
 
 
@@ -1852,8 +1883,8 @@ _CONSENSUSINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2834,
-  serialized_end=2890,
+  serialized_start=2865,
+  serialized_end=2921,
 )
 
 
@@ -1883,8 +1914,8 @@ _ENTERPRISECONFIGKEY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2892,
-  serialized_end=2926,
+  serialized_start=2923,
+  serialized_end=2957,
 )
 
 
@@ -1928,8 +1959,8 @@ _ENTERPRISECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2928,
-  serialized_end=2987,
+  serialized_start=2959,
+  serialized_end=3018,
 )
 
 _BLOCKCHAINSTATUS.fields_by_name['chain_info'].message_type = _CHAININFO
@@ -1968,6 +1999,7 @@ DESCRIPTOR.message_types_by_name['Input'] = _INPUT
 DESCRIPTOR.message_types_by_name['Output'] = _OUTPUT
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['SingleBytes'] = _SINGLEBYTES
+DESCRIPTOR.message_types_by_name['SingleString'] = _SINGLESTRING
 DESCRIPTOR.message_types_by_name['AccountAddress'] = _ACCOUNTADDRESS
 DESCRIPTOR.message_types_by_name['AccountAndRoot'] = _ACCOUNTANDROOT
 DESCRIPTOR.message_types_by_name['Peer'] = _PEER
@@ -2005,315 +2037,322 @@ DESCRIPTOR.enum_types_by_name['CommitStatus'] = _COMMITSTATUS
 DESCRIPTOR.enum_types_by_name['VerifyStatus'] = _VERIFYSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-BlockchainStatus = _reflection.GeneratedProtocolMessageType('BlockchainStatus', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKCHAINSTATUS,
-  __module__ = 'rpc_pb2'
+BlockchainStatus = _reflection.GeneratedProtocolMessageType('BlockchainStatus', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKCHAINSTATUS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockchainStatus)
-  ))
+  })
 _sym_db.RegisterMessage(BlockchainStatus)
 
-ChainId = _reflection.GeneratedProtocolMessageType('ChainId', (_message.Message,), dict(
-  DESCRIPTOR = _CHAINID,
-  __module__ = 'rpc_pb2'
+ChainId = _reflection.GeneratedProtocolMessageType('ChainId', (_message.Message,), {
+  'DESCRIPTOR' : _CHAINID,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ChainId)
-  ))
+  })
 _sym_db.RegisterMessage(ChainId)
 
-ChainInfo = _reflection.GeneratedProtocolMessageType('ChainInfo', (_message.Message,), dict(
-  DESCRIPTOR = _CHAININFO,
-  __module__ = 'rpc_pb2'
+ChainInfo = _reflection.GeneratedProtocolMessageType('ChainInfo', (_message.Message,), {
+  'DESCRIPTOR' : _CHAININFO,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ChainInfo)
-  ))
+  })
 _sym_db.RegisterMessage(ChainInfo)
 
-ChainStats = _reflection.GeneratedProtocolMessageType('ChainStats', (_message.Message,), dict(
-  DESCRIPTOR = _CHAINSTATS,
-  __module__ = 'rpc_pb2'
+ChainStats = _reflection.GeneratedProtocolMessageType('ChainStats', (_message.Message,), {
+  'DESCRIPTOR' : _CHAINSTATS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ChainStats)
-  ))
+  })
 _sym_db.RegisterMessage(ChainStats)
 
-Input = _reflection.GeneratedProtocolMessageType('Input', (_message.Message,), dict(
-  DESCRIPTOR = _INPUT,
-  __module__ = 'rpc_pb2'
+Input = _reflection.GeneratedProtocolMessageType('Input', (_message.Message,), {
+  'DESCRIPTOR' : _INPUT,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Input)
-  ))
+  })
 _sym_db.RegisterMessage(Input)
 
-Output = _reflection.GeneratedProtocolMessageType('Output', (_message.Message,), dict(
-  DESCRIPTOR = _OUTPUT,
-  __module__ = 'rpc_pb2'
+Output = _reflection.GeneratedProtocolMessageType('Output', (_message.Message,), {
+  'DESCRIPTOR' : _OUTPUT,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Output)
-  ))
+  })
 _sym_db.RegisterMessage(Output)
 
-Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), dict(
-  DESCRIPTOR = _EMPTY,
-  __module__ = 'rpc_pb2'
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Empty)
-  ))
+  })
 _sym_db.RegisterMessage(Empty)
 
-SingleBytes = _reflection.GeneratedProtocolMessageType('SingleBytes', (_message.Message,), dict(
-  DESCRIPTOR = _SINGLEBYTES,
-  __module__ = 'rpc_pb2'
+SingleBytes = _reflection.GeneratedProtocolMessageType('SingleBytes', (_message.Message,), {
+  'DESCRIPTOR' : _SINGLEBYTES,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.SingleBytes)
-  ))
+  })
 _sym_db.RegisterMessage(SingleBytes)
 
-AccountAddress = _reflection.GeneratedProtocolMessageType('AccountAddress', (_message.Message,), dict(
-  DESCRIPTOR = _ACCOUNTADDRESS,
-  __module__ = 'rpc_pb2'
+SingleString = _reflection.GeneratedProtocolMessageType('SingleString', (_message.Message,), {
+  'DESCRIPTOR' : _SINGLESTRING,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.SingleString)
+  })
+_sym_db.RegisterMessage(SingleString)
+
+AccountAddress = _reflection.GeneratedProtocolMessageType('AccountAddress', (_message.Message,), {
+  'DESCRIPTOR' : _ACCOUNTADDRESS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.AccountAddress)
-  ))
+  })
 _sym_db.RegisterMessage(AccountAddress)
 
-AccountAndRoot = _reflection.GeneratedProtocolMessageType('AccountAndRoot', (_message.Message,), dict(
-  DESCRIPTOR = _ACCOUNTANDROOT,
-  __module__ = 'rpc_pb2'
+AccountAndRoot = _reflection.GeneratedProtocolMessageType('AccountAndRoot', (_message.Message,), {
+  'DESCRIPTOR' : _ACCOUNTANDROOT,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.AccountAndRoot)
-  ))
+  })
 _sym_db.RegisterMessage(AccountAndRoot)
 
-Peer = _reflection.GeneratedProtocolMessageType('Peer', (_message.Message,), dict(
-  DESCRIPTOR = _PEER,
-  __module__ = 'rpc_pb2'
+Peer = _reflection.GeneratedProtocolMessageType('Peer', (_message.Message,), {
+  'DESCRIPTOR' : _PEER,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Peer)
-  ))
+  })
 _sym_db.RegisterMessage(Peer)
 
-PeerList = _reflection.GeneratedProtocolMessageType('PeerList', (_message.Message,), dict(
-  DESCRIPTOR = _PEERLIST,
-  __module__ = 'rpc_pb2'
+PeerList = _reflection.GeneratedProtocolMessageType('PeerList', (_message.Message,), {
+  'DESCRIPTOR' : _PEERLIST,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.PeerList)
-  ))
+  })
 _sym_db.RegisterMessage(PeerList)
 
-ListParams = _reflection.GeneratedProtocolMessageType('ListParams', (_message.Message,), dict(
-  DESCRIPTOR = _LISTPARAMS,
-  __module__ = 'rpc_pb2'
+ListParams = _reflection.GeneratedProtocolMessageType('ListParams', (_message.Message,), {
+  'DESCRIPTOR' : _LISTPARAMS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ListParams)
-  ))
+  })
 _sym_db.RegisterMessage(ListParams)
 
-PageParams = _reflection.GeneratedProtocolMessageType('PageParams', (_message.Message,), dict(
-  DESCRIPTOR = _PAGEPARAMS,
-  __module__ = 'rpc_pb2'
+PageParams = _reflection.GeneratedProtocolMessageType('PageParams', (_message.Message,), {
+  'DESCRIPTOR' : _PAGEPARAMS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.PageParams)
-  ))
+  })
 _sym_db.RegisterMessage(PageParams)
 
-BlockBodyPaged = _reflection.GeneratedProtocolMessageType('BlockBodyPaged', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKBODYPAGED,
-  __module__ = 'rpc_pb2'
+BlockBodyPaged = _reflection.GeneratedProtocolMessageType('BlockBodyPaged', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKBODYPAGED,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockBodyPaged)
-  ))
+  })
 _sym_db.RegisterMessage(BlockBodyPaged)
 
-BlockBodyParams = _reflection.GeneratedProtocolMessageType('BlockBodyParams', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKBODYPARAMS,
-  __module__ = 'rpc_pb2'
+BlockBodyParams = _reflection.GeneratedProtocolMessageType('BlockBodyParams', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKBODYPARAMS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockBodyParams)
-  ))
+  })
 _sym_db.RegisterMessage(BlockBodyParams)
 
-BlockHeaderList = _reflection.GeneratedProtocolMessageType('BlockHeaderList', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKHEADERLIST,
-  __module__ = 'rpc_pb2'
+BlockHeaderList = _reflection.GeneratedProtocolMessageType('BlockHeaderList', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKHEADERLIST,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockHeaderList)
-  ))
+  })
 _sym_db.RegisterMessage(BlockHeaderList)
 
-BlockMetadata = _reflection.GeneratedProtocolMessageType('BlockMetadata', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKMETADATA,
-  __module__ = 'rpc_pb2'
+BlockMetadata = _reflection.GeneratedProtocolMessageType('BlockMetadata', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKMETADATA,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockMetadata)
-  ))
+  })
 _sym_db.RegisterMessage(BlockMetadata)
 
-BlockMetadataList = _reflection.GeneratedProtocolMessageType('BlockMetadataList', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKMETADATALIST,
-  __module__ = 'rpc_pb2'
+BlockMetadataList = _reflection.GeneratedProtocolMessageType('BlockMetadataList', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKMETADATALIST,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockMetadataList)
-  ))
+  })
 _sym_db.RegisterMessage(BlockMetadataList)
 
-CommitResult = _reflection.GeneratedProtocolMessageType('CommitResult', (_message.Message,), dict(
-  DESCRIPTOR = _COMMITRESULT,
-  __module__ = 'rpc_pb2'
+CommitResult = _reflection.GeneratedProtocolMessageType('CommitResult', (_message.Message,), {
+  'DESCRIPTOR' : _COMMITRESULT,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.CommitResult)
-  ))
+  })
 _sym_db.RegisterMessage(CommitResult)
 
-CommitResultList = _reflection.GeneratedProtocolMessageType('CommitResultList', (_message.Message,), dict(
-  DESCRIPTOR = _COMMITRESULTLIST,
-  __module__ = 'rpc_pb2'
+CommitResultList = _reflection.GeneratedProtocolMessageType('CommitResultList', (_message.Message,), {
+  'DESCRIPTOR' : _COMMITRESULTLIST,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.CommitResultList)
-  ))
+  })
 _sym_db.RegisterMessage(CommitResultList)
 
-VerifyResult = _reflection.GeneratedProtocolMessageType('VerifyResult', (_message.Message,), dict(
-  DESCRIPTOR = _VERIFYRESULT,
-  __module__ = 'rpc_pb2'
+VerifyResult = _reflection.GeneratedProtocolMessageType('VerifyResult', (_message.Message,), {
+  'DESCRIPTOR' : _VERIFYRESULT,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.VerifyResult)
-  ))
+  })
 _sym_db.RegisterMessage(VerifyResult)
 
-Personal = _reflection.GeneratedProtocolMessageType('Personal', (_message.Message,), dict(
-  DESCRIPTOR = _PERSONAL,
-  __module__ = 'rpc_pb2'
+Personal = _reflection.GeneratedProtocolMessageType('Personal', (_message.Message,), {
+  'DESCRIPTOR' : _PERSONAL,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Personal)
-  ))
+  })
 _sym_db.RegisterMessage(Personal)
 
-ImportFormat = _reflection.GeneratedProtocolMessageType('ImportFormat', (_message.Message,), dict(
-  DESCRIPTOR = _IMPORTFORMAT,
-  __module__ = 'rpc_pb2'
+ImportFormat = _reflection.GeneratedProtocolMessageType('ImportFormat', (_message.Message,), {
+  'DESCRIPTOR' : _IMPORTFORMAT,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ImportFormat)
-  ))
+  })
 _sym_db.RegisterMessage(ImportFormat)
 
-Staking = _reflection.GeneratedProtocolMessageType('Staking', (_message.Message,), dict(
-  DESCRIPTOR = _STAKING,
-  __module__ = 'rpc_pb2'
+Staking = _reflection.GeneratedProtocolMessageType('Staking', (_message.Message,), {
+  'DESCRIPTOR' : _STAKING,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Staking)
-  ))
+  })
 _sym_db.RegisterMessage(Staking)
 
-Vote = _reflection.GeneratedProtocolMessageType('Vote', (_message.Message,), dict(
-  DESCRIPTOR = _VOTE,
-  __module__ = 'rpc_pb2'
+Vote = _reflection.GeneratedProtocolMessageType('Vote', (_message.Message,), {
+  'DESCRIPTOR' : _VOTE,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Vote)
-  ))
+  })
 _sym_db.RegisterMessage(Vote)
 
-VoteParams = _reflection.GeneratedProtocolMessageType('VoteParams', (_message.Message,), dict(
-  DESCRIPTOR = _VOTEPARAMS,
-  __module__ = 'rpc_pb2'
+VoteParams = _reflection.GeneratedProtocolMessageType('VoteParams', (_message.Message,), {
+  'DESCRIPTOR' : _VOTEPARAMS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.VoteParams)
-  ))
+  })
 _sym_db.RegisterMessage(VoteParams)
 
-AccountVoteInfo = _reflection.GeneratedProtocolMessageType('AccountVoteInfo', (_message.Message,), dict(
-  DESCRIPTOR = _ACCOUNTVOTEINFO,
-  __module__ = 'rpc_pb2'
+AccountVoteInfo = _reflection.GeneratedProtocolMessageType('AccountVoteInfo', (_message.Message,), {
+  'DESCRIPTOR' : _ACCOUNTVOTEINFO,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.AccountVoteInfo)
-  ))
+  })
 _sym_db.RegisterMessage(AccountVoteInfo)
 
-VoteInfo = _reflection.GeneratedProtocolMessageType('VoteInfo', (_message.Message,), dict(
-  DESCRIPTOR = _VOTEINFO,
-  __module__ = 'rpc_pb2'
+VoteInfo = _reflection.GeneratedProtocolMessageType('VoteInfo', (_message.Message,), {
+  'DESCRIPTOR' : _VOTEINFO,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.VoteInfo)
-  ))
+  })
 _sym_db.RegisterMessage(VoteInfo)
 
-VoteList = _reflection.GeneratedProtocolMessageType('VoteList', (_message.Message,), dict(
-  DESCRIPTOR = _VOTELIST,
-  __module__ = 'rpc_pb2'
+VoteList = _reflection.GeneratedProtocolMessageType('VoteList', (_message.Message,), {
+  'DESCRIPTOR' : _VOTELIST,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.VoteList)
-  ))
+  })
 _sym_db.RegisterMessage(VoteList)
 
-NodeReq = _reflection.GeneratedProtocolMessageType('NodeReq', (_message.Message,), dict(
-  DESCRIPTOR = _NODEREQ,
-  __module__ = 'rpc_pb2'
+NodeReq = _reflection.GeneratedProtocolMessageType('NodeReq', (_message.Message,), {
+  'DESCRIPTOR' : _NODEREQ,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.NodeReq)
-  ))
+  })
 _sym_db.RegisterMessage(NodeReq)
 
-Name = _reflection.GeneratedProtocolMessageType('Name', (_message.Message,), dict(
-  DESCRIPTOR = _NAME,
-  __module__ = 'rpc_pb2'
+Name = _reflection.GeneratedProtocolMessageType('Name', (_message.Message,), {
+  'DESCRIPTOR' : _NAME,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Name)
-  ))
+  })
 _sym_db.RegisterMessage(Name)
 
-NameInfo = _reflection.GeneratedProtocolMessageType('NameInfo', (_message.Message,), dict(
-  DESCRIPTOR = _NAMEINFO,
-  __module__ = 'rpc_pb2'
+NameInfo = _reflection.GeneratedProtocolMessageType('NameInfo', (_message.Message,), {
+  'DESCRIPTOR' : _NAMEINFO,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.NameInfo)
-  ))
+  })
 _sym_db.RegisterMessage(NameInfo)
 
-PeersParams = _reflection.GeneratedProtocolMessageType('PeersParams', (_message.Message,), dict(
-  DESCRIPTOR = _PEERSPARAMS,
-  __module__ = 'rpc_pb2'
+PeersParams = _reflection.GeneratedProtocolMessageType('PeersParams', (_message.Message,), {
+  'DESCRIPTOR' : _PEERSPARAMS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.PeersParams)
-  ))
+  })
 _sym_db.RegisterMessage(PeersParams)
 
-KeyParams = _reflection.GeneratedProtocolMessageType('KeyParams', (_message.Message,), dict(
-  DESCRIPTOR = _KEYPARAMS,
-  __module__ = 'rpc_pb2'
+KeyParams = _reflection.GeneratedProtocolMessageType('KeyParams', (_message.Message,), {
+  'DESCRIPTOR' : _KEYPARAMS,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.KeyParams)
-  ))
+  })
 _sym_db.RegisterMessage(KeyParams)
 
-ServerInfo = _reflection.GeneratedProtocolMessageType('ServerInfo', (_message.Message,), dict(
+ServerInfo = _reflection.GeneratedProtocolMessageType('ServerInfo', (_message.Message,), {
 
-  StatusEntry = _reflection.GeneratedProtocolMessageType('StatusEntry', (_message.Message,), dict(
-    DESCRIPTOR = _SERVERINFO_STATUSENTRY,
-    __module__ = 'rpc_pb2'
+  'StatusEntry' : _reflection.GeneratedProtocolMessageType('StatusEntry', (_message.Message,), {
+    'DESCRIPTOR' : _SERVERINFO_STATUSENTRY,
+    '__module__' : 'rpc_pb2'
     # @@protoc_insertion_point(class_scope:types.ServerInfo.StatusEntry)
-    ))
+    })
   ,
 
-  ConfigEntry = _reflection.GeneratedProtocolMessageType('ConfigEntry', (_message.Message,), dict(
-    DESCRIPTOR = _SERVERINFO_CONFIGENTRY,
-    __module__ = 'rpc_pb2'
+  'ConfigEntry' : _reflection.GeneratedProtocolMessageType('ConfigEntry', (_message.Message,), {
+    'DESCRIPTOR' : _SERVERINFO_CONFIGENTRY,
+    '__module__' : 'rpc_pb2'
     # @@protoc_insertion_point(class_scope:types.ServerInfo.ConfigEntry)
-    ))
+    })
   ,
-  DESCRIPTOR = _SERVERINFO,
-  __module__ = 'rpc_pb2'
+  'DESCRIPTOR' : _SERVERINFO,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ServerInfo)
-  ))
+  })
 _sym_db.RegisterMessage(ServerInfo)
 _sym_db.RegisterMessage(ServerInfo.StatusEntry)
 _sym_db.RegisterMessage(ServerInfo.ConfigEntry)
 
-ConfigItem = _reflection.GeneratedProtocolMessageType('ConfigItem', (_message.Message,), dict(
+ConfigItem = _reflection.GeneratedProtocolMessageType('ConfigItem', (_message.Message,), {
 
-  PropsEntry = _reflection.GeneratedProtocolMessageType('PropsEntry', (_message.Message,), dict(
-    DESCRIPTOR = _CONFIGITEM_PROPSENTRY,
-    __module__ = 'rpc_pb2'
+  'PropsEntry' : _reflection.GeneratedProtocolMessageType('PropsEntry', (_message.Message,), {
+    'DESCRIPTOR' : _CONFIGITEM_PROPSENTRY,
+    '__module__' : 'rpc_pb2'
     # @@protoc_insertion_point(class_scope:types.ConfigItem.PropsEntry)
-    ))
+    })
   ,
-  DESCRIPTOR = _CONFIGITEM,
-  __module__ = 'rpc_pb2'
+  'DESCRIPTOR' : _CONFIGITEM,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ConfigItem)
-  ))
+  })
 _sym_db.RegisterMessage(ConfigItem)
 _sym_db.RegisterMessage(ConfigItem.PropsEntry)
 
-EventList = _reflection.GeneratedProtocolMessageType('EventList', (_message.Message,), dict(
-  DESCRIPTOR = _EVENTLIST,
-  __module__ = 'rpc_pb2'
+EventList = _reflection.GeneratedProtocolMessageType('EventList', (_message.Message,), {
+  'DESCRIPTOR' : _EVENTLIST,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.EventList)
-  ))
+  })
 _sym_db.RegisterMessage(EventList)
 
-ConsensusInfo = _reflection.GeneratedProtocolMessageType('ConsensusInfo', (_message.Message,), dict(
-  DESCRIPTOR = _CONSENSUSINFO,
-  __module__ = 'rpc_pb2'
+ConsensusInfo = _reflection.GeneratedProtocolMessageType('ConsensusInfo', (_message.Message,), {
+  'DESCRIPTOR' : _CONSENSUSINFO,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.ConsensusInfo)
-  ))
+  })
 _sym_db.RegisterMessage(ConsensusInfo)
 
-EnterpriseConfigKey = _reflection.GeneratedProtocolMessageType('EnterpriseConfigKey', (_message.Message,), dict(
-  DESCRIPTOR = _ENTERPRISECONFIGKEY,
-  __module__ = 'rpc_pb2'
+EnterpriseConfigKey = _reflection.GeneratedProtocolMessageType('EnterpriseConfigKey', (_message.Message,), {
+  'DESCRIPTOR' : _ENTERPRISECONFIGKEY,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.EnterpriseConfigKey)
-  ))
+  })
 _sym_db.RegisterMessage(EnterpriseConfigKey)
 
-EnterpriseConfig = _reflection.GeneratedProtocolMessageType('EnterpriseConfig', (_message.Message,), dict(
-  DESCRIPTOR = _ENTERPRISECONFIG,
-  __module__ = 'rpc_pb2'
+EnterpriseConfig = _reflection.GeneratedProtocolMessageType('EnterpriseConfig', (_message.Message,), {
+  'DESCRIPTOR' : _ENTERPRISECONFIG,
+  '__module__' : 'rpc_pb2'
   # @@protoc_insertion_point(class_scope:types.EnterpriseConfig)
-  ))
+  })
 _sym_db.RegisterMessage(EnterpriseConfig)
 
 
@@ -2327,8 +2366,8 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=3307,
-  serialized_end=5651,
+  serialized_start=3338,
+  serialized_end=5682,
   methods=[
   _descriptor.MethodDescriptor(
     name='NodeState',

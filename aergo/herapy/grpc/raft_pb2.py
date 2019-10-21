@@ -449,60 +449,60 @@ DESCRIPTOR.enum_types_by_name['MembershipChangeType'] = _MEMBERSHIPCHANGETYPE
 DESCRIPTOR.enum_types_by_name['ConfChangeState'] = _CONFCHANGESTATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-MemberAttr = _reflection.GeneratedProtocolMessageType('MemberAttr', (_message.Message,), dict(
-  DESCRIPTOR = _MEMBERATTR,
-  __module__ = 'raft_pb2'
+MemberAttr = _reflection.GeneratedProtocolMessageType('MemberAttr', (_message.Message,), {
+  'DESCRIPTOR' : _MEMBERATTR,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.MemberAttr)
-  ))
+  })
 _sym_db.RegisterMessage(MemberAttr)
 
-MembershipChange = _reflection.GeneratedProtocolMessageType('MembershipChange', (_message.Message,), dict(
-  DESCRIPTOR = _MEMBERSHIPCHANGE,
-  __module__ = 'raft_pb2'
+MembershipChange = _reflection.GeneratedProtocolMessageType('MembershipChange', (_message.Message,), {
+  'DESCRIPTOR' : _MEMBERSHIPCHANGE,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.MembershipChange)
-  ))
+  })
 _sym_db.RegisterMessage(MembershipChange)
 
-MembershipChangeReply = _reflection.GeneratedProtocolMessageType('MembershipChangeReply', (_message.Message,), dict(
-  DESCRIPTOR = _MEMBERSHIPCHANGEREPLY,
-  __module__ = 'raft_pb2'
+MembershipChangeReply = _reflection.GeneratedProtocolMessageType('MembershipChangeReply', (_message.Message,), {
+  'DESCRIPTOR' : _MEMBERSHIPCHANGEREPLY,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.MembershipChangeReply)
-  ))
+  })
 _sym_db.RegisterMessage(MembershipChangeReply)
 
-HardStateInfo = _reflection.GeneratedProtocolMessageType('HardStateInfo', (_message.Message,), dict(
-  DESCRIPTOR = _HARDSTATEINFO,
-  __module__ = 'raft_pb2'
+HardStateInfo = _reflection.GeneratedProtocolMessageType('HardStateInfo', (_message.Message,), {
+  'DESCRIPTOR' : _HARDSTATEINFO,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.HardStateInfo)
-  ))
+  })
 _sym_db.RegisterMessage(HardStateInfo)
 
-GetClusterInfoRequest = _reflection.GeneratedProtocolMessageType('GetClusterInfoRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETCLUSTERINFOREQUEST,
-  __module__ = 'raft_pb2'
+GetClusterInfoRequest = _reflection.GeneratedProtocolMessageType('GetClusterInfoRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETCLUSTERINFOREQUEST,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.GetClusterInfoRequest)
-  ))
+  })
 _sym_db.RegisterMessage(GetClusterInfoRequest)
 
-GetClusterInfoResponse = _reflection.GeneratedProtocolMessageType('GetClusterInfoResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETCLUSTERINFORESPONSE,
-  __module__ = 'raft_pb2'
+GetClusterInfoResponse = _reflection.GeneratedProtocolMessageType('GetClusterInfoResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETCLUSTERINFORESPONSE,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.GetClusterInfoResponse)
-  ))
+  })
 _sym_db.RegisterMessage(GetClusterInfoResponse)
 
-ConfChangeProgress = _reflection.GeneratedProtocolMessageType('ConfChangeProgress', (_message.Message,), dict(
-  DESCRIPTOR = _CONFCHANGEPROGRESS,
-  __module__ = 'raft_pb2'
+ConfChangeProgress = _reflection.GeneratedProtocolMessageType('ConfChangeProgress', (_message.Message,), {
+  'DESCRIPTOR' : _CONFCHANGEPROGRESS,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.ConfChangeProgress)
-  ))
+  })
 _sym_db.RegisterMessage(ConfChangeProgress)
 
-SnapshotResponse = _reflection.GeneratedProtocolMessageType('SnapshotResponse', (_message.Message,), dict(
-  DESCRIPTOR = _SNAPSHOTRESPONSE,
-  __module__ = 'raft_pb2'
+SnapshotResponse = _reflection.GeneratedProtocolMessageType('SnapshotResponse', (_message.Message,), {
+  'DESCRIPTOR' : _SNAPSHOTRESPONSE,
+  '__module__' : 'raft_pb2'
   # @@protoc_insertion_point(class_scope:types.SnapshotResponse)
-  ))
+  })
 _sym_db.RegisterMessage(SnapshotResponse)
 
 
