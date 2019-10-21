@@ -4,6 +4,16 @@ History
 
 
 -------------------
+1.2.7 (2019-10-21)
+-------------------
+
+* support Enterprise features (raft)
+  * issue from https://github.com/aergoio/herapy/issues/75
+* support ABI
+  * issue from https://github.com/aergoio/herapy/issues/74
+
+
+-------------------
 1.2.6 (2019-09-04)
 -------------------
 
