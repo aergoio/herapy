@@ -24,9 +24,9 @@ copyright = '2019, aergo'
 author = 'aergo'
 
 # The short X.Y version
-version = '0.12'
+version = '1.2'
 # The full version, including alpha/beta/rc tags
-release = '0.12.0'
+release = '1.2.7'
 
 
 # -- General configuration ---------------------------------------------------

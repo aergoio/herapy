@@ -4,4 +4,4 @@ aergo
 .. toctree::
    :maxdepth: 4
 
-   aergo
+   aergo.herapy
