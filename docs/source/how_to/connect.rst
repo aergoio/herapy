@@ -32,20 +32,22 @@ How To Connect to the Target Node
 .. code-block:: python
    :linenos:
 
-    import aergo.herapy as herapy
-
-    aergo = herapy.Aergo()
     aergo.connect('localhost:7845')
-
-    print(aergo.get_chain_info())
-
-    aergo.disconnect()
 
 
 .. _how_to_disconnect_target_node:
 
 How To Disconnect the Connection
 ++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+   :linenos:
+
+    aergo.disconnect()
+
+
+Example
++++++++
 
 .. code-block:: python
    :linenos:
