@@ -180,25 +180,25 @@ DESCRIPTOR.message_types_by_name['PeerMetric'] = _PEERMETRIC
 DESCRIPTOR.enum_types_by_name['MetricType'] = _METRICTYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-MetricsRequest = _reflection.GeneratedProtocolMessageType('MetricsRequest', (_message.Message,), dict(
-  DESCRIPTOR = _METRICSREQUEST,
-  __module__ = 'metric_pb2'
+MetricsRequest = _reflection.GeneratedProtocolMessageType('MetricsRequest', (_message.Message,), {
+  'DESCRIPTOR' : _METRICSREQUEST,
+  '__module__' : 'metric_pb2'
   # @@protoc_insertion_point(class_scope:types.MetricsRequest)
-  ))
+  })
 _sym_db.RegisterMessage(MetricsRequest)
 
-Metrics = _reflection.GeneratedProtocolMessageType('Metrics', (_message.Message,), dict(
-  DESCRIPTOR = _METRICS,
-  __module__ = 'metric_pb2'
+Metrics = _reflection.GeneratedProtocolMessageType('Metrics', (_message.Message,), {
+  'DESCRIPTOR' : _METRICS,
+  '__module__' : 'metric_pb2'
   # @@protoc_insertion_point(class_scope:types.Metrics)
-  ))
+  })
 _sym_db.RegisterMessage(Metrics)
 
-PeerMetric = _reflection.GeneratedProtocolMessageType('PeerMetric', (_message.Message,), dict(
-  DESCRIPTOR = _PEERMETRIC,
-  __module__ = 'metric_pb2'
+PeerMetric = _reflection.GeneratedProtocolMessageType('PeerMetric', (_message.Message,), {
+  'DESCRIPTOR' : _PEERMETRIC,
+  '__module__' : 'metric_pb2'
   # @@protoc_insertion_point(class_scope:types.PeerMetric)
-  ))
+  })
 _sym_db.RegisterMessage(PeerMetric)
 
 

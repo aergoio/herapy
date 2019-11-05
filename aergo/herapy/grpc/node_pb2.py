@@ -73,11 +73,11 @@ _PEERADDRESS = _descriptor.Descriptor(
 DESCRIPTOR.message_types_by_name['PeerAddress'] = _PEERADDRESS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-PeerAddress = _reflection.GeneratedProtocolMessageType('PeerAddress', (_message.Message,), dict(
-  DESCRIPTOR = _PEERADDRESS,
-  __module__ = 'node_pb2'
+PeerAddress = _reflection.GeneratedProtocolMessageType('PeerAddress', (_message.Message,), {
+  'DESCRIPTOR' : _PEERADDRESS,
+  '__module__' : 'node_pb2'
   # @@protoc_insertion_point(class_scope:types.PeerAddress)
-  ))
+  })
 _sym_db.RegisterMessage(PeerAddress)
 
 

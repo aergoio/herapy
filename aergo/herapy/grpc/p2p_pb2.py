@@ -1209,172 +1209,172 @@ DESCRIPTOR.message_types_by_name['GetHashesResponse'] = _GETHASHESRESPONSE
 DESCRIPTOR.enum_types_by_name['ResultStatus'] = _RESULTSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-MsgHeader = _reflection.GeneratedProtocolMessageType('MsgHeader', (_message.Message,), dict(
-  DESCRIPTOR = _MSGHEADER,
-  __module__ = 'p2p_pb2'
+MsgHeader = _reflection.GeneratedProtocolMessageType('MsgHeader', (_message.Message,), {
+  'DESCRIPTOR' : _MSGHEADER,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.MsgHeader)
-  ))
+  })
 _sym_db.RegisterMessage(MsgHeader)
 
-P2PMessage = _reflection.GeneratedProtocolMessageType('P2PMessage', (_message.Message,), dict(
-  DESCRIPTOR = _P2PMESSAGE,
-  __module__ = 'p2p_pb2'
+P2PMessage = _reflection.GeneratedProtocolMessageType('P2PMessage', (_message.Message,), {
+  'DESCRIPTOR' : _P2PMESSAGE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.P2PMessage)
-  ))
+  })
 _sym_db.RegisterMessage(P2PMessage)
 
-Ping = _reflection.GeneratedProtocolMessageType('Ping', (_message.Message,), dict(
-  DESCRIPTOR = _PING,
-  __module__ = 'p2p_pb2'
+Ping = _reflection.GeneratedProtocolMessageType('Ping', (_message.Message,), {
+  'DESCRIPTOR' : _PING,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.Ping)
-  ))
+  })
 _sym_db.RegisterMessage(Ping)
 
-Pong = _reflection.GeneratedProtocolMessageType('Pong', (_message.Message,), dict(
-  DESCRIPTOR = _PONG,
-  __module__ = 'p2p_pb2'
+Pong = _reflection.GeneratedProtocolMessageType('Pong', (_message.Message,), {
+  'DESCRIPTOR' : _PONG,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.Pong)
-  ))
+  })
 _sym_db.RegisterMessage(Pong)
 
-Status = _reflection.GeneratedProtocolMessageType('Status', (_message.Message,), dict(
-  DESCRIPTOR = _STATUS,
-  __module__ = 'p2p_pb2'
+Status = _reflection.GeneratedProtocolMessageType('Status', (_message.Message,), {
+  'DESCRIPTOR' : _STATUS,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.Status)
-  ))
+  })
 _sym_db.RegisterMessage(Status)
 
-GoAwayNotice = _reflection.GeneratedProtocolMessageType('GoAwayNotice', (_message.Message,), dict(
-  DESCRIPTOR = _GOAWAYNOTICE,
-  __module__ = 'p2p_pb2'
+GoAwayNotice = _reflection.GeneratedProtocolMessageType('GoAwayNotice', (_message.Message,), {
+  'DESCRIPTOR' : _GOAWAYNOTICE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GoAwayNotice)
-  ))
+  })
 _sym_db.RegisterMessage(GoAwayNotice)
 
-AddressesRequest = _reflection.GeneratedProtocolMessageType('AddressesRequest', (_message.Message,), dict(
-  DESCRIPTOR = _ADDRESSESREQUEST,
-  __module__ = 'p2p_pb2'
+AddressesRequest = _reflection.GeneratedProtocolMessageType('AddressesRequest', (_message.Message,), {
+  'DESCRIPTOR' : _ADDRESSESREQUEST,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.AddressesRequest)
-  ))
+  })
 _sym_db.RegisterMessage(AddressesRequest)
 
-AddressesResponse = _reflection.GeneratedProtocolMessageType('AddressesResponse', (_message.Message,), dict(
-  DESCRIPTOR = _ADDRESSESRESPONSE,
-  __module__ = 'p2p_pb2'
+AddressesResponse = _reflection.GeneratedProtocolMessageType('AddressesResponse', (_message.Message,), {
+  'DESCRIPTOR' : _ADDRESSESRESPONSE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.AddressesResponse)
-  ))
+  })
 _sym_db.RegisterMessage(AddressesResponse)
 
-NewBlockNotice = _reflection.GeneratedProtocolMessageType('NewBlockNotice', (_message.Message,), dict(
-  DESCRIPTOR = _NEWBLOCKNOTICE,
-  __module__ = 'p2p_pb2'
+NewBlockNotice = _reflection.GeneratedProtocolMessageType('NewBlockNotice', (_message.Message,), {
+  'DESCRIPTOR' : _NEWBLOCKNOTICE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.NewBlockNotice)
-  ))
+  })
 _sym_db.RegisterMessage(NewBlockNotice)
 
-BlockProducedNotice = _reflection.GeneratedProtocolMessageType('BlockProducedNotice', (_message.Message,), dict(
-  DESCRIPTOR = _BLOCKPRODUCEDNOTICE,
-  __module__ = 'p2p_pb2'
+BlockProducedNotice = _reflection.GeneratedProtocolMessageType('BlockProducedNotice', (_message.Message,), {
+  'DESCRIPTOR' : _BLOCKPRODUCEDNOTICE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.BlockProducedNotice)
-  ))
+  })
 _sym_db.RegisterMessage(BlockProducedNotice)
 
-GetBlockHeadersRequest = _reflection.GeneratedProtocolMessageType('GetBlockHeadersRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETBLOCKHEADERSREQUEST,
-  __module__ = 'p2p_pb2'
+GetBlockHeadersRequest = _reflection.GeneratedProtocolMessageType('GetBlockHeadersRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETBLOCKHEADERSREQUEST,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetBlockHeadersRequest)
-  ))
+  })
 _sym_db.RegisterMessage(GetBlockHeadersRequest)
 
-GetBlockHeadersResponse = _reflection.GeneratedProtocolMessageType('GetBlockHeadersResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETBLOCKHEADERSRESPONSE,
-  __module__ = 'p2p_pb2'
+GetBlockHeadersResponse = _reflection.GeneratedProtocolMessageType('GetBlockHeadersResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETBLOCKHEADERSRESPONSE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetBlockHeadersResponse)
-  ))
+  })
 _sym_db.RegisterMessage(GetBlockHeadersResponse)
 
-GetBlockRequest = _reflection.GeneratedProtocolMessageType('GetBlockRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETBLOCKREQUEST,
-  __module__ = 'p2p_pb2'
+GetBlockRequest = _reflection.GeneratedProtocolMessageType('GetBlockRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETBLOCKREQUEST,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetBlockRequest)
-  ))
+  })
 _sym_db.RegisterMessage(GetBlockRequest)
 
-GetBlockResponse = _reflection.GeneratedProtocolMessageType('GetBlockResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETBLOCKRESPONSE,
-  __module__ = 'p2p_pb2'
+GetBlockResponse = _reflection.GeneratedProtocolMessageType('GetBlockResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETBLOCKRESPONSE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetBlockResponse)
-  ))
+  })
 _sym_db.RegisterMessage(GetBlockResponse)
 
-NewTransactionsNotice = _reflection.GeneratedProtocolMessageType('NewTransactionsNotice', (_message.Message,), dict(
-  DESCRIPTOR = _NEWTRANSACTIONSNOTICE,
-  __module__ = 'p2p_pb2'
+NewTransactionsNotice = _reflection.GeneratedProtocolMessageType('NewTransactionsNotice', (_message.Message,), {
+  'DESCRIPTOR' : _NEWTRANSACTIONSNOTICE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.NewTransactionsNotice)
-  ))
+  })
 _sym_db.RegisterMessage(NewTransactionsNotice)
 
-GetTransactionsRequest = _reflection.GeneratedProtocolMessageType('GetTransactionsRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETTRANSACTIONSREQUEST,
-  __module__ = 'p2p_pb2'
+GetTransactionsRequest = _reflection.GeneratedProtocolMessageType('GetTransactionsRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETTRANSACTIONSREQUEST,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetTransactionsRequest)
-  ))
+  })
 _sym_db.RegisterMessage(GetTransactionsRequest)
 
-GetTransactionsResponse = _reflection.GeneratedProtocolMessageType('GetTransactionsResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETTRANSACTIONSRESPONSE,
-  __module__ = 'p2p_pb2'
+GetTransactionsResponse = _reflection.GeneratedProtocolMessageType('GetTransactionsResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETTRANSACTIONSRESPONSE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetTransactionsResponse)
-  ))
+  })
 _sym_db.RegisterMessage(GetTransactionsResponse)
 
-GetMissingRequest = _reflection.GeneratedProtocolMessageType('GetMissingRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETMISSINGREQUEST,
-  __module__ = 'p2p_pb2'
+GetMissingRequest = _reflection.GeneratedProtocolMessageType('GetMissingRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETMISSINGREQUEST,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetMissingRequest)
-  ))
+  })
 _sym_db.RegisterMessage(GetMissingRequest)
 
-GetAncestorRequest = _reflection.GeneratedProtocolMessageType('GetAncestorRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETANCESTORREQUEST,
-  __module__ = 'p2p_pb2'
+GetAncestorRequest = _reflection.GeneratedProtocolMessageType('GetAncestorRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETANCESTORREQUEST,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetAncestorRequest)
-  ))
+  })
 _sym_db.RegisterMessage(GetAncestorRequest)
 
-GetAncestorResponse = _reflection.GeneratedProtocolMessageType('GetAncestorResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETANCESTORRESPONSE,
-  __module__ = 'p2p_pb2'
+GetAncestorResponse = _reflection.GeneratedProtocolMessageType('GetAncestorResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETANCESTORRESPONSE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetAncestorResponse)
-  ))
+  })
 _sym_db.RegisterMessage(GetAncestorResponse)
 
-GetHashByNo = _reflection.GeneratedProtocolMessageType('GetHashByNo', (_message.Message,), dict(
-  DESCRIPTOR = _GETHASHBYNO,
-  __module__ = 'p2p_pb2'
+GetHashByNo = _reflection.GeneratedProtocolMessageType('GetHashByNo', (_message.Message,), {
+  'DESCRIPTOR' : _GETHASHBYNO,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetHashByNo)
-  ))
+  })
 _sym_db.RegisterMessage(GetHashByNo)
 
-GetHashByNoResponse = _reflection.GeneratedProtocolMessageType('GetHashByNoResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETHASHBYNORESPONSE,
-  __module__ = 'p2p_pb2'
+GetHashByNoResponse = _reflection.GeneratedProtocolMessageType('GetHashByNoResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETHASHBYNORESPONSE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetHashByNoResponse)
-  ))
+  })
 _sym_db.RegisterMessage(GetHashByNoResponse)
 
-GetHashesRequest = _reflection.GeneratedProtocolMessageType('GetHashesRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETHASHESREQUEST,
-  __module__ = 'p2p_pb2'
+GetHashesRequest = _reflection.GeneratedProtocolMessageType('GetHashesRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETHASHESREQUEST,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetHashesRequest)
-  ))
+  })
 _sym_db.RegisterMessage(GetHashesRequest)
 
-GetHashesResponse = _reflection.GeneratedProtocolMessageType('GetHashesResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETHASHESRESPONSE,
-  __module__ = 'p2p_pb2'
+GetHashesResponse = _reflection.GeneratedProtocolMessageType('GetHashesResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETHASHESRESPONSE,
+  '__module__' : 'p2p_pb2'
   # @@protoc_insertion_point(class_scope:types.GetHashesResponse)
-  ))
+  })
 _sym_db.RegisterMessage(GetHashesResponse)
 
 

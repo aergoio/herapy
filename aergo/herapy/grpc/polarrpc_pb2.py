@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0epolarrpc.proto\x12\x05types\x1a\nnode.proto\x1a\trpc.proto\x1a\x0cmetric.proto\"(\n\x0bPaginations\x12\x0b\n\x03ref\x18\x01 \x01(\x0c\x12\x0c\n\x04size\x18\x03 \x01(\r\"T\n\x0fPolarisPeerList\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0f\n\x07hasNext\x18\x02 \x01(\x08\x12!\n\x05peers\x18\x03 \x03(\x0b\x32\x12.types.PolarisPeer\"h\n\x0bPolarisPeer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x11\n\tconnected\x18\x02 \x01(\x03\x12\x11\n\tlastCheck\x18\x03 \x01(\x03\x12\x0e\n\x06verion\x18\x04 \x01(\t2\xac\x02\n\x11PolarisRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12;\n\x0b\x43urrentList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tWhiteList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tBlackList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0epolarrpc.proto\x12\x05types\x1a\nnode.proto\x1a\trpc.proto\x1a\x0cmetric.proto\"(\n\x0bPaginations\x12\x0b\n\x03ref\x18\x01 \x01(\x0c\x12\x0c\n\x04size\x18\x03 \x01(\r\"T\n\x0fPolarisPeerList\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0f\n\x07hasNext\x18\x02 \x01(\x08\x12!\n\x05peers\x18\x03 \x03(\x0b\x32\x12.types.PolarisPeer\"h\n\x0bPolarisPeer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x11\n\tconnected\x18\x02 \x01(\x03\x12\x11\n\tlastCheck\x18\x03 \x01(\x03\x12\x0e\n\x06verion\x18\x04 \x01(\t\"1\n\rBLConfEntries\x12\x0f\n\x07\x65nabled\x18\x01 \x01(\x08\x12\x0f\n\x07\x65ntries\x18\x02 \x03(\t\"?\n\x0e\x41\x64\x64\x45ntryParams\x12\x0e\n\x06peerID\x18\x01 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\x12\x0c\n\x04\x63idr\x18\x03 \x01(\t\"\x1e\n\rRmEntryParams\x12\r\n\x05index\x18\x01 \x01(\r2\xdd\x03\n\x11PolarisRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12;\n\x0b\x43urrentList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tWhiteList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x39\n\tBlackList\x12\x12.types.Paginations\x1a\x16.types.PolarisPeerList\"\x00\x12\x35\n\rListBLEntries\x12\x0c.types.Empty\x1a\x14.types.BLConfEntries\"\x00\x12:\n\nAddBLEntry\x12\x15.types.AddEntryParams\x1a\x13.types.SingleString\"\x00\x12<\n\rRemoveBLEntry\x12\x14.types.RmEntryParams\x1a\x13.types.SingleString\"\x00\x62\x06proto3')
   ,
   dependencies=[node__pb2.DESCRIPTOR,rpc__pb2.DESCRIPTOR,metric__pb2.DESCRIPTOR,])
 
@@ -164,33 +164,171 @@ _POLARISPEER = _descriptor.Descriptor(
   serialized_end=294,
 )
 
+
+_BLCONFENTRIES = _descriptor.Descriptor(
+  name='BLConfEntries',
+  full_name='types.BLConfEntries',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='enabled', full_name='types.BLConfEntries.enabled', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='entries', full_name='types.BLConfEntries.entries', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=296,
+  serialized_end=345,
+)
+
+
+_ADDENTRYPARAMS = _descriptor.Descriptor(
+  name='AddEntryParams',
+  full_name='types.AddEntryParams',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='peerID', full_name='types.AddEntryParams.peerID', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='address', full_name='types.AddEntryParams.address', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='cidr', full_name='types.AddEntryParams.cidr', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=347,
+  serialized_end=410,
+)
+
+
+_RMENTRYPARAMS = _descriptor.Descriptor(
+  name='RmEntryParams',
+  full_name='types.RmEntryParams',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='index', full_name='types.RmEntryParams.index', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=412,
+  serialized_end=442,
+)
+
 _POLARISPEERLIST.fields_by_name['peers'].message_type = _POLARISPEER
 _POLARISPEER.fields_by_name['address'].message_type = node__pb2._PEERADDRESS
 DESCRIPTOR.message_types_by_name['Paginations'] = _PAGINATIONS
 DESCRIPTOR.message_types_by_name['PolarisPeerList'] = _POLARISPEERLIST
 DESCRIPTOR.message_types_by_name['PolarisPeer'] = _POLARISPEER
+DESCRIPTOR.message_types_by_name['BLConfEntries'] = _BLCONFENTRIES
+DESCRIPTOR.message_types_by_name['AddEntryParams'] = _ADDENTRYPARAMS
+DESCRIPTOR.message_types_by_name['RmEntryParams'] = _RMENTRYPARAMS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Paginations = _reflection.GeneratedProtocolMessageType('Paginations', (_message.Message,), dict(
-  DESCRIPTOR = _PAGINATIONS,
-  __module__ = 'polarrpc_pb2'
+Paginations = _reflection.GeneratedProtocolMessageType('Paginations', (_message.Message,), {
+  'DESCRIPTOR' : _PAGINATIONS,
+  '__module__' : 'polarrpc_pb2'
   # @@protoc_insertion_point(class_scope:types.Paginations)
-  ))
+  })
 _sym_db.RegisterMessage(Paginations)
 
-PolarisPeerList = _reflection.GeneratedProtocolMessageType('PolarisPeerList', (_message.Message,), dict(
-  DESCRIPTOR = _POLARISPEERLIST,
-  __module__ = 'polarrpc_pb2'
+PolarisPeerList = _reflection.GeneratedProtocolMessageType('PolarisPeerList', (_message.Message,), {
+  'DESCRIPTOR' : _POLARISPEERLIST,
+  '__module__' : 'polarrpc_pb2'
   # @@protoc_insertion_point(class_scope:types.PolarisPeerList)
-  ))
+  })
 _sym_db.RegisterMessage(PolarisPeerList)
 
-PolarisPeer = _reflection.GeneratedProtocolMessageType('PolarisPeer', (_message.Message,), dict(
-  DESCRIPTOR = _POLARISPEER,
-  __module__ = 'polarrpc_pb2'
+PolarisPeer = _reflection.GeneratedProtocolMessageType('PolarisPeer', (_message.Message,), {
+  'DESCRIPTOR' : _POLARISPEER,
+  '__module__' : 'polarrpc_pb2'
   # @@protoc_insertion_point(class_scope:types.PolarisPeer)
-  ))
+  })
 _sym_db.RegisterMessage(PolarisPeer)
+
+BLConfEntries = _reflection.GeneratedProtocolMessageType('BLConfEntries', (_message.Message,), {
+  'DESCRIPTOR' : _BLCONFENTRIES,
+  '__module__' : 'polarrpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.BLConfEntries)
+  })
+_sym_db.RegisterMessage(BLConfEntries)
+
+AddEntryParams = _reflection.GeneratedProtocolMessageType('AddEntryParams', (_message.Message,), {
+  'DESCRIPTOR' : _ADDENTRYPARAMS,
+  '__module__' : 'polarrpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.AddEntryParams)
+  })
+_sym_db.RegisterMessage(AddEntryParams)
+
+RmEntryParams = _reflection.GeneratedProtocolMessageType('RmEntryParams', (_message.Message,), {
+  'DESCRIPTOR' : _RMENTRYPARAMS,
+  '__module__' : 'polarrpc_pb2'
+  # @@protoc_insertion_point(class_scope:types.RmEntryParams)
+  })
+_sym_db.RegisterMessage(RmEntryParams)
 
 
 
@@ -200,8 +338,8 @@ _POLARISRPCSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=297,
-  serialized_end=597,
+  serialized_start=445,
+  serialized_end=922,
   methods=[
   _descriptor.MethodDescriptor(
     name='NodeState',
@@ -246,6 +384,33 @@ _POLARISRPCSERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_PAGINATIONS,
     output_type=_POLARISPEERLIST,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ListBLEntries',
+    full_name='types.PolarisRPCService.ListBLEntries',
+    index=5,
+    containing_service=None,
+    input_type=rpc__pb2._EMPTY,
+    output_type=_BLCONFENTRIES,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='AddBLEntry',
+    full_name='types.PolarisRPCService.AddBLEntry',
+    index=6,
+    containing_service=None,
+    input_type=_ADDENTRYPARAMS,
+    output_type=rpc__pb2._SINGLESTRING,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='RemoveBLEntry',
+    full_name='types.PolarisRPCService.RemoveBLEntry',
+    index=7,
+    containing_service=None,
+    input_type=_RMENTRYPARAMS,
+    output_type=rpc__pb2._SINGLESTRING,
     serialized_options=None,
   ),
 ])

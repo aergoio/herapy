@@ -132,18 +132,18 @@ DESCRIPTOR.message_types_by_name['MapQuery'] = _MAPQUERY
 DESCRIPTOR.message_types_by_name['MapResponse'] = _MAPRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-MapQuery = _reflection.GeneratedProtocolMessageType('MapQuery', (_message.Message,), dict(
-  DESCRIPTOR = _MAPQUERY,
-  __module__ = 'pmap_pb2'
+MapQuery = _reflection.GeneratedProtocolMessageType('MapQuery', (_message.Message,), {
+  'DESCRIPTOR' : _MAPQUERY,
+  '__module__' : 'pmap_pb2'
   # @@protoc_insertion_point(class_scope:types.MapQuery)
-  ))
+  })
 _sym_db.RegisterMessage(MapQuery)
 
-MapResponse = _reflection.GeneratedProtocolMessageType('MapResponse', (_message.Message,), dict(
-  DESCRIPTOR = _MAPRESPONSE,
-  __module__ = 'pmap_pb2'
+MapResponse = _reflection.GeneratedProtocolMessageType('MapResponse', (_message.Message,), {
+  'DESCRIPTOR' : _MAPRESPONSE,
+  '__module__' : 'pmap_pb2'
   # @@protoc_insertion_point(class_scope:types.MapResponse)
-  ))
+  })
 _sym_db.RegisterMessage(MapResponse)
 
 
