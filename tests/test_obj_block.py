@@ -8,7 +8,7 @@ from aergo.herapy.obj.block_hash import BlockHash
 from aergo.herapy.obj.transaction import TxType
 from aergo.herapy.utils.encoding import encode_block_hash, decode_block_hash,\
     encode_tx_hash, decode_tx_hash, encode_payload, decode_payload,\
-    encode_b58, decode_b58
+    encode_b58, decode_b58, encode_address
 from aergo.herapy.utils.converter import bigint_to_bytes, get_hash
 from aergo.herapy.grpc import blockchain_pb2
 
@@ -106,7 +106,7 @@ def test_grpc_block():
     assert block_json['header']['confirms'] == 10
     assert block_json['header']['pub_key'] == encode_b58(b'pub_key')
     assert block_json['header']['sign'] == encode_b58(b'block_sign')
-    assert block_json['header']['coinbase_account'] == encode_b58(b'coinbase_account')
+    assert block_json['header']['coinbase_account'] == encode_address(b'coinbase_account')
     block_str = str(block)
     assert 'hash' in block_str
     assert 'header' in block_str

@@ -6,7 +6,7 @@ import datetime
 from .address import Address
 from .block_hash import BlockHash
 from .transaction import Transaction
-from ..utils.encoding import encode_b58, encode_b58_check
+from ..utils.encoding import encode_b58, encode_address
 from ..utils.converter import get_hash
 
 
@@ -200,7 +200,7 @@ class Block:
                 "confirms": self.confirms,
                 "pub_key": encode_b58(self.public_key) if self.public_key is not None else None,
                 "sign": encode_b58(self.sign),
-                "coinbase_account": encode_b58_check(self.coinbase_account),
+                "coinbase_account": encode_address(self.coinbase_account),
                 "tx_count": self.__tx_cnt,
                 "size": self.__size
             },
