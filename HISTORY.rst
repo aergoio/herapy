@@ -4,12 +4,22 @@ History
 
 
 -------------------
+1.3.0 (2019-11-05)
+-------------------
+
+* support TLS connection
+
+
+-------------------
 1.2.7 (2019-10-21)
 -------------------
 
 * support Enterprise features (raft)
+
   * issue from https://github.com/aergoio/herapy/issues/75
+
 * support ABI
+
   * issue from https://github.com/aergoio/herapy/issues/74
 
 
@@ -18,6 +28,7 @@ History
 -------------------
 
 * Bug fix
+
   * issue from https://github.com/aergoio/herapy/issues/68
 
 
@@ -28,6 +39,7 @@ History
 * support an empty string and governance string address for `Address`
 * support `get_name_info`
 * Bug fix
+
   * miss value from `get_conf_change_progress`
 
 
@@ -40,6 +52,7 @@ History
 * support 'name' (string) address
 * support enterprise consensus info
 * Bug fix
+
   * miss match a tx type in tx
 
 
@@ -49,6 +62,7 @@ History
 
 * encrypt/decrypt logic moves to 'util' for a general usage
 * Bug fix
+
   * when tx result handling, get error message from a changed varialbe
 
 
@@ -58,6 +72,7 @@ History
 
 * Apply v0.12.0 protocol
 * Bug fix
+
   * get a genesis block with a block height 0
 
 
