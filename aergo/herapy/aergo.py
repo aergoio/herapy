@@ -44,6 +44,9 @@ from .utils.encoding import decode_address, \
 
 
 class Aergo:
+    """
+    Main class for `herapy <http://github.com/aergoio/herapy>`_
+    """
     def __init__(self):
         self.__account = None
         self.__comm = None
@@ -123,17 +126,39 @@ class Aergo:
 
         return ret_account
 
-    def connect(self, target):
+    def connect(self, target, tls_ca_cert=None, tls_cert=None, tls_key=None):
         """
         Connect to the gRPC server running on port `target` e.g.
         target="localhost:7845".
         :param target:
+        :param tls_ca_cert:
+        :param tls_cert:
+        :param tls_key:
         :return:
         """
         if target is None:
             raise ValueError('need target value')
 
-        self.__comm = comm.Comm(target)
+        if tls_ca_cert is not None:
+            try:
+                with open(tls_ca_cert, 'rb') as f:
+                    tls_ca_cert = f.read()
+            except:
+                pass
+        if tls_cert is not None:
+            try:
+                with open(tls_cert, 'rb') as f:
+                    tls_cert = f.read()
+            except:
+                pass
+        if tls_key is not None:
+            try:
+                with open(tls_key, 'rb') as f:
+                    tls_key = f.read()
+            except:
+                pass
+
+        self.__comm = comm.Comm(target, tls_ca_cert, tls_cert, tls_key)
         try:
             self.__comm.connect()
         except Exception as e:
@@ -957,3 +982,9 @@ class Aergo:
         except Exception as e:
             raise CommunicationException(e) from e
         return Abi(abi)
+
+    def get_address(self, account=None):
+        if (account and isinstance(account, acc.Account)):
+            return account.address
+
+        return self.account.address

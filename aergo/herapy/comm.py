@@ -9,15 +9,26 @@ from .utils.converter import convert_tx_to_grpc_tx
 
 
 class Comm:
-    def __init__(self, target=None):
+    def __init__(self, target=None,
+                 tls_ca_cert=None, tls_cert=None, tls_key=None):
         self.__target = target
+        self.__tls_ca_cert = tls_ca_cert
+        self.__tls_cert = tls_cert
+        self.__tls_key = tls_key
         self.__channel = None
         self.__rpc_stub = None
 
     def connect(self):
         self.disconnect()
 
-        self.__channel = grpc.insecure_channel(self.__target)
+        if self.__tls_cert is not None:
+            creds = grpc.ssl_channel_credentials(root_certificates=self.__tls_ca_cert,
+                                                 private_key=self.__tls_key,
+                                                 certificate_chain=self.__tls_cert)
+            self.__channel = grpc.secure_channel(self.__target, creds)
+        else:
+            self.__channel = grpc.insecure_channel(self.__target)
+
         self.__rpc_stub = rpc_pb2_grpc.AergoRPCServiceStub(self.__channel)
 
     def disconnect(self):
