@@ -4,10 +4,13 @@ History
 
 
 -------------------
-1.3.0 (2019-11-05)
+1.3.1 (2019-11-05)
 -------------------
 
 * support TLS connection
+* Bug fix
+
+  * coinbase address encoding issue from https://github.com/aergoio/herapy/issues/70
 
 
 -------------------
