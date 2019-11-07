@@ -584,8 +584,8 @@ class Aergo:
                          to_address=to_address,
                          amount=result_tx.body.amount,
                          payload=result_tx.body.payload,
-                         fee_price=result_tx.body.gasPrice,
-                         fee_limit=result_tx.body.gasLimit,
+                         gas_price=result_tx.body.gasPrice,
+                         gas_limit=result_tx.body.gasLimit,
                          tx_sign=result_tx.body.sign,
                          tx_type=result_tx.body.type,
                          chain_id=result_tx.body.chainIdHash,
@@ -625,7 +625,7 @@ class Aergo:
 
         return result
 
-    def generate_tx(self, to_address, nonce, amount, fee_limit=0, fee_price=0,
+    def generate_tx(self, to_address, nonce, amount, gas_limit=0, gas_price=0,
                     payload=None, tx_type=TxType.NORMAL):
         if to_address is not None:
             address = addr.Address(None, empty=True)
@@ -635,18 +635,22 @@ class Aergo:
         tx = transaction.Transaction(tx_type=tx_type,
                                      from_address=self.__account.address,
                                      to_address=to_address,
-                                     nonce=nonce, amount=amount,
-                                     fee_limit=fee_limit, fee_price=fee_price,
-                                     payload=payload, chain_id=self.chain_id)
+                                     nonce=nonce,
+                                     amount=amount,
+                                     gas_limit=gas_limit,
+                                     gas_price=gas_price,
+                                     payload=payload,
+                                     chain_id=self.chain_id)
         tx.sign = self.__account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         return tx
 
     def send_payload(self, amount, payload, to_address=None, retry_nonce=0,
-                     tx_type=TxType.NORMAL):
+                     tx_type=TxType.TRANSFER, gas_limit=0, gas_price=0):
         if self.__comm is None:
             return None, None
 
         if isinstance(to_address, str):
+            # check address type
             address_type = addr.check_name_address(to_address)
             if address_type > 0:
                 to_address = to_address.encode()
@@ -665,7 +669,7 @@ class Aergo:
         nonce = self.__account.nonce + 1
         tx = self.generate_tx(to_address=to_address,
                               nonce=nonce, amount=amount,
-                              fee_limit=0, fee_price=0,
+                              gas_limit=gas_limit, gas_price=gas_price,
                               payload=payload, tx_type=tx_type)
         signed_tx, result = self.send_tx(signed_tx=tx)
 
@@ -675,10 +679,13 @@ class Aergo:
             while retry_nonce > 0:
                 retry_nonce -= 1
 
-                nonce += 1
+                # update account info.
+                self.get_account()
+                nonce = self.__account.nonce + 1
+
                 tx = self.generate_tx(to_address=to_address,
                                       nonce=nonce, amount=amount,
-                                      fee_limit=0, fee_price=0,
+                                      gas_limit=gas_limit, gas_price=gas_price,
                                       payload=payload, tx_type=tx_type)
                 signed_tx, result = self.send_tx(signed_tx=tx)
 
@@ -804,7 +811,7 @@ class Aergo:
         return None
             
     def deploy_sc(self, payload, amount=0, args=None, retry_nonce=0,
-                  redeploy=False):
+                  redeploy=False, gas_limit=0):
         if isinstance(payload, str):
             payload = decode_address(payload)
 
@@ -818,17 +825,18 @@ class Aergo:
         payload_bytes += json_args.encode('utf-8')
 
         if redeploy:
-            tx_type = TxType.REDPLOY
+            tx_type = TxType.SC_REDPLOY
         else:
-            tx_type = TxType.NORMAL
+            tx_type = TxType.SC_DEPLOY
 
         tx, result = self.send_payload(amount=amount, payload=payload_bytes,
-                                       retry_nonce=retry_nonce, tx_type=tx_type)
+                                       retry_nonce=retry_nonce, tx_type=tx_type,
+                                       gas_limit=gas_limit)
         return tx, result
 
     def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None,
                        nonce=None):
-        tx_type = TxType.NORMAL
+        tx_type = TxType.SC_CALL
         if isinstance(sc_address, str):
             address_type = addr.check_name_address(sc_address)
             if address_type > 0:
@@ -856,7 +864,7 @@ class Aergo:
 
         return self.generate_tx(to_address=sc_address,
                                 nonce=nonce, amount=amount,
-                                fee_limit=0, fee_price=0,
+                                gas_limit=0, gas_price=0,
                                 payload=payload, tx_type=tx_type)
 
     def batch_call_sc(self, sc_txs):
