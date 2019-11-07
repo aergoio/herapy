@@ -90,8 +90,8 @@ class Block:
                                    to_address=to_address,
                                    amount=tx.body.amount,
                                    payload=tx.body.payload,
-                                   fee_price=tx.body.gasPrice,
-                                   fee_limit=tx.body.gasLimit,
+                                   gas_price=tx.body.gasPrice,
+                                   gas_limit=tx.body.gasLimit,
                                    tx_sign=tx.body.sign, tx_type=tx.body.type,
                                    block=self, index_in_block=i,
                                    is_in_mempool=False)
