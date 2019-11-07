@@ -16,45 +16,44 @@ from ..utils.encoding import encode_signature, decode_signature, encode_payload
 class TxType(enum.Enum):
     NORMAL = blockchain_pb2.NORMAL
     GOVERNANCE = blockchain_pb2.GOVERNANCE
-    REDPLOY = blockchain_pb2.REDEPLOY
+    SC_REDPLOY = blockchain_pb2.REDEPLOY
+    SC_FEE_DELEGATION = blockchain_pb2.FEEDELEGATION
+    TRANSFER = blockchain_pb2.TRANSFER
+    SC_CALL = blockchain_pb2.CALL
+    SC_DEPLOY = blockchain_pb2.DEPLOY
 
 
 class Transaction:
     """
-    Transaction data structure:
-    transaction = {
-        hash : byte of base64
-        nonce : int
-        from : byte of base58
-        to : byte of base58
-        amount : uint
-        payload : byte of base64
-        type : int
-        chain_id : bytes
-        sign : byte of base64
-    }
+    Transaction data structure.
     """
 
     def __init__(self, from_address=None, to_address=None,
-                 nonce=0, amount=0, payload=None, fee_price=0, fee_limit=0,
-                 read_only=False, tx_hash=None, tx_sign=None, tx_type=TxType.NORMAL,
-                 chain_id=None, block=None, index_in_block=-1, is_in_mempool=False):
+                 nonce=0, amount=0, payload=None, gas_price=0, gas_limit=0,
+                 read_only=False, tx_hash=None, tx_sign=None,
+                 tx_type=TxType.TRANSFER, chain_id=None, block=None,
+                 index_in_block=-1, is_in_mempool=False):
         self.__from_address = from_address
         self.__to_address = to_address
         self.__nonce = nonce
         self.__amount = aer.Aer(amount)
         self.__payload = payload
-        if isinstance(fee_price, bytes):
-            fee_price = int.from_bytes(fee_price, byteorder='big')
-        self.__fee_price = aer.Aer(fee_price)
-        if isinstance(fee_limit, bytes):
-            fee_limit = int.from_bytes(fee_limit, byteorder='little')
-        self.__fee_limit = fee_limit
+
+        if isinstance(gas_price, bytes):
+            gas_price = int.from_bytes(gas_price, byteorder='big')
+        self.__gas_price = aer.Aer(gas_price)
+
+        if isinstance(gas_limit, bytes):
+            gas_limit = int.from_bytes(gas_limit, byteorder='little')
+        self.__gas_limit = gas_limit
+
         if isinstance(tx_type, bytes):
             tx_type = int.from_bytes(tx_type, byteorder='little')
         self.__tx_type = TxType(tx_type)
+
         self.__read_only = read_only
         self.__tx_hash = txh.TxHash(tx_hash)
+
         if isinstance(tx_sign, str):
             tx_sign = decode_signature(tx_sign)
         self.__sign = tx_sign
@@ -74,9 +73,9 @@ class Transaction:
         # nonce
         b = self.__nonce.to_bytes(8, byteorder='little')
         m.update(b)
-        # from
+        # from (account)
         m.update(bytes(self.__from_address))
-        # to
+        # to (recipient)
         if self.__to_address is not None:
             m.update(bytes(self.__to_address))
         # amount
@@ -87,11 +86,11 @@ class Transaction:
             m.update(b'')
         else:
             m.update(self.__payload)
-        # fee: limit
-        b = self.__fee_limit.to_bytes(8, byteorder='little')
+        # gas limit
+        b = self.__gas_limit.to_bytes(8, byteorder='little')
         m.update(b)
-        # fee: price
-        b = bytes(self.__fee_price)
+        # gas price
+        b = bytes(self.__gas_price)
         m.update(b)
         # type
         b = self.__tx_type.value.to_bytes(4, byteorder='little')
@@ -178,26 +177,26 @@ class Transaction:
         return encode_payload(self.__payload)
 
     @property
-    def fee_limit(self):
-        return self.__fee_limit
+    def gas_limit(self):
+        return self.__gas_limit
 
-    @fee_limit.setter
-    def fee_limit(self, v):
+    @gas_limit.setter
+    def gas_limit(self, v):
         if self.__read_only:
             return
 
-        self.__fee_limit = v
+        self.__gas_limit = v
 
     @property
-    def fee_price(self):
-        return self.__fee_price
+    def gas_price(self):
+        return self.__gas_price
 
-    @fee_price.setter
-    def fee_price(self, v):
+    @gas_price.setter
+    def gas_price(self, v):
         if self.__read_only:
             return
 
-        self.__fee_price = v
+        self.__gas_price = v
 
     @property
     def tx_type(self):
@@ -253,8 +252,8 @@ class Transaction:
                 "Recipient": str(self.to_address) if self.to_address is not None else None,
                 "Amount": str(self.amount),
                 "Payload": self.payload_str,
-                "Limit": self.fee_limit,
-                "Price": str(self.fee_price),
+                "GasPrice": str(self.gas_price),
+                "GasLimit": self.gas_limit,
                 "Sign": self.sign_str,
                 "Type": self.tx_type.name,
             },
