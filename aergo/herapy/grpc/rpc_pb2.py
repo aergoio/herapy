@@ -27,7 +27,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\x1a\nraft.proto\"\x9a\x01\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\x12\x16\n\x0e\x63onsensus_info\x18\x03 \x01(\t\x12\x1a\n\x12\x62\x65st_chain_id_hash\x18\x04 \x01(\x0c\x12$\n\nchain_info\x18\x05 \x01(\x0b\x32\x10.types.ChainInfo\"L\n\x07\x43hainId\x12\r\n\x05magic\x18\x01 \x01(\t\x12\x0e\n\x06public\x18\x02 \x01(\x08\x12\x0f\n\x07mainnet\x18\x03 \x01(\x08\x12\x11\n\tconsensus\x18\x04 \x01(\t\"\xb5\x01\n\tChainInfo\x12\x1a\n\x02id\x18\x01 \x01(\x0b\x32\x0e.types.ChainId\x12\x10\n\x08\x62pNumber\x18\x02 \x01(\r\x12\x14\n\x0cmaxblocksize\x18\x03 \x01(\x04\x12\x11\n\tmaxtokens\x18\x04 \x01(\x0c\x12\x16\n\x0estakingminimum\x18\x05 \x01(\x0c\x12\x14\n\x0ctotalstaking\x18\x06 \x01(\x0c\x12\x10\n\x08gasprice\x18\x07 \x01(\x0c\x12\x11\n\tnameprice\x18\x08 \x01(\x0c\"\x1c\n\nChainStats\x12\x0e\n\x06report\x18\x01 \x01(\t\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"\x1d\n\x0cSingleString\x12\r\n\x05value\x18\x01 \x01(\t\"\x1f\n\x0e\x41\x63\x63ountAddress\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"\xaa\x01\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\x12\x0e\n\x06hidden\x18\x04 \x01(\x08\x12\x11\n\tlashCheck\x18\x05 \x01(\x03\x12\x10\n\x08selfpeer\x18\x06 \x01(\x08\x12\x0f\n\x07version\x18\x07 \x01(\t\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"*\n\nPageParams\x12\x0e\n\x06offset\x18\x01 \x01(\r\x12\x0c\n\x04size\x18\x02 \x01(\r\"]\n\x0e\x42lockBodyPaged\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0e\n\x06offset\x18\x02 \x01(\r\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x1e\n\x04\x62ody\x18\x04 \x01(\x0b\x32\x10.types.BlockBody\"J\n\x0f\x42lockBodyParams\x12\x14\n\x0chashornumber\x18\x01 \x01(\x0c\x12!\n\x06paging\x18\x02 \x01(\x0b\x32\x11.types.PageParams\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"`\n\rBlockMetadata\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07txcount\x18\x03 \x01(\x05\x12\x0c\n\x04size\x18\x04 \x01(\x03\"9\n\x11\x42lockMetadataList\x12$\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x14.types.BlockMetadata\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"\'\n\nVoteParams\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x63ount\x18\x02 \x01(\r\"S\n\x0f\x41\x63\x63ountVoteInfo\x12\x1f\n\x07staking\x18\x01 \x01(\x0b\x32\x0e.types.Staking\x12\x1f\n\x06voting\x18\x02 \x03(\x0b\x32\x0f.types.VoteInfo\"*\n\x08VoteInfo\x12\n\n\x02id\x18\x02 \x01(\t\x12\x12\n\ncandidates\x18\x03 \x03(\t\"2\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\x12\n\n\x02id\x18\x02 \x01(\t\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c\"%\n\x04Name\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"I\n\x08NameInfo\x12\x19\n\x04name\x18\x01 \x01(\x0b\x32\x0b.types.Name\x12\r\n\x05owner\x18\x02 \x01(\x0c\x12\x13\n\x0b\x64\x65stination\x18\x03 \x01(\x0c\"1\n\x0bPeersParams\x12\x10\n\x08noHidden\x18\x01 \x01(\x08\x12\x10\n\x08showSelf\x18\x02 \x01(\x08\"\x18\n\tKeyParams\x12\x0b\n\x03key\x18\x01 \x03(\t\"\xdb\x01\n\nServerInfo\x12-\n\x06status\x18\x01 \x03(\x0b\x32\x1d.types.ServerInfo.StatusEntry\x12-\n\x06\x63onfig\x18\x02 \x03(\x0b\x32\x1d.types.ServerInfo.ConfigEntry\x1a-\n\x0bStatusEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.types.ConfigItem:\x02\x38\x01\"g\n\nConfigItem\x12+\n\x05props\x18\x02 \x03(\x0b\x32\x1c.types.ConfigItem.PropsEntry\x1a,\n\nPropsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\")\n\tEventList\x12\x1c\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x0c.types.Event\"8\n\rConsensusInfo\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0c\n\x04info\x18\x02 \x01(\t\x12\x0b\n\x03\x62ps\x18\x03 \x03(\t\"\"\n\x13\x45nterpriseConfigKey\x12\x0b\n\x03key\x18\x01 \x01(\t\";\n\x10\x45nterpriseConfig\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\n\n\x02on\x18\x02 \x01(\x08\x12\x0e\n\x06values\x18\x03 \x03(\t*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xa8\x12\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12\x30\n\x0cGetChainInfo\x12\x0c.types.Empty\x1a\x10.types.ChainInfo\"\x00\x12.\n\tChainStat\x12\x0c.types.Empty\x1a\x11.types.ChainStats\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x42\n\x11ListBlockMetadata\x12\x11.types.ListParams\x1a\x18.types.BlockMetadataList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12\x41\n\x17ListBlockMetadataStream\x12\x0c.types.Empty\x1a\x14.types.BlockMetadata\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12>\n\x10GetBlockMetadata\x12\x12.types.SingleBytes\x1a\x14.types.BlockMetadata\"\x00\x12?\n\x0cGetBlockBody\x12\x16.types.BlockBodyParams\x1a\x15.types.BlockBodyPaged\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12@\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x13.types.AccountProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12\x31\n\x08GetPeers\x12\x12.types.PeersParams\x1a\x0f.types.PeerList\"\x00\x12\x30\n\x08GetVotes\x12\x11.types.VoteParams\x1a\x0f.types.VoteList\"\x00\x12\x42\n\x0fGetAccountVotes\x12\x15.types.AccountAddress\x1a\x16.types.AccountVoteInfo\"\x00\x12\x35\n\nGetStaking\x12\x15.types.AccountAddress\x1a\x0e.types.Staking\"\x00\x12-\n\x0bGetNameInfo\x12\x0b.types.Name\x1a\x0f.types.NameInfo\"\x00\x12\x36\n\x0fListEventStream\x12\x11.types.FilterInfo\x1a\x0c.types.Event\"\x00\x30\x01\x12\x33\n\nListEvents\x12\x11.types.FilterInfo\x1a\x10.types.EventList\"\x00\x12\x36\n\rGetServerInfo\x12\x10.types.KeyParams\x1a\x11.types.ServerInfo\"\x00\x12\x38\n\x10GetConsensusInfo\x12\x0c.types.Empty\x1a\x14.types.ConsensusInfo\"\x00\x12K\n\x10\x43hangeMembership\x12\x17.types.MembershipChange\x1a\x1c.types.MembershipChangeReply\"\x00\x12L\n\x13GetEnterpriseConfig\x12\x1a.types.EnterpriseConfigKey\x1a\x17.types.EnterpriseConfig\"\x00\x12H\n\x15GetConfChangeProgress\x12\x12.types.SingleBytes\x1a\x19.types.ConfChangeProgress\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\trpc.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\raccount.proto\x1a\nnode.proto\x1a\tp2p.proto\x1a\x0cmetric.proto\x1a\nraft.proto\"\x9a\x01\n\x10\x42lockchainStatus\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\x12\x16\n\x0e\x63onsensus_info\x18\x03 \x01(\t\x12\x1a\n\x12\x62\x65st_chain_id_hash\x18\x04 \x01(\x0c\x12$\n\nchain_info\x18\x05 \x01(\x0b\x32\x10.types.ChainInfo\"L\n\x07\x43hainId\x12\r\n\x05magic\x18\x01 \x01(\t\x12\x0e\n\x06public\x18\x02 \x01(\x08\x12\x0f\n\x07mainnet\x18\x03 \x01(\x08\x12\x11\n\tconsensus\x18\x04 \x01(\t\"\xb5\x01\n\tChainInfo\x12\x1a\n\x02id\x18\x01 \x01(\x0b\x32\x0e.types.ChainId\x12\x10\n\x08\x62pNumber\x18\x02 \x01(\r\x12\x14\n\x0cmaxblocksize\x18\x03 \x01(\x04\x12\x11\n\tmaxtokens\x18\x04 \x01(\x0c\x12\x16\n\x0estakingminimum\x18\x05 \x01(\x0c\x12\x14\n\x0ctotalstaking\x18\x06 \x01(\x0c\x12\x10\n\x08gasprice\x18\x07 \x01(\x0c\x12\x11\n\tnameprice\x18\x08 \x01(\x0c\"\x1c\n\nChainStats\x12\x0e\n\x06report\x18\x01 \x01(\t\"E\n\x05Input\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x03(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"G\n\x06Output\x12\r\n\x05index\x18\x01 \x01(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x0c\x12\r\n\x05value\x18\x03 \x01(\x0c\x12\x0e\n\x06script\x18\x04 \x01(\x0c\"\x07\n\x05\x45mpty\"\x1c\n\x0bSingleBytes\x12\r\n\x05value\x18\x01 \x01(\x0c\"\x1d\n\x0cSingleString\x12\r\n\x05value\x18\x01 \x01(\t\"\x1f\n\x0e\x41\x63\x63ountAddress\x12\r\n\x05value\x18\x01 \x01(\x0c\"C\n\x0e\x41\x63\x63ountAndRoot\x12\x0f\n\x07\x41\x63\x63ount\x18\x01 \x01(\x0c\x12\x0c\n\x04Root\x18\x02 \x01(\x0c\x12\x12\n\nCompressed\x18\x03 \x01(\x08\"\xaa\x01\n\x04Peer\x12#\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12(\n\tbestblock\x18\x02 \x01(\x0b\x32\x15.types.NewBlockNotice\x12\r\n\x05state\x18\x03 \x01(\x05\x12\x0e\n\x06hidden\x18\x04 \x01(\x08\x12\x11\n\tlashCheck\x18\x05 \x01(\x03\x12\x10\n\x08selfpeer\x18\x06 \x01(\x08\x12\x0f\n\x07version\x18\x07 \x01(\t\"&\n\x08PeerList\x12\x1a\n\x05peers\x18\x01 \x03(\x0b\x32\x0b.types.Peer\"U\n\nListParams\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x0e\n\x06offset\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"*\n\nPageParams\x12\x0e\n\x06offset\x18\x01 \x01(\r\x12\x0c\n\x04size\x18\x02 \x01(\r\"]\n\x0e\x42lockBodyPaged\x12\r\n\x05total\x18\x01 \x01(\r\x12\x0e\n\x06offset\x18\x02 \x01(\r\x12\x0c\n\x04size\x18\x03 \x01(\r\x12\x1e\n\x04\x62ody\x18\x04 \x01(\x0b\x32\x10.types.BlockBody\"J\n\x0f\x42lockBodyParams\x12\x14\n\x0chashornumber\x18\x01 \x01(\x0c\x12!\n\x06paging\x18\x02 \x01(\x0b\x32\x11.types.PageParams\"/\n\x0f\x42lockHeaderList\x12\x1c\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x0c.types.Block\"`\n\rBlockMetadata\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07txcount\x18\x03 \x01(\x05\x12\x0c\n\x04size\x18\x04 \x01(\x03\"9\n\x11\x42lockMetadataList\x12$\n\x06\x62locks\x18\x01 \x03(\x0b\x32\x14.types.BlockMetadata\"P\n\x0c\x43ommitResult\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.CommitStatus\x12\x0e\n\x06\x64\x65tail\x18\x03 \x01(\t\"8\n\x10\x43ommitResultList\x12$\n\x07results\x18\x01 \x03(\x0b\x32\x13.types.CommitResult\"I\n\x0cVerifyResult\x12\x15\n\x02tx\x18\x01 \x01(\x0b\x32\t.types.Tx\x12\"\n\x05\x65rror\x18\x02 \x01(\x0e\x32\x13.types.VerifyStatus\"?\n\x08Personal\x12\x12\n\npassphrase\x18\x01 \x01(\t\x12\x1f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0b\x32\x0e.types.Account\"Q\n\x0cImportFormat\x12\x1f\n\x03wif\x18\x01 \x01(\x0b\x32\x12.types.SingleBytes\x12\x0f\n\x07oldpass\x18\x02 \x01(\t\x12\x0f\n\x07newpass\x18\x03 \x01(\t\"\'\n\x07Staking\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x0c\x12\x0c\n\x04when\x18\x02 \x01(\x04\")\n\x04Vote\x12\x11\n\tcandidate\x18\x01 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x0c\"\'\n\nVoteParams\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x63ount\x18\x02 \x01(\r\"S\n\x0f\x41\x63\x63ountVoteInfo\x12\x1f\n\x07staking\x18\x01 \x01(\x0b\x32\x0e.types.Staking\x12\x1f\n\x06voting\x18\x02 \x03(\x0b\x32\x0f.types.VoteInfo\":\n\x08VoteInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ncandidates\x18\x02 \x03(\t\x12\x0e\n\x06\x61mount\x18\x03 \x01(\t\"2\n\x08VoteList\x12\x1a\n\x05votes\x18\x01 \x03(\x0b\x32\x0b.types.Vote\x12\n\n\x02id\x18\x02 \x01(\t\"-\n\x07NodeReq\x12\x0f\n\x07timeout\x18\x01 \x01(\x0c\x12\x11\n\tcomponent\x18\x02 \x01(\x0c\"%\n\x04Name\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"I\n\x08NameInfo\x12\x19\n\x04name\x18\x01 \x01(\x0b\x32\x0b.types.Name\x12\r\n\x05owner\x18\x02 \x01(\x0c\x12\x13\n\x0b\x64\x65stination\x18\x03 \x01(\x0c\"1\n\x0bPeersParams\x12\x10\n\x08noHidden\x18\x01 \x01(\x08\x12\x10\n\x08showSelf\x18\x02 \x01(\x08\"\x18\n\tKeyParams\x12\x0b\n\x03key\x18\x01 \x03(\t\"\xdb\x01\n\nServerInfo\x12-\n\x06status\x18\x01 \x03(\x0b\x32\x1d.types.ServerInfo.StatusEntry\x12-\n\x06\x63onfig\x18\x02 \x03(\x0b\x32\x1d.types.ServerInfo.ConfigEntry\x1a-\n\x0bStatusEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.types.ConfigItem:\x02\x38\x01\"g\n\nConfigItem\x12+\n\x05props\x18\x02 \x03(\x0b\x32\x1c.types.ConfigItem.PropsEntry\x1a,\n\nPropsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\")\n\tEventList\x12\x1c\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x0c.types.Event\"8\n\rConsensusInfo\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0c\n\x04info\x18\x02 \x01(\t\x12\x0b\n\x03\x62ps\x18\x03 \x03(\t\"\"\n\x13\x45nterpriseConfigKey\x12\x0b\n\x03key\x18\x01 \x01(\t\";\n\x10\x45nterpriseConfig\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\n\n\x02on\x18\x02 \x01(\x08\x12\x0e\n\x06values\x18\x03 \x03(\t*\xd2\x01\n\x0c\x43ommitStatus\x12\t\n\x05TX_OK\x10\x00\x12\x14\n\x10TX_NONCE_TOO_LOW\x10\x01\x12\x15\n\x11TX_ALREADY_EXISTS\x10\x02\x12\x13\n\x0fTX_INVALID_HASH\x10\x03\x12\x13\n\x0fTX_INVALID_SIGN\x10\x04\x12\x15\n\x11TX_INVALID_FORMAT\x10\x05\x12\x1b\n\x17TX_INSUFFICIENT_BALANCE\x10\x06\x12\x15\n\x11TX_HAS_SAME_NONCE\x10\x07\x12\x15\n\x11TX_INTERNAL_ERROR\x10\t*f\n\x0cVerifyStatus\x12\x14\n\x10VERIFY_STATUS_OK\x10\x00\x12 \n\x1cVERIFY_STATUS_SIGN_NOT_MATCH\x10\x01\x12\x1e\n\x1aVERIFY_STATUS_INVALID_HASH\x10\x02\x32\xa8\x12\n\x0f\x41\x65rgoRPCService\x12\x31\n\tNodeState\x12\x0e.types.NodeReq\x1a\x12.types.SingleBytes\"\x00\x12\x31\n\x06Metric\x12\x15.types.MetricsRequest\x1a\x0e.types.Metrics\"\x00\x12\x35\n\nBlockchain\x12\x0c.types.Empty\x1a\x17.types.BlockchainStatus\"\x00\x12\x30\n\x0cGetChainInfo\x12\x0c.types.Empty\x1a\x10.types.ChainInfo\"\x00\x12.\n\tChainStat\x12\x0c.types.Empty\x1a\x11.types.ChainStats\"\x00\x12?\n\x10ListBlockHeaders\x12\x11.types.ListParams\x1a\x16.types.BlockHeaderList\"\x00\x12\x42\n\x11ListBlockMetadata\x12\x11.types.ListParams\x1a\x18.types.BlockMetadataList\"\x00\x12\x31\n\x0fListBlockStream\x12\x0c.types.Empty\x1a\x0c.types.Block\"\x00\x30\x01\x12\x41\n\x17ListBlockMetadataStream\x12\x0c.types.Empty\x1a\x14.types.BlockMetadata\"\x00\x30\x01\x12.\n\x08GetBlock\x12\x12.types.SingleBytes\x1a\x0c.types.Block\"\x00\x12>\n\x10GetBlockMetadata\x12\x12.types.SingleBytes\x1a\x14.types.BlockMetadata\"\x00\x12?\n\x0cGetBlockBody\x12\x16.types.BlockBodyParams\x1a\x15.types.BlockBodyPaged\"\x00\x12(\n\x05GetTX\x12\x12.types.SingleBytes\x1a\t.types.Tx\"\x00\x12\x34\n\nGetBlockTX\x12\x12.types.SingleBytes\x1a\x10.types.TxInBlock\"\x00\x12\x32\n\nGetReceipt\x12\x12.types.SingleBytes\x1a\x0e.types.Receipt\"\x00\x12*\n\x06GetABI\x12\x12.types.SingleBytes\x1a\n.types.ABI\"\x00\x12*\n\x06SendTX\x12\t.types.Tx\x1a\x13.types.CommitResult\"\x00\x12 \n\x06SignTX\x12\t.types.Tx\x1a\t.types.Tx\"\x00\x12,\n\x08VerifyTX\x12\t.types.Tx\x1a\x13.types.VerifyResult\"\x00\x12\x34\n\x08\x43ommitTX\x12\r.types.TxList\x1a\x17.types.CommitResultList\"\x00\x12.\n\x08GetState\x12\x12.types.SingleBytes\x1a\x0c.types.State\"\x00\x12@\n\x10GetStateAndProof\x12\x15.types.AccountAndRoot\x1a\x13.types.AccountProof\"\x00\x12\x32\n\rCreateAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x31\n\x0bGetAccounts\x12\x0c.types.Empty\x1a\x12.types.AccountList\"\x00\x12\x30\n\x0bLockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x32\n\rUnlockAccount\x12\x0f.types.Personal\x1a\x0e.types.Account\"\x00\x12\x36\n\rImportAccount\x12\x13.types.ImportFormat\x1a\x0e.types.Account\"\x00\x12\x36\n\rExportAccount\x12\x0f.types.Personal\x1a\x12.types.SingleBytes\"\x00\x12\x33\n\rQueryContract\x12\x0c.types.Query\x1a\x12.types.SingleBytes\"\x00\x12\x41\n\x12QueryContractState\x12\x11.types.StateQuery\x1a\x16.types.StateQueryProof\"\x00\x12\x31\n\x08GetPeers\x12\x12.types.PeersParams\x1a\x0f.types.PeerList\"\x00\x12\x30\n\x08GetVotes\x12\x11.types.VoteParams\x1a\x0f.types.VoteList\"\x00\x12\x42\n\x0fGetAccountVotes\x12\x15.types.AccountAddress\x1a\x16.types.AccountVoteInfo\"\x00\x12\x35\n\nGetStaking\x12\x15.types.AccountAddress\x1a\x0e.types.Staking\"\x00\x12-\n\x0bGetNameInfo\x12\x0b.types.Name\x1a\x0f.types.NameInfo\"\x00\x12\x36\n\x0fListEventStream\x12\x11.types.FilterInfo\x1a\x0c.types.Event\"\x00\x30\x01\x12\x33\n\nListEvents\x12\x11.types.FilterInfo\x1a\x10.types.EventList\"\x00\x12\x36\n\rGetServerInfo\x12\x10.types.KeyParams\x1a\x11.types.ServerInfo\"\x00\x12\x38\n\x10GetConsensusInfo\x12\x0c.types.Empty\x1a\x14.types.ConsensusInfo\"\x00\x12K\n\x10\x43hangeMembership\x12\x17.types.MembershipChange\x1a\x1c.types.MembershipChangeReply\"\x00\x12L\n\x13GetEnterpriseConfig\x12\x1a.types.EnterpriseConfigKey\x1a\x17.types.EnterpriseConfig\"\x00\x12H\n\x15GetConfChangeProgress\x12\x12.types.SingleBytes\x1a\x19.types.ConfChangeProgress\"\x00\x62\x06proto3')
   ,
   dependencies=[blockchain__pb2.DESCRIPTOR,account__pb2.DESCRIPTOR,node__pb2.DESCRIPTOR,p2p__pb2.DESCRIPTOR,metric__pb2.DESCRIPTOR,raft__pb2.DESCRIPTOR,])
 
@@ -76,8 +76,8 @@ _COMMITSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=3021,
-  serialized_end=3231,
+  serialized_start=3037,
+  serialized_end=3247,
 )
 _sym_db.RegisterEnumDescriptor(_COMMITSTATUS)
 
@@ -103,8 +103,8 @@ _VERIFYSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=3233,
-  serialized_end=3335,
+  serialized_start=3249,
+  serialized_end=3351,
 )
 _sym_db.RegisterEnumDescriptor(_VERIFYSTATUS)
 
@@ -1375,15 +1375,22 @@ _VOTEINFO = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='id', full_name='types.VoteInfo.id', index=0,
-      number=2, type=9, cpp_type=9, label=1,
+      number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='candidates', full_name='types.VoteInfo.candidates', index=1,
-      number=3, type=9, cpp_type=9, label=3,
+      number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='amount', full_name='types.VoteInfo.amount', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -1400,7 +1407,7 @@ _VOTEINFO = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=2161,
-  serialized_end=2203,
+  serialized_end=2219,
 )
 
 
@@ -1437,8 +1444,8 @@ _VOTELIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2205,
-  serialized_end=2255,
+  serialized_start=2221,
+  serialized_end=2271,
 )
 
 
@@ -1475,8 +1482,8 @@ _NODEREQ = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2257,
-  serialized_end=2302,
+  serialized_start=2273,
+  serialized_end=2318,
 )
 
 
@@ -1513,8 +1520,8 @@ _NAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2304,
-  serialized_end=2341,
+  serialized_start=2320,
+  serialized_end=2357,
 )
 
 
@@ -1558,8 +1565,8 @@ _NAMEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2343,
-  serialized_end=2416,
+  serialized_start=2359,
+  serialized_end=2432,
 )
 
 
@@ -1596,8 +1603,8 @@ _PEERSPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2418,
-  serialized_end=2467,
+  serialized_start=2434,
+  serialized_end=2483,
 )
 
 
@@ -1627,8 +1634,8 @@ _KEYPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2469,
-  serialized_end=2493,
+  serialized_start=2485,
+  serialized_end=2509,
 )
 
 
@@ -1665,8 +1672,8 @@ _SERVERINFO_STATUSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2604,
-  serialized_end=2649,
+  serialized_start=2620,
+  serialized_end=2665,
 )
 
 _SERVERINFO_CONFIGENTRY = _descriptor.Descriptor(
@@ -1702,8 +1709,8 @@ _SERVERINFO_CONFIGENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2651,
-  serialized_end=2715,
+  serialized_start=2667,
+  serialized_end=2731,
 )
 
 _SERVERINFO = _descriptor.Descriptor(
@@ -1739,8 +1746,8 @@ _SERVERINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2496,
-  serialized_end=2715,
+  serialized_start=2512,
+  serialized_end=2731,
 )
 
 
@@ -1777,8 +1784,8 @@ _CONFIGITEM_PROPSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2776,
-  serialized_end=2820,
+  serialized_start=2792,
+  serialized_end=2836,
 )
 
 _CONFIGITEM = _descriptor.Descriptor(
@@ -1807,8 +1814,8 @@ _CONFIGITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2717,
-  serialized_end=2820,
+  serialized_start=2733,
+  serialized_end=2836,
 )
 
 
@@ -1838,8 +1845,8 @@ _EVENTLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2822,
-  serialized_end=2863,
+  serialized_start=2838,
+  serialized_end=2879,
 )
 
 
@@ -1883,8 +1890,8 @@ _CONSENSUSINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2865,
-  serialized_end=2921,
+  serialized_start=2881,
+  serialized_end=2937,
 )
 
 
@@ -1914,8 +1921,8 @@ _ENTERPRISECONFIGKEY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2923,
-  serialized_end=2957,
+  serialized_start=2939,
+  serialized_end=2973,
 )
 
 
@@ -1959,8 +1966,8 @@ _ENTERPRISECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2959,
-  serialized_end=3018,
+  serialized_start=2975,
+  serialized_end=3034,
 )
 
 _BLOCKCHAINSTATUS.fields_by_name['chain_info'].message_type = _CHAININFO
@@ -2366,8 +2373,8 @@ _AERGORPCSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=3338,
-  serialized_end=5682,
+  serialized_start=3354,
+  serialized_end=5698,
   methods=[
   _descriptor.MethodDescriptor(
     name='NodeState',

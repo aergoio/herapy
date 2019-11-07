@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x10\x62lockchain.proto\x12\x05types\"Y\n\x05\x42lock\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x1e\n\x04\x62ody\x18\x03 \x01(\x0b\x32\x10.types.BlockBody\"\xe9\x01\n\x0b\x42lockHeader\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\x15\n\rprevBlockHash\x18\x02 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x03 \x01(\x04\x12\x11\n\ttimestamp\x18\x04 \x01(\x03\x12\x16\n\x0e\x62locksRootHash\x18\x05 \x01(\x0c\x12\x13\n\x0btxsRootHash\x18\x06 \x01(\x0c\x12\x18\n\x10receiptsRootHash\x18\x07 \x01(\x0c\x12\x10\n\x08\x63onfirms\x18\x08 \x01(\x04\x12\x0e\n\x06pubKey\x18\t \x01(\x0c\x12\x17\n\x0f\x63oinbaseAccount\x18\n \x01(\x0c\x12\x0c\n\x04sign\x18\x0b \x01(\x0c\"#\n\tBlockBody\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\" \n\x06TxList\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\"/\n\x02Tx\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x1b\n\x04\x62ody\x18\x02 \x01(\x0b\x32\r.types.TxBody\"\xc0\x01\n\x06TxBody\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0c\x12\x11\n\trecipient\x18\x03 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x04 \x01(\x0c\x12\x0f\n\x07payload\x18\x05 \x01(\x0c\x12\x10\n\x08gasLimit\x18\x06 \x01(\x04\x12\x10\n\x08gasPrice\x18\x07 \x01(\x0c\x12\x1b\n\x04type\x18\x08 \x01(\x0e\x32\r.types.TxType\x12\x13\n\x0b\x63hainIdHash\x18\t \x01(\x0c\x12\x0c\n\x04sign\x18\n \x01(\x0c\"\'\n\x05TxIdx\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0b\n\x03idx\x18\x02 \x01(\x05\"?\n\tTxInBlock\x12\x1b\n\x05txIdx\x18\x01 \x01(\x0b\x32\x0c.types.TxIdx\x12\x15\n\x02tx\x18\x02 \x01(\x0b\x32\t.types.Tx\"h\n\x05State\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x62\x61lance\x18\x02 \x01(\x0c\x12\x10\n\x08\x63odeHash\x18\x03 \x01(\x0c\x12\x13\n\x0bstorageRoot\x18\x04 \x01(\x0c\x12\x18\n\x10sqlRecoveryPoint\x18\x05 \x01(\x04\"\xa2\x01\n\x0c\x41\x63\x63ountProof\x12\x1b\n\x05state\x18\x01 \x01(\x0b\x32\x0c.types.State\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x0b\n\x03key\x18\x03 \x01(\x0c\x12\x10\n\x08proofKey\x18\x04 \x01(\x0c\x12\x10\n\x08proofVal\x18\x05 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x06 \x01(\x0c\x12\x0e\n\x06height\x18\x07 \x01(\r\x12\x11\n\tauditPath\x18\x08 \x03(\x0c\"\x9e\x01\n\x10\x43ontractVarProof\x12\r\n\x05value\x18\x01 \x01(\x0c\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x10\n\x08proofKey\x18\x04 \x01(\x0c\x12\x10\n\x08proofVal\x18\x05 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x06 \x01(\x0c\x12\x0e\n\x06height\x18\x07 \x01(\r\x12\x11\n\tauditPath\x18\x08 \x03(\x0c\x12\x0b\n\x03key\x18\t \x01(\x0cJ\x04\x08\x03\x10\x04\"i\n\x0fStateQueryProof\x12*\n\rcontractProof\x18\x01 \x01(\x0b\x32\x13.types.AccountProof\x12*\n\tvarProofs\x18\x02 \x03(\x0b\x32\x17.types.ContractVarProof\"\xf7\x01\n\x07Receipt\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x0b\n\x03ret\x18\x03 \x01(\t\x12\x0e\n\x06txHash\x18\x04 \x01(\x0c\x12\x0f\n\x07\x66\x65\x65Used\x18\x05 \x01(\x0c\x12\x19\n\x11\x63umulativeFeeUsed\x18\x06 \x01(\x0c\x12\r\n\x05\x62loom\x18\x07 \x01(\x0c\x12\x1c\n\x06\x65vents\x18\x08 \x03(\x0b\x32\x0c.types.Event\x12\x0f\n\x07\x62lockNo\x18\t \x01(\x04\x12\x11\n\tblockHash\x18\n \x01(\x0c\x12\x0f\n\x07txIndex\x18\x0b \x01(\x05\x12\x0c\n\x04\x66rom\x18\x0c \x01(\x0c\x12\n\n\x02to\x18\r \x01(\x0c\"\x9c\x01\n\x05\x45vent\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\teventName\x18\x02 \x01(\t\x12\x10\n\x08jsonArgs\x18\x03 \x01(\t\x12\x10\n\x08\x65ventIdx\x18\x04 \x01(\x05\x12\x0e\n\x06txHash\x18\x05 \x01(\x0c\x12\x11\n\tblockHash\x18\x06 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x07 \x01(\x04\x12\x0f\n\x07txIndex\x18\x08 \x01(\x05\"\x1a\n\nFnArgument\x12\x0c\n\x04name\x18\x01 \x01(\t\"]\n\x08\x46unction\x12\x0c\n\x04name\x18\x01 \x01(\t\x12$\n\targuments\x18\x02 \x03(\x0b\x32\x11.types.FnArgument\x12\x0f\n\x07payable\x18\x03 \x01(\x08\x12\x0c\n\x04view\x18\x04 \x01(\x08\"3\n\x08StateVar\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0b\n\x03len\x18\x03 \x01(\x05\"v\n\x03\x41\x42I\x12\x0f\n\x07version\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\"\n\tfunctions\x18\x03 \x03(\x0b\x32\x0f.types.Function\x12(\n\x0fstate_variables\x18\x04 \x03(\x0b\x32\x0f.types.StateVar\"3\n\x05Query\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\tqueryinfo\x18\x02 \x01(\x0c\"b\n\nStateQuery\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x0c\n\x04root\x18\x03 \x01(\x0c\x12\x12\n\ncompressed\x18\x04 \x01(\x08\x12\x13\n\x0bstorageKeys\x18\x05 \x03(\x0cJ\x04\x08\x02\x10\x03\"\x95\x01\n\nFilterInfo\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\teventName\x18\x02 \x01(\t\x12\x11\n\tblockfrom\x18\x03 \x01(\x04\x12\x0f\n\x07\x62lockto\x18\x04 \x01(\x04\x12\x0c\n\x04\x64\x65sc\x18\x05 \x01(\x08\x12\x11\n\targFilter\x18\x06 \x01(\x0c\x12\x16\n\x0erecentBlockCnt\x18\x07 \x01(\x05*2\n\x06TxType\x12\n\n\x06NORMAL\x10\x00\x12\x0e\n\nGOVERNANCE\x10\x01\x12\x0c\n\x08REDEPLOY\x10\x02\x62\x06proto3')
+  serialized_pb=_b('\n\x10\x62lockchain.proto\x12\x05types\"Y\n\x05\x42lock\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\"\n\x06header\x18\x02 \x01(\x0b\x32\x12.types.BlockHeader\x12\x1e\n\x04\x62ody\x18\x03 \x01(\x0b\x32\x10.types.BlockBody\"\xfc\x01\n\x0b\x42lockHeader\x12\x0f\n\x07\x63hainID\x18\x01 \x01(\x0c\x12\x15\n\rprevBlockHash\x18\x02 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x03 \x01(\x04\x12\x11\n\ttimestamp\x18\x04 \x01(\x03\x12\x16\n\x0e\x62locksRootHash\x18\x05 \x01(\x0c\x12\x13\n\x0btxsRootHash\x18\x06 \x01(\x0c\x12\x18\n\x10receiptsRootHash\x18\x07 \x01(\x0c\x12\x10\n\x08\x63onfirms\x18\x08 \x01(\x04\x12\x0e\n\x06pubKey\x18\t \x01(\x0c\x12\x17\n\x0f\x63oinbaseAccount\x18\n \x01(\x0c\x12\x0c\n\x04sign\x18\x0b \x01(\x0c\x12\x11\n\tconsensus\x18\x0c \x01(\x0c\"#\n\tBlockBody\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\" \n\x06TxList\x12\x16\n\x03txs\x18\x01 \x03(\x0b\x32\t.types.Tx\"/\n\x02Tx\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x1b\n\x04\x62ody\x18\x02 \x01(\x0b\x32\r.types.TxBody\"\xc0\x01\n\x06TxBody\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x61\x63\x63ount\x18\x02 \x01(\x0c\x12\x11\n\trecipient\x18\x03 \x01(\x0c\x12\x0e\n\x06\x61mount\x18\x04 \x01(\x0c\x12\x0f\n\x07payload\x18\x05 \x01(\x0c\x12\x10\n\x08gasLimit\x18\x06 \x01(\x04\x12\x10\n\x08gasPrice\x18\x07 \x01(\x0c\x12\x1b\n\x04type\x18\x08 \x01(\x0e\x32\r.types.TxType\x12\x13\n\x0b\x63hainIdHash\x18\t \x01(\x0c\x12\x0c\n\x04sign\x18\n \x01(\x0c\"\'\n\x05TxIdx\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0b\n\x03idx\x18\x02 \x01(\x05\"?\n\tTxInBlock\x12\x1b\n\x05txIdx\x18\x01 \x01(\x0b\x32\x0c.types.TxIdx\x12\x15\n\x02tx\x18\x02 \x01(\x0b\x32\t.types.Tx\"h\n\x05State\x12\r\n\x05nonce\x18\x01 \x01(\x04\x12\x0f\n\x07\x62\x61lance\x18\x02 \x01(\x0c\x12\x10\n\x08\x63odeHash\x18\x03 \x01(\x0c\x12\x13\n\x0bstorageRoot\x18\x04 \x01(\x0c\x12\x18\n\x10sqlRecoveryPoint\x18\x05 \x01(\x04\"\xa2\x01\n\x0c\x41\x63\x63ountProof\x12\x1b\n\x05state\x18\x01 \x01(\x0b\x32\x0c.types.State\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x0b\n\x03key\x18\x03 \x01(\x0c\x12\x10\n\x08proofKey\x18\x04 \x01(\x0c\x12\x10\n\x08proofVal\x18\x05 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x06 \x01(\x0c\x12\x0e\n\x06height\x18\x07 \x01(\r\x12\x11\n\tauditPath\x18\x08 \x03(\x0c\"\x9e\x01\n\x10\x43ontractVarProof\x12\r\n\x05value\x18\x01 \x01(\x0c\x12\x11\n\tinclusion\x18\x02 \x01(\x08\x12\x10\n\x08proofKey\x18\x04 \x01(\x0c\x12\x10\n\x08proofVal\x18\x05 \x01(\x0c\x12\x0e\n\x06\x62itmap\x18\x06 \x01(\x0c\x12\x0e\n\x06height\x18\x07 \x01(\r\x12\x11\n\tauditPath\x18\x08 \x03(\x0c\x12\x0b\n\x03key\x18\t \x01(\x0cJ\x04\x08\x03\x10\x04\"i\n\x0fStateQueryProof\x12*\n\rcontractProof\x18\x01 \x01(\x0b\x32\x13.types.AccountProof\x12*\n\tvarProofs\x18\x02 \x03(\x0b\x32\x17.types.ContractVarProof\"\x8e\x02\n\x07Receipt\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x0b\n\x03ret\x18\x03 \x01(\t\x12\x0e\n\x06txHash\x18\x04 \x01(\x0c\x12\x0f\n\x07\x66\x65\x65Used\x18\x05 \x01(\x0c\x12\x19\n\x11\x63umulativeFeeUsed\x18\x06 \x01(\x0c\x12\r\n\x05\x62loom\x18\x07 \x01(\x0c\x12\x1c\n\x06\x65vents\x18\x08 \x03(\x0b\x32\x0c.types.Event\x12\x0f\n\x07\x62lockNo\x18\t \x01(\x04\x12\x11\n\tblockHash\x18\n \x01(\x0c\x12\x0f\n\x07txIndex\x18\x0b \x01(\x05\x12\x0c\n\x04\x66rom\x18\x0c \x01(\x0c\x12\n\n\x02to\x18\r \x01(\x0c\x12\x15\n\rfeeDelegation\x18\x0e \x01(\x08\"\x9c\x01\n\x05\x45vent\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\teventName\x18\x02 \x01(\t\x12\x10\n\x08jsonArgs\x18\x03 \x01(\t\x12\x10\n\x08\x65ventIdx\x18\x04 \x01(\x05\x12\x0e\n\x06txHash\x18\x05 \x01(\x0c\x12\x11\n\tblockHash\x18\x06 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x07 \x01(\x04\x12\x0f\n\x07txIndex\x18\x08 \x01(\x05\"\x1a\n\nFnArgument\x12\x0c\n\x04name\x18\x01 \x01(\t\"u\n\x08\x46unction\x12\x0c\n\x04name\x18\x01 \x01(\t\x12$\n\targuments\x18\x02 \x03(\x0b\x32\x11.types.FnArgument\x12\x0f\n\x07payable\x18\x03 \x01(\x08\x12\x0c\n\x04view\x18\x04 \x01(\x08\x12\x16\n\x0e\x66\x65\x65_delegation\x18\x05 \x01(\x08\"3\n\x08StateVar\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0b\n\x03len\x18\x03 \x01(\x05\"v\n\x03\x41\x42I\x12\x0f\n\x07version\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\"\n\tfunctions\x18\x03 \x03(\x0b\x32\x0f.types.Function\x12(\n\x0fstate_variables\x18\x04 \x03(\x0b\x32\x0f.types.StateVar\"3\n\x05Query\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\tqueryinfo\x18\x02 \x01(\x0c\"b\n\nStateQuery\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x0c\n\x04root\x18\x03 \x01(\x0c\x12\x12\n\ncompressed\x18\x04 \x01(\x08\x12\x13\n\x0bstorageKeys\x18\x05 \x03(\x0cJ\x04\x08\x02\x10\x03\"\x95\x01\n\nFilterInfo\x12\x17\n\x0f\x63ontractAddress\x18\x01 \x01(\x0c\x12\x11\n\teventName\x18\x02 \x01(\t\x12\x11\n\tblockfrom\x18\x03 \x01(\x04\x12\x0f\n\x07\x62lockto\x18\x04 \x01(\x04\x12\x0c\n\x04\x64\x65sc\x18\x05 \x01(\x08\x12\x11\n\targFilter\x18\x06 \x01(\x0c\x12\x16\n\x0erecentBlockCnt\x18\x07 \x01(\x05\"C\n\x08Proposal\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x16\n\x0emultipleChoice\x18\x06 \x01(\r*i\n\x06TxType\x12\n\n\x06NORMAL\x10\x00\x12\x0e\n\nGOVERNANCE\x10\x01\x12\x0c\n\x08REDEPLOY\x10\x02\x12\x11\n\rFEEDELEGATION\x10\x03\x12\x0c\n\x08TRANSFER\x10\x04\x12\x08\n\x04\x43\x41LL\x10\x05\x12\n\n\x06\x44\x45PLOY\x10\x06\x62\x06proto3')
 )
 
 _TXTYPE = _descriptor.EnumDescriptor(
@@ -42,11 +42,27 @@ _TXTYPE = _descriptor.EnumDescriptor(
       name='REDEPLOY', index=2, number=2,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='FEEDELEGATION', index=3, number=3,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='TRANSFER', index=4, number=4,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='CALL', index=5, number=5,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='DEPLOY', index=6, number=6,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2324,
-  serialized_end=2374,
+  serialized_start=2459,
+  serialized_end=2564,
 )
 _sym_db.RegisterEnumDescriptor(_TXTYPE)
 
@@ -54,6 +70,10 @@ TxType = enum_type_wrapper.EnumTypeWrapper(_TXTYPE)
 NORMAL = 0
 GOVERNANCE = 1
 REDEPLOY = 2
+FEEDELEGATION = 3
+TRANSFER = 4
+CALL = 5
+DEPLOY = 6
 
 
 
@@ -186,6 +206,13 @@ _BLOCKHEADER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='consensus', full_name='types.BlockHeader.consensus', index=11,
+      number=12, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -199,7 +226,7 @@ _BLOCKHEADER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=119,
-  serialized_end=352,
+  serialized_end=371,
 )
 
 
@@ -229,8 +256,8 @@ _BLOCKBODY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=354,
-  serialized_end=389,
+  serialized_start=373,
+  serialized_end=408,
 )
 
 
@@ -260,8 +287,8 @@ _TXLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=391,
-  serialized_end=423,
+  serialized_start=410,
+  serialized_end=442,
 )
 
 
@@ -298,8 +325,8 @@ _TX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=425,
-  serialized_end=472,
+  serialized_start=444,
+  serialized_end=491,
 )
 
 
@@ -392,8 +419,8 @@ _TXBODY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=475,
-  serialized_end=667,
+  serialized_start=494,
+  serialized_end=686,
 )
 
 
@@ -430,8 +457,8 @@ _TXIDX = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=669,
-  serialized_end=708,
+  serialized_start=688,
+  serialized_end=727,
 )
 
 
@@ -468,8 +495,8 @@ _TXINBLOCK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=710,
-  serialized_end=773,
+  serialized_start=729,
+  serialized_end=792,
 )
 
 
@@ -527,8 +554,8 @@ _STATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=775,
-  serialized_end=879,
+  serialized_start=794,
+  serialized_end=898,
 )
 
 
@@ -607,8 +634,8 @@ _ACCOUNTPROOF = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=882,
-  serialized_end=1044,
+  serialized_start=901,
+  serialized_end=1063,
 )
 
 
@@ -687,8 +714,8 @@ _CONTRACTVARPROOF = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1047,
-  serialized_end=1205,
+  serialized_start=1066,
+  serialized_end=1224,
 )
 
 
@@ -725,8 +752,8 @@ _STATEQUERYPROOF = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1207,
-  serialized_end=1312,
+  serialized_start=1226,
+  serialized_end=1331,
 )
 
 
@@ -828,6 +855,13 @@ _RECEIPT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='feeDelegation', full_name='types.Receipt.feeDelegation', index=13,
+      number=14, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -840,8 +874,8 @@ _RECEIPT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1315,
-  serialized_end=1562,
+  serialized_start=1334,
+  serialized_end=1604,
 )
 
 
@@ -920,8 +954,8 @@ _EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1565,
-  serialized_end=1721,
+  serialized_start=1607,
+  serialized_end=1763,
 )
 
 
@@ -951,8 +985,8 @@ _FNARGUMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1723,
-  serialized_end=1749,
+  serialized_start=1765,
+  serialized_end=1791,
 )
 
 
@@ -991,6 +1025,13 @@ _FUNCTION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fee_delegation', full_name='types.Function.fee_delegation', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -1003,8 +1044,8 @@ _FUNCTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1751,
-  serialized_end=1844,
+  serialized_start=1793,
+  serialized_end=1910,
 )
 
 
@@ -1048,8 +1089,8 @@ _STATEVAR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1846,
-  serialized_end=1897,
+  serialized_start=1912,
+  serialized_end=1963,
 )
 
 
@@ -1100,8 +1141,8 @@ _ABI = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1899,
-  serialized_end=2017,
+  serialized_start=1965,
+  serialized_end=2083,
 )
 
 
@@ -1138,8 +1179,8 @@ _QUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2019,
-  serialized_end=2070,
+  serialized_start=2085,
+  serialized_end=2136,
 )
 
 
@@ -1190,8 +1231,8 @@ _STATEQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2072,
-  serialized_end=2170,
+  serialized_start=2138,
+  serialized_end=2236,
 )
 
 
@@ -1263,8 +1304,53 @@ _FILTERINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2173,
-  serialized_end=2322,
+  serialized_start=2239,
+  serialized_end=2388,
+)
+
+
+_PROPOSAL = _descriptor.Descriptor(
+  name='Proposal',
+  full_name='types.Proposal',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='types.Proposal.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='types.Proposal.description', index=1,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='multipleChoice', full_name='types.Proposal.multipleChoice', index=2,
+      number=6, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2390,
+  serialized_end=2457,
 )
 
 _BLOCK.fields_by_name['header'].message_type = _BLOCKHEADER
@@ -1303,6 +1389,7 @@ DESCRIPTOR.message_types_by_name['ABI'] = _ABI
 DESCRIPTOR.message_types_by_name['Query'] = _QUERY
 DESCRIPTOR.message_types_by_name['StateQuery'] = _STATEQUERY
 DESCRIPTOR.message_types_by_name['FilterInfo'] = _FILTERINFO
+DESCRIPTOR.message_types_by_name['Proposal'] = _PROPOSAL
 DESCRIPTOR.enum_types_by_name['TxType'] = _TXTYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -1452,6 +1539,13 @@ FilterInfo = _reflection.GeneratedProtocolMessageType('FilterInfo', (_message.Me
   # @@protoc_insertion_point(class_scope:types.FilterInfo)
   })
 _sym_db.RegisterMessage(FilterInfo)
+
+Proposal = _reflection.GeneratedProtocolMessageType('Proposal', (_message.Message,), {
+  'DESCRIPTOR' : _PROPOSAL,
+  '__module__' : 'blockchain_pb2'
+  # @@protoc_insertion_point(class_scope:types.Proposal)
+  })
+_sym_db.RegisterMessage(Proposal)
 
 
 # @@protoc_insertion_point(module_scope)
