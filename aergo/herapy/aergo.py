@@ -811,7 +811,7 @@ class Aergo:
         return None
             
     def deploy_sc(self, payload, amount=0, args=None, retry_nonce=0,
-                  redeploy=False, gas_limit=0):
+                  redeploy=False, gas_limit=0, gas_price=0):
         if isinstance(payload, str):
             payload = decode_address(payload)
 
@@ -831,11 +831,11 @@ class Aergo:
 
         tx, result = self.send_payload(amount=amount, payload=payload_bytes,
                                        retry_nonce=retry_nonce, tx_type=tx_type,
-                                       gas_limit=gas_limit)
+                                       gas_limit=gas_limit, gas_price=gas_price)
         return tx, result
 
     def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None,
-                       nonce=None):
+                       nonce=None, gas_limit=0, gas_price=0):
         tx_type = TxType.SC_CALL
         if isinstance(sc_address, str):
             address_type = addr.check_name_address(sc_address)
@@ -864,15 +864,17 @@ class Aergo:
 
         return self.generate_tx(to_address=sc_address,
                                 nonce=nonce, amount=amount,
-                                gas_limit=0, gas_price=0,
+                                gas_limit=gas_limit, gas_price=gas_price,
                                 payload=payload, tx_type=tx_type)
 
     def batch_call_sc(self, sc_txs):
         return self.batch_tx(sc_txs)
 
-    def call_sc(self, sc_address, func_name, amount=0, args=None):
+    def call_sc(self, sc_address, func_name, amount=0, args=None, gas_limit=0,
+                gas_price=0):
         sc_tx = self.new_call_sc_tx(sc_address=sc_address, func_name=func_name,
-                                    amount=amount, args=args)
+                                    amount=amount, args=args,
+                                    gas_limit=gas_limit, gas_price=gas_price)
         sc_txs, results = self.batch_call_sc([sc_tx])
         return sc_txs[0], results[0]
 
