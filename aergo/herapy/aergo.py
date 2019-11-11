@@ -825,7 +825,7 @@ class Aergo:
         payload_bytes += json_args.encode('utf-8')
 
         if redeploy:
-            tx_type = TxType.SC_REDPLOY
+            tx_type = TxType.SC_REDEPLOY
         else:
             tx_type = TxType.SC_DEPLOY
 

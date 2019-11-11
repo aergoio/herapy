@@ -16,7 +16,7 @@ from ..utils.encoding import encode_signature, decode_signature, encode_payload
 class TxType(enum.Enum):
     NORMAL = blockchain_pb2.NORMAL
     GOVERNANCE = blockchain_pb2.GOVERNANCE
-    SC_REDPLOY = blockchain_pb2.REDEPLOY
+    SC_REDEPLOY = blockchain_pb2.REDEPLOY
     SC_FEE_DELEGATION = blockchain_pb2.FEEDELEGATION
     TRANSFER = blockchain_pb2.TRANSFER
     SC_CALL = blockchain_pb2.CALL
