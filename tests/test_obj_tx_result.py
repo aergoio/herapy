@@ -14,7 +14,7 @@ def test_grpc_receipt():
         one_field = all_fields[key]
         print('Key[{}]: Type[{}]'.format(key, str(one_field.type)))
     '''
-    assert len(all_fields.keys()) == 13
+    assert len(all_fields.keys()) == 14
 
     receipt = {
         'contractAddress': b'contract_address',
@@ -24,6 +24,18 @@ def test_grpc_receipt():
         'feeUsed': b'fee_used',
         'cumulativeFeeUsed': b'cumulative_fee_used',
         'bloom': b'result_bloom',
+        'events': [
+            {
+                'contractAddress': b'event0_contract_address',
+                'eventName': 'event0_name',
+                'jsonArgs': 'event0_json_args',
+                'eventIdx': 0,
+                'txHash': b'event0_tx_hash',
+                'blockHash': b'event0_block_hash',
+                'blockNo': 0,
+                'txIndex': 0
+            }
+        ],
         'blockNo': 10,
         'blockHash': b'block_hash',
         'txIndex': 1,
@@ -45,16 +57,24 @@ def test_grpc_receipt():
     grpc_result3.feeUsed = b'fee_used'
     grpc_result3.cumulativeFeeUsed = b'cumulative_fee_used'
     grpc_result3.bloom = b'result_bloom'
+    event = blockchain_pb2.Event()
+    event.contractAddress = b'event0_contract_address'
+    event.eventName = 'event0_name'
+    event.jsonArgs = 'event0_json_args'
+    event.eventIdx = 0
+    event.txHash = b'event0_tx_hash'
+    event.blockHash = b'event0_block_hash'
+    event.blockNo = 0
+    event.txIndex = 0
+    grpc_result3.events.append(event)
+    #events = []
+    #grpc_result3.events.extend(events)
+    assert len(grpc_result3.events) == 1
     grpc_result3.blockNo = 10
     grpc_result3.blockHash = b'block_hash'
     grpc_result3.txIndex = 1
-    #grpc_result3.from = b'result_from'
     setattr(grpc_result3, 'from', b'result_from')
     grpc_result3.to = b'result_to'
-    assert len(grpc_result3.events) == 0
-    events = []
-    grpc_result3.events.extend(events)
-    assert len(grpc_result3.events) == 0
     # TODO: add events
 
     assert grpc_result3.contractAddress == grpc_result2.contractAddress

@@ -56,9 +56,9 @@ class TxResult:
             """
         elif type(result) == CommitResult:
             self.__type = TxResultType.COMMIT_RESULT
-            self.tx_id = encode_tx_hash(self.__result.hash)
-            self.status = CommitStatus(self.__result.error)
-            self.detail = self.__result.detail
+            self.tx_id = encode_tx_hash(result.hash)
+            self.status = CommitStatus(result.error)
+            self.detail = result.detail
             self.contract_address = None
             self.fee_used = None
             self.cumulative_fee_used = None
