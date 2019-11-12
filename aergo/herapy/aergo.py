@@ -681,7 +681,11 @@ class Aergo:
 
                 # update account info.
                 self.get_account()
-                nonce = self.__account.nonce + 1
+                new_nonce = self.__account.nonce + 1
+                if new_nonce == nonce:
+                    nonce += 1
+                else:
+                    nonce = new_nonce
 
                 tx = self.generate_tx(to_address=to_address,
                                       nonce=nonce, amount=amount,
