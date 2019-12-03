@@ -200,7 +200,7 @@ class Block:
                 "confirms": self.confirms,
                 "pub_key": encode_b58(self.public_key) if self.public_key is not None else None,
                 "sign": encode_b58(self.sign),
-                "coinbase_account": encode_address(self.coinbase_account),
+                "coinbase_account": encode_address(self.coinbase_account) if self.coinbase_account is not None else None,
                 "tx_count": self.__tx_cnt,
                 "size": self.__size
             },
