@@ -44,9 +44,12 @@ class TxResult:
             self.block_no = result.blockNo
             self.block_hash = BlockHash(result.blockHash)
             self.tx_index = result.txIndex
+            self.tx_id = encode_tx_hash(result.txHash)
             self.tx_hash = TxHash(result.txHash)
             self.from_address = Address.encode(getattr(result, 'from'))
             self.to_address = Address.encode(result.to)
+            self.fee_delegation = result.feeDelegation
+            self.gas_used = result.gasUsed
 
             """
             if result.ret is None or 0 == len(result.ret):
@@ -67,9 +70,11 @@ class TxResult:
             self.block_no = -1
             self.block_hash = None
             self.tx_index = -1
-            self.tx_hash = None
+            self.tx_hash = TxHash(result.hash)
             self.from_address = None
             self.to_address = None
+            self.fee_delegation = None
+            self.gas_used = -1
 
     @property
     def type(self):
@@ -92,6 +97,8 @@ class TxResult:
             'tx_hash': str(self.tx_hash) if self.tx_hash is not None else None,
             'from_address': self.from_address,
             'to_address': self.to_address,
+            'fee_delegation': self.fee_delegation,
+            'gas_used': self.gas_used,
         }
 
     def __str__(self):

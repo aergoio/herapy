@@ -5,7 +5,6 @@ import json
 
 from google.protobuf.json_format import MessageToJson, Parse
 from cryptography.exceptions import InvalidTag
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from .grpc import blockchain_pb2
 
