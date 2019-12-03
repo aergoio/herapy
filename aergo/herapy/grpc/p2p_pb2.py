@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\tp2p.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\nnode.proto\"\xa8\x01\n\tMsgHeader\x12\x15\n\rclientVersion\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x03\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0e\n\x06gossip\x18\x04 \x01(\x08\x12\x0e\n\x06peerID\x18\x05 \x01(\x0c\x12\x12\n\nnodePubKey\x18\x06 \x01(\x0c\x12\x0c\n\x04sign\x18\x07 \x01(\x0c\x12\x13\n\x0bsubprotocol\x18\x08 \x01(\r\x12\x0e\n\x06length\x18\t \x01(\r\"<\n\nP2PMessage\x12 \n\x06header\x18\x01 \x01(\x0b\x32\x10.types.MsgHeader\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\"4\n\x04Ping\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\"1\n\x04Pong\x12\x15\n\rbestBlockHash\x18\x01 \x01(\x0c\x12\x12\n\nbestHeight\x18\x02 \x01(\x04\"\x9c\x01\n\x06Status\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x15\n\rbestBlockHash\x18\x02 \x01(\x0c\x12\x12\n\nbestHeight\x18\x03 \x01(\x04\x12\x0f\n\x07\x63hainID\x18\x04 \x01(\x0c\x12\x10\n\x08noExpose\x18\x05 \x01(\x08\x12\x0f\n\x07version\x18\x06 \x01(\t\x12\x0f\n\x07genesis\x18\x07 \x01(\x0c\"\x1f\n\x0cGoAwayNotice\x12\x0f\n\x07message\x18\x01 \x01(\t\"G\n\x10\x41\x64\x64ressesRequest\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x0f\n\x07maxSize\x18\x02 \x01(\r\"[\n\x11\x41\x64\x64ressesResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12!\n\x05peers\x18\x02 \x03(\x0b\x32\x12.types.PeerAddress\"4\n\x0eNewBlockNotice\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"W\n\x13\x42lockProducedNotice\x12\x12\n\nproducerID\x18\x01 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\x12\x1b\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x0c.types.Block\"a\n\x16GetBlockHeadersRequest\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0e\n\x06offset\x18\x03 \x01(\x04\x12\x0c\n\x04size\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"\x84\x01\n\x17GetBlockHeadersResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12#\n\x07headers\x18\x03 \x03(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"!\n\x0fGetBlockRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"f\n\x10GetBlockResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x1c\n\x06\x62locks\x18\x02 \x03(\x0b\x32\x0c.types.Block\x12\x0f\n\x07hasNext\x18\x03 \x01(\x08\")\n\x15NewTransactionsNotice\x12\x10\n\x08txHashes\x18\x01 \x03(\x0c\"(\n\x16GetTransactionsRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"w\n\x17GetTransactionsResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12\x16\n\x03txs\x18\x03 \x03(\x0b\x32\t.types.Tx\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"5\n\x11GetMissingRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\x12\x10\n\x08stophash\x18\x02 \x01(\x0c\"$\n\x12GetAncestorRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"d\n\x13GetAncestorResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x14\n\x0c\x61ncestorHash\x18\x02 \x01(\x0c\x12\x12\n\nancestorNo\x18\x03 \x01(\x04\"\x1e\n\x0bGetHashByNo\x12\x0f\n\x07\x62lockNo\x18\x01 \x01(\x04\"M\n\x13GetHashByNoResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x11\n\tblockHash\x18\x02 \x01(\x0c\"F\n\x10GetHashesRequest\x12\x10\n\x08prevHash\x18\x01 \x01(\x0c\x12\x12\n\nprevNumber\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\x04\"Y\n\x11GetHashesResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12\x0f\n\x07hasNext\x18\x03 \x01(\x08*\xbe\x02\n\x0cResultStatus\x12\x06\n\x02OK\x10\x00\x12\x0c\n\x08\x43\x41NCELED\x10\x01\x12\x0b\n\x07UNKNOWN\x10\x02\x12\x14\n\x10INVALID_ARGUMENT\x10\x03\x12\x15\n\x11\x44\x45\x41\x44LINE_EXCEEDED\x10\x04\x12\r\n\tNOT_FOUND\x10\x05\x12\x12\n\x0e\x41LREADY_EXISTS\x10\x06\x12\x15\n\x11PERMISSION_DENIED\x10\x07\x12\x16\n\x12RESOURCE_EXHAUSTED\x10\x08\x12\x17\n\x13\x46\x41ILED_PRECONDITION\x10\t\x12\x0b\n\x07\x41\x42ORTED\x10\n\x12\x10\n\x0cOUT_OF_RANGE\x10\x0b\x12\x11\n\rUNIMPLEMENTED\x10\x0c\x12\x0c\n\x08INTERNAL\x10\r\x12\x0f\n\x0bUNAVAILABLE\x10\x0e\x12\r\n\tDATA_LOSS\x10\x0f\x12\x13\n\x0fUNAUTHENTICATED\x10\x10\x62\x06proto3')
+  serialized_pb=_b('\n\tp2p.proto\x12\x05types\x1a\x10\x62lockchain.proto\x1a\nnode.proto\"\xa8\x01\n\tMsgHeader\x12\x15\n\rclientVersion\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x03\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0e\n\x06gossip\x18\x04 \x01(\x08\x12\x0e\n\x06peerID\x18\x05 \x01(\x0c\x12\x12\n\nnodePubKey\x18\x06 \x01(\x0c\x12\x0c\n\x04sign\x18\x07 \x01(\x0c\x12\x13\n\x0bsubprotocol\x18\x08 \x01(\r\x12\x0e\n\x06length\x18\t \x01(\r\"<\n\nP2PMessage\x12 \n\x06header\x18\x01 \x01(\x0b\x32\x10.types.MsgHeader\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\"4\n\x04Ping\x12\x17\n\x0f\x62\x65st_block_hash\x18\x01 \x01(\x0c\x12\x13\n\x0b\x62\x65st_height\x18\x02 \x01(\x04\"1\n\x04Pong\x12\x15\n\rbestBlockHash\x18\x01 \x01(\x0c\x12\x12\n\nbestHeight\x18\x02 \x01(\x04\"\xe5\x01\n\x06Status\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x15\n\rbestBlockHash\x18\x02 \x01(\x0c\x12\x12\n\nbestHeight\x18\x03 \x01(\x04\x12\x0f\n\x07\x63hainID\x18\x04 \x01(\x0c\x12\x10\n\x08noExpose\x18\x05 \x01(\x08\x12\x0f\n\x07version\x18\x06 \x01(\t\x12\x0f\n\x07genesis\x18\x07 \x01(\x0c\x12-\n\x0c\x63\x65rtificates\x18\x08 \x03(\x0b\x32\x17.types.AgentCertificate\x12\x18\n\x10issueCertificate\x18\t \x01(\x08\"\x1f\n\x0cGoAwayNotice\x12\x0f\n\x07message\x18\x01 \x01(\t\"G\n\x10\x41\x64\x64ressesRequest\x12\"\n\x06sender\x18\x01 \x01(\x0b\x32\x12.types.PeerAddress\x12\x0f\n\x07maxSize\x18\x02 \x01(\r\"[\n\x11\x41\x64\x64ressesResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12!\n\x05peers\x18\x02 \x03(\x0b\x32\x12.types.PeerAddress\"4\n\x0eNewBlockNotice\x12\x11\n\tblockHash\x18\x01 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\"W\n\x13\x42lockProducedNotice\x12\x12\n\nproducerID\x18\x01 \x01(\x0c\x12\x0f\n\x07\x62lockNo\x18\x02 \x01(\x04\x12\x1b\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x0c.types.Block\"a\n\x16GetBlockHeadersRequest\x12\x0c\n\x04hash\x18\x01 \x01(\x0c\x12\x0e\n\x06height\x18\x02 \x01(\x04\x12\x0e\n\x06offset\x18\x03 \x01(\x04\x12\x0c\n\x04size\x18\x04 \x01(\r\x12\x0b\n\x03\x61sc\x18\x05 \x01(\x08\"\x84\x01\n\x17GetBlockHeadersResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12#\n\x07headers\x18\x03 \x03(\x0b\x32\x12.types.BlockHeader\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"!\n\x0fGetBlockRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"f\n\x10GetBlockResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x1c\n\x06\x62locks\x18\x02 \x03(\x0b\x32\x0c.types.Block\x12\x0f\n\x07hasNext\x18\x03 \x01(\x08\")\n\x15NewTransactionsNotice\x12\x10\n\x08txHashes\x18\x01 \x03(\x0c\"(\n\x16GetTransactionsRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"w\n\x17GetTransactionsResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12\x16\n\x03txs\x18\x03 \x03(\x0b\x32\t.types.Tx\x12\x0f\n\x07hasNext\x18\x04 \x01(\x08\"5\n\x11GetMissingRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\x12\x10\n\x08stophash\x18\x02 \x01(\x0c\"$\n\x12GetAncestorRequest\x12\x0e\n\x06hashes\x18\x01 \x03(\x0c\"d\n\x13GetAncestorResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x14\n\x0c\x61ncestorHash\x18\x02 \x01(\x0c\x12\x12\n\nancestorNo\x18\x03 \x01(\x04\"\x1e\n\x0bGetHashByNo\x12\x0f\n\x07\x62lockNo\x18\x01 \x01(\x04\"M\n\x13GetHashByNoResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x11\n\tblockHash\x18\x02 \x01(\x0c\"F\n\x10GetHashesRequest\x12\x10\n\x08prevHash\x18\x01 \x01(\x0c\x12\x12\n\nprevNumber\x18\x02 \x01(\x04\x12\x0c\n\x04size\x18\x03 \x01(\x04\"Y\n\x11GetHashesResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12\x0e\n\x06hashes\x18\x02 \x03(\x0c\x12\x0f\n\x07hasNext\x18\x03 \x01(\x08\"\x19\n\x17IssueCertificateRequest\"m\n\x18IssueCertificateResponse\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.types.ResultStatus\x12,\n\x0b\x63\x65rtificate\x18\x02 \x01(\x0b\x32\x17.types.AgentCertificate\"H\n\x18\x43\x65rtificateRenewedNotice\x12,\n\x0b\x63\x65rtificate\x18\x02 \x01(\x0b\x32\x17.types.AgentCertificate*\xbe\x02\n\x0cResultStatus\x12\x06\n\x02OK\x10\x00\x12\x0c\n\x08\x43\x41NCELED\x10\x01\x12\x0b\n\x07UNKNOWN\x10\x02\x12\x14\n\x10INVALID_ARGUMENT\x10\x03\x12\x15\n\x11\x44\x45\x41\x44LINE_EXCEEDED\x10\x04\x12\r\n\tNOT_FOUND\x10\x05\x12\x12\n\x0e\x41LREADY_EXISTS\x10\x06\x12\x15\n\x11PERMISSION_DENIED\x10\x07\x12\x16\n\x12RESOURCE_EXHAUSTED\x10\x08\x12\x17\n\x13\x46\x41ILED_PRECONDITION\x10\t\x12\x0b\n\x07\x41\x42ORTED\x10\n\x12\x10\n\x0cOUT_OF_RANGE\x10\x0b\x12\x11\n\rUNIMPLEMENTED\x10\x0c\x12\x0c\n\x08INTERNAL\x10\r\x12\x0f\n\x0bUNAVAILABLE\x10\x0e\x12\r\n\tDATA_LOSS\x10\x0f\x12\x13\n\x0fUNAUTHENTICATED\x10\x10\x62\x06proto3')
   ,
   dependencies=[blockchain__pb2.DESCRIPTOR,node__pb2.DESCRIPTOR,])
 
@@ -104,8 +104,8 @@ _RESULTSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1938,
-  serialized_end=2256,
+  serialized_start=2223,
+  serialized_end=2541,
 )
 _sym_db.RegisterEnumDescriptor(_RESULTSTATUS)
 
@@ -387,6 +387,20 @@ _STATUS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='certificates', full_name='types.Status.certificates', index=7,
+      number=8, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='issueCertificate', full_name='types.Status.issueCertificate', index=8,
+      number=9, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -400,7 +414,7 @@ _STATUS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=389,
-  serialized_end=545,
+  serialized_end=618,
 )
 
 
@@ -430,8 +444,8 @@ _GOAWAYNOTICE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=547,
-  serialized_end=578,
+  serialized_start=620,
+  serialized_end=651,
 )
 
 
@@ -468,8 +482,8 @@ _ADDRESSESREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=580,
-  serialized_end=651,
+  serialized_start=653,
+  serialized_end=724,
 )
 
 
@@ -506,8 +520,8 @@ _ADDRESSESRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=653,
-  serialized_end=744,
+  serialized_start=726,
+  serialized_end=817,
 )
 
 
@@ -544,8 +558,8 @@ _NEWBLOCKNOTICE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=746,
-  serialized_end=798,
+  serialized_start=819,
+  serialized_end=871,
 )
 
 
@@ -589,8 +603,8 @@ _BLOCKPRODUCEDNOTICE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=800,
-  serialized_end=887,
+  serialized_start=873,
+  serialized_end=960,
 )
 
 
@@ -648,8 +662,8 @@ _GETBLOCKHEADERSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=889,
-  serialized_end=986,
+  serialized_start=962,
+  serialized_end=1059,
 )
 
 
@@ -700,8 +714,8 @@ _GETBLOCKHEADERSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=989,
-  serialized_end=1121,
+  serialized_start=1062,
+  serialized_end=1194,
 )
 
 
@@ -731,8 +745,8 @@ _GETBLOCKREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1123,
-  serialized_end=1156,
+  serialized_start=1196,
+  serialized_end=1229,
 )
 
 
@@ -776,8 +790,8 @@ _GETBLOCKRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1158,
-  serialized_end=1260,
+  serialized_start=1231,
+  serialized_end=1333,
 )
 
 
@@ -807,8 +821,8 @@ _NEWTRANSACTIONSNOTICE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1262,
-  serialized_end=1303,
+  serialized_start=1335,
+  serialized_end=1376,
 )
 
 
@@ -838,8 +852,8 @@ _GETTRANSACTIONSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1305,
-  serialized_end=1345,
+  serialized_start=1378,
+  serialized_end=1418,
 )
 
 
@@ -890,8 +904,8 @@ _GETTRANSACTIONSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1347,
-  serialized_end=1466,
+  serialized_start=1420,
+  serialized_end=1539,
 )
 
 
@@ -928,8 +942,8 @@ _GETMISSINGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1468,
-  serialized_end=1521,
+  serialized_start=1541,
+  serialized_end=1594,
 )
 
 
@@ -959,8 +973,8 @@ _GETANCESTORREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1523,
-  serialized_end=1559,
+  serialized_start=1596,
+  serialized_end=1632,
 )
 
 
@@ -1004,8 +1018,8 @@ _GETANCESTORRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1561,
-  serialized_end=1661,
+  serialized_start=1634,
+  serialized_end=1734,
 )
 
 
@@ -1035,8 +1049,8 @@ _GETHASHBYNO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1663,
-  serialized_end=1693,
+  serialized_start=1736,
+  serialized_end=1766,
 )
 
 
@@ -1073,8 +1087,8 @@ _GETHASHBYNORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1695,
-  serialized_end=1772,
+  serialized_start=1768,
+  serialized_end=1845,
 )
 
 
@@ -1118,8 +1132,8 @@ _GETHASHESREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1774,
-  serialized_end=1844,
+  serialized_start=1847,
+  serialized_end=1917,
 )
 
 
@@ -1163,12 +1177,106 @@ _GETHASHESRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1846,
-  serialized_end=1935,
+  serialized_start=1919,
+  serialized_end=2008,
+)
+
+
+_ISSUECERTIFICATEREQUEST = _descriptor.Descriptor(
+  name='IssueCertificateRequest',
+  full_name='types.IssueCertificateRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2010,
+  serialized_end=2035,
+)
+
+
+_ISSUECERTIFICATERESPONSE = _descriptor.Descriptor(
+  name='IssueCertificateResponse',
+  full_name='types.IssueCertificateResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='types.IssueCertificateResponse.status', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='certificate', full_name='types.IssueCertificateResponse.certificate', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2037,
+  serialized_end=2146,
+)
+
+
+_CERTIFICATERENEWEDNOTICE = _descriptor.Descriptor(
+  name='CertificateRenewedNotice',
+  full_name='types.CertificateRenewedNotice',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='certificate', full_name='types.CertificateRenewedNotice.certificate', index=0,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2148,
+  serialized_end=2220,
 )
 
 _P2PMESSAGE.fields_by_name['header'].message_type = _MSGHEADER
 _STATUS.fields_by_name['sender'].message_type = node__pb2._PEERADDRESS
+_STATUS.fields_by_name['certificates'].message_type = node__pb2._AGENTCERTIFICATE
 _ADDRESSESREQUEST.fields_by_name['sender'].message_type = node__pb2._PEERADDRESS
 _ADDRESSESRESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
 _ADDRESSESRESPONSE.fields_by_name['peers'].message_type = node__pb2._PEERADDRESS
@@ -1182,6 +1290,9 @@ _GETTRANSACTIONSRESPONSE.fields_by_name['txs'].message_type = blockchain__pb2._T
 _GETANCESTORRESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
 _GETHASHBYNORESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
 _GETHASHESRESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
+_ISSUECERTIFICATERESPONSE.fields_by_name['status'].enum_type = _RESULTSTATUS
+_ISSUECERTIFICATERESPONSE.fields_by_name['certificate'].message_type = node__pb2._AGENTCERTIFICATE
+_CERTIFICATERENEWEDNOTICE.fields_by_name['certificate'].message_type = node__pb2._AGENTCERTIFICATE
 DESCRIPTOR.message_types_by_name['MsgHeader'] = _MSGHEADER
 DESCRIPTOR.message_types_by_name['P2PMessage'] = _P2PMESSAGE
 DESCRIPTOR.message_types_by_name['Ping'] = _PING
@@ -1206,6 +1317,9 @@ DESCRIPTOR.message_types_by_name['GetHashByNo'] = _GETHASHBYNO
 DESCRIPTOR.message_types_by_name['GetHashByNoResponse'] = _GETHASHBYNORESPONSE
 DESCRIPTOR.message_types_by_name['GetHashesRequest'] = _GETHASHESREQUEST
 DESCRIPTOR.message_types_by_name['GetHashesResponse'] = _GETHASHESRESPONSE
+DESCRIPTOR.message_types_by_name['IssueCertificateRequest'] = _ISSUECERTIFICATEREQUEST
+DESCRIPTOR.message_types_by_name['IssueCertificateResponse'] = _ISSUECERTIFICATERESPONSE
+DESCRIPTOR.message_types_by_name['CertificateRenewedNotice'] = _CERTIFICATERENEWEDNOTICE
 DESCRIPTOR.enum_types_by_name['ResultStatus'] = _RESULTSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -1376,6 +1490,27 @@ GetHashesResponse = _reflection.GeneratedProtocolMessageType('GetHashesResponse'
   # @@protoc_insertion_point(class_scope:types.GetHashesResponse)
   })
 _sym_db.RegisterMessage(GetHashesResponse)
+
+IssueCertificateRequest = _reflection.GeneratedProtocolMessageType('IssueCertificateRequest', (_message.Message,), {
+  'DESCRIPTOR' : _ISSUECERTIFICATEREQUEST,
+  '__module__' : 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.IssueCertificateRequest)
+  })
+_sym_db.RegisterMessage(IssueCertificateRequest)
+
+IssueCertificateResponse = _reflection.GeneratedProtocolMessageType('IssueCertificateResponse', (_message.Message,), {
+  'DESCRIPTOR' : _ISSUECERTIFICATERESPONSE,
+  '__module__' : 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.IssueCertificateResponse)
+  })
+_sym_db.RegisterMessage(IssueCertificateResponse)
+
+CertificateRenewedNotice = _reflection.GeneratedProtocolMessageType('CertificateRenewedNotice', (_message.Message,), {
+  'DESCRIPTOR' : _CERTIFICATERENEWEDNOTICE,
+  '__module__' : 'p2p_pb2'
+  # @@protoc_insertion_point(class_scope:types.CertificateRenewedNotice)
+  })
+_sym_db.RegisterMessage(CertificateRenewedNotice)
 
 
 # @@protoc_insertion_point(module_scope)

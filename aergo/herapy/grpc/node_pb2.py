@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='types',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\nnode.proto\x12\x05types\"\x83\x01\n\x0bPeerAddress\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\r\x12\x0e\n\x06peerID\x18\x03 \x01(\x0c\x12\x0c\n\x04role\x18\x04 \x01(\r\x12\x0f\n\x07version\x18\x05 \x01(\t\x12\x11\n\taddresses\x18\x06 \x03(\t\x12\x13\n\x0bproducerIDs\x18\x07 \x03(\x0c*C\n\x08PeerRole\x12\x11\n\rLegacyVersion\x10\x00\x12\x0c\n\x08Producer\x10\x01\x12\x0b\n\x07Watcher\x10\x02\x12\t\n\x05\x41gent\x10\x03\x62\x06proto3')
+  serialized_pb=_b('\n\nnode.proto\x12\x05types\"\x94\x01\n\x0bPeerAddress\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\r\x12\x0e\n\x06peerID\x18\x03 \x01(\x0c\x12\x1d\n\x04role\x18\x04 \x01(\x0e\x32\x0f.types.PeerRole\x12\x0f\n\x07version\x18\x05 \x01(\t\x12\x11\n\taddresses\x18\x06 \x03(\t\x12\x13\n\x0bproducerIDs\x18\x07 \x03(\x0c\"\xa9\x01\n\x10\x41gentCertificate\x12\x13\n\x0b\x63\x65rtVersion\x18\x01 \x01(\r\x12\x0c\n\x04\x42PID\x18\x02 \x01(\x0c\x12\x10\n\x08\x42PPubKey\x18\x03 \x01(\x0c\x12\x12\n\ncreateTime\x18\x04 \x01(\x03\x12\x12\n\nexpireTime\x18\x05 \x01(\x03\x12\x0f\n\x07\x61gentID\x18\x06 \x01(\x0c\x12\x14\n\x0c\x41gentAddress\x18\x07 \x03(\x0c\x12\x11\n\tsignature\x18\x08 \x01(\x0c*C\n\x08PeerRole\x12\x11\n\rLegacyVersion\x10\x00\x12\x0c\n\x08Producer\x10\x01\x12\x0b\n\x07Watcher\x10\x02\x12\t\n\x05\x41gent\x10\x03\x62\x06proto3')
 )
 
 _PEERROLE = _descriptor.EnumDescriptor(
@@ -49,8 +49,8 @@ _PEERROLE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=155,
-  serialized_end=222,
+  serialized_start=344,
+  serialized_end=411,
 )
 _sym_db.RegisterEnumDescriptor(_PEERROLE)
 
@@ -92,7 +92,7 @@ _PEERADDRESS = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='role', full_name='types.PeerAddress.role', index=3,
-      number=4, type=13, cpp_type=3, label=1,
+      number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -131,10 +131,92 @@ _PEERADDRESS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=22,
-  serialized_end=153,
+  serialized_end=170,
 )
 
+
+_AGENTCERTIFICATE = _descriptor.Descriptor(
+  name='AgentCertificate',
+  full_name='types.AgentCertificate',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='certVersion', full_name='types.AgentCertificate.certVersion', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='BPID', full_name='types.AgentCertificate.BPID', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='BPPubKey', full_name='types.AgentCertificate.BPPubKey', index=2,
+      number=3, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='createTime', full_name='types.AgentCertificate.createTime', index=3,
+      number=4, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='expireTime', full_name='types.AgentCertificate.expireTime', index=4,
+      number=5, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='agentID', full_name='types.AgentCertificate.agentID', index=5,
+      number=6, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='AgentAddress', full_name='types.AgentCertificate.AgentAddress', index=6,
+      number=7, type=12, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='signature', full_name='types.AgentCertificate.signature', index=7,
+      number=8, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=173,
+  serialized_end=342,
+)
+
+_PEERADDRESS.fields_by_name['role'].enum_type = _PEERROLE
 DESCRIPTOR.message_types_by_name['PeerAddress'] = _PEERADDRESS
+DESCRIPTOR.message_types_by_name['AgentCertificate'] = _AGENTCERTIFICATE
 DESCRIPTOR.enum_types_by_name['PeerRole'] = _PEERROLE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -144,6 +226,13 @@ PeerAddress = _reflection.GeneratedProtocolMessageType('PeerAddress', (_message.
   # @@protoc_insertion_point(class_scope:types.PeerAddress)
   })
 _sym_db.RegisterMessage(PeerAddress)
+
+AgentCertificate = _reflection.GeneratedProtocolMessageType('AgentCertificate', (_message.Message,), {
+  'DESCRIPTOR' : _AGENTCERTIFICATE,
+  '__module__' : 'node_pb2'
+  # @@protoc_insertion_point(class_scope:types.AgentCertificate)
+  })
+_sym_db.RegisterMessage(AgentCertificate)
 
 
 # @@protoc_insertion_point(module_scope)
