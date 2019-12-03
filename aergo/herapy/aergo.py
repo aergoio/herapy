@@ -536,32 +536,23 @@ class Aergo:
         elif type(tx_hash) == TxHash:
             tx_hash = bytes(tx_hash)
 
-        result_tx = None
-        result_tx_block_hash = None
-        result_tx_index = None
-        result_tx_is_in_mempool = False
-
         try:
             result_tx = self.__comm.get_tx(tx_hash)
             result_tx_block_hash = None
             result_tx_index = None
             result_tx_is_in_mempool = True
-            get_result = True
         except Exception as e:
             if mempool_only:
                 raise CommunicationException(e) from e
             else:
-                get_result = False
-
-        if not get_result:
-            try:
-                result = self.__comm.get_block_tx(tx_hash)
-                result_tx = result.tx
-                result_tx_block_hash = result.txIdx.blockHash
-                result_tx_index = result.txIdx.idx
-                result_tx_is_in_mempool = False
-            except Exception as e:
-                raise CommunicationException(e) from e
+                try:
+                    result = self.__comm.get_block_tx(tx_hash)
+                    result_tx = result.tx
+                    result_tx_block_hash = result.txIdx.blockHash
+                    result_tx_index = result.txIdx.idx
+                    result_tx_is_in_mempool = False
+                except Exception as e:
+                    raise CommunicationException(e) from e
 
         if result_tx_block_hash is not None:
             if skip_block:
