@@ -2,10 +2,6 @@
 
 import json
 
-from .aer import Aer
-from .chain_id import ChainID
-from .consensus_info import ConsensusInfo
-
 
 class NodeInfo:
     def __init__(self, node_info):
