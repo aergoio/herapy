@@ -4,6 +4,18 @@ History
 
 
 -------------------
+2.0.0 (2019-12-03)
+-------------------
+
+* Add 'transfer' API for simple token transfering
+* Add 'gas limit', 'fee delegation' and 'gas used' for 'TxResult' object
+* 'Account' object encoding to/decoding from json data
+* Bug fix
+
+  * Exception for encoding 'TxResult' to the json type, because of 'tx_id'
+
+
+-------------------
 1.3.3 (2019-11-05)
 -------------------
 
