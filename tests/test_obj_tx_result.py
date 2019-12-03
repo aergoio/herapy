@@ -9,12 +9,11 @@ from aergo.herapy.utils.encoding import encode_tx_hash
 def test_grpc_receipt():
     grpc_result1 = blockchain_pb2.Receipt()
     all_fields = grpc_result1.DESCRIPTOR.fields_by_name
-    '''
     for key in all_fields.keys():
         one_field = all_fields[key]
         print('Key[{}]: Type[{}]'.format(key, str(one_field.type)))
-    '''
-    assert len(all_fields.keys()) == 14
+
+    assert len(all_fields.keys()) == 15
 
     receipt = {
         'contractAddress': b'contract_address',
@@ -41,9 +40,12 @@ def test_grpc_receipt():
         'txIndex': 1,
         'from': b'result_from',
         'to': b'result_to',
+        'feeDelegation': False,
+        'gasUsed': 22,
     }
     grpc_result2 = blockchain_pb2.Receipt(**receipt)
     tx_result2 = TxResult(grpc_result2)
+    print(tx_result2)
     assert tx_result2.type == TxResultType.RECEIPT
     assert tx_result2.status == TxResultStatus.CREATED
     assert tx_result2.detail == receipt['ret']
@@ -75,6 +77,8 @@ def test_grpc_receipt():
     grpc_result3.txIndex = 1
     setattr(grpc_result3, 'from', b'result_from')
     grpc_result3.to = b'result_to'
+    grpc_result3.feeDelegation = False
+    grpc_result3.gasUsed = 22
     # TODO: add events
 
     assert grpc_result3.contractAddress == grpc_result2.contractAddress
@@ -97,14 +101,19 @@ def test_grpc_receipt():
     assert grpc_result3.blockHash == receipt['blockHash']
     assert grpc_result3.txIndex == grpc_result2.txIndex
     assert grpc_result3.txIndex == receipt['txIndex']
-    #assert grpc_result3.from == grpc_result2.from
+    #assert grpc_result3.from == grpc_result2.from # error because of reserved keyword 'from'
     assert getattr(grpc_result3, 'from') == getattr(grpc_result2, 'from')
-    #assert grpc_result3.from == receipt['to']
+    #assert grpc_result3.from == receipt['from'] # error because of reserved keyword 'from'
     assert getattr(grpc_result3, 'from') == receipt['from']
     assert grpc_result3.to == grpc_result2.to
     assert grpc_result3.to == receipt['to']
+    assert grpc_result3.feeDelegation == grpc_result2.feeDelegation
+    assert grpc_result3.feeDelegation == receipt['feeDelegation']
+    assert grpc_result3.gasUsed == grpc_result2.gasUsed
+    assert grpc_result3.gasUsed == receipt['gasUsed']
 
     tx_result3 = TxResult(grpc_result3)
+    print(tx_result3)
     assert tx_result3.type == TxResultType.RECEIPT
     assert tx_result3.status == TxResultStatus.ERROR
     assert tx_result3.detail == grpc_result3.status
