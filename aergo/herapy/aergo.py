@@ -636,6 +636,10 @@ class Aergo:
         tx.sign = self.__account.sign_msg_hash(tx.calculate_hash(including_sign=False))
         return tx
 
+    def transfer(self, to_address, amount, retry_nonce=3):
+        return self.send_payload(amount=amount, to_address=to_address,
+                                 payload=None, retry_nonce=retry_nonce)
+
     def send_payload(self, amount, payload, to_address=None, retry_nonce=0,
                      tx_type=TxType.TRANSFER, gas_limit=0, gas_price=0):
         if self.__comm is None:
@@ -653,6 +657,8 @@ class Aergo:
                     to_address = decode_address(to_address)
                 except Exception as e:
                     raise ValueError("Invalid receiver address: {}".format(e))
+        elif isinstance(to_address, addr.Address):
+            to_address = bytes(to_address)
         elif isinstance(to_address, addr.GovernanceTxAddress):
             if addr.check_name_address(to_address.value):
                 to_address = to_address.value.encode()
