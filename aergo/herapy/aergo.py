@@ -71,7 +71,8 @@ class Aergo:
 
     # TODO how about making account_state class,
     #       or how about returning account and change method name
-    def get_account(self, account=None, address=None, proof=False, root=b'', compressed=True):
+    def get_account(self, account=None, address=None, proof=False, root=b'',
+                    compressed=True):
         """
         Return account information
         :param address:

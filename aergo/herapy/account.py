@@ -3,15 +3,18 @@
 import hashlib
 import json
 
-from google.protobuf.json_format import MessageToJson
+from google.protobuf.json_format import MessageToJson, Parse
 from cryptography.exceptions import InvalidTag
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+from .grpc import blockchain_pb2
 
 from .obj import address as addr
 from .obj import aer
 from .obj import private_key as pk
 
-from .utils.encoding import decode_address, decode_root
+from .utils.encoding import decode_address, decode_root, encode_private_key, \
+    decode_private_key
 from .utils import merkle_proof as mp
 from .utils.converter import encrypt_bytes, decrypt_bytes
 
@@ -35,10 +38,12 @@ class Account:
         self.__state = None
         self.__state_proof = None
 
-    def __str__(self):
+    def json(self, password=None, with_private_key=False):
         state = self.state
+        is_state_proof = False
         if self.__state_proof:
             state = MessageToJson(self.__state_proof)
+            is_state_proof = True
 
         if state:
             state = json.loads(state)
@@ -48,8 +53,61 @@ class Account:
             "balance": str(self.balance),
             "nonce": str(self.nonce),
             "state": state,
+            "is_state_proof": is_state_proof,
         }
-        return json.dumps(account, indent=2)
+
+        if password and self.__private_key is not None:
+            enc_key = Account.encrypt_account(self, password)
+            account["enc_key"] = encode_private_key(enc_key)
+
+        if with_private_key and self.__private_key is not None:
+            account["priv_key"] = str(self.__private_key)
+
+        return account
+
+    @staticmethod
+    def from_json(data, password=None):
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        # handle private key or encrypted key
+        priv_key = data.get('priv_key', None)
+        enc_key = data.get('enc_key', None)
+        if priv_key:
+            account = Account(private_key=priv_key)
+        elif enc_key:
+            enc_key = decode_private_key(enc_key)
+            account = Account.decrypt_account(enc_key, password)
+        else:
+            account = Account(empty=True)
+
+        # handle address
+        address = data.get('address', None)
+        if address is None:
+            raise ValueError("address cannot be None")
+        elif account.address is not None and address != str(account.address):
+            raise ValueError("address is irrelevant with the private key")
+        elif account.address is None:
+            account.address = address
+
+        # handle state of state_proof
+        state = data.get('state', None)
+        if state:
+            state = json.dumps(state)
+            is_state_proof = data.get('is_state_proof')
+            if is_state_proof:
+                state_proof_pb2 = blockchain_pb2.AccountProof()
+                Parse(state, state_proof_pb2, ignore_unknown_fields=True)
+                account.state_proof = state_proof_pb2
+            else:
+                state_pb2 = blockchain_pb2.State()
+                Parse(state, state_pb2, ignore_unknown_fields=True)
+                account.state = state_pb2
+
+        return account
+
+    def __str__(self):
+        return json.dumps(self.json(), indent=2)
 
     def sign_msg_hash(self, msg_hash):
         return self.__private_key.sign_msg(msg_hash)
