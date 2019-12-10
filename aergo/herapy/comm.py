@@ -4,7 +4,7 @@
 
 import grpc
 
-from .grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc
+from .grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc, raft_pb2, raft_pb2_grpc
 from .utils.converter import convert_tx_to_grpc_tx
 
 
@@ -271,3 +271,31 @@ class Comm:
         v = rpc_pb2.SingleBytes()
         v.value = addr_bytes
         return self.__rpc_stub.GetABI(v)
+
+    def add_raft_member(self, request_id, member_id, member_name,
+                        member_address, member_peer_id):
+        if self.__rpc_stub is None:
+            return None
+        ch = raft_pb2.MembershipChange()
+        ch.type = raft_pb2.ADD_MEMBER
+        ch.requestID = request_id
+        ch.attr = raft_pb2.MemberAttr()
+        ch.attr.ID = member_id
+        ch.attr.name = member_name
+        ch.attr.address = member_address
+        ch.attr.peerID = member_peer_id
+        return self.__rpc_stub.ChangeMembership(ch)
+
+    def del_raft_member(self, request_id, member_id, member_name,
+                        member_address, member_peer_id):
+        if self.__rpc_stub is None:
+            return None
+        ch = raft_pb2.MembershipChange()
+        ch.type = raft_pb2.REMOVE_MEMBER
+        ch.requestID = request_id
+        ch.attr = raft_pb2.MemberAttr()
+        ch.attr.ID = member_id
+        ch.attr.name = member_name
+        ch.attr.address = member_address
+        ch.attr.peerID = member_peer_id
+        return self.__rpc_stub.ChangeMembership(ch)
