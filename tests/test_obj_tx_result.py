@@ -69,8 +69,8 @@ def test_grpc_receipt():
     event.blockNo = 0
     event.txIndex = 0
     grpc_result3.events.append(event)
-    #events = []
-    #grpc_result3.events.extend(events)
+    # events = []
+    # grpc_result3.events.extend(events)
     assert len(grpc_result3.events) == 1
     grpc_result3.blockNo = 10
     grpc_result3.blockHash = b'block_hash'
@@ -101,9 +101,9 @@ def test_grpc_receipt():
     assert grpc_result3.blockHash == receipt['blockHash']
     assert grpc_result3.txIndex == grpc_result2.txIndex
     assert grpc_result3.txIndex == receipt['txIndex']
-    #assert grpc_result3.from == grpc_result2.from # error because of reserved keyword 'from'
+    # assert grpc_result3.from == grpc_result2.from # error because of reserved keyword 'from'
     assert getattr(grpc_result3, 'from') == getattr(grpc_result2, 'from')
-    #assert grpc_result3.from == receipt['from'] # error because of reserved keyword 'from'
+    # assert grpc_result3.from == receipt['from'] # error because of reserved keyword 'from'
     assert getattr(grpc_result3, 'from') == receipt['from']
     assert grpc_result3.to == grpc_result2.to
     assert grpc_result3.to == receipt['to']

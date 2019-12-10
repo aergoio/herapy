@@ -91,9 +91,9 @@ def test_keys():
     p2p_pubkey_bytes_head = "\x08\x02\x12".encode("latin-1")
     print("int(p2p public key head bytes) = {}".format(bytes_to_int_str(p2p_pubkey_bytes_head)))
 
-    p2p_pubkey_bytes = p2p_pubkey_bytes_head + \
-                       len(pubkey_bytes).to_bytes(length=1, byteorder='big') + \
-                       pubkey_bytes
+    p2p_pubkey_bytes = p2p_pubkey_bytes_head \
+                       + len(pubkey_bytes).to_bytes(length=1, byteorder='big') \
+                       + pubkey_bytes
     print("bytes(p2p public key) = {}".format(p2p_pubkey_bytes))
     print("int(p2p public key bytes) = {}".format(bytes_to_int_str(p2p_pubkey_bytes)))
     pubkey_txt = encode_b64(p2p_pubkey_bytes)
@@ -123,38 +123,38 @@ def test_json():
     assert str(acc.address) == "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
 
     acc_json = acc.json()
-    assert acc_json.get('priv_key', None) == None
-    assert acc_json.get('enc_key', None) == None
+    assert acc_json.get('priv_key', None) is None
+    assert acc_json.get('enc_key', None) is None
     assert acc_json.get('address', None) == str(acc.address)
     assert acc_json.get('balance', None) == "0 aer"
     assert acc_json.get('nonce', None) == "-1"
-    assert acc_json.get('state', None) == None
-    assert acc_json.get('is_state_proof', None) == False
+    assert acc_json.get('state', None) is None
+    assert acc_json.get('is_state_proof', None) is False
 
     acc2 = Account(private_key=bytes(acc.private_key))
     acc2_json = acc2.json(with_private_key=True)
     assert acc2_json.get('priv_key', None) == str(acc.private_key)
-    assert acc2_json.get('enc_key', None) == None
+    assert acc2_json.get('enc_key', None) is None
     assert acc2_json.get('address', None) == str(acc.address)
 
     acc2_json2 = acc2.json(password='1234')
-    assert acc2_json2.get('priv_key', None) == None
+    assert acc2_json2.get('priv_key', None) is None
     assert acc2_json2.get('enc_key', None) == exported_key_str
     assert acc2_json2.get('address', None) == str(acc.address)
 
     acc3 = Account.from_json(acc_json)
-    assert acc3.private_key == None
+    assert acc3.private_key is None
     assert bytes(acc.address) == bytes(acc3.address)
     assert str(acc.address) == str(acc3.address)
 
     acc3_json = acc3.json(with_private_key=True)
-    assert acc3_json.get('priv_key', None) == None
-    assert acc3_json.get('enc_key', None) == None
+    assert acc3_json.get('priv_key', None) is None
+    assert acc3_json.get('enc_key', None) is None
     assert acc3_json.get('address', None) == str(acc.address)
 
     acc3_json2 = acc3.json(password='1234')
-    assert acc3_json2.get('priv_key', None) == None
-    assert acc3_json2.get('enc_key', None) == None
+    assert acc3_json2.get('priv_key', None) is None
+    assert acc3_json2.get('enc_key', None) is None
     assert acc3_json2.get('address', None) == str(acc.address)
 
     acc4 = Account.from_json(acc2_json)

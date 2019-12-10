@@ -64,7 +64,7 @@ def test_grpc_block():
     tx2.body.account = b'daniel'
     tx2.body.recipient = b'hannah'
     tx2.body.amount = bigint_to_bytes(2)
-    #tx2.body.payload = b'tx2_payload'
+    # tx2.body.payload = b'tx2_payload'
     tx2.body.gasLimit = 2
     tx2.body.gasPrice = bigint_to_bytes(2)
     tx2.body.type = blockchain_pb2.NORMAL
@@ -116,7 +116,7 @@ def test_grpc_block():
     block_tx1 = block.get_tx(0)
     assert block == block_tx1.block
     assert block_tx1.index_in_block == 0
-    assert block_tx1.is_in_mempool == False
+    assert block_tx1.is_in_mempool is False
     assert block_tx1.nonce == 10
     block_tx1.nonce = 123
     assert block_tx1.nonce != 123
@@ -150,7 +150,7 @@ def test_grpc_block():
     block_tx2 = block.get_tx(1)
     assert block == block_tx2.block
     assert block_tx2.index_in_block == 1
-    assert block_tx2.is_in_mempool == False
+    assert block_tx2.is_in_mempool is False
     assert block_tx2.nonce ==356
     block_tx2.nonce = 123
     assert block_tx2.nonce != 123
@@ -175,7 +175,7 @@ def test_grpc_block():
     block_tx2.payload = b'new_payload'
     assert block_tx2.payload != b'new_payload'
     assert block_tx2.payload == b''
-    assert block_tx2.payload_str == None
+    assert block_tx2.payload_str is None
     assert block_tx2.tx_type == TxType.NORMAL
     block_tx2.tx_type = TxType.GOVERNANCE
     assert block_tx2.tx_type != TxType.GOVERNANCE
