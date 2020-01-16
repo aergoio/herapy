@@ -7,7 +7,7 @@ from ecdsa.util import string_to_number
 
 from .address import Address
 
-from ..utils.converter import encrypt_bytes, decrypt_bytes
+from ..utils.encryption import encrypt_bytes, decrypt_bytes
 from ..utils.encoding import encode_private_key, decode_private_key, \
     encode_b58, decode_b58
 from ..utils.signature import deserialize_sig, serialize_sig

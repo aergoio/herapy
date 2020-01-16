@@ -15,7 +15,12 @@ from .obj import private_key as pk
 from .utils.encoding import decode_address, decode_root, encode_private_key, \
     decode_private_key
 from .utils import merkle_proof as mp
-from .utils.converter import encrypt_bytes, decrypt_bytes
+from .utils.encryption import (
+    encrypt_bytes,
+    decrypt_bytes,
+    decrypt_keystore_v1,
+    encrypt_to_keystore_v1
+)
 
 from .errors.general_exception import GeneralException
 
@@ -104,6 +109,28 @@ class Account:
                 account.state = state_pb2
 
         return account
+
+    @staticmethod
+    def decrypt_from_keystore(keystore, password):
+        if isinstance(keystore, str):
+            keystore = json.loads(keystore)
+        try:
+            privkey_raw = decrypt_keystore_v1(keystore, password)
+        except AssertionError as e:
+            raise GeneralException("Failed to decrypt keystore") from e
+        return Account(private_key=privkey_raw)
+
+    @staticmethod
+    def encrypt_to_keystore(account, password, kdf_n=2**18):
+        try:
+            keystore = encrypt_to_keystore_v1(
+                bytes(account.private_key),
+                str(account.address),
+                password, kdf_n=kdf_n
+            )
+        except AssertionError as e:
+            raise GeneralException("Failed to encrypt keystore") from e
+        return keystore
 
     def __str__(self):
         return json.dumps(self.json(), indent=2)
