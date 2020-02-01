@@ -12,7 +12,7 @@ codecov==2.0.15
 coverage==4.5.4
 cryptography==2.8
 docutils==0.15.2
-ecdsa==0.13.3
+ecdsa==0.15
 entrypoints==0.3
 filelock==3.0.12
 flake8==3.7.9
