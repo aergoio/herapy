@@ -5,7 +5,7 @@ cryptography==2.8
 ecdsa==0.15
 googleapis-common-protos==1.6.0
 grpcio==1.26.0
-protobuf==3.10.0
+protobuf==3.11.2
 pycparser==2.19
 six==1.12.0
 toml==0.10.0
