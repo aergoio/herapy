@@ -770,12 +770,30 @@ class Aergo:
                 self.get_account(account=account)
         return account
 
+    def import_account_from_keystore(self, keystore, password, skip_state=False, skip_self=False):
+        account = acc.Account.decrypt_from_keystore(keystore, password)
+        if not skip_self:
+            self.__account = account
+            if not skip_state:
+                self.get_account()
+        else:
+            if not skip_state:
+                self.get_account(account=account)
+        return account
+
     def export_account(self, password, account=None):
         if account is None:
             account = self.__account
 
         enc_acc = acc.Account.encrypt_account(account, password)
         return encode_private_key(enc_acc)
+
+    def export_account_to_keystore(self, password, account=None, kdf_n=2**18):
+        if account is None:
+            account = self.__account
+
+        keystore = acc.Account.encrypt_to_keystore(account, password, kdf_n)
+        return keystore
 
     def get_tx_result(self, tx_hash):
         if self.__comm is None:

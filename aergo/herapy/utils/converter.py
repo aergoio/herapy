@@ -9,12 +9,13 @@ import socket
 import ecdsa
 import time
 
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
 from ..constants import *
-from .encoding import encode_b58
+from .encoding import (
+    encode_b58,
+    encode_address
+)
 
 
 def convert_toml_to_aergo_conf(v):
@@ -187,57 +188,6 @@ def bytes_to_public_key(v, curve=ecdsa.SECP256k1):
     return convert_bytes_to_public_key(v, curve=curve)
 
 
-def encrypt_bytes(data, password):
-    """
-    https://cryptography.io/en/latest/hazmat/primitives/aead/
-    :param data: bytes to encrypt
-    :return: encrypted  data (bytes)
-    """
-    if isinstance(password, str):
-        password = bytes(password, encoding='utf-8')
-
-    m = hashlib.sha256()
-    m.update(password)
-    hash_pw = m.digest()
-
-    m = hashlib.sha256()
-    m.update(password)
-    m.update(hash_pw)
-    enc_key = m.digest()
-
-    nonce = hash_pw[4:16]
-    aesgcm = AESGCM(enc_key)
-    return aesgcm.encrypt(nonce=nonce,
-                          data=data,
-                          associated_data=b'')
-
-def decrypt_bytes(encrypted_bytes, password):
-    """
-    https://cryptography.io/en/latest/hazmat/primitives/aead/
-    :param encrypted_bytes: encrypted data (bytes)
-    :param password: to decrypt the exported bytes
-    :return: decrypted bytes
-    """
-    if isinstance(password, str):
-        password = password.encode('utf-8')
-
-    m = hashlib.sha256()
-    m.update(password)
-    hash_pw = m.digest()
-
-    m = hashlib.sha256()
-    m.update(password)
-    m.update(hash_pw)
-    dec_key = m.digest()
-
-    nonce = hash_pw[4:16]
-    aesgcm = AESGCM(dec_key)
-    dec_value = aesgcm.decrypt(nonce=nonce,
-                               data=encrypted_bytes,
-                               associated_data=b'')
-    return dec_value
-
-
 def get_hash(*strings, no_rand=False, no_encode=False):
     m = hashlib.sha256()
     if not no_rand:
@@ -251,3 +201,11 @@ def get_hash(*strings, no_rand=False, no_encode=False):
         return m.digest()
 
     return encode_b58(m.digest())
+
+
+def privkey_to_address(privkey, curve=ecdsa.SECP256k1, compressed=True):
+    d = int.from_bytes(privkey, byteorder='big')
+    pubkey_point = curve.generator * d
+    pubkey = ecdsa.ecdsa.Public_key(curve.generator, pubkey_point)
+    pubkey_bytes = convert_public_key_to_bytes(pubkey, curve, compressed)
+    return encode_address(pubkey_bytes)
