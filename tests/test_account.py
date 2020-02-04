@@ -27,9 +27,9 @@ def test_import():
     assert acc.address == acc.private_key.address
     assert acc.public_key == acc.private_key.public_key
     assert acc.public_key.point == acc.private_key.public_key.point
-    assert acc.public_key != acc.address.public_key
+    assert acc.public_key == acc.address.public_key
     assert acc.public_key.point == acc.address.public_key.point
-    assert acc.private_key.public_key != acc.address.public_key
+    assert acc.private_key.public_key == acc.address.public_key
     assert acc.private_key.public_key.point == acc.address.public_key.point
 
     assert bytes(acc.address) == convert_public_key_to_bytes(acc.public_key)
@@ -38,9 +38,9 @@ def test_import():
     assert bytes(acc.private_key.address) == convert_public_key_to_bytes(acc.public_key)
 
     private_key = PrivateKey(pk="6i2n6TAtsKBaWSujYFzqkBCiP834j1u3nwmffZb8dxCxDcQaXAb")
-    assert acc.public_key != private_key.public_key
+    assert acc.public_key == private_key.public_key
     assert acc.public_key.point == private_key.public_key.point
-    assert private_key.public_key != acc.address.public_key
+    assert private_key.public_key == acc.address.public_key
     assert private_key.public_key.point == acc.address.public_key.point
 
     assert bytes(acc.address) == convert_public_key_to_bytes(private_key.public_key)
@@ -53,9 +53,9 @@ def test_import():
     assert private_key.address != address
     assert bytes(private_key.address) == bytes(address)
 
-    assert acc.public_key != address.public_key
+    assert acc.public_key == address.public_key
     assert acc.public_key.point == address.public_key.point
-    assert private_key.public_key != address.public_key
+    assert private_key.public_key == address.public_key
     assert private_key.public_key.point == address.public_key.point
 
     assert bytes(acc.address) == convert_public_key_to_bytes(address.public_key)
