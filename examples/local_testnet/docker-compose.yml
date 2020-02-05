@@ -1,0 +1,40 @@
+version: '3'
+services:
+  aergo8845:
+    image: aergo/node
+    volumes:
+      - ./8845:/aergo
+      - ./genesis_mainnet.json:/config/genesis.json
+    ports:
+      - "7845:7845"
+    command: sh -c "aergosvr init --genesis /config/genesis.json --config /aergo/8845.toml && aergosvr --config /aergo/8845.toml"
+    networks:
+      docker_net:
+        ipv4_address: "172.19.0.45"
+
+  aergo8846:
+    image: aergo/node
+    volumes:
+      - ./8846:/aergo
+      - ./genesis_mainnet.json:/config/genesis.json
+    command: sh -c "aergosvr init --genesis /config/genesis.json --config /aergo/8846.toml && aergosvr --config /aergo/8846.toml"
+    networks:
+      docker_net:
+        ipv4_address: "172.19.0.46"
+
+  aergo8847:
+    image: aergo/node
+    volumes:
+      - ./8847:/aergo
+      - ./genesis_mainnet.json:/config/genesis.json
+    command: sh -c "aergosvr init --genesis /config/genesis.json --config /aergo/8847.toml && aergosvr --config /aergo/8847.toml"
+    networks:
+      docker_net:
+        ipv4_address: "172.19.0.47"
+
+networks:
+  docker_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.19.0.0/21"

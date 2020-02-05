@@ -1,0 +1,19 @@
+{
+"chain_id":{
+        "public":true,
+        "mainnet":true,
+        "magic":"mainnet",
+        "consensus":"dpos"
+    },
+    "timestamp": 1530838282000000000,
+    "balance": {
+        "AmMLULqYeFByochcYYN8Uh4DEDdebCUA2PCwNgqccp7vhgMvdS8w": "1000000000000000000000000000",
+        "AmPESicKLcPYXJC7ufgK6ti3fVS1r1SbqfxhVDEnTUc5cPXT1474": "1000000000000000000000000000"
+    },
+    "bps": [
+"16Uiu2HAm9YTybp5ZX4iCppDkmEvRF8hqaC6zChZ6HRTTwEQnPRrK",
+"16Uiu2HAkzrjyf9JiBkenH63sZZRGNYSAWeBCvRaowmWCXc4t3MZv",
+"16Uiu2HAkz3gsJbmTW6DWJpKWf826SdZC7xVRR6tExZ1atGVQFW7o"
+   ]
+}
+

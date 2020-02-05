@@ -104,6 +104,13 @@ else
 	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
 endif
 
+local_testnet:
+	docker-compose -f ./examples/local_testnet/docker-compose.yml up
+
+clean_local_testnet:
+	rm -fr examples/local_testnet/*/data
+	docker-compose -f ./examples/local_testnet/docker-compose.yml down
+
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy
 	@echo "===============================" > make.ex.out
