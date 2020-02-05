@@ -4,6 +4,13 @@ History
 
 
 -------------------
+2.0.1 (2020-02-05)
+-------------------
+
+* Add new Aergo Keystore support.
+* Add 'add_raft_member', 'del_raft_member'
+  
+-------------------
 2.0.0 (2019-12-03)
 -------------------
 
