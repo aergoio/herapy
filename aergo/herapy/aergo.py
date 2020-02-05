@@ -781,6 +781,11 @@ class Aergo:
                 self.get_account(account=account)
         return account
 
+    def import_account_from_keystore_file(self, keystore_path, password, skip_state=False, skip_self=False):
+        with open(keystore_path, "r") as f:
+            keystore = f.read()
+        return self.import_account_from_keystore(keystore, password, skip_state, skip_self)
+
     def export_account(self, password, account=None):
         if account is None:
             account = self.__account
@@ -794,6 +799,11 @@ class Aergo:
 
         keystore = acc.Account.encrypt_to_keystore(account, password, kdf_n)
         return keystore
+
+    def export_account_to_keystore_file(self, keystore_path, password, account=None, kdf_n=2**18):
+        keystore = self.export_account_to_keystore(password, account, kdf_n)
+        with open(keystore_path, 'w') as f:
+            json.dump(keystore, f, indent=4)
 
     def get_tx_result(self, tx_hash):
         if self.__comm is None:
