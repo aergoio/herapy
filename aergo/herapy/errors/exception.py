@@ -22,13 +22,15 @@ class AergoException(Exception):
 class CommunicationException(AergoException):
     def __init__(self, error):
         if hasattr(error, 'code') \
-                and (inspect.isfunction(error.code) or inspect.ismethod(error.code)):
+                and (inspect.isfunction(error.code)
+                     or inspect.ismethod(error.code)):
             self.error_code = error.code()
         else:
             self.error_code = None
 
         if hasattr(error, 'details') \
-                and (inspect.isfunction(error.details) or inspect.ismethod(error.details)):
+                and (inspect.isfunction(error.details)
+                     or inspect.ismethod(error.details)):
             self.error_details = error.details()
         else:
             self.error_details = None
@@ -38,11 +40,14 @@ class CommunicationException(AergoException):
     def __str__(self):
         if self.error_code is None:
             if self.error_details is None:
-                print_err = "{0}: {1}".format(self.exception_type, "cannot recognize an error detail")
+                print_err = "{0}: {1}".format(
+                    self.exception_type, "cannot recognize an error detail")
             else:
-                print_err = "{0}: {1}".format(self.exception_type, self.error_details)
+                print_err = "{0}: {1}".format(
+                    self.exception_type, self.error_details)
         else:
-            print_err = "{0} ({1}): {2}".format(self.exception_type, self.error_code, self.error_details)
+            print_err = "{0} ({1}): {2}".format(
+                self.exception_type, self.error_code, self.error_details)
 
         return print_err
 

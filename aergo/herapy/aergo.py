@@ -63,7 +63,11 @@ class Aergo:
     def account(self, a):
         self.__account = a
 
-    def new_account(self, private_key=None, skip_state=False):
+    def new_account(
+        self,
+        private_key=None,
+        skip_state=False
+    ):
         self.__account = acc.Account(private_key=private_key)
         if not skip_state:
             self.get_account()
@@ -71,8 +75,14 @@ class Aergo:
 
     # TODO how about making account_state class,
     #       or how about returning account and change method name
-    def get_account(self, account=None, address=None, proof=False, root=b'',
-                    compressed=True):
+    def get_account(
+        self,
+        account=None,
+        address=None,
+        proof=False,
+        root=b'',
+        compressed=True
+    ):
         """
         Return account information
         :param address:
@@ -93,7 +103,10 @@ class Aergo:
             req_address = bytes(account.address)
         else:
             if address is None:
-                raise GeneralException("Fail to get an account info. No designated account address.")
+                raise GeneralException(
+                    "Fail to get an account info. No designated account "
+                    "address."
+                )
             else:
                 ret_account = acc.Account(empty=True)
                 if isinstance(address, str):
@@ -127,7 +140,13 @@ class Aergo:
 
         return ret_account
 
-    def connect(self, target, tls_ca_cert=None, tls_cert=None, tls_key=None):
+    def connect(
+        self,
+        target,
+        tls_ca_cert=None,
+        tls_cert=None,
+        tls_key=None
+    ):
         """
         Connect to the gRPC server running on port `target` e.g.
         target="localhost:7845".
@@ -259,14 +278,21 @@ class Aergo:
 
         return BlockStream(stream)
 
-    def get_block_metas(self, block_hash=None, block_height=-1, list_size=20,
-                        offset=0, is_asc_order=False):
+    def get_block_metas(
+        self,
+        block_hash=None,
+        block_height=-1,
+        list_size=20,
+        offset=0,
+        is_asc_order=False
+    ):
         """
         Returns the list of metadata of queried blocks.
         :param block_hash:
         :param block_height:
         :param list_size: maximum number of results
-        :param offset: the start point to search until the block_hash or block_height
+        :param offset: the start point to search until the block_hash or
+        block_height
         :param is_asc_order:
         :return:
         """
@@ -293,9 +319,16 @@ class Aergo:
 
         return block_headers
 
-    def receive_event_stream(self, sc_address, event_name, start_block_no=0,
-                             end_block_no=0, with_desc=False, arg_filter=None,
-                             recent_block_cnt=0):
+    def receive_event_stream(
+        self,
+        sc_address,
+        event_name,
+        start_block_no=0,
+        end_block_no=0,
+        with_desc=False,
+        arg_filter=None,
+        recent_block_cnt=0
+    ):
         if self.__comm is None:
             return None
 
@@ -311,21 +344,27 @@ class Aergo:
             arg_filter = arg_filter.encode('utf-8')
 
         try:
-            es = self.__comm.receive_event_stream(sc_address=sc_address,
-                                                  event_name=event_name,
-                                                  start_block_no=start_block_no,
-                                                  end_block_no=end_block_no,
-                                                  with_desc=with_desc,
-                                                  arg_filter=arg_filter,
-                                                  recent_block_cnt=recent_block_cnt)
+            es = self.__comm.receive_event_stream(
+                sc_address=sc_address, event_name=event_name,
+                start_block_no=start_block_no, end_block_no=end_block_no,
+                with_desc=with_desc, arg_filter=arg_filter,
+                recent_block_cnt=recent_block_cnt
+            )
         except Exception as e:
             raise CommunicationException(e) from e
 
         return EventStream(es)
 
-    def get_events(self, sc_address, event_name, start_block_no=-1,
-                   end_block_no=-1, with_desc=False, arg_filter=None,
-                   recent_block_cnt=0):
+    def get_events(
+        self,
+        sc_address,
+        event_name,
+        start_block_no=-1,
+        end_block_no=-1,
+        with_desc=False,
+        arg_filter=None,
+        recent_block_cnt=0
+    ):
         if self.__comm is None:
             return None
 
@@ -373,7 +412,8 @@ class Aergo:
         :param block_hash:
         :param block_height:
         :param list_size: maximum number of results
-        :param offset: the start point to search until the block_hash or block_height
+        :param offset: the start point to search until the block_hash or
+        block_height
         :param is_asc_order:
         :return:
         """
@@ -526,7 +566,12 @@ class Aergo:
         json_txt = result.value.decode('utf8').replace("'", '"')
         return json.loads(json_txt)
 
-    def get_tx(self, tx_hash, mempool_only=False, skip_block=False):
+    def get_tx(
+        self,
+        tx_hash,
+        mempool_only=False,
+        skip_block=False
+    ):
         """
         Returns info on transaction with hash `tx_hash`.
         :param tx_hash:
@@ -560,7 +605,8 @@ class Aergo:
                 result_tx_block = Block(hash_value=result_tx_block_hash,
                                         height=None)
             else:
-                result_tx_block = self.get_block(block_hash=result_tx_block_hash)
+                result_tx_block = self.get_block(
+                    block_hash=result_tx_block_hash)
         else:
             result_tx_block = None
 
@@ -617,8 +663,16 @@ class Aergo:
 
         return result
 
-    def generate_tx(self, to_address, nonce, amount, gas_limit=0, gas_price=0,
-                    payload=None, tx_type=TxType.NORMAL):
+    def generate_tx(
+        self,
+        to_address,
+        nonce,
+        amount,
+        gas_limit=0,
+        gas_price=0,
+        payload=None,
+        tx_type=TxType.NORMAL
+    ):
         if to_address is not None:
             address = addr.Address(None, empty=True)
             address.value = to_address
@@ -633,15 +687,29 @@ class Aergo:
                                      gas_price=gas_price,
                                      payload=payload,
                                      chain_id=self.chain_id)
-        tx.sign = self.__account.sign_msg_hash(tx.calculate_hash(including_sign=False))
+        tx.sign = self.__account.sign_msg_hash(
+            tx.calculate_hash(including_sign=False))
         return tx
 
-    def transfer(self, to_address, amount, retry_nonce=3):
+    def transfer(
+        self,
+        to_address,
+        amount,
+        retry_nonce=3
+    ):
         return self.send_payload(amount=amount, to_address=to_address,
                                  payload=None, retry_nonce=retry_nonce)
 
-    def send_payload(self, amount, payload, to_address=None, retry_nonce=0,
-                     tx_type=TxType.TRANSFER, gas_limit=0, gas_price=0):
+    def send_payload(
+        self,
+        amount,
+        payload,
+        to_address=None,
+        retry_nonce=0,
+        tx_type=TxType.TRANSFER,
+        gas_limit=0,
+        gas_price=0
+    ):
         if self.__comm is None:
             return None, None
 
@@ -739,13 +807,20 @@ class Aergo:
 
         results = []
         for i, r in enumerate(result_list.results):
-            tx_result = TxResult(tx=signed_txs[i], result=result_list.results[i])
+            tx_result = TxResult(
+                tx=signed_txs[i], result=result_list.results[i])
             if tx_result.status == CommitStatus.TX_OK:
                 self.__account.nonce += 1
             results.append(tx_result)
         return signed_txs, results
 
-    def import_account(self, exported_data, password, skip_state=False, skip_self=False):
+    def import_account(
+        self,
+        exported_data,
+        password,
+        skip_state=False,
+        skip_self=False
+    ):
         if exported_data is None or 0 == len(exported_data):
             # TODO unit test + exception handling
             assert 1 == 0
@@ -770,7 +845,13 @@ class Aergo:
                 self.get_account(account=account)
         return account
 
-    def import_account_from_keystore(self, keystore, password, skip_state=False, skip_self=False):
+    def import_account_from_keystore(
+        self,
+        keystore,
+        password,
+        skip_state=False,
+        skip_self=False
+    ):
         account = acc.Account.decrypt_from_keystore(keystore, password)
         if not skip_self:
             self.__account = account
@@ -781,26 +862,48 @@ class Aergo:
                 self.get_account(account=account)
         return account
 
-    def import_account_from_keystore_file(self, keystore_path, password, skip_state=False, skip_self=False):
+    def import_account_from_keystore_file(
+        self,
+        keystore_path,
+        password,
+        skip_state=False,
+        skip_self=False
+    ):
         with open(keystore_path, "r") as f:
             keystore = f.read()
-        return self.import_account_from_keystore(keystore, password, skip_state, skip_self)
+        return self.import_account_from_keystore(
+            keystore, password, skip_state, skip_self)
 
-    def export_account(self, password, account=None):
+    def export_account(
+        self,
+        password,
+        account=None
+    ):
         if account is None:
             account = self.__account
 
         enc_acc = acc.Account.encrypt_account(account, password)
         return encode_private_key(enc_acc)
 
-    def export_account_to_keystore(self, password, account=None, kdf_n=2**18):
+    def export_account_to_keystore(
+        self,
+        password,
+        account=None,
+        kdf_n=2**18
+    ):
         if account is None:
             account = self.__account
 
         keystore = acc.Account.encrypt_to_keystore(account, password, kdf_n)
         return keystore
 
-    def export_account_to_keystore_file(self, keystore_path, password, account=None, kdf_n=2**18):
+    def export_account_to_keystore_file(
+        self,
+        keystore_path,
+        password,
+        account=None,
+        kdf_n=2**18
+    ):
         keystore = self.export_account_to_keystore(password, account, kdf_n)
         with open(keystore_path, 'w') as f:
             json.dump(keystore, f, indent=4)
@@ -823,7 +926,12 @@ class Aergo:
 
         return tx_result
 
-    def wait_tx_result(self, tx_hash, timeout=30, tempo=0.2):
+    def wait_tx_result(
+        self,
+        tx_hash,
+        timeout=30,
+        tempo=0.2
+    ):
         if self.__comm is None:
             return None
         if isinstance(tx_hash, str):
@@ -831,17 +939,26 @@ class Aergo:
         elif type(tx_hash) is th.TxHash:
             tx_hash = bytes(tx_hash)
 
-        for _ in range(int(timeout/tempo)+1):
+        for _ in range(int(timeout / tempo) + 1):
             try:
                 return self.get_tx_result(tx_hash)
             except CommunicationException as e:
-                if e.error_details is None or e.error_details[:12] != "tx not found":
+                if (e.error_details is None
+                        or e.error_details[:12] != "tx not found"):
                     raise e
             time.sleep(tempo)
         return None
-            
-    def deploy_sc(self, payload, amount=0, args=None, retry_nonce=0,
-                  redeploy=False, gas_limit=0, gas_price=0):
+
+    def deploy_sc(
+        self,
+        payload,
+        amount=0,
+        args=None,
+        retry_nonce=0,
+        redeploy=False,
+        gas_limit=0,
+        gas_price=0
+    ):
         if isinstance(payload, str):
             payload = decode_address(payload)
 
@@ -859,13 +976,22 @@ class Aergo:
         else:
             tx_type = TxType.SC_DEPLOY
 
-        tx, result = self.send_payload(amount=amount, payload=payload_bytes,
-                                       retry_nonce=retry_nonce, tx_type=tx_type,
-                                       gas_limit=gas_limit, gas_price=gas_price)
+        tx, result = self.send_payload(
+            amount=amount, payload=payload_bytes, retry_nonce=retry_nonce,
+            tx_type=tx_type, gas_limit=gas_limit, gas_price=gas_price
+        )
         return tx, result
 
-    def new_call_sc_tx(self, sc_address, func_name, amount=0, args=None,
-                       nonce=None, gas_limit=0, gas_price=0):
+    def new_call_sc_tx(
+        self,
+        sc_address,
+        func_name,
+        amount=0,
+        args=None,
+        nonce=None,
+        gas_limit=0,
+        gas_price=0
+    ):
         tx_type = TxType.SC_CALL
         if isinstance(sc_address, str):
             address_type = addr.check_name_address(sc_address)
@@ -877,7 +1003,8 @@ class Aergo:
                 try:
                     sc_address = decode_address(sc_address)
                 except Exception as e:
-                    raise ValueError("Invalid smart contract address: {}".format(e))
+                    raise ValueError(
+                        "Invalid smart contract address: {}".format(e))
         elif isinstance(sc_address, addr.GovernanceTxAddress):
             if addr.check_name_address(sc_address.value):
                 sc_address = sc_address.value.encode()
@@ -900,15 +1027,27 @@ class Aergo:
     def batch_call_sc(self, sc_txs):
         return self.batch_tx(sc_txs)
 
-    def call_sc(self, sc_address, func_name, amount=0, args=None, gas_limit=0,
-                gas_price=0):
+    def call_sc(
+        self,
+        sc_address,
+        func_name,
+        amount=0,
+        args=None,
+        gas_limit=0,
+        gas_price=0
+    ):
         sc_tx = self.new_call_sc_tx(sc_address=sc_address, func_name=func_name,
                                     amount=amount, args=args,
                                     gas_limit=gas_limit, gas_price=gas_price)
         sc_txs, results = self.batch_call_sc([sc_tx])
         return sc_txs[0], results[0]
 
-    def query_sc(self, sc_address, func_name, args=None):
+    def query_sc(
+        self,
+        sc_address,
+        func_name,
+        args=None
+    ):
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = addr.Address.decode(sc_address)
@@ -926,8 +1065,13 @@ class Aergo:
 
         return result.value
 
-    def query_sc_state(self, sc_address, storage_keys, root=b'',
-                       compressed=True):
+    def query_sc_state(
+        self,
+        sc_address,
+        storage_keys,
+        root=b'',
+        compressed=True
+    ):
         """ query_sc_state returns a SCState object containing the contract
         state and variable state with their respective merkle proofs.
         """
@@ -944,11 +1088,13 @@ class Aergo:
             if type(key) is bytes:
                 trie_keys.append(hashlib.sha256(key).digest())
             elif type(key) is str:
-                trie_keys.append(hashlib.sha256(key.encode('latin-1')).digest())
+                trie_keys.append(
+                    hashlib.sha256(key.encode('latin-1')).digest())
             elif type(key) is SCStateVar:
                 trie_keys.append(hashlib.sha256(bytes(key)).digest())
             else:
-                assert False, "Invalid key type provided, must be bytes, str or SCStateVar"
+                assert False, ("Invalid key type provided, must be bytes, "
+                               "str or SCStateVar")
 
         try:
             result = self.__comm.query_contract_state(sc_address, trie_keys,
@@ -967,7 +1113,8 @@ class Aergo:
 
     def get_conf_change_progress(self, block_height):
         """
-        Returns the RAFT change config progress status after 'changeCluster' system contract
+        Returns the RAFT change config progress status after 'changeCluster'
+        system contract
         :return:
         """
         if self.__comm is None:

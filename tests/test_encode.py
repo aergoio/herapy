@@ -1,10 +1,16 @@
-import pytest
+# flake8: noqa
+from aergo.herapy.utils.encoding import (
+    encode_b58,
+    encode_b58_check,
+    decode_b58,
+    decode_b58_check
+)
 
-from aergo.herapy.utils.encoding import encode_b58, encode_b58_check, decode_b58, decode_b58_check
 
 
 test_cases = [
-    ("1112", b'\x00\x00\x00\x01', "9EE5j9NQ4Hd", b'\x39\x45\x45\x35\x6a\x39\x4e\x51\x34\x48\x64'),
+    ("1112", b'\x00\x00\x00\x01', "9EE5j9NQ4Hd",
+        b'\x39\x45\x45\x35\x6a\x39\x4e\x51\x34\x48\x64'),
     ("2g", b'\x61', "S6odnmnk", b'\x53\x36\x6f\x64\x6e\x6d\x6e\x6b'),
     ("a3gV", b'\x62\x62\x62', "HFyEKLkMpzM", b'\x48\x46\x79\x45\x4b\x4c\x6b\x4d\x70\x7a\x4d'),
     ("aPEr", b'\x63\x63\x63', "HH4gNgLFvMe", b'\x48\x48\x34\x67\x4e\x67\x4c\x46\x76\x4d\x65'),

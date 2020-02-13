@@ -53,7 +53,7 @@ def deserialize_sig(sig):
     idx += 1
     r_len = sig[idx]
     idx += 1
-    rb = sig[idx:idx+r_len]
+    rb = sig[idx:idx + r_len]
     idx += r_len
 
     # check S bytes
@@ -64,15 +64,17 @@ def deserialize_sig(sig):
     idx += 1
     s_len = sig[idx]
     idx += 1
-    sb = sig[idx:idx+s_len]
+    sb = sig[idx:idx + s_len]
 
     return string_to_number(rb), string_to_number(sb)
 
 
 def uncompress_key(compressed_key_hex):
     """
-    base source : https://stackoverflow.com/questions/43629265/deriving-an-ecdsa-uncompressed-public-key-from-a-compressed-one?rq=1
-    The code from bitcointalk sometimes produces a hex string uncompressed key of uneven length.
+    base source : https://stackoverflow.com/questions/43629265/deriving-an-
+    ecdsa-uncompressed-public-key-from-a-compressed-one?rq=1
+    The code from bitcointalk sometimes produces a hex string uncompressed key
+    of uneven length.
     """
     curve = ecdsa.SECP256k1
 
@@ -81,10 +83,10 @@ def uncompress_key(compressed_key_hex):
     x = int(x_hex, 16)
     p = curve.curve.p()
 
-    y_square = (pow(x, 3, p)  + 7) % p
-    y_square_square_root = pow(y_square, (p+1)//4, p)
-    if ((prefix == "02" and y_square_square_root & 1) or
-        (prefix == "03" and not y_square_square_root & 1)):
+    y_square = (pow(x, 3, p) + 7) % p
+    y_square_square_root = pow(y_square, (p + 1) // 4, p)
+    if ((prefix == "02" and y_square_square_root & 1)
+            or (prefix == "03" and not y_square_square_root & 1)):
         y = (-y_square_square_root) % p
     else:
         y = y_square_square_root

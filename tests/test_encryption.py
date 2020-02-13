@@ -12,20 +12,24 @@ from aergo.herapy.utils.converter import (
 keystore = {
     "kdf": {
         "algorithm": "scrypt",
-        "mac": "47006a8c1c17f56991ba412a4670da0c373f949ea64918531551e49fed0272ac",
+        "mac":
+            "47006a8c1c17f56991ba412a4670da0c373f949ea64918531551e49fed0272ac",
         "params": {
             "dklen": 32,
             "n": 1024,
             "p": 1,
             "r": 8,
-            "salt": "f8e0ba7b762bbff83ff7e48af13eedf08ce05fba29d247054139ca620357215f"
+            "salt":
+                "f8e0ba7b762bbff83ff7e48af13eedf08ce05fba29d247054139ca62035"
+                "7215f"
         }
     },
     "aergo_address": "AmM8Bspua3d1bACSzCaLUdstjooRLy1YqZ61Kk2nP4VfGTWJzDd6",
     "ks_version": "1",
     "cipher": {
         "algorithm": "aes-128-ctr",
-        "ciphertext": "919b663b4039a9ea88470a6e7138acebb852820100360449e7457171ee003d08",
+        "ciphertext":
+            "919b663b4039a9ea88470a6e7138acebb852820100360449e7457171ee003d08",
         "params": {
             "iv": "62fc13b3065a22ffd73804e23f47f690"
         }
@@ -61,7 +65,7 @@ def test_encrypt_keystore_v1():
     privkey = bytes(account.private_key)
     address = str(account.address)
     new_keystore = encrypt_to_keystore_v1(
-        privkey, address, 'password',  kdf_n=2**10)
+        privkey, address, 'password', kdf_n=2**10)
 
     # check keystore format
     assert keystore['ks_version'] == new_keystore['ks_version']
@@ -72,7 +76,8 @@ def test_encrypt_keystore_v1():
 
 def test_aergo_import_export_account():
     hera = herapy.Aergo()
-    account = hera.import_account_from_keystore(keystore, 'password', skip_state=True)
+    account = hera.import_account_from_keystore(
+        keystore, 'password', skip_state=True)
     assert str(account.address) == keystore['aergo_address']
     new_keystore = hera.export_account_to_keystore('password', kdf_n=2**10)
     assert new_keystore['aergo_address'] == keystore['aergo_address']

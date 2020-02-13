@@ -1,14 +1,17 @@
 import pytest
 
-import decimal
-
 
 from aergo.herapy.obj.block import Block
 from aergo.herapy.obj.block_hash import BlockHash
 from aergo.herapy.obj.transaction import TxType
-from aergo.herapy.utils.encoding import encode_block_hash, decode_block_hash,\
-    encode_tx_hash, decode_tx_hash, encode_payload, decode_payload,\
-    encode_b58, decode_b58, encode_address
+from aergo.herapy.utils.encoding import (
+    encode_block_hash,
+    decode_block_hash,
+    encode_tx_hash,
+    encode_payload,
+    encode_b58,
+    encode_address
+)
 from aergo.herapy.utils.converter import bigint_to_bytes, get_hash
 from aergo.herapy.grpc import blockchain_pb2
 
@@ -69,7 +72,7 @@ def test_grpc_block():
     tx2.body.gasPrice = bigint_to_bytes(2)
     tx2.body.type = blockchain_pb2.NORMAL
     tx2.body.sign = b'tx2_sign'
-    grpc_block.body.txs.extend([tx1, tx2,])
+    grpc_block.body.txs.extend([tx1, tx2])
 
     block = Block(grpc_block=grpc_block)
     assert block.hash.value == b'block_hash'
@@ -96,17 +99,23 @@ def test_grpc_block():
     assert 'hash' in block_json
     assert block_json['hash'] == encode_block_hash(b'block_hash')
     assert 'header' in block_json
-    assert block_json['header']['chain_id'] == get_hash(b'chain_id', no_rand=True, no_encode=False)
-    assert block_json['header']['previous_block_hash'] == encode_block_hash(b'prev_block_hash')
-    assert block_json['header']['blocks_root_hash'] == encode_b58(b'blocks_root_hash')
-    assert block_json['header']['txs_root_hash'] == encode_b58(b'txs_root_hash')
-    assert block_json['header']['receipts_root_hash'] == encode_b58(b'receipts_root_hash')
+    assert block_json['header']['chain_id'] == \
+        get_hash(b'chain_id', no_rand=True, no_encode=False)
+    assert block_json['header']['previous_block_hash'] == \
+        encode_block_hash(b'prev_block_hash')
+    assert block_json['header']['blocks_root_hash'] == \
+        encode_b58(b'blocks_root_hash')
+    assert block_json['header']['txs_root_hash'] == \
+        encode_b58(b'txs_root_hash')
+    assert block_json['header']['receipts_root_hash'] == \
+        encode_b58(b'receipts_root_hash')
     assert block_json['header']['block_no'] == 123
     assert block_json['header']['timestamp'] == 12345
     assert block_json['header']['confirms'] == 10
     assert block_json['header']['pub_key'] == encode_b58(b'pub_key')
     assert block_json['header']['sign'] == encode_b58(b'block_sign')
-    assert block_json['header']['coinbase_account'] == encode_address(b'coinbase_account')
+    assert block_json['header']['coinbase_account'] == \
+        encode_address(b'coinbase_account')
     block_str = str(block)
     assert 'hash' in block_str
     assert 'header' in block_str
@@ -151,7 +160,7 @@ def test_grpc_block():
     assert block == block_tx2.block
     assert block_tx2.index_in_block == 1
     assert block_tx2.is_in_mempool is False
-    assert block_tx2.nonce ==356
+    assert block_tx2.nonce == 356
     block_tx2.nonce = 123
     assert block_tx2.nonce != 123
     assert block_tx2.nonce == 356
@@ -180,6 +189,3 @@ def test_grpc_block():
     block_tx2.tx_type = TxType.GOVERNANCE
     assert block_tx2.tx_type != TxType.GOVERNANCE
     assert block_tx2.tx_type == TxType.NORMAL
-
-def test_block():
-    bh = BlockHash('test')

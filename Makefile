@@ -58,8 +58,12 @@ clean-test: ## remove test and coverage artifacts
 	rm -f coverage.xml
 
 lint: ## check style with flake8
-	flake8 herapy
-	flake8 --ignore=E501 tests
+	# fix E722 later, ignore W503 as it will be considered best practice
+	flake8 \
+		--exclude=*_pb2_grpc.py,*_pb2.py \
+		--ignore=E722,W503 \
+		--per-file-ignores="__init__.py:F401" \
+		aergo tests
 
 test: ## run tests quickly with the default Python
 	PYTHONPATH=./

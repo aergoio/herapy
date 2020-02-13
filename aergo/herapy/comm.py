@@ -4,13 +4,18 @@
 
 import grpc
 
-from .grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc, raft_pb2, raft_pb2_grpc
+from .grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc, raft_pb2
 from .utils.converter import convert_tx_to_grpc_tx
 
 
 class Comm:
-    def __init__(self, target=None,
-                 tls_ca_cert=None, tls_cert=None, tls_key=None):
+    def __init__(
+        self,
+        target=None,
+        tls_ca_cert=None,
+        tls_cert=None,
+        tls_key=None
+    ):
         self.__target = target
         self.__tls_ca_cert = tls_ca_cert
         self.__tls_cert = tls_cert
@@ -22,9 +27,10 @@ class Comm:
         self.disconnect()
 
         if self.__tls_cert is not None:
-            creds = grpc.ssl_channel_credentials(root_certificates=self.__tls_ca_cert,
-                                                 private_key=self.__tls_key,
-                                                 certificate_chain=self.__tls_cert)
+            creds = grpc.ssl_channel_credentials(
+                root_certificates=self.__tls_ca_cert,
+                private_key=self.__tls_key, certificate_chain=self.__tls_cert
+            )
             self.__channel = grpc.secure_channel(self.__target, creds)
         else:
             self.__channel = grpc.insecure_channel(self.__target)
@@ -37,7 +43,9 @@ class Comm:
 
     def create_account(self, address, passphrase):
         account = account_pb2.Account(address=address)
-        return self.__rpc_stub.CreateAccount(request=rpc_pb2.Personal(account=account, passphrase=passphrase))
+        return self.__rpc_stub.CreateAccount(
+            request=rpc_pb2.Personal(account=account, passphrase=passphrase)
+        )
 
     def get_account_state(self, address):
         if self.__rpc_stub is None:
@@ -47,7 +55,12 @@ class Comm:
         rpc_account.address = address
         return self.__rpc_stub.GetState(rpc_account)
 
-    def get_account_state_proof(self, address, root, compressed):
+    def get_account_state_proof(
+        self,
+        address,
+        root,
+        compressed
+    ):
         if self.__rpc_stub is None:
             return None
         account_and_root = rpc_pb2.AccountAndRoot(Account=address,
@@ -78,9 +91,16 @@ class Comm:
 
         return self.__rpc_stub.GetServerInfo(key_params)
 
-    def receive_event_stream(self, sc_address, event_name, start_block_no,
-                             end_block_no, with_desc, arg_filter,
-                             recent_block_cnt):
+    def receive_event_stream(
+        self,
+        sc_address,
+        event_name,
+        start_block_no,
+        end_block_no,
+        with_desc,
+        arg_filter,
+        recent_block_cnt
+    ):
         if self.__rpc_stub is None:
             return None
 
@@ -96,8 +116,16 @@ class Comm:
 
         return self.__rpc_stub.ListEventStream(filter)
 
-    def get_events(self, sc_address, event_name, start_block_no,
-                   end_block_no, with_desc, arg_filter, recent_block_cnt):
+    def get_events(
+        self,
+        sc_address,
+        event_name,
+        start_block_no,
+        end_block_no,
+        with_desc,
+        arg_filter,
+        recent_block_cnt
+    ):
         if self.__rpc_stub is None:
             return None
 
@@ -125,8 +153,14 @@ class Comm:
             return None
         return self.__rpc_stub.ListBlockStream(rpc_pb2.Empty())
 
-    def get_block_headers(self, block_hash, block_height, list_size, offset,
-                          is_asc_order):
+    def get_block_headers(
+        self,
+        block_hash,
+        block_height,
+        list_size,
+        offset,
+        is_asc_order
+    ):
         if self.__rpc_stub is None:
             return None
         params = rpc_pb2.ListParams()
@@ -139,8 +173,14 @@ class Comm:
         params.asc = is_asc_order
         return self.__rpc_stub.ListBlockHeaders(params)
 
-    def get_block_metas(self, block_hash, block_height, list_size, offset,
-                        is_asc_order):
+    def get_block_metas(
+        self,
+        block_hash,
+        block_height,
+        list_size,
+        offset,
+        is_asc_order
+    ):
         if self.__rpc_stub is None:
             return None
         params = rpc_pb2.ListParams()
@@ -233,7 +273,13 @@ class Comm:
         query.queryinfo = query_info
         return self.__rpc_stub.QueryContract(query)
 
-    def query_contract_state(self, sc_address, storage_keys, root, compressed):
+    def query_contract_state(
+        self,
+        sc_address,
+        storage_keys,
+        root,
+        compressed
+    ):
         state_query = blockchain_pb2.StateQuery(contractAddress=sc_address,
                                                 storageKeys=storage_keys,
                                                 root=root,
@@ -272,8 +318,14 @@ class Comm:
         v.value = addr_bytes
         return self.__rpc_stub.GetABI(v)
 
-    def add_raft_member(self, request_id, member_id, member_name,
-                        member_address, member_peer_id):
+    def add_raft_member(
+        self,
+        request_id,
+        member_id,
+        member_name,
+        member_address,
+        member_peer_id
+    ):
         if self.__rpc_stub is None:
             return None
         ch = raft_pb2.MembershipChange()
@@ -286,8 +338,14 @@ class Comm:
         ch.attr.peerID = member_peer_id
         return self.__rpc_stub.ChangeMembership(ch)
 
-    def del_raft_member(self, request_id, member_id, member_name,
-                        member_address, member_peer_id):
+    def del_raft_member(
+        self,
+        request_id,
+        member_id,
+        member_name,
+        member_address,
+        member_peer_id
+    ):
         if self.__rpc_stub is None:
             return None
         ch = raft_pb2.MembershipChange()

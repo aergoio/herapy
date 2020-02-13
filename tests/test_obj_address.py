@@ -4,7 +4,6 @@ import ecdsa
 import hashlib
 
 from aergo.herapy.obj.address import Address
-from aergo.herapy.utils.encoding import encode_address, decode_address
 from aergo.herapy.utils.converter import convert_public_key_to_bytes
 
 
@@ -53,12 +52,12 @@ def test_success():
     assert str(addr2) == str(addr)
     assert bytes(addr2) == bytes(addr)
     assert addr2.public_key.point == addr.public_key.point
-    assert convert_public_key_to_bytes(pubkey=addr.public_key,
-                                       curve=addr.curve,
-                                       compressed=False) == \
-           convert_public_key_to_bytes(pubkey=addr2.public_key,
-                                       curve=addr2.curve,
-                                       compressed=False)
+    assert convert_public_key_to_bytes(
+        pubkey=addr.public_key, curve=addr.curve, compressed=False
+    ) == \
+        convert_public_key_to_bytes(
+            pubkey=addr2.public_key, curve=addr2.curve, compressed=False
+    )
 
     pubkey3 = convert_public_key_to_bytes(pubkey=addr.public_key,
                                           curve=addr.curve,
@@ -102,7 +101,10 @@ def test_govname():
     assert len(str(addr)) == len(name)
 
     addr = Address(None, empty=True)
-    baddr = bytes([0x61, 0x65, 0x72, 0x67, 0x6f, 0x2e, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65])
+    baddr = bytes(
+        [0x61, 0x65, 0x72, 0x67, 0x6f, 0x2e, 0x65, 0x6e, 0x74, 0x65, 0x72,
+         0x70, 0x72, 0x69, 0x73, 0x65]
+    )
     addr.value = baddr
     assert str(addr) == 'aergo.enterprise'
     assert str(addr) == Address.encode(baddr)

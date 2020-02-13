@@ -15,4 +15,3 @@ from .obj.peer import Peer
 from .obj.transaction import Transaction
 from .status.commit_status import CommitStatus
 from .status.tx_result_status import TxResultStatus
-

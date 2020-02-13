@@ -1,5 +1,4 @@
 import hashlib
-import pytest
 
 from aergo.herapy.obj.private_key import PrivateKey
 from aergo.herapy.obj.address import Address

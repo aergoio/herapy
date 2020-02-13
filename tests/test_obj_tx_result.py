@@ -1,5 +1,3 @@
-import pytest
-
 from aergo.herapy.obj.tx_result import TxResult, TxResultType,\
     TxResultStatus, CommitStatus
 from aergo.herapy.grpc import rpc_pb2, blockchain_pb2
@@ -49,7 +47,8 @@ def test_grpc_receipt():
     assert tx_result2.type == TxResultType.RECEIPT
     assert tx_result2.status == TxResultStatus.CREATED
     assert tx_result2.detail == receipt['ret']
-    assert tx_result2.contract_address == str(receipt['contractAddress'], 'UTF-8')
+    assert tx_result2.contract_address == \
+        str(receipt['contractAddress'], 'UTF-8')
 
     grpc_result3 = blockchain_pb2.Receipt()
     grpc_result3.contractAddress = b'contract_address'
@@ -101,9 +100,11 @@ def test_grpc_receipt():
     assert grpc_result3.blockHash == receipt['blockHash']
     assert grpc_result3.txIndex == grpc_result2.txIndex
     assert grpc_result3.txIndex == receipt['txIndex']
-    # assert grpc_result3.from == grpc_result2.from # error because of reserved keyword 'from'
+    # assert grpc_result3.from == grpc_result2.from
+    # error because of reserved keyword 'from'
     assert getattr(grpc_result3, 'from') == getattr(grpc_result2, 'from')
-    # assert grpc_result3.from == receipt['from'] # error because of reserved keyword 'from'
+    # assert grpc_result3.from == receipt['from']
+    # error because of reserved keyword 'from'
     assert getattr(grpc_result3, 'from') == receipt['from']
     assert grpc_result3.to == grpc_result2.to
     assert grpc_result3.to == receipt['to']
@@ -117,7 +118,8 @@ def test_grpc_receipt():
     assert tx_result3.type == TxResultType.RECEIPT
     assert tx_result3.status == TxResultStatus.ERROR
     assert tx_result3.detail == grpc_result3.status
-    assert tx_result3.contract_address == str(receipt['contractAddress'], 'UTF-8')
+    assert tx_result3.contract_address == \
+        str(receipt['contractAddress'], 'UTF-8')
 
     grpc_result3.status = 'CREATED'
     grpc_result3.ret = 'error is occurred'

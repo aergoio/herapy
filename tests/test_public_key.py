@@ -1,7 +1,4 @@
-import pytest
-
 import ecdsa
-import hashlib
 
 from aergo.herapy.obj.address import Address
 from aergo.herapy.obj.private_key import PrivateKey
