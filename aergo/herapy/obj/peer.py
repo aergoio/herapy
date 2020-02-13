@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import json
-import socket
 
 from google.protobuf.json_format import MessageToJson
 
@@ -29,7 +28,8 @@ class Peer:
         self.__address = convert_ip_bytes_to_str(v.address.address)
         self.__port = v.address.port
         self.__id = v.address.peerID
-        self.__bestblock = Block(hash_value=v.bestblock.blockHash, height=v.bestblock.blockNo)
+        self.__bestblock = Block(
+            hash_value=v.bestblock.blockHash, height=v.bestblock.blockNo)
         self.__state = PeerStatus(v.state)
 
     @property

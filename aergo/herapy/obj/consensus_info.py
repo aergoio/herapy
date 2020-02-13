@@ -3,7 +3,6 @@
 import json
 
 from .block_hash import BlockHash
-from .peer import Peer
 from ..grpc.rpc_pb2 import ConsensusInfo as CInfo
 
 
@@ -108,4 +107,3 @@ class ConsensusInfo:
 
     def __str__(self):
         return json.dumps(self.json(), indent=2)
-

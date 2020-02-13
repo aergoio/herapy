@@ -33,4 +33,3 @@ class ChainID:
 
     def __str__(self):
         return json.dumps(self.json(), indent=2)
-

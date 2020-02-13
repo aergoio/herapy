@@ -244,12 +244,19 @@ class Transaction:
         return txh.TxHash(self.calculate_hash())
 
     def json(self, without_block=False):
+        account = None
+        recipient = None
+        if self.from_address is not None:
+            account = str(self.from_address)
+        if self.to_address is not None:
+            recipient = str(self.to_address)
+
         tx_json = {
             "Hash": str(self.tx_hash),
             "Body": {
                 "Nonce": self.nonce,
-                "Account": str(self.from_address) if self.from_address is not None else None,
-                "Recipient": str(self.to_address) if self.to_address is not None else None,
+                "Account": account,
+                "Recipient": recipient,
                 "Amount": str(self.amount),
                 "Payload": self.payload_str,
                 "GasPrice": str(self.gas_price),
@@ -262,7 +269,10 @@ class Transaction:
         }
 
         if not without_block:
-            tx_json["Block"] = self.__block.json(header_only=True) if self.__block is not None else None,
+            if self.__block is None:
+                tx_json["Block"] = None
+            else:
+                tx_json["Block"] = self.__block.json(header_only=True)
 
         return tx_json
 

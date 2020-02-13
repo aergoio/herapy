@@ -4,7 +4,11 @@ import base58
 import base64
 import ecdsa
 
-from ..constants import *
+from ..constants import (
+    ADDRESS_VERSION,
+    PRIVATE_KEY_VERSION,
+    PUBLIC_KEY_UNCOMPRESSED,
+)
 
 
 def is_empty(v):
@@ -59,6 +63,7 @@ def decode_address(address):
         return None
     v = decode_b58_check(address)
     return v[len(ADDRESS_VERSION):]
+
 
 def decode_root(root):
     if is_empty(root):
@@ -120,7 +125,7 @@ def decode_public_key(public_key, curve=ecdsa.SECP256k1):
     x_bytes = v[1:curve.baselen]
 
     if PUBLIC_KEY_UNCOMPRESSED == head:
-        y_bytes = v[curve.baselen+1:]
+        y_bytes = v[curve.baselen + 1:]
     else:
         y_bytes = None
     return head, x_bytes, y_bytes

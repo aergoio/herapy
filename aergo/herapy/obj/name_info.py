@@ -6,6 +6,7 @@ from google.protobuf.json_format import MessageToJson
 
 from .address import Address
 
+
 class NameInfo():
     """ NameInfo is used to store information of name system."""
     def __init__(self, info):

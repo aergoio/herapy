@@ -81,18 +81,31 @@ class TxResult:
         return self.__type
 
     def json(self):
+        fee_used = None
+        cumulative_fee_used = None
+        bloom = None
+        block_hash = None
+        if self.fee_used is not None:
+            fee_used = str(self.fee_used)
+        if self.cumulative_fee_used is not None:
+            cumulative_fee_used = str(self.cumulative_fee_used)
+        if self.bloom is not None:
+            bloom = encode_b58(self.bloom)
+        if self.block_hash is not None:
+            block_hash = str(self.block_hash)
+
         return {
             'type': self.__type.name,
             'tx_id': self.tx_id,
             'status': self.status.name,
             'detail': self.detail,
             'contract_address': self.contract_address,
-            'fee_used': str(self.fee_used) if self.fee_used is not None else None,
-            'cumulative_fee_used': str(self.cumulative_fee_used) if self.cumulative_fee_used is not None else None,
-            'bloom': encode_b58(self.bloom) if self.bloom is not None else None,
+            'fee_used': fee_used,
+            'cumulative_fee_used': cumulative_fee_used,
+            'bloom': bloom,
             'event_list': [event.json() for event in self.event_list],
             'block_no': self.block_no,
-            'block_hash': str(self.block_hash) if self.block_hash is not None else None,
+            'block_hash': block_hash,
             'tx_index': self.tx_index,
             'tx_hash': str(self.tx_hash) if self.tx_hash is not None else None,
             'from_address': self.from_address,

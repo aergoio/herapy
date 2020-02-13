@@ -25,9 +25,11 @@ class SCStateVar:
 
     def get_storage_key(self):
         if self.array_indx is not None:
-            self.storage_key = '_sv_{0}-{1}'.format(self.var_name, self.array_indx)
+            self.storage_key = '_sv_{0}-{1}'.format(
+                self.var_name, self.array_indx)
         elif self.map_key is not None:
-            self.storage_key = '_sv_{0}-{1}'.format(self.var_name, self.map_key)
+            self.storage_key = '_sv_{0}-{1}'.format(
+                self.var_name, self.map_key)
         else:
             self.storage_key = '_sv_{0}'.format(self.var_name)
 
@@ -67,10 +69,9 @@ class SCState:
         self.__var_proofs = v
 
     def verify_proof(self, root):
-        """ verify that the given inclusion and exclusion proofs are correct """
+        """Verify that the given inclusion and exclusion proofs are correct """
         if not self.__account.verify_proof(root):
             return False
 
         sc_root = self.__account.state_proof.state.storageRoot
         return self.__var_proofs.verify_proof(sc_root)
-

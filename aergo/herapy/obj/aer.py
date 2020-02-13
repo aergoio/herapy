@@ -39,12 +39,13 @@ class Aer:
             raise ConversionException('cannot recognize aergo unit: ' + v)
 
         v = v[:len(v) - len(unit)].strip()
-        if not '.' in v:
+        if '.' not in v:
             zero_padding = UNITS_SIZE[unit]
         else:
             number, below = v.split('.')
             if len(below) > UNITS_SIZE[unit]:
-                raise ConversionException('too small value below decimal point: ' + v)
+                raise ConversionException(
+                    'too small value below decimal point: ' + v)
 
             v = number + below
             zero_padding = UNITS_SIZE[unit] - len(below)
@@ -71,7 +72,8 @@ class Aer:
 
             digits = digits.replace('.', '').replace('-', '')
 
-            zero_padding = '0' * (abs(exp) - 1)  # minus 1 for decimal point in the sci notation
+            # minus 1 for decimal point in the sci notation
+            zero_padding = '0' * (abs(exp) - 1)
             sign = '-' if d < 0 else ''
 
             if exp > 0:
@@ -146,4 +148,3 @@ class Aer:
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec / other.dec
         return Aer(str(v))
-

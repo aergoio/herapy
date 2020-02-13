@@ -66,14 +66,14 @@ class Stream:
     def add_callback(self, fn):
         result = self._grpc_stream.add_callback(fn)
         return result
-        
+
     def exception(self, timeout):
         try:
             result = self._grpc_stream.exception(timeout)
         except grpc.FutureTimeoutError:
             raise TimeoutError
         return result
-        
+
     def time_remaining(self):
         result = self._grpc_stream.time_remaining()
         return result

@@ -40,11 +40,13 @@ class VarProofs(list):
             bitmap = var_proof.bitmap
 
             if var_proof.inclusion:
-                return mp.verify_inclusion_c(ap, height, bitmap, root, trie_key, value)
+                return mp.verify_inclusion_c(
+                    ap, height, bitmap, root, trie_key, value)
             else:
-                return mp.verify_exclusion_c(root, ap, height, bitmap, trie_key,
-                                             var_proof.proofKey,
-                                             var_proof.proofVal)
+                return mp.verify_exclusion_c(
+                    root, ap, height, bitmap, trie_key, var_proof.proofKey,
+                    var_proof.proofVal
+                )
         else:
             if var_proof.inclusion:
                 return mp.verify_inclusion(ap, root, trie_key, value)
@@ -59,6 +61,7 @@ class VarProofs(list):
             return False
 
         for i, storage_proof in enumerate(self.__var_proofs):
-            if not self.verify_var_proof(root, storage_proof, self.storage_keys[i]):
+            if not self.verify_var_proof(
+                    root, storage_proof, self.storage_keys[i]):
                 return False
         return True

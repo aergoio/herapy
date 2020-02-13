@@ -3,7 +3,10 @@
 import hashlib
 import json
 
-from google.protobuf.json_format import MessageToJson, Parse
+from google.protobuf.json_format import (
+    MessageToJson,
+    Parse
+)
 from cryptography.exceptions import InvalidTag
 
 from .grpc import blockchain_pb2
@@ -12,8 +15,11 @@ from .obj import address as addr
 from .obj import aer
 from .obj import private_key as pk
 
-from .utils.encoding import decode_address, decode_root, encode_private_key, \
+from .utils.encoding import (
+    decode_root,
+    encode_private_key,
     decode_private_key
+)
 from .utils import merkle_proof as mp
 from .utils.encryption import (
     encrypt_bytes,
@@ -194,7 +200,10 @@ class Account:
     @nonce.setter
     def nonce(self, v):
         if self.__state.nonce > v:
-            raise ValueError("the nonce value should be bigger than the current nonce value: {}".format(self.__state.nonce))
+            raise ValueError(
+                "the nonce value should be bigger than the current nonce "
+                "value: {}".format(self.__state.nonce)
+            )
         self.__state.nonce = v
 
     @property
@@ -241,11 +250,15 @@ class Account:
         try:
             dec_value = decrypt_bytes(encrypted_bytes, password)
         except InvalidTag as e:
-            raise GeneralException("Fail to decrypt an account. Please check the password.") from e
+            raise GeneralException(
+                "Fail to decrypt an account. Please check the password."
+            ) from e
         return Account(private_key=dec_value)
 
     def verify_proof(self, root):
-        """ verify that the given inclusion and exclusion proofs are correct """
+        """ verify that the given inclusion and exclusion proofs are
+            correct
+        """
         if self.__state_proof is None:
             return False
 
@@ -256,22 +269,26 @@ class Account:
             return False
 
         trie_key = hashlib.sha256(bytes(self.address)).digest()
-        value = hashlib.sha256(self.__state_proof.state.SerializeToString()).digest()
+        value = hashlib.sha256(
+            self.__state_proof.state.SerializeToString()).digest()
         ap = self.__state_proof.auditPath
 
         if self.__state_proof.bitmap:
             height = self.__state_proof.height
             bitmap = self.__state_proof.bitmap
             if self.__state_proof.inclusion:
-                return mp.verify_inclusion_c(ap, height, bitmap, root, trie_key, value)
+                return mp.verify_inclusion_c(
+                    ap, height, bitmap, root, trie_key, value)
             else:
-                return mp.verify_exclusion_c(root, ap, height, bitmap, trie_key,
-                                             self.__state_proof.proofKey,
-                                             self.__state_proof.proofVal)
+                return mp.verify_exclusion_c(
+                    root, ap, height, bitmap, trie_key,
+                    self.__state_proof.proofKey, self.__state_proof.proofVal
+                )
         else:
             if self.__state_proof.inclusion:
                 return mp.verify_inclusion(ap, root, trie_key, value)
             else:
-                return mp.verify_exclusion(root, ap, trie_key,
-                                           self.__state_proof.proofKey,
-                                           self.__state_proof.proofVal)
+                return mp.verify_exclusion(
+                    root, ap, trie_key, self.__state_proof.proofKey,
+                    self.__state_proof.proofVal
+                )

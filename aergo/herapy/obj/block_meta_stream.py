@@ -13,4 +13,3 @@ class BlockMetaStream(Stream):
         return Block(hash_value=grpc_block_meta.hash,
                      grpc_block_header=grpc_block_meta.header,
                      tx_cnt=grpc_block_meta.txcount)
-

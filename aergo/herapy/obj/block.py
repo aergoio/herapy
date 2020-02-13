@@ -11,8 +11,15 @@ from ..utils.converter import get_hash
 
 
 class Block:
-    def __init__(self, hash_value=None, height=None, grpc_block=None,
-                 grpc_block_header=None, tx_cnt=0, size=0):
+    def __init__(
+        self,
+        hash_value=None,
+        height=None,
+        grpc_block=None,
+        grpc_block_header=None,
+        tx_cnt=0,
+        size=0
+    ):
         if grpc_block is not None:
             self._map_grpc_block(grpc_block)
         elif grpc_block_header is not None:
@@ -140,7 +147,8 @@ class Block:
         if self.__timestamp is None:
             return None
 
-        return str(datetime.datetime.fromtimestamp(self.timestamp // 1000000000))
+        return str(
+            datetime.datetime.fromtimestamp(self.timestamp // 1000000000))
 
     @property
     def blocks_root_hash(self):
@@ -186,11 +194,21 @@ class Block:
         return self.__tx_list[index]
 
     def json(self, header_only=False):
+        previous_block_hash = None
+        pub_key = None
+        coinbase_account = None
+        if self.prev is not None:
+            previous_block_hash = str(self.prev.hash)
+        if self.public_key is not None:
+            pub_key = encode_b58(self.public_key)
+        if self.coinbase_account is not None:
+            coinbase_account = encode_address(self.coinbase_account)
+
         body_json = {
             "hash": str(self.hash),
             "header": {
                 "chain_id": self.chain_id_hash_b58,
-                "previous_block_hash": str(self.prev.hash) if self.prev is not None else None,
+                "previous_block_hash": previous_block_hash,
                 "block_no": self.block_no,
                 "timestamp": self.timestamp,
                 "datetimestamp": self.datetimestamp,
@@ -198,9 +216,9 @@ class Block:
                 "txs_root_hash": encode_b58(self.txs_root_hash),
                 "receipts_root_hash": encode_b58(self.receipts_root_hash),
                 "confirms": self.confirms,
-                "pub_key": encode_b58(self.public_key) if self.public_key is not None else None,
+                "pub_key": pub_key,
                 "sign": encode_b58(self.sign),
-                "coinbase_account": encode_address(self.coinbase_account) if self.coinbase_account is not None else None,
+                "coinbase_account": coinbase_account,
                 "tx_count": self.__tx_cnt,
                 "size": self.__size
             },

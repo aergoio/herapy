@@ -57,11 +57,11 @@ class PrivateKey:
         sk.default_hashfunc = hashlib.sha256
         sk.baselen = ecdsa.SECP256k1.baselen
         pubkey_point = ecdsa.SECP256k1.generator * d
-        pubkey = ecdsa.ecdsa.Public_key(ecdsa.SECP256k1.generator, pubkey_point)
+        pubkey = ecdsa.ecdsa.Public_key(
+            ecdsa.SECP256k1.generator, pubkey_point)
         pubkey.order = ecdsa.SECP256k1.order
-        sk.verifying_key = ecdsa.VerifyingKey.from_public_point(pubkey_point,
-                                                                ecdsa.SECP256k1,
-                                                                hashlib.sha256)
+        sk.verifying_key = ecdsa.VerifyingKey.from_public_point(
+            pubkey_point, ecdsa.SECP256k1, hashlib.sha256)
         sk.privkey = ecdsa.ecdsa.Private_key(pubkey, d)
         sk.privkey.order = ecdsa.SECP256k1.order
         return sk
@@ -85,7 +85,8 @@ class PrivateKey:
     def verify_sign(self, msg, sign):
         r, s = deserialize_sig(sign)
         signature = ecdsa.ecdsa.Signature(r, s)
-        return self.__private_key.public_key.verifies(string_to_number(msg), signature)
+        return self.__private_key.public_key.verifies(
+            string_to_number(msg), signature)
 
     def __get_multiplied_point(self, address):
         if isinstance(address, str):

@@ -60,7 +60,7 @@ clean-test: ## remove test and coverage artifacts
 lint: ## check style with flake8
 	# fix E722 later, ignore W503 as it will be considered best practice
 	flake8 \
-		--exclude=*_pb2_grpc.py,*_pb2.py \
+		--exclude=*_pb2_grpc.py,*_pb2.py,aergo_conf.py \
 		--ignore=E722,W503 \
 		--per-file-ignores="__init__.py:F401" \
 		aergo tests
