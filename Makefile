@@ -66,7 +66,6 @@ lint: ## check style with flake8
 		aergo tests
 
 test: ## run tests quickly with the default Python
-	PYTHONPATH=./
 	pytest -s
 
 test-all: ## run tests on every Python version with tox
