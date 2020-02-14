@@ -108,11 +108,11 @@ else
 endif
 
 local_testnet:
-	docker-compose -f ./examples/local_testnet/docker-compose.yml up
+	docker-compose -f ./tests/local_testnet/docker-compose.yml up
 
 clean_local_testnet:
-	rm -fr examples/local_testnet/*/data
-	docker-compose -f ./examples/local_testnet/docker-compose.yml down
+	rm -fr tests/local_testnet/*/data
+	docker-compose -f ./tests/local_testnet/docker-compose.yml down
 
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy
