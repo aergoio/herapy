@@ -4,15 +4,28 @@ matrix:
     - python: 3.7
       dist: xenial
       sudo: true
+
+services:
+  - docker
+
 # command to install dependencies
 install:
   - pip install -r requirements_dev.txt
   - make install
+
+before_script:
+  - docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml up -d
+
 # command to run tests
 script:
   - make coverage
+
+after_script:
+  - make clean_local_testnets
+
 after-success: 
   - codecov -e CODECOV_TOKEN
+
 notifications:
   email: false
   slack:
