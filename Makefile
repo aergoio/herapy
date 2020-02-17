@@ -1,4 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
+.PHONY: clean clean-test clean-pyc clean-build docs help local_dpos_testnet
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -108,11 +108,11 @@ else
 endif
 
 local_dpos_testnet:
-	docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml up
+	docker-compose -f ./local_dpos_testnet/docker-compose.yml up
 
 clean_local_testnets:
-	rm -fr tests/local_dpos_testnet/*/data
-	docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml down
+	docker-compose -f ./local_dpos_testnet/docker-compose.yml down
+	rm -fr ./local_dpos_testnet/*/data
 
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy

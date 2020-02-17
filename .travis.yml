@@ -13,7 +13,7 @@ install:
   - make install
 
 before_script:
-  - docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml up -d&
+  - docker-compose -f ./local_dpos_testnet/docker-compose.yml up -d&
   - aergo_docker_pid=$!
   - sleep 10
 
