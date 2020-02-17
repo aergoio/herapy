@@ -42,7 +42,7 @@ clean-build: ## remove build artifacts
 	rm -fr dist/
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
+	find . -name '*.egg' -exec rm -rf {} +
 
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
@@ -107,12 +107,12 @@ else
 	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
 endif
 
-local_testnet:
-	docker-compose -f ./tests/local_testnet/docker-compose.yml up
+local_dpos_testnet:
+	docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml up
 
-clean_local_testnet:
-	rm -fr tests/local_testnet/*/data
-	docker-compose -f ./tests/local_testnet/docker-compose.yml down
+clean_local_testnets:
+	rm -fr tests/local_dpos_testnet/*/data
+	docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml down
 
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy
