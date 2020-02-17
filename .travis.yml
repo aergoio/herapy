@@ -13,7 +13,8 @@ install:
   - make install
 
 before_script:
-  - docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml up -d
+  - docker-compose -f ./tests/local_dpos_testnet/docker-compose.yml up -d&
+  - aergo_docker_pid=$!
   - sleep 10
 
 # command to run tests
@@ -21,6 +22,7 @@ script:
   - make coverage
 
 after_script:
+  - kill $aergo_docker_pid
   - make clean_local_testnets
 
 after-success: 
