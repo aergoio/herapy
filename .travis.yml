@@ -16,12 +16,11 @@ before_script:
   - docker-compose -f ./local_dpos_testnet/docker-compose.yml up -d
   - sleep 10
 
-# command to run tests
 script:
-  - make coverage
+  - pytest --cov-report=html --cov=aergo/ tests/
 
 after_script:
-  - make clean_local_testnets
+  - docker-compose -f ./local_dpos_testnet/docker-compose.yml down
 
 after-success: 
   - codecov -e CODECOV_TOKEN

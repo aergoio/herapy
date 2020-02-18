@@ -35,7 +35,7 @@ endif
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean_local_testnets ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -111,7 +111,8 @@ local_dpos_testnet:
 	docker-compose -f ./local_dpos_testnet/docker-compose.yml up
 
 clean_local_testnets:
-	docker-compose -f ./local_dpos_testnet/docker-compose.yml down && rm -fr ./local_dpos_testnet/*/data
+	docker-compose -f ./local_dpos_testnet/docker-compose.yml down
+	rm -fr ./local_dpos_testnet/*/data
 
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy
