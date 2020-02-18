@@ -10,11 +10,10 @@ services:
 # command to install dependencies
 install:
   - pip install -r requirements_dev.txt
-  - make install
+  - pip install -r requirements.txt
 
 before_script:
-  - docker-compose -f ./local_dpos_testnet/docker-compose.yml up -d&
-  - aergo_docker_pid=$!
+  - docker-compose -f ./local_dpos_testnet/docker-compose.yml up -d
   - sleep 10
 
 # command to run tests
@@ -22,7 +21,6 @@ script:
   - make coverage
 
 after_script:
-  - kill $aergo_docker_pid
   - make clean_local_testnets
 
 after-success: 

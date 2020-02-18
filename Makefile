@@ -72,7 +72,7 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	py.test --cov-report=html --cov=aergo/ tests/
+	pytest --cov-report=html --cov=aergo/ tests/
 
 release: dist ## package and upload a release
 	twine upload dist/*
@@ -111,8 +111,7 @@ local_dpos_testnet:
 	docker-compose -f ./local_dpos_testnet/docker-compose.yml up
 
 clean_local_testnets:
-	docker-compose -f ./local_dpos_testnet/docker-compose.yml down
-	rm -fr ./local_dpos_testnet/*/data
+	docker-compose -f ./local_dpos_testnet/docker-compose.yml down && rm -fr ./local_dpos_testnet/*/data
 
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy
