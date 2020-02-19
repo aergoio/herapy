@@ -1,7 +1,9 @@
+import pytest
 import aergo.herapy as herapy
 
 
 def test_blockchain_cert():
+    pytest.skip("Test me with a locally generated certificate and keys")
     aergo = herapy.Aergo()
 
     print("------ Connect AERGO -----------")
