@@ -1,16 +1,14 @@
-import pytest
 import aergo.herapy as herapy
 
 
 def test_blockchain_cert():
-    pytest.skip("Fix local enterprise node setup")
     aergo = herapy.Aergo()
 
     print("------ Connect AERGO -----------")
-    aergo.connect('localhost:7845',
-                  tls_ca_cert="./cert/rootca.crt",
-                  tls_cert="./cert/client.pem",
-                  tls_key="./cert/client.key")
+    aergo.connect('localhost:7846',
+                  tls_cert="./tests/test_integration/cert/client.pem",
+                  tls_ca_cert="./tests/test_integration/rootca/rootca.crt",
+                  tls_key="./tests/test_integration/cert/client.key")
 
     print("------ Get Node Info -----------")
     node_state = aergo.get_node_state()

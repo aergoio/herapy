@@ -17,6 +17,8 @@ services:
     volumes:
       - ./dpos2:/aergo
       - ./genesis_dpos.json:/config/genesis.json
+    ports:
+      - "7846:7846"
     command: sh -c "aergosvr init --genesis /config/genesis.json --config /aergo/dpos2.toml && aergosvr --config /aergo/dpos2.toml"
     networks:
       docker_net:
