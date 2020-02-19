@@ -1,4 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help local_dpos_testnet
+.PHONY: clean clean-test clean-pyc clean-build docs help local_testnets
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -107,12 +107,12 @@ else
 	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
 endif
 
-local_dpos_testnet:
-	docker-compose -f ./local_dpos_testnet/docker-compose.yml up
+local_testnets:
+	docker-compose -f ./local_test_nodes/docker-compose.yml up
 
 clean_local_testnets:
-	docker-compose -f ./local_dpos_testnet/docker-compose.yml down
-	rm -fr ./local_dpos_testnet/*/data
+	docker-compose -f ./local_test_nodes/docker-compose.yml down
+	rm -fr ./local_test_nodes/*/data
 
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy

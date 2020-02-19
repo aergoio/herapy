@@ -1,0 +1,24 @@
+{
+"chain_id":{
+        "public":false,
+        "mainnet":false,
+        "magic":"local.raft",
+        "consensus":"raft"
+    },
+    "timestamp": 1,
+    "balance": {
+        "AmMLULqYeFByochcYYN8Uh4DEDdebCUA2PCwNgqccp7vhgMvdS8w": "1000000000000000000000000000",
+        "AmPESicKLcPYXJC7ufgK6ti3fVS1r1SbqfxhVDEnTUc5cPXT1474": "1000000000000000000000000000",
+        "AmLs1GewjqS6jZV74KH6E8Qxj1XFhS77JoEwkiiksCBRypw7VdLG": "1000000000000000000000000000",
+        "AmNW9YMMm48jTxX5Yee6tRYLpuptWdg3cqbD2CVoee1YcUGBHfad": "1000000000000000000000000000"
+    },
+    "bps": [],
+	"enterprise_bps": [
+		{
+			"name": "raft_node", 
+			"address": "/ip4/127.0.0.1/tcp/7848", 
+			"peerid": "16Uiu2HAm86Xd1ABndi6j36VPZqK4xMBPm3iE3MrsMA38a2TiEUgt"
+		}
+	]
+}
+

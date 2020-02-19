@@ -1,0 +1,21 @@
+{
+    "chain_id":{
+        "magic": "[insert an identifier string for your network]",
+        "public": false,
+        "mainnet": false,
+        "consensus": "raft"
+    },
+    "timestamp": 1548918000000000000,
+    "balance": {
+        "AmPESicKLcPYXJC7ufgK6ti3fVS1r1SbqfxhVDEnTUc5cPXT1474": "1000000000000000000000000"
+    },
+    "bps": [
+    ],
+    "enterprise_bps": [
+      {
+        "name": "[NICKNAME OF BP 01]",
+        "address": "/ip4/127.0.0.1/tcp/7845",
+        "peerid": "16Uiu2HAm86Xd1ABndi6j36VPZqK4xMBPm3iE3MrsMA38a2TiEUgt"
+      }
+    ]
+}
