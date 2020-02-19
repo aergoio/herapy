@@ -1,0 +1,53 @@
+
+# aergo TOML Configuration File (https://github.com/toml-lang/toml)
+# base configurations
+enableprofile = false
+profileport = 6060
+enablerest = false
+enabletestmode = false
+level = "debug"
+
+[rpc]
+netserviceaddr = "0.0.0.0"
+netserviceport = 7848
+nstls = false
+nscert = ""
+nskey = ""
+nsallowcors = false
+
+[rest]
+restport = "8080"
+
+[p2p]
+# Set address and port to which the inbound peers connect, and don't set loopback address or private network unless used in local network 
+netprotocoladdr = "" 
+netprotocolport = 8001
+npbindaddr = ""
+npbindport = -1 
+# Set file path of key file
+npkey = "bp01.key"
+npaddpeers = [
+]
+nphiddenpeers = [
+]
+npmaxpeers = 100
+nppeerpool = 100
+npexposeself = true
+npusepolaris = true
+npaddpolarises = [
+]
+# configuration for block producer using RAFT
+[consensus.raft]
+newcluster=true
+name="raft_node"
+
+[blockchain]
+# blockchain configurations
+maxblocksize = 1048576
+
+[mempool]
+showmetrics = false
+dumpfilepath = ".aergo/mempool.dump"
+
+[consensus]
+enablebp = true

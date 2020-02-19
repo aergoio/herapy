@@ -1,4 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
+.PHONY: clean clean-test clean-pyc clean-build docs help local_testnets
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -35,14 +35,14 @@ endif
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean_local_testnets ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
+	find . -name '*.egg' -exec rm -rf {} +
 
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
@@ -72,7 +72,7 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	py.test --cov-report=html --cov=aergo/ tests/
+	pytest --cov-report=html --cov=aergo/ tests/
 
 release: dist ## package and upload a release
 	twine upload dist/*
@@ -107,12 +107,12 @@ else
 	@echo "ERROR: Cannot find 'AERGO_TYPES_SRC':" $(TYPES_SRC)
 endif
 
-local_testnet:
-	docker-compose -f ./examples/local_testnet/docker-compose.yml up
+local_testnets:
+	docker-compose -f ./local_test_nodes/docker-compose.yml up
 
-clean_local_testnet:
-	rm -fr examples/local_testnet/*/data
-	docker-compose -f ./examples/local_testnet/docker-compose.yml down
+clean_local_testnets:
+	docker-compose -f ./local_test_nodes/docker-compose.yml down
+	rm -fr ./local_test_nodes/*/data
 
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy

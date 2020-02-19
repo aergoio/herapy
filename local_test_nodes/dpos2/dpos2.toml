@@ -8,9 +8,11 @@ enableprofile = true
 [rpc]
 netserviceaddr = "0.0.0.0"
 netserviceport = 7846
-nstls = false
-nscert = ""
-nskey = ""
+nstls = true
+nscert = "server.pem"
+nskey = "server.key"
+# nsenabletls = true
+nscacert = "rootca.crt"
 nsallowcors = false
 
 [p2p]
