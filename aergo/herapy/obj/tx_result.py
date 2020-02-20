@@ -51,12 +51,10 @@ class TxResult:
             self.fee_delegation = result.feeDelegation
             self.gas_used = result.gasUsed
 
-            """
-            if result.ret is None or 0 == len(result.ret):
-                self.status = TxResultStatus.ERROR
-                if 'CREATED' != result.status:
-                    self.detail = result.status
-            """
+            # if result.ret is None or 0 == len(result.ret):
+            #    self.status = TxResultStatus.ERROR
+            #    if 'CREATED' != result.status:
+            #        self.detail = result.status
         elif type(result) == CommitResult:
             self.__type = TxResultType.COMMIT_RESULT
             self.tx_id = encode_tx_hash(result.hash)

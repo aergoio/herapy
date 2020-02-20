@@ -13,7 +13,7 @@ Welcome to Aergo HeraPy's documentation!
 Aergo_ HeraPy_ is the Python SDK for communicating and interacting with the Aergo_ blockchain.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    intro
@@ -24,6 +24,7 @@ Aergo_ HeraPy_ is the Python SDK for communicating and interacting with the Aerg
    .. how_to_account
    .. how_to_transaction
    .. how_to_smart_contract
+   modules
 
 
 Indices and tables
