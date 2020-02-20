@@ -18,12 +18,11 @@ Aergo_ HeraPy_ is the Python SDK for communicating and interacting with the Aerg
 
    intro
    getting_started
-   how_to/index
-   .. how_to_connect
-   .. how_to_blockchain
-   .. how_to_account
-   .. how_to_transaction
-   .. how_to_smart_contract
+   
+.. toctree::
+   :maxdepth: 4
+   :caption: References:
+
    modules
 
 

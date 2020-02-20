@@ -8,9 +8,11 @@
 What is Herapy?
 ===============
 
-HeraPy_ is the Aergo_ SDK (Hera) library for Python3 provides to
+HeraPy_ is Aergo_'s Python3 SDK for connecting to Aergo networks.
 
-* connect to a Aergo_ blockchain node
+It contains the following features:
+
+* connect to an Aergo_ blockchain node
 * create a new account
 * manage an account
 * create a transaction
@@ -19,6 +21,7 @@ HeraPy_ is the Aergo_ SDK (Hera) library for Python3 provides to
 * deploy a smart contract
 * call a smart contract
 * query a smart contract
+* request and verify state Merkle proofs
 * and so on.
 
 
