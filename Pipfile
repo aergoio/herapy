@@ -26,6 +26,7 @@ twine = "*"
 Sphinx = "*"
 sphinx_rtd_theme = "*"
 urllib3 = ">=1.24.3"
+mypy = "*"
 
 [requires]
 python_version = "3.7"

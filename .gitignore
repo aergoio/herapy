@@ -20,3 +20,4 @@ VENV/
 *.out
 *.diff
 htmlcov/
+.mypy_cache/

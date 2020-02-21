@@ -114,6 +114,9 @@ clean_local_testnets:
 	docker-compose -f ./local_test_nodes/docker-compose.yml down
 	rm -fr ./local_test_nodes/*/data
 
+mypy:
+	mypy -p aergo -p tests
+
 ex: ## run all examples in the examples directory
 	pip show aergo-herapy
 	@echo "===============================" > make.ex.out
