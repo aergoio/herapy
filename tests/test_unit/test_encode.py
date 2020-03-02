@@ -25,21 +25,21 @@ test_cases = [
 ]
 
 
-def test_encode():
+def test_encode() -> None:
     for t in test_cases:
         assert encode_b58(t[1]) == t[0]
 
 
-def test_decode():
+def test_decode() -> None:
     for t in test_cases:
         assert decode_b58(t[0]) == t[1]
 
 
-def test_encode_check():
+def test_encode_check() -> None:
     for t in test_cases:
         assert encode_b58_check(bytes(t[0], encoding='utf-8')) == t[2]
 
 
-def test_decode_check():
+def test_decode_check() -> None:
     for t in test_cases:
         assert decode_b58_check(t[3]) == bytes(t[0], encoding='utf-8')

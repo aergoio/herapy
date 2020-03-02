@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import decimal
+from typing import Union
 
 from ..errors.conversion_exception import ConversionException
 from ..utils.converter import bigint_to_bytes
@@ -15,7 +16,7 @@ AERGO_UNIT_PRECISION = UNITS_SIZE['aergo']
 
 class Aer:
     """Return Aergo Unit, AER(/ˈɛəɹ/)."""
-    def __init__(self, value='0 aer'):
+    def __init__(self, value: Union[bytes, str, int, float] = '0 aer'):
         if isinstance(value, bytes):
             value = int.from_bytes(value, byteorder='big')
         self.__aer = self._parsing_value(value)

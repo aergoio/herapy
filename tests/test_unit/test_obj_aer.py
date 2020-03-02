@@ -8,7 +8,7 @@ import aergo.herapy as herapy
 from aergo.herapy.obj.aer import AERGO_UNIT_PRECISION
 
 
-def test_success():
+def test_success() -> None:
     aer = herapy.Aer('1aergo')
     assert isinstance(aer, herapy.Aer)
     assert aer.aer == str(aer)
@@ -121,7 +121,7 @@ def test_success():
     assert '0.000000001952805748 aergo' == aer.aergo
 
     with pytest.raises(herapy.errors.ConversionException):
-        herapy.Aer(0.1)
+        herapy.Aer(0.1)  # type: ignore
 
     aer = herapy.Aer()
     aer.dec = 1
@@ -159,7 +159,7 @@ def test_success():
     assert '12314.1 aergo' == aer.aergo
 
 
-def test_fail():
+def test_fail() -> None:
     with pytest.raises(herapy.errors.ConversionException):
         herapy.Aer('1 aergogo')
     with pytest.raises(herapy.errors.ConversionException):
@@ -180,7 +180,7 @@ def test_fail():
         herapy.Aer('')
 
 
-def test_op_add():
+def test_op_add() -> None:
     aer1 = herapy.Aer('1')
     aer2 = herapy.Aer('10')
     aer = aer1 + aer2
@@ -206,7 +206,7 @@ def test_op_add():
     assert '999999998200000000000000002 aer' == aer.aer
 
 
-def test_op_sub():
+def test_op_sub() -> None:
     aer1 = herapy.Aer('1')
     aer2 = herapy.Aer('10')
     aer = aer1 - aer2
@@ -232,7 +232,7 @@ def test_op_sub():
     assert '0 aer' == aer.aer
 
 
-def test_op_mul():
+def test_op_mul() -> None:
     aer1 = herapy.Aer('1')
     aer2 = herapy.Aer('10')
     aer = aer1 * aer2
@@ -261,7 +261,7 @@ def test_op_mul():
         aer.aer
 
 
-def test_op_div():
+def test_op_div() -> None:
     aer1 = herapy.Aer('2')
     aer2 = herapy.Aer('10')
 

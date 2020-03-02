@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_aergo_enterprise_contract():
+def test_aergo_enterprise_contract() -> None:
     SC_ADDRESS = herapy.GovernanceTxAddress.ENTERPRISE
     """
     const SetConf = "setConf"

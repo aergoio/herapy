@@ -5,7 +5,7 @@ from aergo.herapy.obj.address import Address
 from aergo.herapy.utils.signature import verify_sig
 
 
-def test_signature():
+def test_signature() -> None:
     msg = bytes("test", 'utf-8')
     h = hashlib.sha256(msg).digest()
     priv_key = PrivateKey(None)

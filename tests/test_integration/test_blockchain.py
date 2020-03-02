@@ -5,7 +5,7 @@ from aergo.herapy.utils.converter import (
 )
 
 
-def test_blockchain(aergo):
+def test_blockchain(aergo) -> None:
     print("------ Get Node Info -----------")
     node_state = aergo.get_node_state()
     print("Node State: {}".format(str(node_state)))
@@ -43,7 +43,7 @@ def test_blockchain(aergo):
     best_block_hash, best_block_height = aergo.get_blockchain_status()
     print("Best Block Hash      = {}".format(best_block_hash))
     print("str(Best Block Hash)     = {}".format(str(best_block_hash)))
-    print("bytes(Best Block Hash)   = {}".format(bytes(best_block_hash)))
+    print("bytes(Best Block Hash)   = {!r}".format(bytes(best_block_hash)))
     print("int(Best Block Hash)     = {}"
           .format(convert_bytes_to_int_str(bytes(best_block_hash))))
     print("hex(Best Block Hash)     = {}"

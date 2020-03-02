@@ -1,4 +1,4 @@
-def test_node_account(aergo):
+def test_node_account(aergo) -> None:
     aergo.new_account(skip_state=True)
 
     print("------ Get Accounts without State in Node -----------")

@@ -149,11 +149,11 @@ class Transaction:
         self.__to_address = v
 
     @property
-    def amount(self):
+    def amount(self) -> aer.Aer:
         return self.__amount
 
     @amount.setter
-    def amount(self, v):
+    def amount(self, v: str):
         if self.__read_only:
             return
 

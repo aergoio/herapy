@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_tx_batch(aergo):
+def test_tx_batch(aergo) -> None:
     print("------ Set Sender Account -----------")
     sender_private_key = \
         "eHoEcHnaxpGpgzknXjuwon8VFVrLkKHC4FckGuGkQ8depiDDfyUAWC3L"

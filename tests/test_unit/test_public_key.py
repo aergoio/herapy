@@ -7,7 +7,7 @@ from aergo.herapy.utils.encoding import encode_address, decode_address
 from aergo.herapy.utils.converter import convert_public_key_to_bytes
 
 
-def test_compare_pubkey():
+def test_compare_pubkey() -> None:
     private_key = "6i2n6TAtsKBaWSujYFzqkBCiP834j1u3nwmffZb8dxCxDcQaXAb"
     address = "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
 

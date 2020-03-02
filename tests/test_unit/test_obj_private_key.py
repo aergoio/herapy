@@ -8,18 +8,18 @@ from aergo.herapy.utils.encoding import decode_private_key
 PK_STR = "6jEuQyF6RZ9xpk7s99LzHoY2X7MeT8V88HCrsewwmynbKXtwUxZ"
 
 
-def test_fail():
+def test_fail() -> None:
     with pytest.raises(TypeError):
-        PrivateKey()
+        PrivateKey()  # type: ignore
 
     with pytest.raises(TypeError):
-        PrivateKey(1234)
+        PrivateKey(1234)  # type: ignore
 
     with pytest.raises(ValueError):
         PrivateKey("1234")
 
 
-def test_success():
+def test_success() -> None:
     # generate new private key
     pk = PrivateKey(None)
     assert type(pk) is PrivateKey
@@ -46,17 +46,17 @@ def test_success():
     assert type(pk.public_key) is Public_key
 
 
-def test_sign():
+def test_sign() -> None:
     msg = "test"
     msg_bytes = msg.encode('utf-8')
 
     pk = PrivateKey(None)
     with pytest.raises(TypeError):
-        pk.sign_msg(msg)
+        pk.sign_msg(msg)  # type: ignore
     sign = pk.sign_msg(msg_bytes)
     assert isinstance(sign, bytes)
     with pytest.raises(TypeError):
-        pk.verify_sign(msg, sign)
+        pk.verify_sign(msg, sign)  # type: ignore
     assert pk.verify_sign(msg_bytes, sign)
     assert not pk.verify_sign("test1".encode('utf-8'), sign)
     with pytest.raises(TypeError):
@@ -73,7 +73,7 @@ def test_sign():
         pk.verify_sign(msg_bytes, b'\x30\x04\x02\x00\x02\x00')
 
 
-def test_asym_sec_msg():
+def test_asym_sec_msg() -> None:
     msg = "asymmetric encrypt/decrypt test"
 
     pk1 = PrivateKey(None)
@@ -81,6 +81,5 @@ def test_asym_sec_msg():
 
     enc_msg = pk1.asymmetric_encrypt_msg(pk2.address, msg)
     dec_msg = pk2.asymmetric_decrypt_msg(pk1.address, enc_msg)
-    dec_msg = str(dec_msg, encoding='utf-8')
 
-    assert msg == dec_msg
+    assert msg == str(dec_msg, encoding='utf-8')

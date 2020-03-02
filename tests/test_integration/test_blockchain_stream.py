@@ -1,4 +1,4 @@
-def test_blockchain_stream(aergo):
+def test_blockchain_stream(aergo) -> None:
     print("------ Get Block Meta Stream -----------")
     stream = aergo.receive_block_stream()
     i = 0

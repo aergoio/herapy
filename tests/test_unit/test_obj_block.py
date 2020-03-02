@@ -16,13 +16,13 @@ from aergo.herapy.utils.converter import bigint_to_bytes, get_hash
 from aergo.herapy.grpc import blockchain_pb2
 
 
-def test_fail():
+def test_fail() -> None:
     with pytest.raises(TypeError):
         bh = BlockHash(1234)
         str(bh)
 
 
-def test_blockhash():
+def test_blockhash() -> None:
     bh = BlockHash('test')
     assert bytes(bh) == decode_block_hash('test')
     assert bytes(bh) == bh.value
@@ -34,7 +34,7 @@ def test_blockhash():
     assert str(bh) == encode_block_hash(b'test')
 
 
-def test_grpc_block():
+def test_grpc_block() -> None:
     grpc_block = blockchain_pb2.Block()
     grpc_block.hash = b'block_hash'
     # header
@@ -143,7 +143,8 @@ def test_grpc_block():
     assert block_tx1.amount.aer == '1 aer'
     assert block_tx1.amount.gaer == '0.000000001 gaer'
     assert block_tx1.amount.aergo == '0.000000000000000001 aergo'
-    block_tx1.amount = '100 aer'
+    # mypy 0.761 doesnt support
+    block_tx1.amount = '100 aer'  # type: ignore
     assert block_tx1.amount.aer != '100 aer'
     assert block_tx1.amount.aer == '1 aer'
     assert block_tx1.payload == b'tx1_payload'
@@ -177,7 +178,8 @@ def test_grpc_block():
     assert block_tx2.amount.aer == '2 aer'
     assert block_tx2.amount.gaer == '0.000000002 gaer'
     assert block_tx2.amount.aergo == '0.000000000000000002 aergo'
-    block_tx2.amount = '100 aer'
+    # mypy 0.761 doesnt support
+    block_tx2.amount = '100 aer'  # type: ignore
     assert block_tx2.amount.aer != '100 aer'
     assert block_tx2.amount.aer == '2 aer'
     assert block_tx2.payload == b''

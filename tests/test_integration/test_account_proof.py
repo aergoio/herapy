@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_account_proof(aergo):
+def test_account_proof(aergo) -> None:
     address = "AmPwBMCcYbqyetVmAupjtzR8GgnTAVduZAVE9SnJPzjhWEmhjSef"
 
     print("------ Fund a second account to pass test in testmode -------")

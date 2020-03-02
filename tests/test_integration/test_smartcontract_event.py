@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_sc_event(aergo):
+def test_sc_event(aergo) -> None:
     print("------ Payload -----------")
     """
 

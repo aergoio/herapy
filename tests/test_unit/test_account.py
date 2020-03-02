@@ -17,7 +17,7 @@ exported_key_str = \
 exported_key = decode_private_key(exported_key_str)
 
 
-def test_import():
+def test_import() -> None:
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
@@ -70,7 +70,7 @@ def test_import():
         convert_public_key_to_bytes(address.public_key)
 
 
-def test_keys():
+def test_keys() -> None:
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
@@ -127,7 +127,7 @@ def test_keys():
     print("p2p id = {}".format(id))
 
 
-def test_private_key():
+def test_private_key() -> None:
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
@@ -141,7 +141,7 @@ def test_private_key():
     assert str(acc.address) == str(acc3.address)
 
 
-def test_json():
+def test_json() -> None:
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
@@ -198,7 +198,7 @@ def test_json():
     assert str(acc3.address) == str(acc5.address)
 
 
-def test_from_json():
+def test_from_json() -> None:
     private_key_str = \
         "47DTHPaRpbJ67KZvBaciz68EJ5k6E2FNBUuknKR6NA4t8oyA3uyvj" \
         "S2QKxJ7JsgHMunPUitoT"
