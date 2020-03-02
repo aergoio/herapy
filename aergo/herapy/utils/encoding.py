@@ -51,7 +51,7 @@ def encode_b58(v: bytes) -> Optional[str]:
     return base58.b58encode(v).decode('utf-8')
 
 
-def decode_b58(v):
+def decode_b58(v: str) -> Optional[bytes]:
     if is_empty(v):
         return None
     return base58.b58decode(v)
@@ -135,13 +135,9 @@ def decode_public_key(public_key, curve=ecdsa.SECP256k1):
     return head, x_bytes, y_bytes
 
 
-def encode_block_hash(block_hash):
-    if is_empty(block_hash):
-        return None
+def encode_block_hash(block_hash: bytes) -> Optional[str]:
     return encode_b58(block_hash)
 
 
-def decode_block_hash(block_hash):
-    if is_empty(block_hash):
-        return None
+def decode_block_hash(block_hash: str) -> Optional[bytes]:
     return decode_b58(block_hash)

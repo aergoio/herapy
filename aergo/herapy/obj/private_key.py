@@ -146,7 +146,9 @@ class PrivateKey:
         enc_msg: Union[str, bytes]
     ) -> bytes:
         if isinstance(enc_msg, str):
-            enc_msg = decode_b58(enc_msg)
+            enc_bytes = decode_b58(enc_msg)
+            assert enc_bytes  # for mypy Optional[bytes] -> bytes
+            enc_msg = enc_bytes
 
         point = self.__get_multiplied_point(address)
         password = point.x() + point.y()

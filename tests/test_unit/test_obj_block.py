@@ -18,7 +18,7 @@ from aergo.herapy.grpc import blockchain_pb2
 
 def test_fail() -> None:
     with pytest.raises(TypeError):
-        bh = BlockHash(1234)
+        bh = BlockHash(1234)  # type: ignore
         str(bh)
 
 
@@ -79,6 +79,7 @@ def test_grpc_block() -> None:
     assert block.chain_id == b'chain_id'
     assert block.height == 123
     assert block.block_no == block.height
+    assert block.prev
     assert bytes(block.prev.hash) == b'prev_block_hash'
     assert block.timestamp == 12345
     assert block.blocks_root_hash == b'blocks_root_hash'

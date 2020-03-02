@@ -8,6 +8,9 @@ import toml
 import socket
 import ecdsa
 import time
+from typing import (
+    Union,
+)
 
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
@@ -201,7 +204,11 @@ def bytes_to_public_key(v, curve=ecdsa.SECP256k1):
     return convert_bytes_to_public_key(v, curve=curve)
 
 
-def get_hash(*strings, no_rand=False, no_encode=False):
+def get_hash(
+    *strings,
+    no_rand: bool = False,
+    no_encode: bool = False
+) -> Union[str, bytes, None]:
     m = hashlib.sha256()
     if not no_rand:
         m.update(int(time.time()).to_bytes(8, 'little'))

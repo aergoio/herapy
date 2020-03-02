@@ -2,23 +2,33 @@
 
 import json
 import datetime
+from typing import (
+    Dict,
+    Union,
+    List,
+    Optional
+)
 
 from .address import Address
 from .block_hash import BlockHash
 from .transaction import Transaction
-from ..utils.encoding import encode_b58, encode_address
+from ..utils.encoding import (
+    encode_b58,
+    encode_address,
+    is_empty
+)
 from ..utils.converter import get_hash
 
 
 class Block:
     def __init__(
         self,
-        hash_value=None,
-        height=None,
+        hash_value: Union[BlockHash, str, bytes, None] = None,
+        height: Optional[int] = None,
         grpc_block=None,
         grpc_block_header=None,
-        tx_cnt=0,
-        size=0
+        tx_cnt: int = 0,
+        size: int = 0
     ):
         if grpc_block is not None:
             self._map_grpc_block(grpc_block)
@@ -27,13 +37,13 @@ class Block:
                 raise ValueError("Cannot set without a block hash value")
 
             # block hash
-            if type(hash_value) is not BlockHash:
+            if not isinstance(hash_value, BlockHash):
                 hash_value = BlockHash(hash_value)
             self.__hash = hash_value
             # header
             self._map_grpc_block_header(grpc_block_header)
             # body
-            self.__tx_list = []
+            self.__tx_list: List[Transaction] = []
             self.__tx_cnt = tx_cnt
             self.__size = size
         else:
@@ -41,7 +51,7 @@ class Block:
                 raise ValueError("Cannot set without a block hash value")
 
             # block hash
-            if type(hash_value) is not BlockHash:
+            if not isinstance(hash_value, BlockHash):
                 hash_value = BlockHash(hash_value)
             self.__hash = hash_value
             # header
@@ -107,7 +117,7 @@ class Block:
         self.__size = v.ByteSize()
 
     @property
-    def hash(self):
+    def hash(self) -> BlockHash:
         return self.__hash
 
     @property
@@ -115,19 +125,19 @@ class Block:
         return self.__chain_id
 
     @property
-    def chain_id_hash(self):
+    def chain_id_hash(self) -> Optional[str]:
         if self.__chain_id is None:
             return None
         return get_hash(self.__chain_id, no_rand=True, no_encode=True)
 
     @property
-    def chain_id_hash_b58(self):
+    def chain_id_hash_b58(self) -> Optional[str]:
         if self.__chain_id is None:
             return None
         return get_hash(self.__chain_id, no_rand=True, no_encode=False)
 
     @property
-    def height(self):
+    def height(self) -> Optional[int]:
         return self.__height
 
     @property
@@ -135,7 +145,7 @@ class Block:
         return self.__prev_block
 
     @property
-    def block_no(self):
+    def block_no(self) -> Optional[int]:
         return self.height
 
     @property
@@ -179,36 +189,27 @@ class Block:
         return self.__coinbase_account
 
     @property
-    def tx_list(self):
+    def tx_list(self) -> List[Transaction]:
         return self.__tx_list
 
     @property
-    def num_of_tx(self):
+    def num_of_tx(self) -> int:
         return self.__tx_cnt
 
     @property
-    def size(self):
+    def size(self) -> int:
         return self.__size
 
-    def get_tx(self, index):
+    def get_tx(self, index: int) -> Transaction:
         return self.__tx_list[index]
 
-    def json(self, header_only=False):
-        previous_block_hash = None
-        pub_key = None
-        coinbase_account = None
-        if self.prev is not None:
-            previous_block_hash = str(self.prev.hash)
-        if self.public_key is not None:
-            pub_key = encode_b58(self.public_key)
-        if self.coinbase_account is not None:
-            coinbase_account = encode_address(self.coinbase_account)
-
+    def json(self, header_only: bool = False) -> Dict:
         body_json = {
             "hash": str(self.hash),
             "header": {
                 "chain_id": self.chain_id_hash_b58,
-                "previous_block_hash": previous_block_hash,
+                "previous_block_hash":
+                    None if self.prev is None else str(self.prev.hash),
                 "block_no": self.block_no,
                 "timestamp": self.timestamp,
                 "datetimestamp": self.datetimestamp,
@@ -216,9 +217,11 @@ class Block:
                 "txs_root_hash": encode_b58(self.txs_root_hash),
                 "receipts_root_hash": encode_b58(self.receipts_root_hash),
                 "confirms": self.confirms,
-                "pub_key": pub_key,
+                "pub_key": encode_b58(self.public_key),
                 "sign": encode_b58(self.sign),
-                "coinbase_account": coinbase_account,
+                "coinbase_account":
+                    None if is_empty(self.coinbase_account) else
+                    encode_address(self.coinbase_account),
                 "tx_count": self.__tx_cnt,
                 "size": self.__size
             },
@@ -235,5 +238,5 @@ class Block:
 
         return body_json
 
-    def __str__(self):
+    def __str__(self) -> str:
         return json.dumps(self.json(), indent=2)
