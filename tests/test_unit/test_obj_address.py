@@ -33,12 +33,12 @@ def test_success() -> None:
                                                       curve=addr.curve,
                                                       compressed=True)
     with pytest.raises(ValueError):
-        addr.value = str(addr)
+        addr.value = str(addr)  # type: ignore
 
     addr_str = str(addr)
 
     addr2 = Address(None, empty=True)
-    addr2.value = addr_str
+    addr2.value = addr_str  # type: ignore
     assert type(addr2) is Address
     assert isinstance(str(addr2), str)
     assert isinstance(bytes(addr2), bytes)
@@ -112,6 +112,6 @@ def test_govname() -> None:
     assert baddr == Address.decode('aergo.enterprise')
 
     addr = Address(None, empty=True)
-    addr.value = 'aergo.system'
+    addr.value = 'aergo.system'  # type: ignore
     assert str(addr) == 'aergo.system'
     assert bytes(addr) == Address.decode('aergo.system')

@@ -42,7 +42,9 @@ class PrivateKey:
         self.__address = Address(self.__private_key.public_key)
 
     def __str__(self) -> str:
-        return encode_private_key(self.__get_private_key_bytes())
+        privkey = encode_private_key(self.__get_private_key_bytes())
+        assert privkey
+        return privkey
 
     def __bytes__(self) -> bytes:
         return self.__get_private_key_bytes()

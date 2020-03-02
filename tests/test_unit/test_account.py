@@ -53,7 +53,8 @@ def test_import() -> None:
         convert_public_key_to_bytes(acc.public_key)
 
     address = Address(None, empty=True)
-    address.value = "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
+    address.value = \
+        "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"  # type: ignore
     assert acc.address != address
     assert bytes(acc.address) == bytes(address)
     assert private_key.address != address
@@ -84,7 +85,7 @@ def test_keys() -> None:
     )
 
     pubkey_bytes = convert_public_key_to_bytes(acc.public_key)
-    print("compressed bytes(public key) = {}".format(pubkey_bytes))
+    print("compressed bytes(public key) = {!r}".format(pubkey_bytes))
     print(
         "compressed int(public key bytes) = {}"
         .format(bytes_to_int_str(pubkey_bytes))
@@ -96,7 +97,7 @@ def test_keys() -> None:
 
     nocomp_pubkey_bytes = convert_public_key_to_bytes(
         acc.public_key, compressed=False)
-    print("no compressed bytes(public key) = {}".format(pubkey_bytes))
+    print("no compressed bytes(public key) = {!r}".format(pubkey_bytes))
     nocomp_pubkey_txt = encode_b64(nocomp_pubkey_bytes)
     print("no compressed public key = {}".format(nocomp_pubkey_txt))
 
@@ -113,7 +114,7 @@ def test_keys() -> None:
     p2p_pubkey_bytes = p2p_pubkey_bytes_head \
         + len(pubkey_bytes).to_bytes(length=1, byteorder='big') \
         + pubkey_bytes
-    print("bytes(p2p public key) = {}".format(p2p_pubkey_bytes))
+    print("bytes(p2p public key) = {!r}".format(p2p_pubkey_bytes))
     print(
         "int(p2p public key bytes) = {}"
         .format(bytes_to_int_str(p2p_pubkey_bytes))

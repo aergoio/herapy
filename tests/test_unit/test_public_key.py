@@ -40,7 +40,7 @@ def test_compare_pubkey() -> None:
     assert address == encode_address(pk_pubkey_c_str)
 
     addr = Address(None, empty=True)
-    addr.value = address
+    addr.value = address  # type: ignore
     addr_pubkey = addr.public_key
     addr_pubkey_str = convert_public_key_to_bytes(addr.public_key,
                                                   compressed=False)

@@ -131,7 +131,7 @@ def convert_public_key_to_bytes(
     pubkey,
     curve=ecdsa.SECP256k1,
     compressed=True
-):
+) -> bytes:
     if not isinstance(pubkey, ecdsa.ecdsa.Public_key):
         raise TypeError('value is not a valid public key')
 
@@ -158,7 +158,10 @@ def public_key_to_bytes(pubkey, curve=ecdsa.SECP256k1, compressed=True):
                                        compressed=compressed)
 
 
-def convert_bytes_to_public_key(v, curve=ecdsa.SECP256k1):
+def convert_bytes_to_public_key(
+    v: bytes,
+    curve: ecdsa.curves.Curve = ecdsa.SECP256k1
+) -> ecdsa.ecdsa.Public_key:
     if not isinstance(v, bytes):
         raise TypeError('value is not bytes')
 
