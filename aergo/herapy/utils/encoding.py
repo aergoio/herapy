@@ -3,6 +3,10 @@
 import base58
 import base64
 import ecdsa
+from typing import (
+    Optional,
+    Union
+)
 
 from ..constants import (
     ADDRESS_VERSION,
@@ -11,7 +15,7 @@ from ..constants import (
 )
 
 
-def is_empty(v):
+def is_empty(v: Union[str, bytes, None]) -> bool:
     if v is None or 0 == len(v):
         return True
     return False
@@ -41,7 +45,7 @@ def decode_b58_check(v):
     return base58.b58decode_check(v)
 
 
-def encode_b58(v):
+def encode_b58(v: bytes) -> Optional[str]:
     if is_empty(v):
         return None
     return base58.b58encode(v).decode('utf-8')
@@ -83,12 +87,12 @@ def decode_payload(payload_str):
     return decode_b58_check(payload_str)
 
 
-def encode_private_key(private_key):
+def encode_private_key(private_key: bytes) -> str:
     v = PRIVATE_KEY_VERSION + private_key
     return encode_b58_check(v)
 
 
-def decode_private_key(private_key):
+def decode_private_key(private_key: str) -> Optional[bytes]:
     if is_empty(private_key):
         return None
     v = decode_b58_check(private_key)

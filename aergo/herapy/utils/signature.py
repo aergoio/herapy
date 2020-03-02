@@ -15,7 +15,7 @@ def canonicalize_int(n, order):
     return b
 
 
-def serialize_sig(r, s, order):
+def serialize_sig(r, s, order) -> bytes:
     half_order = order >> 1
     if s > half_order:
         s = order - s
