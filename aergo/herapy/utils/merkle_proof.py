@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
+from typing import (
+    List
+)
 from .encoding import decode_root
 
 
-def bit_is_set(bits, i):
+def bit_is_set(bits: bytes, i: int) -> bool:
     return bits[int(i / 8)] & (1 << (7 - i % 8)) != 0
 
 
 def verify_inclusion(
-    ap,
-    root,
-    key,
-    value
-):
+    ap: List[bytes],
+    root: bytes,
+    key: bytes,
+    value: bytes
+) -> bool:
     """ verify_inclusion verifies the merkle proof 'ap' (audit path) that
     the key/value pair in included in the trie with root 'root'.
     """
@@ -22,13 +25,13 @@ def verify_inclusion(
 
 
 def verify_inclusion_c(
-    ap,
-    height,
-    bitmap,
-    root,
-    key,
-    value
-):
+    ap: List[bytes],
+    height: int,
+    bitmap: bytes,
+    root: bytes,
+    key: bytes,
+    value: bytes
+) -> bool:
     """ verify_inclusion verifies the compressed merkle proof 'ap' (audit path)
     that the key/value pair in included in the trie with root 'root'.
     """
@@ -37,11 +40,11 @@ def verify_inclusion_c(
 
 
 def verify_proof(
-    ap,
-    key_index,
-    key,
-    leaf_hash
-):
+    ap: List[bytes],
+    key_index: int,
+    key: bytes,
+    leaf_hash: bytes
+) -> bytes:
     """ verify_proof recursively hashes the result with the proof nodes in the
     audit path 'ap'
     """
@@ -56,14 +59,14 @@ def verify_proof(
 
 
 def verify_proof_c(
-    bitmap,
-    key,
-    leaf_hash,
-    ap,
-    length,
-    key_index,
-    ap_index
-):
+    bitmap: bytes,
+    key: bytes,
+    leaf_hash: bytes,
+    ap: List[bytes],
+    length: int,
+    key_index: int,
+    ap_index: int
+) -> bytes:
     """ verify_proof_c recursively hashes the result with the proof nodes in
     the compressed audit path 'ap'
     """
@@ -89,12 +92,12 @@ def verify_proof_c(
 
 
 def verify_exclusion(
-    root,
-    ap,
-    key,
-    proofKey,
-    proofVal
-):
+    root: bytes,
+    ap: List[bytes],
+    key: bytes,
+    proofKey: bytes,
+    proofVal: bytes
+) -> bool:
     """ verify_exclusion verifies the merkle proof that a default
     node (bytes([0]) is included on the path of the 'key', or that the
     proofKey/proofVal key pair is included on the path of the 'key'
@@ -122,14 +125,14 @@ def verify_exclusion(
 
 
 def verify_exclusion_c(
-    root,
-    ap,
-    length,
-    bitmap,
-    key,
-    proofKey,
-    proofVal
-):
+    root: bytes,
+    ap: List[bytes],
+    length: int,
+    bitmap: bytes,
+    key: bytes,
+    proofKey: bytes,
+    proofVal: bytes
+) -> bool:
     """ verify_exclusion_c verifies the compressed merkle proof that a default
     node (bytes([0]) is included on the path of the 'key', or that the
     proofKey/proofVal key pair is included on the path of the 'key'

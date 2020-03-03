@@ -51,6 +51,7 @@ def test_success() -> None:
     assert addr2.value == addr.value
     assert str(addr2) == str(addr)
     assert bytes(addr2) == bytes(addr)
+    assert addr2.public_key and addr.public_key
     assert addr2.public_key.point == addr.public_key.point
     assert convert_public_key_to_bytes(
         pubkey=addr.public_key, curve=addr.curve, compressed=False
@@ -75,6 +76,7 @@ def test_success() -> None:
     assert addr4 != addr3
     assert str(addr4) == str(addr3)
     assert bytes(addr4) == bytes(addr3)
+    assert addr4.public_key and addr3.public_key
     assert addr4.public_key.point == addr3.public_key.point
 
     addr5 = Address(None, empty=True)
@@ -82,6 +84,7 @@ def test_success() -> None:
     assert addr4 != addr5
     assert str(addr4) == str(addr5)
     assert bytes(addr4) == bytes(addr5)
+    assert addr4.public_key and addr5.public_key
     assert addr4.public_key.point == addr5.public_key.point
 
 

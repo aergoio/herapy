@@ -24,6 +24,9 @@ from ..utils.signature import (
     deserialize_sig,
     serialize_sig
 )
+from ..errors.general_exception import (
+    GeneralException
+)
 
 
 DEFAULT_CURVE = ecdsa.SECP256k1
@@ -123,6 +126,8 @@ class PrivateKey:
             address = Address(address, curve=DEFAULT_CURVE)
 
         opponent_pubkey = address.public_key
+        if not opponent_pubkey:
+            raise GeneralException("Address object must have a public key")
         return opponent_pubkey.point * self.__private_key.secret_multiplier
 
     def asymmetric_encrypt_msg(

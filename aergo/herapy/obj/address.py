@@ -83,7 +83,7 @@ class Address:
         return self.__curve
 
     @property
-    def public_key(self) -> ecdsa.ecdsa.Public_key:
+    def public_key(self) -> Optional[ecdsa.ecdsa.Public_key]:
         return None if self.__address is None else \
             convert_bytes_to_public_key(self.__address, curve=self.__curve)
 
@@ -100,7 +100,7 @@ class Address:
         return encode_address(addr)
 
     @staticmethod
-    def decode(addr: str) -> bytes:
+    def decode(addr: Optional[str]) -> bytes:
         try:
             if addr is None or 0 == len(addr):
                 return b''
@@ -109,4 +109,5 @@ class Address:
         except:
             pass
 
+        assert addr
         return decode_address(addr)

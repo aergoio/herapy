@@ -47,6 +47,7 @@ def test_compare_pubkey() -> None:
     addr_pubkey_c_str = convert_public_key_to_bytes(addr.public_key,
                                                     compressed=True)
 
+    assert pubkey and addr_pubkey
     assert pubkey.point == addr_pubkey.point
     assert pubkey_str == addr_pubkey_str
     assert address == encode_address(addr_pubkey_c_str)

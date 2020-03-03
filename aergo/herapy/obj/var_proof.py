@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
+from typing import (
+    List
+)
 
 from google.protobuf.json_format import MessageToJson
 from aergo.herapy.utils import merkle_proof as mp
@@ -10,12 +13,12 @@ class VarProofs(list):
     """ VarProof holds the inclusion/exclusion proof of a variable state
     inside a contract state trie
     """
-    def __init__(self, var_proofs, storage_keys):
+    def __init__(self, var_proofs, storage_keys: List[bytes]) -> None:
         self.__var_proofs = var_proofs
         self.__storage_keys = storage_keys
         list.__init__(self, var_proofs[:])
 
-    def __str__(self):
+    def __str__(self) -> str:
         json_string = ""
         for proof in self.__var_proofs:
             json_string += MessageToJson(proof)
@@ -26,10 +29,15 @@ class VarProofs(list):
         return self.__var_proofs
 
     @property
-    def storage_keys(self):
+    def storage_keys(self) -> List[bytes]:
         return self.__storage_keys
 
-    def verify_var_proof(self, root, var_proof, trie_key):
+    def verify_var_proof(
+        self,
+        root: bytes,
+        var_proof,
+        trie_key: bytes
+    ) -> bool:
         if var_proof.key != trie_key:
             return False
         value = hashlib.sha256(var_proof.value).digest()
@@ -51,11 +59,10 @@ class VarProofs(list):
             if var_proof.inclusion:
                 return mp.verify_inclusion(ap, root, trie_key, value)
             else:
-                return mp.verify_exclusion(root, ap, trie_key,
-                                           var_proof.proofKey,
-                                           var_proof.proofVal)
+                return mp.verify_exclusion(
+                    root, ap, trie_key, var_proof.proofKey, var_proof.proofVal)
 
-    def verify_proof(self, root):
+    def verify_proof(self, root: bytes) -> bool:
         """verify that the given inclusion and exclusion proofs are correct """
         if self.__var_proofs is None or 0 == self.__len__():
             return False
