@@ -117,13 +117,13 @@ def convert_ip_bytes_to_str(ip):
     return socket.inet_ntop(socket.AF_INET6, ip)
 
 
-def convert_bigint_to_bytes(number):
+def convert_bigint_to_bytes(number: int) -> bytes:
     q, r = divmod(len(bin(number)) - 2, 8)
     bytes_to_fit_number = q if r == 0 else q + 1
     return number.to_bytes(bytes_to_fit_number, 'big')
 
 
-def bigint_to_bytes(v):
+def bigint_to_bytes(v: int) -> bytes:
     return convert_bigint_to_bytes(v)
 
 

@@ -133,10 +133,12 @@ def test_grpc_block() -> None:
     assert block_tx1.nonce == 10
     assert bytes(block_tx1.tx_hash) == b'tx1_hash'
     assert str(block_tx1.tx_hash) == encode_tx_hash(b'tx1_hash')
+    assert block_tx1.from_address
     assert bytes(block_tx1.from_address) == b'yp'
     block_tx1.from_address = b'hannah'
     assert bytes(block_tx1.from_address) != b'hannah'
     assert bytes(block_tx1.from_address) == b'yp'
+    assert block_tx1.to_address
     assert bytes(block_tx1.to_address) == b'daniel'
     block_tx1.to_address = b'hannah'
     assert bytes(block_tx1.to_address) != b'hannah'
@@ -168,9 +170,11 @@ def test_grpc_block() -> None:
     assert block_tx2.nonce == 356
     assert bytes(block_tx2.tx_hash) == b'tx2_hash'
     assert str(block_tx2.tx_hash) == encode_tx_hash(b'tx2_hash')
+    assert block_tx2.from_address
     assert bytes(block_tx2.from_address) == b'daniel'
     block_tx2.from_address = b'yp'
     assert bytes(block_tx2.from_address) != b'yp'
+    assert block_tx2.to_address
     assert bytes(block_tx2.from_address) == b'daniel'
     assert bytes(block_tx2.to_address) == b'hannah'
     block_tx2.to_address = b'yp'

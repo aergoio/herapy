@@ -33,27 +33,31 @@ def decode_b64(v):
     return base64.b64decode(v)
 
 
-def encode_b58_check(v: Union[str, bytes]) -> Optional[str]:
+def encode_b58_check(v: Union[str, bytes, None]) -> Optional[str]:
     if is_empty(v):
         return None
+    assert v
     return base58.b58encode_check(v).decode('utf-8')
 
 
-def decode_b58_check(v: Union[str, bytes]) -> Optional[bytes]:
+def decode_b58_check(v: Union[str, bytes, None]) -> Optional[bytes]:
     if is_empty(v):
         return None
+    assert v
     return base58.b58decode_check(v)
 
 
-def encode_b58(v: Union[str, bytes]) -> Optional[str]:
+def encode_b58(v: Union[str, bytes, None]) -> Optional[str]:
     if is_empty(v):
         return None
+    assert v
     return base58.b58encode(v).decode('utf-8')
 
 
-def decode_b58(v: Union[str, bytes]) -> Optional[bytes]:
+def decode_b58(v: Union[str, bytes, None]) -> Optional[bytes]:
     if is_empty(v):
         return None
+    assert v
     return base58.b58decode(v)
 
 
@@ -75,7 +79,7 @@ def decode_root(root):
     return base58.b58decode(root)
 
 
-def encode_payload(payload):
+def encode_payload(payload: Union[str, bytes, None]) -> Optional[str]:
     if is_empty(payload):
         return None
     return encode_b58_check(payload)
@@ -100,7 +104,7 @@ def decode_private_key(private_key: str) -> Optional[bytes]:
     return v[len(PRIVATE_KEY_VERSION):]
 
 
-def encode_tx_hash(tx_hash):
+def encode_tx_hash(tx_hash: Optional[bytes]) -> Optional[str]:
     if is_empty(tx_hash):
         return None
     return encode_b58(tx_hash)
@@ -112,13 +116,13 @@ def decode_tx_hash(tx_hash):
     return decode_b58(tx_hash)
 
 
-def encode_signature(sign):
+def encode_signature(sign: Optional[bytes]) -> Optional[str]:
     if is_empty(sign):
         return None
     return encode_b58(sign)
 
 
-def decode_signature(sign):
+def decode_signature(sign: Optional[str]) -> Optional[bytes]:
     if is_empty(sign):
         return None
     return decode_b58(sign)

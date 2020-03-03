@@ -84,11 +84,11 @@ class Aer:
         return s
 
     @property
-    def aer(self):
+    def aer(self) -> str:
         return self._decimal_to_str(self.__aer) + ' aer'
 
     @property
-    def gaer(self):
+    def gaer(self) -> str:
         with decimal.localcontext() as ctx:
             ctx.prec = len(str(self.__aer))
             v = self.__aer / decimal.Decimal(10 ** UNITS_SIZE['gaer'])
@@ -96,7 +96,7 @@ class Aer:
         return s
 
     @property
-    def aergo(self):
+    def aergo(self) -> str:
         with decimal.localcontext() as ctx:
             ctx.prec = len(str(self.__aer))
             v = self.__aer / decimal.Decimal(10 ** UNITS_SIZE['aergo'])
@@ -104,20 +104,20 @@ class Aer:
         return s
 
     @property
-    def dec(self):
+    def dec(self) -> decimal.Decimal:
         return self.__aer
 
     @dec.setter
-    def dec(self, v):
+    def dec(self, v: Union[bytes, str, int, float]) -> None:
         self.__aer = self._parsing_value(v)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.aer
 
-    def __int__(self):
+    def __int__(self) -> int:
         return int(self.dec)
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
         return bigint_to_bytes(int(self))
 
     def __add__(self, other):

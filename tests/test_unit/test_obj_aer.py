@@ -108,7 +108,7 @@ def test_success() -> None:
     assert bytes(aer1) == bytes(aer2)
 
     aer3 = herapy.Aer()
-    aer3.dec = 24999999910000000081000000100000000000000000000000000000000000000000000000000000
+    aer3.dec = 24999999910000000081000000100000000000000000000000000000000000000000000000000000  # type: ignore
     assert aer1.dec == aer3.dec
     assert str(aer1) == str(aer3)
     assert int(aer1) == int(aer3)
@@ -124,7 +124,7 @@ def test_success() -> None:
         herapy.Aer(0.1)  # type: ignore
 
     aer = herapy.Aer()
-    aer.dec = 1
+    aer.dec = 1  # type: ignore
     assert 1 == aer.dec
     assert '1 aer' == aer.aer
     assert '0.000000001 gaer' == aer.gaer
@@ -132,11 +132,11 @@ def test_success() -> None:
 
     with pytest.raises(herapy.errors.ConversionException):
         aer = herapy.Aer()
-        aer.dec = 0.1
+        aer.dec = 0.1  # type: ignore
 
     with pytest.raises(herapy.errors.ConversionException):
         aer = herapy.Aer()
-        aer.dec = 0.0001 / AERGO_UNIT_PRECISION
+        aer.dec = 0.0001 / AERGO_UNIT_PRECISION  # type: ignore
 
     aer = herapy.Aer(10000000000000000 / 1)
     assert '1000000000000000 aer' == aer.aer
@@ -144,14 +144,14 @@ def test_success() -> None:
     assert '0.001 aergo' == aer.aergo
 
     aer = herapy.Aer()
-    aer.dec = 10000000000000000 / 1
+    aer.dec = 10000000000000000 / 1  # type: ignore
     assert '1000000000000000 aer' == aer.aer
     assert '1000000 gaer' == aer.gaer
     assert '0.001 aergo' == aer.aergo
 
     with pytest.raises(herapy.errors.ConversionException):
         aer = herapy.Aer()
-        aer.dec = 10000000000000000 / 3
+        aer.dec = 10000000000000000 / 3  # type: ignore
 
     aer = herapy.Aer(123141000000000000000000 / 10)
     assert '12314100000000000000000 aer' == aer.aer
