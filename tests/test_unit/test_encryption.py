@@ -41,13 +41,17 @@ keystore: Dict = {
 def test_account_keystore_v1() -> None:
     # create new account
     account1 = Account()
+    assert account1.private_key
     privkey1 = bytes(account1.private_key)
+    assert account1.address
     addr1 = bytes(account1.address)
     # encrypt to keystore
     keystore = Account.encrypt_to_keystore(account1, 'password', kdf_n=2**10)
     # decrypt keystore
     account2 = Account.decrypt_from_keystore(keystore, 'password')
+    assert account2.private_key
     privkey2 = bytes(account2.private_key)
+    assert account2.address
     addr2 = bytes(account2.address)
     # check the decrypted account is same with original one
     assert privkey1 == privkey2
@@ -63,6 +67,7 @@ def test_decrypt_keystore_v1() -> None:
 
 def test_encrypt_keystore_v1() -> None:
     account = Account()
+    assert account.private_key
     privkey = bytes(account.private_key)
     address = str(account.address)
     new_keystore = encrypt_to_keystore_v1(

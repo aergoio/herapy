@@ -73,9 +73,10 @@ def decode_address(address: str) -> bytes:
     return v[len(ADDRESS_VERSION):]
 
 
-def decode_root(root):
+def decode_root(root: Union[str, bytes, None]) -> Optional[bytes]:
     if is_empty(root):
         return None
+    assert root
     return base58.b58decode(root)
 
 
@@ -96,7 +97,7 @@ def encode_private_key(private_key: bytes) -> Optional[str]:
     return encode_b58_check(v)
 
 
-def decode_private_key(private_key: str) -> Optional[bytes]:
+def decode_private_key(private_key: Optional[str]) -> Optional[bytes]:
     if is_empty(private_key):
         return None
     v = decode_b58_check(private_key)

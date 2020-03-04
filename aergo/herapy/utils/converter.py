@@ -226,7 +226,11 @@ def get_hash(
     return encode_b58(m.digest())
 
 
-def privkey_to_address(privkey, curve=ecdsa.SECP256k1, compressed=True):
+def privkey_to_address(
+    privkey: bytes,
+    curve: ecdsa.curves.Curve = ecdsa.SECP256k1,
+    compressed: bool = True
+) -> str:
     d = int.from_bytes(privkey, byteorder='big')
     pubkey_point = curve.generator * d
     pubkey = ecdsa.ecdsa.Public_key(curve.generator, pubkey_point)

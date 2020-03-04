@@ -120,31 +120,31 @@ class Aer:
     def __bytes__(self) -> bytes:
         return bigint_to_bytes(int(self))
 
-    def __add__(self, other):
+    def __add__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec + other.dec
         return Aer(str(v))
 
-    def __sub__(self, other):
+    def __sub__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec - other.dec
         return Aer(str(v))
 
-    def __mul__(self, other):
+    def __mul__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext() as ctx:
             ctx.prec = decimal.MAX_PREC
             v = self.dec * other.dec
         return Aer(str(v))
 
-    def __floordiv__(self, other):
+    def __floordiv__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec // other.dec
         return Aer(str(v))
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec / other.dec

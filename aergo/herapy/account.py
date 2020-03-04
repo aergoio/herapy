@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import ecdsa
 import hashlib
 import json
 
@@ -8,6 +9,11 @@ from google.protobuf.json_format import (
     Parse
 )
 from cryptography.exceptions import InvalidTag
+from typing import (
+    Union,
+    Dict,
+    Optional
+)
 
 from .grpc import blockchain_pb2
 
@@ -35,7 +41,11 @@ class Account:
     """ Account can be a user account with private and public key,
     or a contract account.
     """
-    def __init__(self, private_key=None, empty=False):
+    def __init__(
+        self,
+        private_key: Union[str, bytes, None] = None,
+        empty: bool = False
+    ) -> None:
         if empty:
             self.__private_key = None
             self.__address = None
@@ -48,7 +58,11 @@ class Account:
         self.__state = None
         self.__state_proof = None
 
-    def json(self, password=None, with_private_key=False):
+    def json(
+        self,
+        password: Union[bytes, str, None] = None,
+        with_private_key: bool = False
+    ) -> Dict:
         state = self.state
         is_state_proof = False
         if self.__state_proof:
@@ -76,9 +90,13 @@ class Account:
         return account
 
     @staticmethod
-    def from_json(data, password=None):
+    def from_json(
+        data: Union[Dict, str],
+        password: Union[bytes, str, None] = None
+    ) -> 'Account':
         if isinstance(data, str):
-            data = json.loads(data)
+            data_dict: Dict = json.loads(data)
+            data = data_dict
 
         # handle private key or encrypted key
         priv_key = data.get('priv_key', None)
@@ -87,6 +105,8 @@ class Account:
             account = Account(private_key=priv_key)
         elif enc_key:
             enc_key = decode_private_key(enc_key)
+            if not password:
+                raise GeneralException("Must provide a password to decrypt")
             account = Account.decrypt_account(enc_key, password)
         else:
             account = Account(empty=True)
@@ -117,9 +137,13 @@ class Account:
         return account
 
     @staticmethod
-    def decrypt_from_keystore(keystore, password):
+    def decrypt_from_keystore(
+        keystore: Union[Dict, str],
+        password: str
+    ) -> 'Account':
         if isinstance(keystore, str):
-            keystore = json.loads(keystore)
+            keystore_dict: Dict = json.loads(keystore)
+            keystore = keystore_dict
         try:
             privkey_raw = decrypt_keystore_v1(keystore, password)
         except AssertionError as e:
@@ -127,7 +151,13 @@ class Account:
         return Account(private_key=privkey_raw)
 
     @staticmethod
-    def encrypt_to_keystore(account, password, kdf_n=2**18):
+    def encrypt_to_keystore(
+        account: 'Account',
+        password: str,
+        kdf_n: int = 2**18
+    ) -> Dict:
+        if not account.private_key:
+            raise GeneralException("Account must have a private key")
         try:
             keystore = encrypt_to_keystore_v1(
                 bytes(account.private_key),
@@ -138,21 +168,23 @@ class Account:
             raise GeneralException("Failed to encrypt keystore") from e
         return keystore
 
-    def __str__(self):
+    def __str__(self) -> str:
         return json.dumps(self.json(), indent=2)
 
-    def sign_msg_hash(self, msg_hash):
-        return self.__private_key.sign_msg(msg_hash)
+    def sign_msg_hash(self, msg_hash: bytes) -> Optional[bytes]:
+        return self.__private_key.sign_msg(msg_hash) if \
+            self.__private_key else None
 
-    def verify_sign(self, msg_hash, sign):
-        return self.__private_key.verify_sign(msg_hash, sign)
+    def verify_sign(self, msg_hash: bytes, sign: bytes) -> Optional[bool]:
+        return self.__private_key.verify_sign(msg_hash, sign) if \
+            self.__private_key else None
 
     @property
-    def private_key(self):
+    def private_key(self) -> Optional[pk.PrivateKey]:
         return self.__private_key
 
     @property
-    def public_key(self):
+    def public_key(self) -> Optional[ecdsa.ecdsa.Public_key]:
         if self.__private_key is not None:
             return self.__private_key.public_key
 
@@ -162,19 +194,19 @@ class Account:
         return None
 
     @property
-    def address(self):
+    def address(self) -> Optional[addr.Address]:
         return self.__address
 
     @address.setter
-    def address(self, v):
+    def address(self, v: Union[str, bytes]) -> None:
         if self.__address is not None:
             raise ValueError('not empty account')
 
         self.__address = addr.Address(None, empty=True)
-        self.__address.value = v
+        self.__address.value = v  # type: ignore
 
     @property
-    def state(self):
+    def state(self) -> Optional[str]:
         if self.__state is None:
             return None
         return MessageToJson(self.__state)
@@ -231,16 +263,24 @@ class Account:
         return self.__state.sqlRecoveryPoint
 
     @staticmethod
-    def encrypt_account(account, password):
+    def encrypt_account(
+        account: 'Account',
+        password: Union[str, bytes]
+    ) -> bytes:
         """
         https://cryptography.io/en/latest/hazmat/primitives/aead/
         :param account: account to export
         :return: encrypted account data (bytes)
         """
+        if not account.private_key:
+            raise GeneralException("Account must have a private key")
         return encrypt_bytes(bytes(account.private_key), password)
 
     @staticmethod
-    def decrypt_account(encrypted_bytes, password):
+    def decrypt_account(
+        encrypted_bytes: bytes,
+        password: Union[str, bytes]
+    ) -> 'Account':
         """
         https://cryptography.io/en/latest/hazmat/primitives/aead/
         :param encrypted_bytes: encrypted data (bytes) of account
@@ -255,7 +295,7 @@ class Account:
             ) from e
         return Account(private_key=dec_value)
 
-    def verify_proof(self, root):
+    def verify_proof(self, root: Union[str, bytes]) -> bool:
         """ verify that the given inclusion and exclusion proofs are
             correct
         """

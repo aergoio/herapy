@@ -37,7 +37,7 @@ class Address:
         pubkey: Union[str, bytes, ecdsa.ecdsa.Public_key],
         empty: bool = False,
         curve: ecdsa.curves.Curve = ecdsa.SECP256k1
-    ):
+    ) -> None:
         self.__address = None
         self.__curve = curve
         self.__empty = empty

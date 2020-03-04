@@ -7,13 +7,17 @@ from cryptography.hazmat.backends import default_backend
 import hashlib
 import os
 import copy
+from typing import (
+    Dict,
+    Union
+)
 
 from .converter import (
     privkey_to_address
 )
 
 
-KEYSTORE_V1 = {
+KEYSTORE_V1: Dict = {
     "aergo_address": "",
     "ks_version": "1",
     "cipher": {
@@ -37,7 +41,7 @@ KEYSTORE_V1 = {
 }
 
 
-def decrypt_keystore_v1(keystore, password):
+def decrypt_keystore_v1(keystore: Dict, password: str) -> bytes:
     # check version and algorithm names
     assert keystore['ks_version'] == \
         KEYSTORE_V1['ks_version'], "Invalid keystore version"
@@ -80,7 +84,12 @@ def decrypt_keystore_v1(keystore, password):
     return privkey_raw
 
 
-def encrypt_to_keystore_v1(privkey, address, password, kdf_n=2**18):
+def encrypt_to_keystore_v1(
+    privkey: bytes,
+    address: str,
+    password: str,
+    kdf_n: int = 2**18
+) -> Dict:
     assert address == \
         privkey_to_address(privkey), "address doesn't match privkey"
     backend = default_backend()
@@ -128,7 +137,7 @@ def derive_cipher_key(salt, l, n, r, p, backend, password):
     return kdf.derive(password.encode())
 
 
-def encrypt_bytes(data, password):
+def encrypt_bytes(data: bytes, password: Union[str, bytes]) -> bytes:
     """
     https://cryptography.io/en/latest/hazmat/primitives/aead/
     :param data: bytes to encrypt
@@ -153,7 +162,10 @@ def encrypt_bytes(data, password):
                           associated_data=b'')
 
 
-def decrypt_bytes(encrypted_bytes, password):
+def decrypt_bytes(
+    encrypted_bytes: bytes,
+    password: Union[str, bytes]
+) -> bytes:
     """
     https://cryptography.io/en/latest/hazmat/primitives/aead/
     :param encrypted_bytes: encrypted data (bytes)
