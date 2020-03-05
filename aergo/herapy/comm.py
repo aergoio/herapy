@@ -3,18 +3,23 @@
 """Communication(grpc) module."""
 
 import grpc
+from typing import (
+    Optional,
+    List
+)
 
 from .grpc import account_pb2, blockchain_pb2, rpc_pb2, rpc_pb2_grpc, raft_pb2
 from .utils.converter import convert_tx_to_grpc_tx
+from .obj.transaction import Transaction
 
 
 class Comm:
     def __init__(
         self,
-        target=None,
-        tls_ca_cert=None,
-        tls_cert=None,
-        tls_key=None
+        target: Optional[str] = None,
+        tls_ca_cert: Optional[bytes] = None,
+        tls_cert: Optional[bytes] = None,
+        tls_key: Optional[bytes] = None
     ):
         self.__target = target
         self.__tls_ca_cert = tls_ca_cert
@@ -41,13 +46,15 @@ class Comm:
         if self.__channel is not None:
             self.__channel.close()
 
-    def create_account(self, address, passphrase):
+    def create_account(self, address: bytes, passphrase: str):
+        if self.__rpc_stub is None:
+            return None
         account = account_pb2.Account(address=address)
         return self.__rpc_stub.CreateAccount(
             request=rpc_pb2.Personal(account=account, passphrase=passphrase)
         )
 
-    def get_account_state(self, address):
+    def get_account_state(self, address: bytes):
         if self.__rpc_stub is None:
             return None
 
@@ -57,9 +64,9 @@ class Comm:
 
     def get_account_state_proof(
         self,
-        address,
-        root,
-        compressed
+        address: bytes,
+        root: bytes,
+        compressed: bool
     ):
         if self.__rpc_stub is None:
             return None
@@ -80,7 +87,7 @@ class Comm:
 
         return self.__rpc_stub.GetConsensusInfo(rpc_pb2.Empty())
 
-    def get_node_info(self, keys):
+    def get_node_info(self, keys: Optional[str]):
         if self.__rpc_stub is None:
             return None
 
@@ -93,13 +100,13 @@ class Comm:
 
     def receive_event_stream(
         self,
-        sc_address,
-        event_name,
-        start_block_no,
-        end_block_no,
-        with_desc,
-        arg_filter,
-        recent_block_cnt
+        sc_address: bytes,
+        event_name: str,
+        start_block_no: int,
+        end_block_no: int,
+        with_desc: bool,
+        arg_filter: Optional[bytes],
+        recent_block_cnt: int
     ):
         if self.__rpc_stub is None:
             return None
@@ -118,13 +125,13 @@ class Comm:
 
     def get_events(
         self,
-        sc_address,
-        event_name,
-        start_block_no,
-        end_block_no,
-        with_desc,
-        arg_filter,
-        recent_block_cnt
+        sc_address: bytes,
+        event_name: str,
+        start_block_no: int,
+        end_block_no: int,
+        with_desc: bool,
+        arg_filter: Optional[bytes],
+        recent_block_cnt: int
     ):
         if self.__rpc_stub is None:
             return None
@@ -155,11 +162,11 @@ class Comm:
 
     def get_block_headers(
         self,
-        block_hash,
-        block_height,
-        list_size,
-        offset,
-        is_asc_order
+        block_hash: Optional[bytes],
+        block_height: int,
+        list_size: int,
+        offset: int,
+        is_asc_order: bool
     ):
         if self.__rpc_stub is None:
             return None
@@ -175,11 +182,11 @@ class Comm:
 
     def get_block_metas(
         self,
-        block_hash,
-        block_height,
-        list_size,
-        offset,
-        is_asc_order
+        block_hash: Optional[bytes],
+        block_height: int,
+        list_size: int,
+        offset: int,
+        is_asc_order: bool
     ):
         if self.__rpc_stub is None:
             return None
@@ -204,14 +211,14 @@ class Comm:
             return None
         return self.__rpc_stub.GetAccounts(rpc_pb2.Empty())
 
-    def get_block(self, query):
+    def get_block(self, query: bytes):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
         v.value = query
         return self.__rpc_stub.GetBlock(v)
 
-    def get_block_meta(self, query):
+    def get_block_meta(self, query: bytes):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
@@ -219,40 +226,56 @@ class Comm:
         return self.__rpc_stub.GetBlockMetadata(v)
 
     def get_peers(self):
+        if self.__rpc_stub is None:
+            return None
         return self.__rpc_stub.GetPeers(rpc_pb2.Empty())
 
-    def get_node_state(self, timeout):
+    def get_node_state(self, timeout: int):
+        if self.__rpc_stub is None:
+            return None
         single_bytes = rpc_pb2.SingleBytes()
         single_bytes.value = timeout.to_bytes(8, byteorder='little')
         return self.__rpc_stub.NodeState(single_bytes)
 
-    def get_tx(self, tx_hash):
+    def get_tx(self, tx_hash: bytes):
+        if self.__rpc_stub is None:
+            return None
         single_bytes = rpc_pb2.SingleBytes()
         single_bytes.value = tx_hash
         return self.__rpc_stub.GetTX(single_bytes)
 
-    def get_block_tx(self, tx_hash):
+    def get_block_tx(self, tx_hash: bytes):
+        if self.__rpc_stub is None:
+            return None
         single_bytes = rpc_pb2.SingleBytes()
         single_bytes.value = tx_hash
         return self.__rpc_stub.GetBlockTX(single_bytes)
 
-    def unlock_account(self, address, passphrase):
+    def unlock_account(self, address: bytes, passphrase: str):
+        if self.__rpc_stub is None:
+            return None
         account = account_pb2.Account(address=address)
         personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
         return self.__rpc_stub.UnlockAccount(request=personal)
 
-    def lock_account(self, address, passphrase):
+    def lock_account(self, address: bytes, passphrase: str):
+        if self.__rpc_stub is None:
+            return None
         account = account_pb2.Account(address=address)
         personal = rpc_pb2.Personal(passphrase=passphrase, account=account)
         return self.__rpc_stub.LockAccount(request=personal)
 
     # This RPC is for making and sending Tx inside a node.
     # Don't use it for sending TX which is made by a client.
-    def send_tx(self, unsigned_tx):
+    def send_tx(self, unsigned_tx: Transaction):
+        if self.__rpc_stub is None:
+            return None
         return self.__rpc_stub.SendTX(convert_tx_to_grpc_tx(unsigned_tx))
 
     # This RPC is for sending signed Txs made by a client.
-    def commit_txs(self, signed_txs):
+    def commit_txs(self, signed_txs: List[Transaction]):
+        if self.__rpc_stub is None:
+            return None
         rpc_txs = []
         for signed_tx in signed_txs:
             rpc_txs.append(convert_tx_to_grpc_tx(signed_tx))
@@ -260,33 +283,37 @@ class Comm:
         rpc_tx_list.txs.extend(rpc_txs)
         return self.__rpc_stub.CommitTX(rpc_tx_list)
 
-    def get_receipt(self, tx_hash):
+    def get_receipt(self, tx_hash: bytes):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
         v.value = tx_hash
         return self.__rpc_stub.GetReceipt(v)
 
-    def query_contract(self, sc_address, query_info):
+    def query_contract(self, sc_address: bytes, query_info: bytes):
         query = blockchain_pb2.Query()
+        if self.__rpc_stub is None:
+            return None
         query.contractAddress = sc_address
         query.queryinfo = query_info
         return self.__rpc_stub.QueryContract(query)
 
     def query_contract_state(
         self,
-        sc_address,
-        storage_keys,
-        root,
-        compressed
+        sc_address: bytes,
+        storage_keys: List[bytes],
+        root: bytes,
+        compressed: bool
     ):
+        if self.__rpc_stub is None:
+            return None
         state_query = blockchain_pb2.StateQuery(contractAddress=sc_address,
                                                 storageKeys=storage_keys,
                                                 root=root,
                                                 compressed=compressed)
         return self.__rpc_stub.QueryContractState(state_query)
 
-    def get_conf_change_progress(self, block_height):
+    def get_conf_change_progress(self, block_height: int):
         if self.__rpc_stub is None:
             return None
 
@@ -294,7 +321,7 @@ class Comm:
         v.value = block_height.to_bytes(8, byteorder='little')
         return self.__rpc_stub.GetConfChangeProgress(v)
 
-    def get_enterprise_config(self, key):
+    def get_enterprise_config(self, key: str):
         if self.__rpc_stub is None:
             return None
 
@@ -302,7 +329,7 @@ class Comm:
         v.key = key
         return self.__rpc_stub.GetEnterpriseConfig(v)
 
-    def get_name_info(self, name, block_height):
+    def get_name_info(self, name: str, block_height: int):
         if self.__rpc_stub is None:
             return None
 
@@ -311,7 +338,7 @@ class Comm:
         n.blockNo = block_height
         return self.__rpc_stub.GetNameInfo(n)
 
-    def get_abi(self, addr_bytes):
+    def get_abi(self, addr_bytes: bytes):
         if self.__rpc_stub is None:
             return None
         v = rpc_pb2.SingleBytes()
@@ -320,11 +347,11 @@ class Comm:
 
     def add_raft_member(
         self,
-        request_id,
-        member_id,
-        member_name,
-        member_address,
-        member_peer_id
+        request_id: int,
+        member_id: int,
+        member_name: str,
+        member_address: str,
+        member_peer_id: bytes
     ):
         if self.__rpc_stub is None:
             return None
@@ -340,11 +367,11 @@ class Comm:
 
     def del_raft_member(
         self,
-        request_id,
-        member_id,
-        member_name,
-        member_address,
-        member_peer_id
+        request_id: int,
+        member_id: int,
+        member_name: str,
+        member_address: str,
+        member_peer_id: bytes
     ):
         if self.__rpc_stub is None:
             return None
