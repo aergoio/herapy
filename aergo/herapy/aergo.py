@@ -92,14 +92,20 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if account is None and address is None:
             # self account
             ret_account = self.__account
-            req_address = bytes(self.__account.address)
+            if ret_account is None or ret_account.address is None:
+                raise GeneralException(
+                    "Current account is not set")
+            req_address = bytes(ret_account.address)
         elif account is not None:
             ret_account = account
+            if account.address is None:
+                raise GeneralException(
+                    "Provided account address is not set")
             req_address = bytes(account.address)
         else:
             if address is None:
@@ -205,7 +211,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             chain_info = self.__comm.get_chain_info()
@@ -224,7 +230,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             info = self.__comm.get_consensus_info()
@@ -239,7 +245,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             status = self.__comm.get_blockchain_status()
@@ -254,7 +260,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             stream = self.__comm.receive_block_meta_stream()
@@ -269,7 +275,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             stream = self.__comm.receive_block_stream()
@@ -297,7 +303,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_hash is None and block_height < 0:
             raise ValueError("Please insert a block hash or height")
@@ -330,7 +336,7 @@ class Aergo:
         recent_block_cnt=0
     ):
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
@@ -366,7 +372,7 @@ class Aergo:
         recent_block_cnt=0
     ):
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
@@ -418,7 +424,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_hash is None and block_height < 0:
             raise ValueError("Please insert a block hash or height")
@@ -453,12 +459,14 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_height >= 0:
             query = block_height.to_bytes(8, byteorder='little')
         else:
-            if type(block_hash) is not bh.BlockHash:
+            if block_hash is None:
+                raise ValueError("Please insert a block hash or height")
+            if not isinstance(block_hash, bh.BlockHash):
                 block_hash = bh.BlockHash(block_hash)
             query = block_hash.value
 
@@ -478,12 +486,14 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_height >= 0:
             query = block_height.to_bytes(8, byteorder='little')
         else:
-            if type(block_hash) is not bh.BlockHash:
+            if block_hash is None:
+                raise ValueError("Please insert a block hash or height")
+            if not isinstance(block_hash, bh.BlockHash):
                 block_hash = bh.BlockHash(block_hash)
             query = block_hash.value
 
@@ -503,6 +513,8 @@ class Aergo:
         Returns a list of all node accounts.
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
 
         try:
             result = self.__comm.get_accounts()
@@ -525,6 +537,9 @@ class Aergo:
         Returns a list of peers.
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
+
         try:
             result = self.__comm.get_peers()
         except Exception as e:
@@ -544,7 +559,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             info = self.__comm.get_node_info(keys)
@@ -558,6 +573,8 @@ class Aergo:
         Returns information about the node state.
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.get_node_state(timeout)
         except Exception as e:
@@ -577,6 +594,8 @@ class Aergo:
         :param tx_hash:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         if isinstance(tx_hash, str):
             tx_hash = decode_tx_hash(tx_hash)
         elif type(tx_hash) == TxHash:
@@ -640,6 +659,8 @@ class Aergo:
         :param passphrase:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.lock_account(address, passphrase)
         except Exception as e:
@@ -655,6 +676,8 @@ class Aergo:
         :param passphrase:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.unlock_account(address=address,
                                                 passphrase=passphrase)
@@ -673,6 +696,8 @@ class Aergo:
         payload=None,
         tx_type=TxType.NORMAL
     ):
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
         if to_address is not None:
             address = addr.Address(None, empty=True)
             address.value = to_address
@@ -711,7 +736,9 @@ class Aergo:
         gas_price=0
     ):
         if self.__comm is None:
-            return None, None
+            raise GeneralException("Must connect to network")
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
 
         if isinstance(to_address, str):
             # check address type
@@ -776,6 +803,8 @@ class Aergo:
         :param unsigned_tx:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.send_tx(unsigned_tx)
         except Exception as e:
@@ -790,6 +819,8 @@ class Aergo:
         :param signed_tx:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         signed_txs, results = self.batch_tx(signed_txs=[signed_tx])
         return signed_txs[0], results[0]
 
@@ -800,6 +831,10 @@ class Aergo:
         :param signed_txs:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
         try:
             result_list = self.__comm.commit_txs(signed_txs)
         except Exception as e:
@@ -881,6 +916,8 @@ class Aergo:
     ):
         if account is None:
             account = self.__account
+        if account is None:
+            raise GeneralException("Current account is not set")
 
         enc_acc = acc.Account.encrypt_account(account, password)
         return encode_private_key(enc_acc)
@@ -893,6 +930,8 @@ class Aergo:
     ):
         if account is None:
             account = self.__account
+        if account is None:
+            raise GeneralException("Current account is not set")
 
         keystore = acc.Account.encrypt_to_keystore(account, password, kdf_n)
         return keystore
@@ -910,7 +949,7 @@ class Aergo:
 
     def get_tx_result(self, tx_hash):
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if isinstance(tx_hash, str):
             tx_hash = decode_tx_hash(tx_hash)
@@ -933,7 +972,7 @@ class Aergo:
         tempo=0.2
     ):
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
         if isinstance(tx_hash, str):
             tx_hash = decode_tx_hash(tx_hash)
         elif type(tx_hash) is th.TxHash:
@@ -947,7 +986,7 @@ class Aergo:
                         or e.error_details[:12] != "tx not found"):
                     raise e
             time.sleep(tempo)
-        return None
+        raise GeneralException("Transaction result not found")
 
     def deploy_sc(
         self,
@@ -1017,6 +1056,8 @@ class Aergo:
         payload = json.dumps(call_info, separators=(',', ':')).encode('utf-8')
 
         if nonce is None:
+            if self.__account is None:
+                raise GeneralException("Current account is not set")
             nonce = self.__account.nonce + 1
 
         return self.generate_tx(to_address=sc_address,
@@ -1048,6 +1089,8 @@ class Aergo:
         func_name,
         args=None
     ):
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = addr.Address.decode(sc_address)
@@ -1075,6 +1118,8 @@ class Aergo:
         """ query_sc_state returns a SCState object containing the contract
         state and variable state with their respective merkle proofs.
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = addr.Address.decode(sc_address)
@@ -1118,7 +1163,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             status = self.__comm.get_conf_change_progress(block_height)
@@ -1145,7 +1190,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_height < 0:
             # set current block height
@@ -1161,7 +1206,7 @@ class Aergo:
     def get_abi(self, contract_addr=None, addr_bytes=None):
         """ Returns the abi of given contract address. """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
         if contract_addr is not None:
             addr_bytes = decode_address(contract_addr)
         try:
@@ -1175,3 +1220,6 @@ class Aergo:
             return account.address
 
         return self.account.address
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
+        return self.__account.address
