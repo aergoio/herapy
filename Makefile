@@ -85,6 +85,10 @@ dist: clean ## builds source and wheel package
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
+# Updating requirements.txt and requirements_dev.txt:
+# pipenv lock -r > requirements.txt
+# pipenv lock --dev -r > requirements_dev.txt
+
 uninstall: ## uninstall the package in the active Python's site-packages
 	pip uninstall aergo-herapy -y
 
