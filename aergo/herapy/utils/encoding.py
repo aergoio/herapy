@@ -111,7 +111,7 @@ def encode_tx_hash(tx_hash: Optional[bytes]) -> Optional[str]:
     return encode_b58(tx_hash)
 
 
-def decode_tx_hash(tx_hash):
+def decode_tx_hash(tx_hash: Union[str, bytes, None]) -> Optional[bytes]:
     if is_empty(tx_hash):
         return None
     return decode_b58(tx_hash)
