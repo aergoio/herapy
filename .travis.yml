@@ -18,6 +18,8 @@ before_script:
 
 script:
   - pytest --cov-report=html --cov=aergo/ tests/
+  - mypy -p aergo -p tests
+  - flake8 --exclude=*_pb2_grpc.py,*_pb2.py,aergo_conf.py --ignore=E722,W503 --per-file-ignores="__init__.py:F401" aergo tests
 
 after_script:
   - docker-compose -f ./local_test_nodes/docker-compose.yml down

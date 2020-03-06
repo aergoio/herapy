@@ -17,7 +17,6 @@ from typing import (
 from . import account as acc
 from . import comm
 
-from .obj import transaction
 from .obj import address as addr
 from .obj import block_hash as bh
 from .obj import peer as pr
