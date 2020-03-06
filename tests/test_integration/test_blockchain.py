@@ -62,6 +62,8 @@ def test_blockchain(aergo) -> None:
     for i, b in enumerate(block_metas):
         print('[{}] block: {}'
               .format(i, json.dumps(b.json(header_only=True), indent=2)))
+    block_meta = aergo.get_block_meta(block_height=1)
+    print("Block meta: ", block_meta)
 
     print("------ Get Block Status -----------")
     block = aergo.get_block(best_block_hash)
