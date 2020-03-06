@@ -25,7 +25,7 @@ from .encoding import (
 )
 
 
-def convert_toml_to_aergo_conf(v):
+def convert_toml_to_aergo_conf(v: str) -> AergoConfig:
     aergo_conf = AergoConfig()
 
     conf = toml.loads(v)
@@ -39,7 +39,7 @@ def convert_toml_to_aergo_conf(v):
     return aergo_conf
 
 
-def convert_aergo_conf_to_toml(aergo_conf):
+def convert_aergo_conf_to_toml(aergo_conf: AergoConfig) -> str:
     return toml.dumps(aergo_conf.conf)
 
 

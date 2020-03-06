@@ -125,7 +125,15 @@ def encrypt_to_keystore_v1(
     return keystore
 
 
-def derive_cipher_key(salt, l, n, r, p, backend, password):
+def derive_cipher_key(
+    salt: bytes,
+    l: int,
+    n: int,
+    r: int,
+    p: int,
+    backend,
+    password: str
+) -> bytes:
     kdf = Scrypt(
         salt=salt,
         length=l,
