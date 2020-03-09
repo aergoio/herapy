@@ -107,7 +107,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if account is None and address is None:
             # self account
@@ -233,7 +233,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             chain_info = self.__comm.get_chain_info()
@@ -252,7 +252,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             info = self.__comm.get_consensus_info()
@@ -267,7 +267,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             status = self.__comm.get_blockchain_status()
@@ -282,7 +282,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             stream = self.__comm.receive_block_meta_stream()
@@ -297,7 +297,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             stream = self.__comm.receive_block_stream()
@@ -325,7 +325,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if block_hash is None and block_height < 0:
             raise ValueError("Please insert a block hash or height")
@@ -358,7 +358,7 @@ class Aergo:
         recent_block_cnt: int = 0
     ) -> EventStream:
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
@@ -395,7 +395,7 @@ class Aergo:
         recent_block_cnt: int = 0
     ) -> List[Event]:
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
@@ -454,7 +454,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if block_hash is None and block_height < 0:
             raise ValueError("Please insert a block hash or height")
@@ -493,7 +493,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if block_height >= 0:
             query = block_height.to_bytes(8, byteorder='little')
@@ -524,7 +524,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if block_height >= 0:
             query = block_height.to_bytes(8, byteorder='little')
@@ -555,7 +555,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             result = self.__comm.get_accounts()
@@ -579,7 +579,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             result = self.__comm.get_peers()
@@ -600,7 +600,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             info = self.__comm.get_node_info(keys)
@@ -615,7 +615,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         try:
             result = self.__comm.get_node_state(timeout)
         except Exception as e:
@@ -636,7 +636,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         if isinstance(tx_hash, str):
             tx_hash_bytes = decode_tx_hash(tx_hash)
             assert tx_hash_bytes
@@ -704,7 +704,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         try:
             result = self.__comm.lock_account(address, passphrase)
         except Exception as e:
@@ -721,7 +721,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         try:
             result = self.__comm.unlock_account(address=address,
                                                 passphrase=passphrase)
@@ -780,7 +780,7 @@ class Aergo:
         gas_price: int = 0
     ) -> Tuple[Transaction, TxResult]:
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         if self.__account is None:
             raise GeneralException("Current account is not set")
 
@@ -851,7 +851,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         try:
             result = self.__comm.send_tx(unsigned_tx)
         except Exception as e:
@@ -867,7 +867,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         signed_txs, results = self.batch_tx(signed_txs=[signed_tx])
         return signed_txs[0], results[0]
 
@@ -882,7 +882,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         if self.__account is None:
             raise GeneralException("Current account is not set")
         try:
@@ -1006,7 +1006,7 @@ class Aergo:
         tx_hash: Union[str, th.TxHash, bytes]
     ) -> TxResult:
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if isinstance(tx_hash, str):
             tx_hash_bytes = decode_tx_hash(tx_hash)
@@ -1031,7 +1031,7 @@ class Aergo:
         tempo: float = 0.2
     ) -> TxResult:
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         if isinstance(tx_hash, str):
             tx_hash_bytes = decode_tx_hash(tx_hash)
             assert tx_hash_bytes
@@ -1157,7 +1157,7 @@ class Aergo:
         args: Optional[Any] = None
     ):
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = addr.Address.decode(sc_address)
@@ -1186,7 +1186,7 @@ class Aergo:
         state and variable state with their respective merkle proofs.
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = addr.Address.decode(sc_address)
@@ -1230,7 +1230,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             status = self.__comm.get_conf_change_progress(block_height)
@@ -1241,7 +1241,7 @@ class Aergo:
 
     def get_enterprise_config(self, key: str) -> EnterpriseConfig:
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         try:
             conf = self.__comm.get_enterprise_config(key)
@@ -1257,7 +1257,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
 
         if block_height < 0:
             # set current block height
@@ -1273,7 +1273,7 @@ class Aergo:
     def get_abi(self, contract_addr: str = None, addr_bytes: bytes = None):
         """ Returns the abi of given contract address. """
         if self.__comm is None:
-            raise GeneralException("Must connect to network")
+            raise CommunicationException("Node connection not initialized")
         if contract_addr is not None:
             addr_bytes = decode_address(contract_addr)
         assert addr_bytes
