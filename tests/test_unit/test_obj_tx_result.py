@@ -1,10 +1,11 @@
+from typing import Dict
 from aergo.herapy.obj.tx_result import TxResult, TxResultType,\
     TxResultStatus, CommitStatus
 from aergo.herapy.grpc import rpc_pb2, blockchain_pb2
 from aergo.herapy.utils.encoding import encode_tx_hash
 
 
-def test_grpc_receipt():
+def test_grpc_receipt() -> None:
     grpc_result1 = blockchain_pb2.Receipt()
     all_fields = grpc_result1.DESCRIPTOR.fields_by_name
     for key in all_fields.keys():
@@ -13,7 +14,7 @@ def test_grpc_receipt():
 
     assert len(all_fields.keys()) == 15
 
-    receipt = {
+    receipt: Dict = {
         'contractAddress': b'contract_address',
         'status': 'CREATED',
         'ret': 'result_ret',
@@ -48,7 +49,7 @@ def test_grpc_receipt():
     assert tx_result2.status == TxResultStatus.CREATED
     assert tx_result2.detail == receipt['ret']
     assert tx_result2.contract_address == \
-        str(receipt['contractAddress'], 'UTF-8')
+        receipt['contractAddress'].decode('utf-8')
 
     grpc_result3 = blockchain_pb2.Receipt()
     grpc_result3.contractAddress = b'contract_address'
@@ -136,7 +137,7 @@ def test_grpc_receipt():
     assert tx_result3.detail == grpc_result3.ret
 
 
-def test_grpc_commit_result():
+def test_grpc_commit_result() -> None:
     grpc_result = rpc_pb2.CommitResult()
     all_fields = grpc_result.DESCRIPTOR.fields_by_name
     '''

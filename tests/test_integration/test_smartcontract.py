@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_sc(aergo):
+def test_sc(aergo) -> None:
     print("------ Payload -----------")
     """
         -- Define global variables.

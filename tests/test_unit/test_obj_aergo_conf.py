@@ -1,5 +1,6 @@
 # flake8: noqa
 import pytest
+from typing import Dict
 
 import aergo.herapy as herapy
 
@@ -75,7 +76,7 @@ enablelocalconf = false
 """
 
 
-def test_default():
+def test_default() -> None:
     aergo_conf = herapy.AergoConfig()
     generate_toml = herapy.utils.convert_aergo_conf_to_toml(aergo_conf)
     # print(generate_toml)
@@ -133,7 +134,7 @@ blockinterval = 3
 """
 
 
-def test_success():
+def test_success() -> None:
     aergo_conf = herapy.utils.convert_toml_to_aergo_conf(TEST_AERGO_CONFIG)
     with pytest.raises(KeyError):
         aergo_conf.add_conf("test", "test")
@@ -167,17 +168,18 @@ def test_success():
     # check rest config
     # assert aergo_conf.rest_restport == 8080
     # check p2p config
+    default_conf: Dict = herapy.AERGO_DEFAULT_CONF
     assert aergo_conf.p2p_netprotocoladdr != \
-        herapy.AERGO_DEFAULT_CONF['p2p']['netprotocoladdr']
+        default_conf['p2p']['netprotocoladdr']
     assert aergo_conf.p2p_netprotocoladdr == "127.0.0.1"
     assert aergo_conf.p2p['netprotocoladdr'] == aergo_conf.p2p_netprotocoladdr
     assert aergo_conf.p2p_netprotocolport == 7846
     assert aergo_conf.p2p['netprotocolport'] == aergo_conf.p2p_netprotocolport
     assert aergo_conf.p2p_npbindaddr == \
-        herapy.AERGO_DEFAULT_CONF['p2p']['npbindaddr']
+        default_conf['p2p']['npbindaddr']
     assert aergo_conf.p2p['npbindaddr'] == aergo_conf.p2p_npbindaddr
     assert aergo_conf.p2p_npbindport == \
-        herapy.AERGO_DEFAULT_CONF['p2p']['npbindport']
+        default_conf['p2p']['npbindport']
     assert aergo_conf.p2p['npbindport'] == aergo_conf.p2p_npbindport
     assert aergo_conf.p2p_nptls is False
     assert aergo_conf.p2p['nptls'] == aergo_conf.p2p_nptls
@@ -194,17 +196,17 @@ def test_success():
     # check blockchain config
     assert aergo_conf.blockchain_maxblocksize == 1048576
     assert aergo_conf.blockchain_coinbaseaccount == \
-        herapy.AERGO_DEFAULT_CONF['blockchain']['coinbaseaccount']
+        default_conf['blockchain']['coinbaseaccount']
     assert aergo_conf.blockchain_maxanchorcount == \
-        herapy.AERGO_DEFAULT_CONF['blockchain']['maxanchorcount']
+        default_conf['blockchain']['maxanchorcount']
     # assert aergo_conf.blockchain_usefastsyncer is
     # herapy.AERGO_DEFAULT_CONF['blockchain']['usefastsyncer']
     assert aergo_conf.blockchain_forceresetheight == \
-        herapy.AERGO_DEFAULT_CONF['blockchain']['forceresetheight']
+        default_conf['blockchain']['forceresetheight']
     # check mempool config
     assert aergo_conf.mempool_showmetrics is False
     with pytest.raises(KeyError):
-        herapy.AERGO_DEFAULT_CONF['mempool']['verifiers']
+        default_conf['mempool']['verifiers']
     with pytest.raises(KeyError):
         aergo_conf.mempool_verifiers
     assert aergo_conf.mempool_dumpfilepath == \
@@ -215,15 +217,15 @@ def test_success():
     assert aergo_conf.consensus_blockinterval == 3
     # check monitor config
     assert aergo_conf.monitor_protocol == \
-        herapy.AERGO_DEFAULT_CONF['monitor']['protocol']
+        default_conf['monitor']['protocol']
     assert aergo_conf.monitor_endpoint == \
-        herapy.AERGO_DEFAULT_CONF['monitor']['endpoint']
+        default_conf['monitor']['endpoint']
     # check account config
     assert aergo_conf.account_unlocktimeout == \
-        herapy.AERGO_DEFAULT_CONF['account']['unlocktimeout']
+        default_conf['account']['unlocktimeout']
 
 
-def test_fail():
+def test_fail() -> None:
     aergo_conf = herapy.AergoConfig()
     # check datadir type
     aergo_conf.datadir = 'str'

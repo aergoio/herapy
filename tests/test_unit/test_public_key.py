@@ -7,7 +7,7 @@ from aergo.herapy.utils.encoding import encode_address, decode_address
 from aergo.herapy.utils.converter import convert_public_key_to_bytes
 
 
-def test_compare_pubkey():
+def test_compare_pubkey() -> None:
     private_key = "6i2n6TAtsKBaWSujYFzqkBCiP834j1u3nwmffZb8dxCxDcQaXAb"
     address = "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
 
@@ -40,13 +40,14 @@ def test_compare_pubkey():
     assert address == encode_address(pk_pubkey_c_str)
 
     addr = Address(None, empty=True)
-    addr.value = address
+    addr.value = address  # type: ignore
     addr_pubkey = addr.public_key
     addr_pubkey_str = convert_public_key_to_bytes(addr.public_key,
                                                   compressed=False)
     addr_pubkey_c_str = convert_public_key_to_bytes(addr.public_key,
                                                     compressed=True)
 
+    assert pubkey and addr_pubkey
     assert pubkey.point == addr_pubkey.point
     assert pubkey_str == addr_pubkey_str
     assert address == encode_address(addr_pubkey_c_str)

@@ -2,7 +2,7 @@ import pytest
 import aergo.herapy as herapy
 
 
-def test_account_exp_imp(aergo):
+def test_account_exp_imp(aergo) -> None:
 
     aergo.new_account()
     new_exp_txt = aergo.export_account(password="1234")

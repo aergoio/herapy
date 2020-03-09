@@ -1,3 +1,4 @@
+from typing import Dict
 import aergo.herapy as herapy
 from aergo.herapy.account import Account
 from aergo.herapy.utils.encryption import (
@@ -9,7 +10,7 @@ from aergo.herapy.utils.converter import (
 )
 
 
-keystore = {
+keystore: Dict = {
     "kdf": {
         "algorithm": "scrypt",
         "mac":
@@ -37,31 +38,36 @@ keystore = {
 }
 
 
-def test_account_keystore_v1():
+def test_account_keystore_v1() -> None:
     # create new account
     account1 = Account()
+    assert account1.private_key
     privkey1 = bytes(account1.private_key)
+    assert account1.address
     addr1 = bytes(account1.address)
     # encrypt to keystore
     keystore = Account.encrypt_to_keystore(account1, 'password', kdf_n=2**10)
     # decrypt keystore
     account2 = Account.decrypt_from_keystore(keystore, 'password')
+    assert account2.private_key
     privkey2 = bytes(account2.private_key)
+    assert account2.address
     addr2 = bytes(account2.address)
     # check the decrypted account is same with original one
     assert privkey1 == privkey2
     assert addr1 == addr2
 
 
-def test_decrypt_keystore_v1():
+def test_decrypt_keystore_v1() -> None:
     # check decrypted address matched the keystore address
     privkey_raw = decrypt_keystore_v1(keystore, 'password')
     address = privkey_to_address(privkey_raw)
     assert address == keystore['aergo_address']
 
 
-def test_encrypt_keystore_v1():
+def test_encrypt_keystore_v1() -> None:
     account = Account()
+    assert account.private_key
     privkey = bytes(account.private_key)
     address = str(account.address)
     new_keystore = encrypt_to_keystore_v1(
@@ -74,7 +80,7 @@ def test_encrypt_keystore_v1():
     assert keystore['kdf']['algorithm'] == new_keystore['kdf']['algorithm']
 
 
-def test_aergo_import_export_account():
+def test_aergo_import_export_account() -> None:
     hera = herapy.Aergo()
     account = hera.import_account_from_keystore(
         keystore, 'password', skip_state=True)

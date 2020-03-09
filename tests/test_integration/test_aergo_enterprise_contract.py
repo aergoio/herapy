@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_aergo_enterprise_contract():
+def test_aergo_enterprise_contract() -> None:
     SC_ADDRESS = herapy.GovernanceTxAddress.ENTERPRISE
     """
     const SetConf = "setConf"
@@ -22,6 +22,7 @@ def test_aergo_enterprise_contract():
     sender_private_key = "6hbRWgddqcg2ZHE5NipM1xgwBDAKqLnCKhGvADWrWE18xAbX8sW"
     sender_account = aergo.new_account(private_key=sender_private_key)
     print("  > Admin Address: {}".format(sender_account.address))
+    assert sender_account.address
     print(herapy.utils.convert_bytes_to_int_str(bytes(sender_account.address)))
 
     aergo.get_account()

@@ -4,7 +4,7 @@ import aergo.herapy as herapy
 from aergo.herapy.obj.sc_state import SCStateVar
 
 
-def test_sc_query(aergo):
+def test_sc_query(aergo) -> None:
     print("------ Payload -----------")
     """
         -- Define global variables.

@@ -2,6 +2,10 @@
 
 import ecdsa
 import enum
+from typing import (
+    Union,
+    Optional
+)
 
 from ..utils.encoding import encode_address, decode_address
 from ..utils.converter import convert_bytes_to_public_key, \
@@ -18,7 +22,7 @@ class GovernanceTxAddress(enum.Enum):
     ENTERPRISE = "aergo.enterprise"
 
 
-def check_name_address(addr):
+def check_name_address(addr: str) -> int:
     if len(addr) <= MAX_NAME_ADDRESS_LEN:
         return 1
     elif addr in set(e.value for e in GovernanceTxAddress):
@@ -28,7 +32,12 @@ def check_name_address(addr):
 
 
 class Address:
-    def __init__(self, pubkey, empty=False, curve=ecdsa.SECP256k1):
+    def __init__(
+        self,
+        pubkey: Union[str, bytes, ecdsa.ecdsa.Public_key],
+        empty: bool = False,
+        curve: ecdsa.curves.Curve = ecdsa.SECP256k1
+    ) -> None:
         self.__address = None
         self.__curve = curve
         self.__empty = empty
@@ -44,22 +53,23 @@ class Address:
         elif isinstance(pubkey, bytes):
             pubkey = convert_bytes_to_public_key(pubkey, curve=curve)
 
-        self.__address = convert_public_key_to_bytes(pubkey=pubkey,
-                                                     curve=curve,
-                                                     compressed=True)
+        self.__address = convert_public_key_to_bytes(
+            pubkey=pubkey, curve=curve, compressed=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.encode(self.__address)
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
+        if self.__address is None:
+            return b''
         return self.__address
 
     @property
-    def value(self):
+    def value(self) -> Optional[bytes]:
         return self.__address
 
     @value.setter
-    def value(self, v):
+    def value(self, v: Union[str, bytes]) -> None:
         if self.__empty:
             if isinstance(v, str):
                 self.__address = self.decode(v)
@@ -69,15 +79,16 @@ class Address:
             raise ValueError('Cannot set a value for the derived address')
 
     @property
-    def curve(self):
+    def curve(self) -> ecdsa.curves.Curve:
         return self.__curve
 
     @property
-    def public_key(self):
-        return convert_bytes_to_public_key(self.__address, curve=self.__curve)
+    def public_key(self) -> Optional[ecdsa.ecdsa.Public_key]:
+        return None if self.__address is None else \
+            convert_bytes_to_public_key(self.__address, curve=self.__curve)
 
     @staticmethod
-    def encode(addr):
+    def encode(addr: Optional[bytes]) -> str:
         try:
             if addr is None or 0 == len(addr):
                 return ''
@@ -85,11 +96,11 @@ class Address:
                 return str(addr, 'UTF-8')
         except:
             pass
-
+        assert addr
         return encode_address(addr)
 
     @staticmethod
-    def decode(addr):
+    def decode(addr: Optional[str]) -> bytes:
         try:
             if addr is None or 0 == len(addr):
                 return b''
@@ -98,4 +109,5 @@ class Address:
         except:
             pass
 
+        assert addr
         return decode_address(addr)

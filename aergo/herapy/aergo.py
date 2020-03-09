@@ -5,11 +5,18 @@
 import hashlib
 import json
 import time
+from typing import (
+    Optional,
+    Union,
+    List,
+    Dict,
+    Tuple,
+    Any
+)
 
 from . import account as acc
 from . import comm
 
-from .obj import transaction
 from .obj import address as addr
 from .obj import block_hash as bh
 from .obj import peer as pr
@@ -25,7 +32,10 @@ from .obj.event import Event
 from .obj.event_stream import EventStream
 from .obj.name_info import NameInfo
 from .obj.node_info import NodeInfo
-from .obj.sc_state import SCState, SCStateVar
+from .obj.sc_state import (
+    SCState,
+    SCStateVar
+)
 from .obj.transaction import Transaction, TxType
 from .obj.tx_hash import TxHash
 from .obj.tx_result import TxResult
@@ -38,21 +48,26 @@ from .errors.general_exception import GeneralException
 
 from .status.commit_status import CommitStatus
 
-from .utils.encoding import decode_address, \
-    encode_private_key, decode_private_key, decode_root, \
-    encode_tx_hash, decode_tx_hash
+from .utils.encoding import (
+    decode_address,
+    encode_private_key,
+    decode_private_key,
+    decode_root,
+    encode_tx_hash,
+    decode_tx_hash
+)
 
 
 class Aergo:
     """
     Main class for `herapy <http://github.com/aergoio/herapy>`_
     """
-    def __init__(self):
-        self.__account = None
-        self.__comm = None
+    def __init__(self) -> None:
+        self.__account: Optional[acc.Account] = None
+        self.__comm: Optional[comm.Comm] = None
 
     @property
-    def account(self):
+    def account(self) -> Optional[acc.Account]:
         """
         Returns the account object.
         :return:
@@ -60,14 +75,14 @@ class Aergo:
         return self.__account
 
     @account.setter
-    def account(self, a):
+    def account(self, a: acc.Account) -> None:
         self.__account = a
 
     def new_account(
         self,
-        private_key=None,
-        skip_state=False
-    ):
+        private_key: Union[str, bytes, None] = None,
+        skip_state: bool = False
+    ) -> acc.Account:
         self.__account = acc.Account(private_key=private_key)
         if not skip_state:
             self.get_account()
@@ -77,12 +92,12 @@ class Aergo:
     #       or how about returning account and change method name
     def get_account(
         self,
-        account=None,
-        address=None,
-        proof=False,
-        root=b'',
-        compressed=True
-    ):
+        account: Optional[acc.Account] = None,
+        address: Union[str, bytes, addr.Address, None] = None,
+        proof: bool = False,
+        root: bytes = b'',
+        compressed: bool = True
+    ) -> acc.Account:
         """
         Return account information
         :param address:
@@ -92,14 +107,20 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if account is None and address is None:
             # self account
             ret_account = self.__account
-            req_address = bytes(self.__account.address)
+            if ret_account is None or ret_account.address is None:
+                raise GeneralException(
+                    "Current account is not set")
+            req_address = bytes(ret_account.address)
         elif account is not None:
             ret_account = account
+            if account.address is None:
+                raise GeneralException(
+                    "Provided account address is not set")
             req_address = bytes(account.address)
         else:
             if address is None:
@@ -111,11 +132,11 @@ class Aergo:
                 ret_account = acc.Account(empty=True)
                 if isinstance(address, str):
                     req_address = addr.Address.decode(address)
-                elif type(address) is addr.Address:
+                elif isinstance(address, addr.Address):
                     req_address = bytes(address)
                 else:
                     req_address = address
-                ret_account.address = req_address
+                ret_account.address = req_address  # type: ignore
 
         if proof:
             if isinstance(root, str) and len(root) != 0:
@@ -142,11 +163,11 @@ class Aergo:
 
     def connect(
         self,
-        target,
-        tls_ca_cert=None,
-        tls_cert=None,
-        tls_key=None
-    ):
+        target: str,
+        tls_ca_cert: Optional[str] = None,
+        tls_cert: Optional[str] = None,
+        tls_key: Optional[str] = None
+    ) -> None:
         """
         Connect to the gRPC server running on port `target` e.g.
         target="localhost:7845".
@@ -159,26 +180,30 @@ class Aergo:
         if target is None:
             raise ValueError('need target value')
 
+        tls_ca_cert_bytes: Optional[bytes] = None
+        tls_cert_bytes: Optional[bytes] = None
+        tls_key_bytes: Optional[bytes] = None
         if tls_ca_cert is not None:
             try:
                 with open(tls_ca_cert, 'rb') as f:
-                    tls_ca_cert = f.read()
+                    tls_ca_cert_bytes = f.read()
             except:
                 pass
         if tls_cert is not None:
             try:
                 with open(tls_cert, 'rb') as f:
-                    tls_cert = f.read()
+                    tls_cert_bytes = f.read()
             except:
                 pass
         if tls_key is not None:
             try:
                 with open(tls_key, 'rb') as f:
-                    tls_key = f.read()
+                    tls_key_bytes = f.read()
             except:
                 pass
 
-        self.__comm = comm.Comm(target, tls_ca_cert, tls_cert, tls_key)
+        self.__comm = comm.Comm(
+            target, tls_ca_cert_bytes, tls_cert_bytes, tls_key_bytes)
         try:
             self.__comm.connect()
         except Exception as e:
@@ -189,7 +214,7 @@ class Aergo:
             raise CommunicationException(e) from e
         self.chain_id = status.best_chain_id_hash
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         """
         Disconnect from the gRPC server.
         """
@@ -199,13 +224,16 @@ class Aergo:
             except Exception as e:
                 raise CommunicationException(e) from e
 
-    def get_chain_info(self, with_consensus_info=True):
+    def get_chain_info(
+        self,
+        with_consensus_info: bool = True
+    ) -> BlockchainInfo:
         """
         Returns the blockchain info
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             chain_info = self.__comm.get_chain_info()
@@ -218,13 +246,13 @@ class Aergo:
 
         return BlockchainInfo(chain_info, consensus_info)
 
-    def get_consensus_info(self):
+    def get_consensus_info(self) -> ConsensusInfo:
         """
         Returns the consensus information
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             info = self.__comm.get_consensus_info()
@@ -233,13 +261,13 @@ class Aergo:
 
         return ConsensusInfo(info)
 
-    def get_status(self):
+    def get_status(self) -> BlockchainStatus:
         """
         Returns the blockchain status
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             status = self.__comm.get_blockchain_status()
@@ -248,13 +276,13 @@ class Aergo:
 
         return BlockchainStatus(status)
 
-    def receive_block_meta_stream(self):
+    def receive_block_meta_stream(self) -> BlockStream:
         """
         Returns the iterable block stream
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             stream = self.__comm.receive_block_meta_stream()
@@ -263,13 +291,13 @@ class Aergo:
 
         return BlockStream(stream)
 
-    def receive_block_stream(self):
+    def receive_block_stream(self) -> BlockStream:
         """
         Returns the iterable block stream
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             stream = self.__comm.receive_block_stream()
@@ -280,12 +308,12 @@ class Aergo:
 
     def get_block_metas(
         self,
-        block_hash=None,
-        block_height=-1,
-        list_size=20,
-        offset=0,
-        is_asc_order=False
-    ):
+        block_hash: Optional[bytes] = None,
+        block_height: int = -1,
+        list_size: int = 20,
+        offset: int = 0,
+        is_asc_order: bool = False
+    ) -> List[Block]:
         """
         Returns the list of metadata of queried blocks.
         :param block_hash:
@@ -297,7 +325,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_hash is None and block_height < 0:
             raise ValueError("Please insert a block hash or height")
@@ -321,16 +349,16 @@ class Aergo:
 
     def receive_event_stream(
         self,
-        sc_address,
-        event_name,
-        start_block_no=0,
-        end_block_no=0,
-        with_desc=False,
-        arg_filter=None,
-        recent_block_cnt=0
-    ):
+        sc_address: Union[str, bytes, TxHash],
+        event_name: str,
+        start_block_no: int = 0,
+        end_block_no: int = 0,
+        with_desc: bool = False,
+        arg_filter: Optional[Union[str, Dict, List, Tuple]] = None,
+        recent_block_cnt: int = 0
+    ) -> EventStream:
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
@@ -338,16 +366,17 @@ class Aergo:
         elif isinstance(sc_address, TxHash):
             sc_address = bytes(sc_address)
 
+        arg_filter_bytes: Optional[bytes] = None
         if arg_filter:
             if isinstance(arg_filter, (dict, list, tuple)):
                 arg_filter = json.dumps(arg_filter)
-            arg_filter = arg_filter.encode('utf-8')
+            arg_filter_bytes = arg_filter.encode('utf-8')
 
         try:
             es = self.__comm.receive_event_stream(
                 sc_address=sc_address, event_name=event_name,
                 start_block_no=start_block_no, end_block_no=end_block_no,
-                with_desc=with_desc, arg_filter=arg_filter,
+                with_desc=with_desc, arg_filter=arg_filter_bytes,
                 recent_block_cnt=recent_block_cnt
             )
         except Exception as e:
@@ -357,16 +386,16 @@ class Aergo:
 
     def get_events(
         self,
-        sc_address,
-        event_name,
-        start_block_no=-1,
-        end_block_no=-1,
-        with_desc=False,
-        arg_filter=None,
-        recent_block_cnt=0
-    ):
+        sc_address: Union[bytes, str, TxHash],
+        event_name: str,
+        start_block_no: int = -1,
+        end_block_no: int = -1,
+        with_desc: bool = False,
+        arg_filter: Optional[Union[str, Dict, List, Tuple]] = None,
+        recent_block_cnt: int = 0
+    ) -> List[Event]:
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
@@ -374,10 +403,11 @@ class Aergo:
         elif isinstance(sc_address, TxHash):
             sc_address = bytes(sc_address)
 
+        arg_filter_bytes: Optional[bytes] = None
         if arg_filter:
             if isinstance(arg_filter, (dict, list, tuple)):
                 arg_filter = json.dumps(arg_filter)
-            arg_filter = arg_filter.encode('utf-8')
+            arg_filter_bytes = arg_filter.encode('utf-8')
 
         # max range = 10000
         if start_block_no < 0 and end_block_no < 0:
@@ -395,7 +425,7 @@ class Aergo:
                                             start_block_no=start_block_no,
                                             end_block_no=end_block_no,
                                             with_desc=with_desc,
-                                            arg_filter=arg_filter,
+                                            arg_filter=arg_filter_bytes,
                                             recent_block_cnt=recent_block_cnt)
             event_list = []
             for e in result.events:
@@ -405,8 +435,14 @@ class Aergo:
 
         return event_list
 
-    def get_block_headers(self, block_hash=None, block_height=-1, list_size=20,
-                          offset=0, is_asc_order=False):
+    def get_block_headers(
+        self,
+        block_hash: Optional[bytes] = None,
+        block_height: int = -1,
+        list_size: int = 20,
+        offset: int = 0,
+        is_asc_order: bool = False
+    ) -> List[Block]:
         """
         Returns the list of blocks.
         :param block_hash:
@@ -418,7 +454,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_hash is None and block_height < 0:
             raise ValueError("Please insert a block hash or height")
@@ -437,7 +473,7 @@ class Aergo:
 
         return block_headers
 
-    def get_blockchain_status(self):
+    def get_blockchain_status(self) -> Tuple[bh.BlockHash, int]:
         """
         Returns the highest block hash and block height so far.
         :return:
@@ -445,7 +481,11 @@ class Aergo:
         status = self.get_status()
         return status.best_block_hash, status.best_block_height
 
-    def get_block(self, block_hash=None, block_height=-1):
+    def get_block(
+        self,
+        block_hash: Union[bytes, bh.BlockHash, None] = None,
+        block_height: int = -1
+    ) -> Block:
         """
         Returns block information for `block_hash` or `block_height`.
         :param block_hash:
@@ -453,12 +493,14 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_height >= 0:
             query = block_height.to_bytes(8, byteorder='little')
         else:
-            if type(block_hash) is not bh.BlockHash:
+            if block_hash is None:
+                raise ValueError("Please insert a block hash or height")
+            if not isinstance(block_hash, bh.BlockHash):
                 block_hash = bh.BlockHash(block_hash)
             query = block_hash.value
 
@@ -470,7 +512,11 @@ class Aergo:
         b = Block(grpc_block=result)
         return b
 
-    def get_block_meta(self, block_hash=None, block_height=-1):
+    def get_block_meta(
+        self,
+        block_hash: Union[bytes, bh.BlockHash, None] = None,
+        block_height: int = -1
+    ) -> Block:
         """
         Returns block metadata for `block_hash` or `block_height`.
         :param block_hash:
@@ -478,12 +524,14 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_height >= 0:
             query = block_height.to_bytes(8, byteorder='little')
         else:
-            if type(block_hash) is not bh.BlockHash:
+            if block_hash is None:
+                raise ValueError("Please insert a block hash or height")
+            if not isinstance(block_hash, bh.BlockHash):
                 block_hash = bh.BlockHash(block_hash)
             query = block_hash.value
 
@@ -498,11 +546,16 @@ class Aergo:
                   size=bm.size)
         return b
 
-    def get_node_accounts(self, skip_state=False):
+    def get_node_accounts(
+        self,
+        skip_state: bool = False
+    ) -> List[acc.Account]:
         """
         Returns a list of all node accounts.
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
 
         try:
             result = self.__comm.get_accounts()
@@ -520,11 +573,14 @@ class Aergo:
 
         return accounts
 
-    def get_peers(self):
+    def get_peers(self) -> List[pr.Peer]:
         """
         Returns a list of peers.
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
+
         try:
             result = self.__comm.get_peers()
         except Exception as e:
@@ -538,13 +594,13 @@ class Aergo:
 
         return peers
 
-    def get_node_info(self, keys=None):
+    def get_node_info(self, keys: Optional[str] = None) -> NodeInfo:
         """
         Returns the consensus information
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             info = self.__comm.get_node_info(keys)
@@ -553,11 +609,13 @@ class Aergo:
 
         return NodeInfo(info)
 
-    def get_node_state(self, timeout=1):
+    def get_node_state(self, timeout: int = 1) -> Dict:
         """
         Returns information about the node state.
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.get_node_state(timeout)
         except Exception as e:
@@ -568,24 +626,28 @@ class Aergo:
 
     def get_tx(
         self,
-        tx_hash,
-        mempool_only=False,
-        skip_block=False
-    ):
+        tx_hash: Union[str, TxHash, bytes],
+        mempool_only: bool = False,
+        skip_block: bool = False
+    ) -> Transaction:
         """
         Returns info on transaction with hash `tx_hash`.
         :param tx_hash:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         if isinstance(tx_hash, str):
-            tx_hash = decode_tx_hash(tx_hash)
-        elif type(tx_hash) == TxHash:
+            tx_hash_bytes = decode_tx_hash(tx_hash)
+            assert tx_hash_bytes
+            tx_hash = tx_hash_bytes
+        elif isinstance(tx_hash, TxHash):
             tx_hash = bytes(tx_hash)
 
         try:
             result_tx = self.__comm.get_tx(tx_hash)
             result_tx_block_hash = None
-            result_tx_index = None
+            result_tx_index = -1
             result_tx_is_in_mempool = True
         except Exception as e:
             if mempool_only:
@@ -600,6 +662,7 @@ class Aergo:
                 except Exception as e:
                     raise CommunicationException(e) from e
 
+        result_tx_block: Optional[Block]
         if result_tx_block_hash is not None:
             if skip_block:
                 result_tx_block = Block(hash_value=result_tx_block_hash,
@@ -632,7 +695,7 @@ class Aergo:
 
         return tx
 
-    def lock_account(self, address, passphrase):
+    def lock_account(self, address: bytes, passphrase: str):
         """
         Locks the account with address `address` with the passphrase
         `passphrase`.
@@ -640,6 +703,8 @@ class Aergo:
         :param passphrase:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.lock_account(address, passphrase)
         except Exception as e:
@@ -647,7 +712,7 @@ class Aergo:
 
         return result
 
-    def unlock_account(self, address, passphrase):
+    def unlock_account(self, address: bytes, passphrase: str):
         """
         Unlocks the account with address `address` with the passphrase
         `passphrase`.
@@ -655,6 +720,8 @@ class Aergo:
         :param passphrase:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.unlock_account(address=address,
                                                 passphrase=passphrase)
@@ -665,75 +732,82 @@ class Aergo:
 
     def generate_tx(
         self,
-        to_address,
-        nonce,
-        amount,
-        gas_limit=0,
-        gas_price=0,
-        payload=None,
-        tx_type=TxType.NORMAL
-    ):
+        to_address: Union[bytes, str, None],
+        nonce: int,
+        amount: Union[bytes, str, int, float],
+        gas_limit: int = 0,
+        gas_price: int = 0,
+        payload: Optional[bytes] = None,
+        tx_type: TxType = TxType.NORMAL
+    ) -> Transaction:
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
+        address_obj: Optional[addr.Address] = None
         if to_address is not None:
-            address = addr.Address(None, empty=True)
-            address.value = to_address
-            to_address = address
+            address_obj = addr.Address(None, empty=True)
+            address_obj.value = to_address  # type: ignore
 
-        tx = transaction.Transaction(tx_type=tx_type,
-                                     from_address=self.__account.address,
-                                     to_address=to_address,
-                                     nonce=nonce,
-                                     amount=amount,
-                                     gas_limit=gas_limit,
-                                     gas_price=gas_price,
-                                     payload=payload,
-                                     chain_id=self.chain_id)
+        tx = Transaction(
+            tx_type=tx_type, from_address=self.__account.address,
+            to_address=address_obj, nonce=nonce, amount=amount,
+            gas_limit=gas_limit, gas_price=gas_price, payload=payload,
+            chain_id=self.chain_id
+        )
         tx.sign = self.__account.sign_msg_hash(
             tx.calculate_hash(including_sign=False))
         return tx
 
     def transfer(
         self,
-        to_address,
-        amount,
-        retry_nonce=3
-    ):
-        return self.send_payload(amount=amount, to_address=to_address,
-                                 payload=None, retry_nonce=retry_nonce)
+        to_address: Union[str, bytes, addr.Address, addr.GovernanceTxAddress],
+        amount: Union[bytes, str, int, float],
+        retry_nonce: int = 3
+    ) -> Tuple[Transaction, TxResult]:
+        return self.send_payload(
+            amount=amount, to_address=to_address, payload=None,
+            retry_nonce=retry_nonce
+        )
 
     def send_payload(
         self,
-        amount,
-        payload,
-        to_address=None,
-        retry_nonce=0,
-        tx_type=TxType.TRANSFER,
-        gas_limit=0,
-        gas_price=0
-    ):
+        amount: Union[bytes, str, int, float],
+        payload: Optional[bytes] = None,
+        to_address: Union[str, bytes, addr.Address, addr.GovernanceTxAddress,
+                          None] = None,
+        retry_nonce: int = 0,
+        tx_type: TxType = TxType.TRANSFER,
+        gas_limit: int = 0,
+        gas_price: int = 0
+    ) -> Tuple[Transaction, TxResult]:
         if self.__comm is None:
-            return None, None
+            raise GeneralException("Must connect to network")
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
 
+        to_address_bytes: Optional[bytes]
         if isinstance(to_address, str):
             # check address type
             address_type = addr.check_name_address(to_address)
             if address_type > 0:
-                to_address = to_address.encode()
+                to_address_bytes = to_address.encode()
                 if 2 == address_type:
                     tx_type = TxType.GOVERNANCE
             else:
                 try:
-                    to_address = decode_address(to_address)
+                    to_address_bytes = decode_address(to_address)
                 except Exception as e:
                     raise ValueError("Invalid receiver address: {}".format(e))
         elif isinstance(to_address, addr.Address):
-            to_address = bytes(to_address)
+            to_address_bytes = bytes(to_address)
         elif isinstance(to_address, addr.GovernanceTxAddress):
             if addr.check_name_address(to_address.value):
-                to_address = to_address.value.encode()
+                to_address_bytes = to_address.value.encode()
                 tx_type = TxType.GOVERNANCE
+        else:
+            to_address_bytes = to_address
 
         nonce = self.__account.nonce + 1
-        tx = self.generate_tx(to_address=to_address,
+        tx = self.generate_tx(to_address=to_address_bytes,
                               nonce=nonce, amount=amount,
                               gas_limit=gas_limit, gas_price=gas_price,
                               payload=payload, tx_type=tx_type)
@@ -753,7 +827,7 @@ class Aergo:
                 else:
                     nonce = new_nonce
 
-                tx = self.generate_tx(to_address=to_address,
+                tx = self.generate_tx(to_address=to_address_bytes,
                                       nonce=nonce, amount=amount,
                                       gas_limit=gas_limit, gas_price=gas_price,
                                       payload=payload, tx_type=tx_type)
@@ -768,7 +842,7 @@ class Aergo:
 
         return signed_tx, result
 
-    def send_unsigned_tx(self, unsigned_tx):
+    def send_unsigned_tx(self, unsigned_tx: Transaction):
         """
         Sends the unsigned transaction.
         The unsigned transaction will be signed by the account
@@ -776,6 +850,8 @@ class Aergo:
         :param unsigned_tx:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         try:
             result = self.__comm.send_tx(unsigned_tx)
         except Exception as e:
@@ -783,23 +859,32 @@ class Aergo:
 
         return result
 
-    def send_tx(self, signed_tx):
+    def send_tx(self, signed_tx: Transaction) -> Tuple[Transaction, TxResult]:
         """
         Send a signed transaction.
         This transaction will push to the memory pool after verifying.
         :param signed_tx:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         signed_txs, results = self.batch_tx(signed_txs=[signed_tx])
         return signed_txs[0], results[0]
 
-    def batch_tx(self, signed_txs):
+    def batch_tx(
+        self,
+        signed_txs: List[Transaction]
+    ) -> Tuple[List[Transaction], List[TxResult]]:
         """
         Send a set of signed transactions simultaneously.
         These transactions will push to the memory pool after verifying.
         :param signed_txs:
         :return:
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
         try:
             result_list = self.__comm.commit_txs(signed_txs)
         except Exception as e:
@@ -816,11 +901,11 @@ class Aergo:
 
     def import_account(
         self,
-        exported_data,
-        password,
-        skip_state=False,
-        skip_self=False
-    ):
+        exported_data: Union[str, bytes],
+        password: Union[str, bytes],
+        skip_state: bool = False,
+        skip_self: bool = False
+    ) -> acc.Account:
         if exported_data is None or 0 == len(exported_data):
             # TODO unit test + exception handling
             assert 1 == 0
@@ -830,7 +915,9 @@ class Aergo:
             assert 1 == 0
 
         if isinstance(exported_data, str):
-            exported_data = decode_private_key(exported_data)
+            exported_data_bytes = decode_private_key(exported_data)
+            assert exported_data_bytes
+            exported_data = exported_data_bytes
 
         if isinstance(password, bytes):
             password = password.decode('utf-8')
@@ -847,11 +934,11 @@ class Aergo:
 
     def import_account_from_keystore(
         self,
-        keystore,
-        password,
-        skip_state=False,
-        skip_self=False
-    ):
+        keystore: Union[Dict, str],
+        password: str,
+        skip_state: bool = False,
+        skip_self: bool = False
+    ) -> acc.Account:
         account = acc.Account.decrypt_from_keystore(keystore, password)
         if not skip_self:
             self.__account = account
@@ -864,11 +951,11 @@ class Aergo:
 
     def import_account_from_keystore_file(
         self,
-        keystore_path,
-        password,
-        skip_state=False,
-        skip_self=False
-    ):
+        keystore_path: str,
+        password: str,
+        skip_state: bool = False,
+        skip_self: bool = False
+    ) -> acc.Account:
         with open(keystore_path, "r") as f:
             keystore = f.read()
         return self.import_account_from_keystore(
@@ -876,45 +963,56 @@ class Aergo:
 
     def export_account(
         self,
-        password,
-        account=None
-    ):
+        password: Union[str, bytes],
+        account: Optional[acc.Account] = None
+    ) -> str:
         if account is None:
             account = self.__account
+        if account is None:
+            raise GeneralException("Current account is not set")
 
         enc_acc = acc.Account.encrypt_account(account, password)
-        return encode_private_key(enc_acc)
+        export_str = encode_private_key(enc_acc)
+        assert export_str
+        return export_str
 
     def export_account_to_keystore(
         self,
-        password,
-        account=None,
-        kdf_n=2**18
-    ):
+        password: str,
+        account: Optional[acc.Account] = None,
+        kdf_n: int = 2**18
+    ) -> Dict:
         if account is None:
             account = self.__account
+        if account is None:
+            raise GeneralException("Current account is not set")
 
         keystore = acc.Account.encrypt_to_keystore(account, password, kdf_n)
         return keystore
 
     def export_account_to_keystore_file(
         self,
-        keystore_path,
-        password,
-        account=None,
-        kdf_n=2**18
-    ):
+        keystore_path: str,
+        password: str,
+        account: Optional[acc.Account] = None,
+        kdf_n: int = 2**18
+    ) -> None:
         keystore = self.export_account_to_keystore(password, account, kdf_n)
         with open(keystore_path, 'w') as f:
             json.dump(keystore, f, indent=4)
 
-    def get_tx_result(self, tx_hash):
+    def get_tx_result(
+        self,
+        tx_hash: Union[str, th.TxHash, bytes]
+    ) -> TxResult:
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if isinstance(tx_hash, str):
-            tx_hash = decode_tx_hash(tx_hash)
-        elif type(tx_hash) is th.TxHash:
+            tx_hash_bytes = decode_tx_hash(tx_hash)
+            assert tx_hash_bytes
+            tx_hash = tx_hash_bytes
+        elif isinstance(tx_hash, th.TxHash):
             tx_hash = bytes(tx_hash)
 
         try:
@@ -928,14 +1026,16 @@ class Aergo:
 
     def wait_tx_result(
         self,
-        tx_hash,
-        timeout=30,
-        tempo=0.2
-    ):
+        tx_hash: Union[str, th.TxHash, bytes],
+        timeout: int = 30,
+        tempo: float = 0.2
+    ) -> TxResult:
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
         if isinstance(tx_hash, str):
-            tx_hash = decode_tx_hash(tx_hash)
+            tx_hash_bytes = decode_tx_hash(tx_hash)
+            assert tx_hash_bytes
+            tx_hash = tx_hash_bytes
         elif type(tx_hash) is th.TxHash:
             tx_hash = bytes(tx_hash)
 
@@ -947,17 +1047,17 @@ class Aergo:
                         or e.error_details[:12] != "tx not found"):
                     raise e
             time.sleep(tempo)
-        return None
+        raise GeneralException("Transaction result not found")
 
     def deploy_sc(
         self,
-        payload,
-        amount=0,
-        args=None,
-        retry_nonce=0,
-        redeploy=False,
-        gas_limit=0,
-        gas_price=0
+        payload: Union[str, bytes],
+        amount: Union[bytes, str, int, float] = 0,
+        args: Optional[Any] = None,
+        retry_nonce: int = 0,
+        redeploy: bool = False,
+        gas_limit: int = 0,
+        gas_price: int = 0
     ):
         if isinstance(payload, str):
             payload = decode_address(payload)
@@ -984,31 +1084,34 @@ class Aergo:
 
     def new_call_sc_tx(
         self,
-        sc_address,
-        func_name,
-        amount=0,
-        args=None,
-        nonce=None,
-        gas_limit=0,
-        gas_price=0
-    ):
+        sc_address: Union[str, addr.GovernanceTxAddress, bytes],
+        func_name: str,
+        amount: int = 0,
+        args: Optional[Any] = None,
+        nonce: Optional[int] = None,
+        gas_limit: int = 0,
+        gas_price: int = 0
+    ) -> Transaction:
         tx_type = TxType.SC_CALL
+        sc_address_bytes: bytes
         if isinstance(sc_address, str):
             address_type = addr.check_name_address(sc_address)
             if address_type > 0:
-                sc_address = sc_address.encode()
+                sc_address_bytes = sc_address.encode()
                 if 2 == address_type:
                     tx_type = TxType.GOVERNANCE
             else:
                 try:
-                    sc_address = decode_address(sc_address)
+                    sc_address_bytes = decode_address(sc_address)
                 except Exception as e:
                     raise ValueError(
                         "Invalid smart contract address: {}".format(e))
         elif isinstance(sc_address, addr.GovernanceTxAddress):
             if addr.check_name_address(sc_address.value):
-                sc_address = sc_address.value.encode()
+                sc_address_bytes = sc_address.value.encode()
                 tx_type = TxType.GOVERNANCE
+        else:
+            sc_address_bytes = sc_address
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]
@@ -1017,25 +1120,30 @@ class Aergo:
         payload = json.dumps(call_info, separators=(',', ':')).encode('utf-8')
 
         if nonce is None:
+            if self.__account is None:
+                raise GeneralException("Current account is not set")
             nonce = self.__account.nonce + 1
 
-        return self.generate_tx(to_address=sc_address,
+        return self.generate_tx(to_address=sc_address_bytes,
                                 nonce=nonce, amount=amount,
                                 gas_limit=gas_limit, gas_price=gas_price,
                                 payload=payload, tx_type=tx_type)
 
-    def batch_call_sc(self, sc_txs):
+    def batch_call_sc(
+        self,
+        sc_txs: List[Transaction]
+    ) -> Tuple[List[Transaction], List[TxResult]]:
         return self.batch_tx(sc_txs)
 
     def call_sc(
         self,
-        sc_address,
-        func_name,
-        amount=0,
-        args=None,
-        gas_limit=0,
-        gas_price=0
-    ):
+        sc_address: Union[str, addr.GovernanceTxAddress, bytes],
+        func_name: str,
+        amount: int = 0,
+        args: Optional[Any] = None,
+        gas_limit: int = 0,
+        gas_price: int = 0
+    ) -> Tuple[Transaction, TxResult]:
         sc_tx = self.new_call_sc_tx(sc_address=sc_address, func_name=func_name,
                                     amount=amount, args=args,
                                     gas_limit=gas_limit, gas_price=gas_price)
@@ -1044,10 +1152,12 @@ class Aergo:
 
     def query_sc(
         self,
-        sc_address,
-        func_name,
-        args=None
+        sc_address: Union[bytes, str],
+        func_name: str,
+        args: Optional[Any] = None
     ):
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = addr.Address.decode(sc_address)
@@ -1067,14 +1177,16 @@ class Aergo:
 
     def query_sc_state(
         self,
-        sc_address,
-        storage_keys,
-        root=b'',
-        compressed=True
-    ):
+        sc_address: Union[bytes, str],
+        storage_keys: List[Union[bytes, str, SCStateVar]],
+        root: bytes = b'',
+        compressed: bool = True
+    ) -> SCState:
         """ query_sc_state returns a SCState object containing the contract
         state and variable state with their respective merkle proofs.
         """
+        if self.__comm is None:
+            raise GeneralException("Must connect to network")
         if isinstance(sc_address, str):
             # TODO exception handling: raise ValueError("Invalid checksum")
             sc_address = addr.Address.decode(sc_address)
@@ -1085,12 +1197,12 @@ class Aergo:
         # convert SCStateVar objects to trie storage key strings
         trie_keys = []
         for key in storage_keys:
-            if type(key) is bytes:
+            if isinstance(key, bytes):
                 trie_keys.append(hashlib.sha256(key).digest())
-            elif type(key) is str:
+            elif isinstance(key, str):
                 trie_keys.append(
                     hashlib.sha256(key.encode('latin-1')).digest())
-            elif type(key) is SCStateVar:
+            elif isinstance(key, SCStateVar):
                 trie_keys.append(hashlib.sha256(bytes(key)).digest())
             else:
                 assert False, ("Invalid key type provided, must be bytes, "
@@ -1105,20 +1217,20 @@ class Aergo:
         account = acc.Account(empty=True)
         account.state = result.contractProof.state
         account.state_proof = result.contractProof
-        account.address = sc_address
+        account.address = sc_address  # type: ignore
 
         var_proofs = VarProofs(result.varProofs, trie_keys)
 
         return SCState(account=account, var_proofs=var_proofs)
 
-    def get_conf_change_progress(self, block_height):
+    def get_conf_change_progress(self, block_height: int) -> ChangeConfInfo:
         """
         Returns the RAFT change config progress status after 'changeCluster'
         system contract
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             status = self.__comm.get_conf_change_progress(block_height)
@@ -1127,9 +1239,9 @@ class Aergo:
 
         return ChangeConfInfo(status)
 
-    def get_enterprise_config(self, key):
+    def get_enterprise_config(self, key: str) -> EnterpriseConfig:
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         try:
             conf = self.__comm.get_enterprise_config(key)
@@ -1137,7 +1249,7 @@ class Aergo:
             raise CommunicationException(e) from e
         return EnterpriseConfig(conf)
 
-    def get_name_info(self, name, block_height=-1):
+    def get_name_info(self, name: str, block_height: int = -1):
         """
         Returns information of name which is designated by the system contract
         :param name:
@@ -1145,7 +1257,7 @@ class Aergo:
         :return:
         """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
 
         if block_height < 0:
             # set current block height
@@ -1158,20 +1270,25 @@ class Aergo:
 
         return NameInfo(info)
 
-    def get_abi(self, contract_addr=None, addr_bytes=None):
+    def get_abi(self, contract_addr: str = None, addr_bytes: bytes = None):
         """ Returns the abi of given contract address. """
         if self.__comm is None:
-            return None
+            raise GeneralException("Must connect to network")
         if contract_addr is not None:
             addr_bytes = decode_address(contract_addr)
+        assert addr_bytes
         try:
             abi = self.__comm.get_abi(addr_bytes)
         except Exception as e:
             raise CommunicationException(e) from e
         return Abi(abi)
 
-    def get_address(self, account=None):
+    def get_address(
+        self,
+        account: Optional[acc.Account] = None
+    ) -> Optional[addr.Address]:
         if (account and isinstance(account, acc.Account)):
             return account.address
-
-        return self.account.address
+        if self.__account is None:
+            raise GeneralException("Current account is not set")
+        return self.__account.address

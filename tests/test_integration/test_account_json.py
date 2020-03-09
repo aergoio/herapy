@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_account_json(aergo):
+def test_account_json(aergo) -> None:
     print("------ Set Sender Account -----------")
     sender_json = '{' \
         '"address": "AmNW9YMMm48jTxX5Yee6tRYLpuptWdg3cqbD2CVoee1YcUGBHfad",'\

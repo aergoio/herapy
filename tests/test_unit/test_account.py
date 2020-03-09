@@ -17,13 +17,15 @@ exported_key_str = \
 exported_key = decode_private_key(exported_key_str)
 
 
-def test_import():
+def test_import() -> None:
+    assert exported_key
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
     assert str(acc.private_key) == \
         "6i2n6TAtsKBaWSujYFzqkBCiP834j1u3nwmffZb8dxCxDcQaXAb"
 
+    assert acc.private_key
     assert acc.address == acc.private_key.address
     assert acc.public_key == acc.private_key.public_key
     assert acc.public_key.point == acc.private_key.public_key.point
@@ -53,7 +55,8 @@ def test_import():
         convert_public_key_to_bytes(acc.public_key)
 
     address = Address(None, empty=True)
-    address.value = "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
+    address.value = \
+        "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"  # type: ignore
     assert acc.address != address
     assert bytes(acc.address) == bytes(address)
     assert private_key.address != address
@@ -70,11 +73,13 @@ def test_import():
         convert_public_key_to_bytes(address.public_key)
 
 
-def test_keys():
+def test_keys() -> None:
+    assert exported_key
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
 
+    assert acc.private_key
     signing_key = acc.private_key.get_signing_key()
     verifying_key = signing_key.get_verifying_key()
     print("to pem = {}".format(verifying_key.to_pem()))
@@ -84,7 +89,7 @@ def test_keys():
     )
 
     pubkey_bytes = convert_public_key_to_bytes(acc.public_key)
-    print("compressed bytes(public key) = {}".format(pubkey_bytes))
+    print("compressed bytes(public key) = {!r}".format(pubkey_bytes))
     print(
         "compressed int(public key bytes) = {}"
         .format(bytes_to_int_str(pubkey_bytes))
@@ -96,7 +101,7 @@ def test_keys():
 
     nocomp_pubkey_bytes = convert_public_key_to_bytes(
         acc.public_key, compressed=False)
-    print("no compressed bytes(public key) = {}".format(pubkey_bytes))
+    print("no compressed bytes(public key) = {!r}".format(pubkey_bytes))
     nocomp_pubkey_txt = encode_b64(nocomp_pubkey_bytes)
     print("no compressed public key = {}".format(nocomp_pubkey_txt))
 
@@ -113,7 +118,7 @@ def test_keys():
     p2p_pubkey_bytes = p2p_pubkey_bytes_head \
         + len(pubkey_bytes).to_bytes(length=1, byteorder='big') \
         + pubkey_bytes
-    print("bytes(p2p public key) = {}".format(p2p_pubkey_bytes))
+    print("bytes(p2p public key) = {!r}".format(p2p_pubkey_bytes))
     print(
         "int(p2p public key bytes) = {}"
         .format(bytes_to_int_str(p2p_pubkey_bytes))
@@ -127,21 +132,26 @@ def test_keys():
     print("p2p id = {}".format(id))
 
 
-def test_private_key():
+def test_private_key() -> None:
+    assert exported_key
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
 
+    assert acc.private_key
     acc2 = Account(private_key=bytes(acc.private_key))
+    assert acc.address and acc2.address
     assert bytes(acc.address) == bytes(acc2.address)
     assert str(acc.address) == str(acc2.address)
 
     acc3 = Account(private_key=str(acc.private_key))
+    assert acc.address and acc3.address
     assert bytes(acc.address) == bytes(acc3.address)
     assert str(acc.address) == str(acc3.address)
 
 
-def test_json():
+def test_json() -> None:
+    assert exported_key
     acc = Account.decrypt_account(exported_key, '1234')
     assert str(acc.address) == \
         "AmLnc5nhXjL3a3GUzv1Hb44LnGPvhZufDZ8s8oE9kazgbW6FgnUa"
@@ -155,6 +165,7 @@ def test_json():
     assert acc_json.get('state', None) is None
     assert acc_json.get('is_state_proof', None) is False
 
+    assert acc.private_key
     acc2 = Account(private_key=bytes(acc.private_key))
     acc2_json = acc2.json(with_private_key=True)
     assert acc2_json.get('priv_key', None) == str(acc.private_key)
@@ -168,6 +179,7 @@ def test_json():
 
     acc3 = Account.from_json(acc_json)
     assert acc3.private_key is None
+    assert acc.address and acc3.address
     assert bytes(acc.address) == bytes(acc3.address)
     assert str(acc.address) == str(acc3.address)
 
@@ -182,27 +194,32 @@ def test_json():
     assert acc3_json2.get('address', None) == str(acc.address)
 
     acc4 = Account.from_json(acc2_json)
+    assert acc.private_key and acc4.private_key
     assert bytes(acc.private_key) == bytes(acc4.private_key)
     assert str(acc.private_key) == str(acc4.private_key)
+    assert acc.address and acc4.address
     assert bytes(acc.address) == bytes(acc4.address)
     assert str(acc.address) == str(acc4.address)
     assert bytes(acc3.address) == bytes(acc4.address)
     assert str(acc3.address) == str(acc4.address)
 
     acc5 = Account.from_json(acc2_json2, password='1234')
+    assert acc.private_key and acc5.private_key
     assert bytes(acc.private_key) == bytes(acc5.private_key)
     assert str(acc.private_key) == str(acc5.private_key)
+    assert acc.address and acc5.address
     assert bytes(acc.address) == bytes(acc5.address)
     assert str(acc.address) == str(acc5.address)
     assert bytes(acc3.address) == bytes(acc5.address)
     assert str(acc3.address) == str(acc5.address)
 
 
-def test_from_json():
+def test_from_json() -> None:
     private_key_str = \
         "47DTHPaRpbJ67KZvBaciz68EJ5k6E2FNBUuknKR6NA4t8oyA3uyvj" \
         "S2QKxJ7JsgHMunPUitoT"
     private_key = decode_private_key(private_key_str)
+    assert private_key
     acc = Account.decrypt_account(encrypted_bytes=private_key, password='1234')
     assert str(acc.address) == \
         "AmNW9YMMm48jTxX5Yee6tRYLpuptWdg3cqbD2CVoee1YcUGBHfad"
@@ -215,8 +232,10 @@ def test_from_json():
         '"enc_key": "47QHSuhBTZ4b7nbw2zJz5EARyQ4XS8gDxhFDeu5mYeKNqfHhw' \
         'RutUmja3WRxV1suB12eWBeDZ"}'
     acc2 = Account.from_json(data=acc2_json_str, password='5678')
+    assert acc.private_key and acc2.private_key
     assert bytes(acc.private_key) == bytes(acc2.private_key)
     assert str(acc.private_key) == str(acc2.private_key)
+    assert acc.address and acc2.address
     assert bytes(acc.address) == bytes(acc2.address)
     assert str(acc.address) == str(acc2.address)
     assert acc2.nonce == 18
@@ -233,8 +252,10 @@ def test_from_json():
         '"enc_key": "47QHSuhBTZ4b7nbw2zJz5EARyQ4XS8gDxhFDeu5mYeKNqfHhwRutUmj' \
         'a3WRxV1suB12eWBeDZ"}'
     acc3 = Account.from_json(data=acc3_json_str, password='5678')
+    assert acc.private_key and acc3.private_key
     assert bytes(acc.private_key) == bytes(acc3.private_key)
     assert str(acc.private_key) == str(acc3.private_key)
+    assert acc.address and acc3.address
     assert bytes(acc.address) == bytes(acc3.address)
     assert str(acc.address) == str(acc3.address)
     assert acc3.nonce == 20
@@ -252,6 +273,8 @@ def test_from_json():
         '"enc_key": "47QHSuhBTZ4b7nbw2zJz5EARyQ4XS8gDxhFDeu5mYeKNqfHhwRutUmj' \
         'a3WRxV1suB12eWBeDZ"}'
     acc4 = Account.from_json(data=acc4_json_str, password='5678')
+    assert acc.private_key and acc4.private_key
+    assert acc.address and acc4.address
     assert bytes(acc.private_key) == bytes(acc4.private_key)
     assert str(acc.private_key) == str(acc4.private_key)
     assert bytes(acc.address) == bytes(acc4.address)

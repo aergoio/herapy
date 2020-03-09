@@ -8,5 +8,5 @@ class BlockStream(Stream):
     def __init__(self, block_stream):
         super().__init__(block_stream)
 
-    def next(self):
+    def next(self) -> Block:
         return Block(grpc_block=next(self._grpc_stream))

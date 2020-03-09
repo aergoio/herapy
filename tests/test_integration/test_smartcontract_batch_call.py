@@ -1,7 +1,7 @@
 import aergo.herapy as herapy
 
 
-def test_sc_batch(aergo):
+def test_sc_batch(aergo) -> None:
     print("------ Payload -----------")
     """
 -- 'payload' is compiled by aergoluac from

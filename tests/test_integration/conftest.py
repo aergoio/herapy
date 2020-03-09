@@ -3,7 +3,7 @@ import aergo.herapy as herapy
 
 
 @pytest.fixture(scope="session")
-def aergo():
+def aergo() -> herapy.Aergo:
     setup_ok = True
     aergo = herapy.Aergo()
     try:

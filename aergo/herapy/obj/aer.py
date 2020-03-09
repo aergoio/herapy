@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import decimal
+from typing import Union
 
 from ..errors.conversion_exception import ConversionException
 from ..utils.converter import bigint_to_bytes
@@ -15,7 +16,7 @@ AERGO_UNIT_PRECISION = UNITS_SIZE['aergo']
 
 class Aer:
     """Return Aergo Unit, AER(/ˈɛəɹ/)."""
-    def __init__(self, value='0 aer'):
+    def __init__(self, value: Union[bytes, str, int, float] = '0 aer'):
         if isinstance(value, bytes):
             value = int.from_bytes(value, byteorder='big')
         self.__aer = self._parsing_value(value)
@@ -83,11 +84,11 @@ class Aer:
         return s
 
     @property
-    def aer(self):
+    def aer(self) -> str:
         return self._decimal_to_str(self.__aer) + ' aer'
 
     @property
-    def gaer(self):
+    def gaer(self) -> str:
         with decimal.localcontext() as ctx:
             ctx.prec = len(str(self.__aer))
             v = self.__aer / decimal.Decimal(10 ** UNITS_SIZE['gaer'])
@@ -95,7 +96,7 @@ class Aer:
         return s
 
     @property
-    def aergo(self):
+    def aergo(self) -> str:
         with decimal.localcontext() as ctx:
             ctx.prec = len(str(self.__aer))
             v = self.__aer / decimal.Decimal(10 ** UNITS_SIZE['aergo'])
@@ -103,47 +104,47 @@ class Aer:
         return s
 
     @property
-    def dec(self):
+    def dec(self) -> decimal.Decimal:
         return self.__aer
 
     @dec.setter
-    def dec(self, v):
+    def dec(self, v: Union[bytes, str, int, float]) -> None:
         self.__aer = self._parsing_value(v)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.aer
 
-    def __int__(self):
+    def __int__(self) -> int:
         return int(self.dec)
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
         return bigint_to_bytes(int(self))
 
-    def __add__(self, other):
+    def __add__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec + other.dec
         return Aer(str(v))
 
-    def __sub__(self, other):
+    def __sub__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec - other.dec
         return Aer(str(v))
 
-    def __mul__(self, other):
+    def __mul__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext() as ctx:
             ctx.prec = decimal.MAX_PREC
             v = self.dec * other.dec
         return Aer(str(v))
 
-    def __floordiv__(self, other):
+    def __floordiv__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec // other.dec
         return Aer(str(v))
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: 'Aer') -> 'Aer':
         with decimal.localcontext():
             decimal.setcontext(decimal.DefaultContext)
             v = self.dec / other.dec

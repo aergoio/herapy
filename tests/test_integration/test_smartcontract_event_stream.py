@@ -5,7 +5,7 @@ from threading import Thread
 import aergo.herapy as herapy
 
 
-def read_movie_event_stream(movie_event_stream):
+def read_movie_event_stream(movie_event_stream) -> None:
     while True:
         try:
             print("RECEIVE: 'movie' Event: {}"
@@ -26,7 +26,7 @@ def read_movie_event_stream(movie_event_stream):
     movie_event_stream.stop()
 
 
-def test_sc_event_stream(aergo):
+def test_sc_event_stream(aergo) -> None:
     print("------ Payload -----------")
     """
 

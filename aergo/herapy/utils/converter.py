@@ -8,6 +8,9 @@ import toml
 import socket
 import ecdsa
 import time
+from typing import (
+    Union,
+)
 
 from ..obj.aergo_conf import AergoConfig
 from ..grpc import blockchain_pb2
@@ -22,7 +25,7 @@ from .encoding import (
 )
 
 
-def convert_toml_to_aergo_conf(v):
+def convert_toml_to_aergo_conf(v: str) -> AergoConfig:
     aergo_conf = AergoConfig()
 
     conf = toml.loads(v)
@@ -36,7 +39,7 @@ def convert_toml_to_aergo_conf(v):
     return aergo_conf
 
 
-def convert_aergo_conf_to_toml(aergo_conf):
+def convert_aergo_conf_to_toml(aergo_conf: AergoConfig) -> str:
     return toml.dumps(aergo_conf.conf)
 
 
@@ -114,13 +117,13 @@ def convert_ip_bytes_to_str(ip):
     return socket.inet_ntop(socket.AF_INET6, ip)
 
 
-def convert_bigint_to_bytes(number):
+def convert_bigint_to_bytes(number: int) -> bytes:
     q, r = divmod(len(bin(number)) - 2, 8)
     bytes_to_fit_number = q if r == 0 else q + 1
     return number.to_bytes(bytes_to_fit_number, 'big')
 
 
-def bigint_to_bytes(v):
+def bigint_to_bytes(v: int) -> bytes:
     return convert_bigint_to_bytes(v)
 
 
@@ -128,7 +131,7 @@ def convert_public_key_to_bytes(
     pubkey,
     curve=ecdsa.SECP256k1,
     compressed=True
-):
+) -> bytes:
     if not isinstance(pubkey, ecdsa.ecdsa.Public_key):
         raise TypeError('value is not a valid public key')
 
@@ -155,7 +158,10 @@ def public_key_to_bytes(pubkey, curve=ecdsa.SECP256k1, compressed=True):
                                        compressed=compressed)
 
 
-def convert_bytes_to_public_key(v, curve=ecdsa.SECP256k1):
+def convert_bytes_to_public_key(
+    v: bytes,
+    curve: ecdsa.curves.Curve = ecdsa.SECP256k1
+) -> ecdsa.ecdsa.Public_key:
     if not isinstance(v, bytes):
         raise TypeError('value is not bytes')
 
@@ -201,7 +207,11 @@ def bytes_to_public_key(v, curve=ecdsa.SECP256k1):
     return convert_bytes_to_public_key(v, curve=curve)
 
 
-def get_hash(*strings, no_rand=False, no_encode=False):
+def get_hash(
+    *strings,
+    no_rand: bool = False,
+    no_encode: bool = False
+) -> Union[str, bytes, None]:
     m = hashlib.sha256()
     if not no_rand:
         m.update(int(time.time()).to_bytes(8, 'little'))
@@ -216,7 +226,11 @@ def get_hash(*strings, no_rand=False, no_encode=False):
     return encode_b58(m.digest())
 
 
-def privkey_to_address(privkey, curve=ecdsa.SECP256k1, compressed=True):
+def privkey_to_address(
+    privkey: bytes,
+    curve: ecdsa.curves.Curve = ecdsa.SECP256k1,
+    compressed: bool = True
+) -> str:
     d = int.from_bytes(privkey, byteorder='big')
     pubkey_point = curve.generator * d
     pubkey = ecdsa.ecdsa.Public_key(curve.generator, pubkey_point)
