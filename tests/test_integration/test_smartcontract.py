@@ -46,8 +46,9 @@ def test_sc(aergo) -> None:
         "RwPVRLeYiwo2xmgJMssHaGtR8pmb8TrQpTJbJdgreCVn8GiGzYizvEcRz9m8aFdompJ" \
         "2m2QR7TDLCCjZx2UqRJdcQZmyxEAtzjnCCgD7Gwj95ZHkFxzoEEHTLYbG6uaneRrQWn" \
         "zabAaRe2392qJnEkiNug9gkdJfsRFapbVxupH9zkoAmFP5xoWeGrkknUw61E4tX"
-    payload = herapy.utils.decode_address(payload_str)
+    payload = herapy.utils.decode_contract_code(payload_str)
     print(''.join('{:d} '.format(x) for x in payload))
+    assert herapy.utils.encode_contract_code(payload) == payload_str
 
     byte_code_len = int.from_bytes(payload[:4], byteorder='little')
     print("payload: byte code length = ", byte_code_len)

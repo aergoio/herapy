@@ -50,6 +50,7 @@ from .status.commit_status import CommitStatus
 
 from .utils.encoding import (
     decode_address,
+    decode_contract_code,
     encode_private_key,
     decode_private_key,
     decode_root,
@@ -1060,7 +1061,7 @@ class Aergo:
         gas_price: int = 0
     ):
         if isinstance(payload, str):
-            payload = decode_address(payload)
+            payload = decode_contract_code(payload)
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]

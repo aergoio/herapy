@@ -10,6 +10,7 @@ from typing import (
 
 from ..constants import (
     ADDRESS_VERSION,
+    CONTRACT_VERSION,
     PRIVATE_KEY_VERSION,
     PUBLIC_KEY_UNCOMPRESSED,
 )
@@ -71,6 +72,18 @@ def decode_address(address: str) -> bytes:
     v = decode_b58_check(address)
     assert v
     return v[len(ADDRESS_VERSION):]
+
+
+def encode_contract_code(payload: bytes) -> str:
+    v = encode_b58_check(CONTRACT_VERSION + payload)
+    assert v
+    return v
+
+
+def decode_contract_code(payload: str) -> bytes:
+    v = decode_b58_check(payload)
+    assert v
+    return v[len(CONTRACT_VERSION):]
 
 
 def decode_root(root: Union[str, bytes, None]) -> Optional[bytes]:
