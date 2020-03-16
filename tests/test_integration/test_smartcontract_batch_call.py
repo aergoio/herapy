@@ -79,7 +79,7 @@ abi.register(setItem, getItem)
         sc_txs.append(aergo.new_call_sc_tx(sc_address, "setItem",
                                            args=["key{}".format(i),
                                                  "value{}".format(i)],
-                                           nonce=nonce+i))
+                                           nonce=nonce + i))
     aergo.batch_call_sc(sc_txs)
 
     print("------ Check result of Batch Call SC -----------")
@@ -97,15 +97,15 @@ abi.register(setItem, getItem)
     time_diff_mil = int(time_diff.microseconds / 1000)
     time_diff_mic = int(time_diff.microseconds % 1000)
     print("Execution time: {} = "
-          "{} min, {} secs, {} milli {} micro".format(time_diff.total_seconds(),
-                                                      time_diff_min,
-                                                      time_diff_sec,
-                                                      time_diff_mil,
-                                                      time_diff_mic))
+          "{} min, {} secs, "
+          "{} milli, {} micro".format(time_diff.total_seconds(),
+                                      time_diff_min,
+                                      time_diff_sec,
+                                      time_diff_mil,
+                                      time_diff_mic))
 
     print("------ Query SC -----------")
     for i in range(total_tx_cnt):
         key = "key{}".format(i)
         value = "\"value{}\"".format(i).encode()
         assert value == aergo.query_sc(sc_address, "getItem", args=[key])
-

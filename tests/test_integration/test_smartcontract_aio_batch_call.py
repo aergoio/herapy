@@ -84,7 +84,7 @@ abi.register(setItem, getItem)
         sc_txs.append(aergo.new_call_sc_tx(sc_address, "setItem",
                                            args=["key{}".format(i),
                                                  "value{}".format(i)],
-                                           nonce=nonce+i))
+                                           nonce=nonce + i))
     aergo.batch_call_sc(sc_txs)
 
     print("let's wait for all results at once")
@@ -95,8 +95,8 @@ abi.register(setItem, getItem)
     for i, result in enumerate(results):
         tx = sc_txs[i]
         print("  > TX[{0}] Result: {1}".format(i, str(tx.tx_hash)))
-        #print("  > TX[{0}] {1}".format(i, str(tx.tx_hash)))
-        #print("    Result: {}".format(str(result)))
+        # print("  > TX[{0}] {1}".format(i, str(tx.tx_hash)))
+        # print("    Result: {}".format(str(result)))
         assert result.status == herapy.TxResultStatus.SUCCESS, \
             "  > ERROR[{0}]:{1}: {2}".format(
                 result.contract_address, result.status, result.detail)
@@ -108,11 +108,12 @@ abi.register(setItem, getItem)
     time_diff_mil = int(time_diff.microseconds / 1000)
     time_diff_mic = int(time_diff.microseconds % 1000)
     print("Execution time: {} = "
-          "{} min, {} secs, {} milli {} micro".format(time_diff.total_seconds(),
-                                                      time_diff_min,
-                                                      time_diff_sec,
-                                                      time_diff_mil,
-                                                      time_diff_mic))
+          "{} min, {} secs, "
+          "{} milli, {} micro".format(time_diff.total_seconds(),
+                                      time_diff_min,
+                                      time_diff_sec,
+                                      time_diff_mil,
+                                      time_diff_mic))
 
     print("------ Query SC -----------")
     for i in range(total_tx_cnt):
