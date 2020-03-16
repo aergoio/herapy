@@ -1096,7 +1096,7 @@ class Aergo:
 
         results = await asyncio.gather(*coros)
         if result is not None:
-            result['results'] = results
+            result['tx_results'] = results
 
         return results
 
@@ -1105,10 +1105,10 @@ class Aergo:
             txs: List[Union[str, th.TxHash, bytes, Transaction]],
             timeout: int = 30,
             tempo: float = 0.2
-    ) -> List[TxResult]:
-        result = {}
+    ) -> Optional[List[TxResult]]:
+        result: Dict[str, List[TxResult]] = {}
         asyncio.run(self.aio_wait_batch_result(txs, timeout, tempo, result))
-        return result.get('results')
+        return result.get('tx_results')
 
     def deploy_sc(
         self,
