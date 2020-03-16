@@ -47,7 +47,6 @@ abi.register(setItem, getItem)
     print("      - nonce          = {}".format(sender_account.nonce))
     print("      - code hash      = {}".format(sender_account.code_hash))
     print("      - storage root   = {}".format(sender_account.storage_root))
-    assert int(sender_account.balance) > 0
 
     print("------ Deploy SC -----------")
     tx, result = aergo.deploy_sc(amount=0, payload=payload, args=1234)
