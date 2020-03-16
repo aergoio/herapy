@@ -1,5 +1,6 @@
 import aergo.herapy as herapy
 import datetime
+import asyncio
 
 
 def test_sc_batch(aergo) -> None:
@@ -58,14 +59,18 @@ abi.register(setItem, getItem)
     print("    > result[{0}] : {1}".format(result.tx_id, result.status.name))
     print(herapy.utils.convert_bytes_to_int_str(bytes(tx.tx_hash)))
 
-    aergo.wait_tx_result(tx.tx_hash)
-
     print("------ Check deployment of SC -----------")
-    print("  > TX: {}".format(tx.tx_hash))
-    result = aergo.get_tx_result(tx.tx_hash)
-    assert result.status == herapy.TxResultStatus.CREATED, \
-        "  > ERROR[{0}]:{1}: {2}".format(result.contract_address,
-                                         result.status, result.detail)
+    result = {}
+    asyncio.run(aergo.aio_wait_tx_result(tx.tx_hash, result=result))
+    aio_result = result.get('tx_result')
+    print("COROUTINE tx result: {}".format(str(aio_result)))
+
+    result = aergo.wait_tx_result(tx.tx_hash)
+    print("MAIN THREAD tx result: {}".format(str(result)))
+
+    assert aio_result.tx_id == result.tx_id
+    assert aio_result.contract_address == result.contract_address
+    assert aio_result.status == result.status
 
     sc_address = result.contract_address
     print("  > SC Address: {}".format(sc_address))
@@ -82,10 +87,16 @@ abi.register(setItem, getItem)
                                            nonce=nonce+i))
     aergo.batch_call_sc(sc_txs)
 
-    print("------ Check result of Batch Call SC -----------")
-    for i, tx in enumerate(sc_txs):
+    print("let's wait for all results at once")
+    results = aergo.await_batch_result(sc_txs)
+
+    assert len(sc_txs) == len(results)
+
+    for i, result in enumerate(results):
+        tx = sc_txs[i]
         print("  > TX[{0}] Result: {1}".format(i, str(tx.tx_hash)))
-        result = aergo.wait_tx_result(tx.tx_hash)
+        #print("  > TX[{0}] {1}".format(i, str(tx.tx_hash)))
+        #print("    Result: {}".format(str(result)))
         assert result.status == herapy.TxResultStatus.SUCCESS, \
             "  > ERROR[{0}]:{1}: {2}".format(
                 result.contract_address, result.status, result.detail)
@@ -108,4 +119,3 @@ abi.register(setItem, getItem)
         key = "key{}".format(i)
         value = "\"value{}\"".format(i).encode()
         assert value == aergo.query_sc(sc_address, "getItem", args=[key])
-
