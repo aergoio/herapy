@@ -35,7 +35,9 @@ endif
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-test clean_local_testnets ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+
+clean-all: clean clean_local_testnets ## remove all including docker data
 
 clean-build: ## remove build artifacts
 	rm -fr build/
