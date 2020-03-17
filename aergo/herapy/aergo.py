@@ -5,6 +5,7 @@
 import hashlib
 import json
 import time
+import asyncio
 from typing import (
     Optional,
     Union,
@@ -1049,6 +1050,65 @@ class Aergo:
                     raise e
             time.sleep(tempo)
         raise GeneralException("Transaction result not found")
+
+    async def aio_wait_tx_result(
+            self,
+            tx_hash: Union[str, th.TxHash, bytes],
+            timeout: int = 30,
+            tempo: float = 0.2,
+            result: Dict = None
+    ) -> TxResult:
+        if self.__comm is None:
+            raise CommunicationException("Node connection not initialized")
+        if isinstance(tx_hash, str):
+            tx_hash_bytes = decode_tx_hash(tx_hash)
+            assert tx_hash_bytes
+            tx_hash = tx_hash_bytes
+        elif type(tx_hash) is th.TxHash:
+            tx_hash = bytes(tx_hash)
+
+        for _ in range(int(timeout / tempo) + 1):
+            try:
+                tx_result = self.get_tx_result(tx_hash)
+                if result is not None:
+                    result['tx_result'] = tx_result
+                return tx_result
+            except CommunicationException as e:
+                if (e.error_details is None
+                        or e.error_details[:12] != "tx not found"):
+                    raise e
+            await asyncio.sleep(tempo)
+        raise GeneralException("Transaction result not found")
+
+    async def aio_wait_batch_result(
+            self,
+            txs: List[Union[str, th.TxHash, bytes, Transaction]],
+            timeout: int = 30,
+            tempo: float = 0.2,
+            result: Dict = None
+    ) -> List[TxResult]:
+        coros = []
+        for tx in txs:
+            if isinstance(tx, Transaction):
+                tx = tx.tx_hash
+
+            coros.append(self.aio_wait_tx_result(tx, timeout, tempo))
+
+        results = await asyncio.gather(*coros)
+        if result is not None:
+            result['tx_results'] = results
+
+        return results
+
+    def await_batch_result(
+            self,
+            txs: List[Union[str, th.TxHash, bytes, Transaction]],
+            timeout: int = 30,
+            tempo: float = 0.2
+    ) -> Optional[List[TxResult]]:
+        result: Dict[str, List[TxResult]] = {}
+        asyncio.run(self.aio_wait_batch_result(txs, timeout, tempo, result))
+        return result.get('tx_results')
 
     def deploy_sc(
         self,
