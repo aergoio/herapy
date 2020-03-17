@@ -4,6 +4,13 @@ History
 
 
 -------------------
+2.0.dev1 (2020-03-17)
+-------------------
+
+* Add new Asyncio for waiting tx results.
+* Add 'aio_wait_tx_result', 'aio_wait_batch_result', and 'await_batch_result'
+
+-------------------
 2.0.1 (2020-02-05)
 -------------------
 
