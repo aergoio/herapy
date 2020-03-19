@@ -31,7 +31,7 @@ class TxResult:
             try:
                 self.status = TxResultStatus(result.status)
                 self.detail = result.ret
-            except:
+            except ValueError:
                 self.status = TxResultStatus.ERROR
                 self.detail = result.status
             self.contract_address = Address.encode(result.contractAddress)

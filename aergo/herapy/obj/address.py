@@ -89,25 +89,22 @@ class Address:
 
     @staticmethod
     def encode(addr: Optional[bytes]) -> str:
-        try:
-            if addr is None or 0 == len(addr):
-                return ''
-            elif len(addr) < 32:
-                return str(addr, 'UTF-8')
-        except:
-            pass
-        assert addr
+        if addr is None or 0 == len(addr):
+            return ''
+        elif len(addr) < 32:
+            try:
+                return addr.decode('utf-8')
+            except UnicodeDecodeError:
+                pass
         return encode_address(addr)
 
     @staticmethod
     def decode(addr: Optional[str]) -> bytes:
-        try:
-            if addr is None or 0 == len(addr):
-                return b''
-            elif check_name_address(addr) > 0:
-                return addr.encode()
-        except:
-            pass
-
-        assert addr
+        if addr is None or 0 == len(addr):
+            return b''
+        elif check_name_address(addr) > 0:
+            try:
+                return addr.encode('utf-8')
+            except UnicodeDecodeError:
+                pass
         return decode_address(addr)
