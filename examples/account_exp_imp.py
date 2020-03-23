@@ -14,7 +14,7 @@ def run():
         aergo = herapy.Aergo()
 
         print("------ Export New Account -----------")
-        aergo.new_account()
+        aergo.new_account(skip_state=True)
         new_exp_txt = aergo.export_account(password="1234")
         print("Exported txt is {}".format(new_exp_txt))
 
