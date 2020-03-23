@@ -94,8 +94,8 @@ class Address:
         elif len(addr) < 32:
             try:
                 return addr.decode('utf-8')
-            except UnicodeDecodeError:
-                pass
+            except Exception as e:
+                raise ValueError("Invalid address bytes") from e
         return encode_address(addr)
 
     @staticmethod
@@ -105,6 +105,6 @@ class Address:
         elif check_name_address(addr) > 0:
             try:
                 return addr.encode('utf-8')
-            except UnicodeDecodeError:
-                pass
+            except Exception as e:
+                raise ValueError("Invalid address string") from e
         return decode_address(addr)

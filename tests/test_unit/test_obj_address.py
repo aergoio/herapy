@@ -20,6 +20,12 @@ def test_error() -> None:
     with pytest.raises(TypeError):
         Address(pubkey=["1234"])
 
+    with pytest.raises(ValueError):
+        Address.encode(b'\x81')
+
+    with pytest.raises(ValueError):
+        Address.decode('\udfff')
+
 
 def test_success() -> None:
     sk = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1,
