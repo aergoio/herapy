@@ -14,7 +14,7 @@ class Event:
         self.__index = grpc_event.eventIdx
         try:
             self.__args = json.loads(grpc_event.jsonArgs)
-        except:
+        except (json.decoder.JSONDecodeError, TypeError):
             self.__args = [grpc_event.jsonArgs]
         self.__block_hash = BlockHash(grpc_event.blockHash)
         self.__block_height = grpc_event.blockNo

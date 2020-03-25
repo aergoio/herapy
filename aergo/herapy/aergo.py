@@ -186,23 +186,14 @@ class Aergo:
         tls_cert_bytes: Optional[bytes] = None
         tls_key_bytes: Optional[bytes] = None
         if tls_ca_cert is not None:
-            try:
-                with open(tls_ca_cert, 'rb') as f:
-                    tls_ca_cert_bytes = f.read()
-            except:
-                pass
+            with open(tls_ca_cert, 'rb') as f:
+                tls_ca_cert_bytes = f.read()
         if tls_cert is not None:
-            try:
-                with open(tls_cert, 'rb') as f:
-                    tls_cert_bytes = f.read()
-            except:
-                pass
+            with open(tls_cert, 'rb') as f:
+                tls_cert_bytes = f.read()
         if tls_key is not None:
-            try:
-                with open(tls_key, 'rb') as f:
-                    tls_key_bytes = f.read()
-            except:
-                pass
+            with open(tls_key, 'rb') as f:
+                tls_key_bytes = f.read()
 
         self.__comm = comm.Comm(
             target, tls_ca_cert_bytes, tls_cert_bytes, tls_key_bytes)
