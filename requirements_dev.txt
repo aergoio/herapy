@@ -35,7 +35,7 @@ pygments==2.6.1
 pyparsing==2.4.7
 pytest-cov==2.10.1
 pytest-mock==3.3.1
-pytest==5.4.1
+pytest==6.0.1
 pytz==2019.3
 readme-renderer==25.0
 requests-toolbelt==0.9.1
