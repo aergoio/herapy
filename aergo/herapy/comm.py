@@ -25,9 +25,19 @@ class Comm:
             creds = grpc.ssl_channel_credentials(root_certificates=self.__tls_ca_cert,
                                                  private_key=self.__tls_key,
                                                  certificate_chain=self.__tls_cert)
-            self.__channel = grpc.secure_channel(self.__target, creds)
+            self.__channel = grpc.secure_channel(
+                self.__target, creds, options=[
+                    ('grpc.max_send_message_length', 10 * 1024 * 1024),
+                    ('grpc.max_receive_message_length', 10 * 1024 * 1024)
+                ]
+            )
         else:
-            self.__channel = grpc.insecure_channel(self.__target)
+            self.__channel = grpc.insecure_channel(
+                self.__target, options=[
+                    ('grpc.max_send_message_length', 10 * 1024 * 1024),
+                    ('grpc.max_receive_message_length', 10 * 1024 * 1024)
+                ]
+            )
 
         self.__rpc_stub = rpc_pb2_grpc.AergoRPCServiceStub(self.__channel)
 
