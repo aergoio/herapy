@@ -31,7 +31,7 @@ protobuf==3.13.0
 py==1.9.0
 pycodestyle==2.6.0
 pyflakes==2.2.0
-pygments==2.6.1
+pygments==2.7.2
 pyparsing==2.4.6
 pytest-cov==2.8.1
 pytest-mock==2.0.0
