@@ -16,7 +16,7 @@ grpcio-tools==1.33.2
 grpcio==1.33.2
 idna==2.10
 imagesize==1.2.0
-importlib-metadata==1.5.0 ; python_version < '3.8'
+importlib-metadata==2.0.0; python_version < '3.8'
 jinja2==2.11.1
 keyring==21.2.0
 markupsafe==1.1.1
