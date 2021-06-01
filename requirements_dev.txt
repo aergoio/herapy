@@ -54,7 +54,7 @@ toml==0.10.2
 tox==3.23.1
 tqdm==4.61.0
 twine==3.4.1
-typed-ast==1.4.1
+typed-ast==1.4.3
 typing-extensions==3.7.4.1
 urllib3==1.25.8
 virtualenv==20.0.11
