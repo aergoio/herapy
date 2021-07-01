@@ -1,4 +1,4 @@
-base58==2.0.0
+base58==2.1.0
 cffi==1.14.0
 cryptography==2.8
 ecdsa==0.15
