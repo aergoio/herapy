@@ -56,7 +56,7 @@ tqdm==4.62.2
 twine==3.4.2
 typed-ast==1.4.3
 typing-extensions==3.10.0.2
-urllib3==1.25.8
+urllib3==1.26.6
 virtualenv==20.0.11
 wcwidth==0.1.8
 webencodings==0.5.1
