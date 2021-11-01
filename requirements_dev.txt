@@ -11,7 +11,7 @@ distlib==0.3.3
 docutils==0.18
 entrypoints==0.3
 filelock==3.3.2
-flake8==3.7.9
+flake8==4.0.1
 grpcio-tools==1.27.2
 grpcio==1.41.1
 idna==2.9
