@@ -14,7 +14,7 @@ filelock==3.4.0
 flake8==4.0.1
 grpcio-tools==1.42.0
 grpcio==1.42.0
-idna==2.9
+idna==3.3
 imagesize==1.2.0
 importlib-metadata==1.5.0 ; python_version < '3.8'
 jinja2==2.11.1
