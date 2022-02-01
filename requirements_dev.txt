@@ -10,7 +10,7 @@ coverage==6.3
 distlib==0.3.4
 docutils==0.18.1
 entrypoints==0.3
-filelock==3.0.12
+filelock==3.4.2
 flake8==3.7.9
 grpcio-tools==1.27.2
 grpcio==1.43.0
