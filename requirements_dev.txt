@@ -36,7 +36,7 @@ pyparsing==3.0.8
 pytest-cov==3.0.0
 pytest-mock==3.7.0
 pytest==7.1.2
-pytz==2019.3
+pytz==2022.1
 readme-renderer==25.0
 requests-toolbelt==0.9.1
 requests==2.23.0
