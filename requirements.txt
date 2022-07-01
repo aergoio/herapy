@@ -3,7 +3,7 @@ cffi==1.15.1
 cryptography==37.0.3
 ecdsa==0.17.0
 googleapis-common-protos==1.56.3
-grpcio==1.27.2
+grpcio==1.47.0
 protobuf==3.11.3
 pycparser==2.20
 six==1.14.0
