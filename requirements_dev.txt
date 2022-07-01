@@ -37,7 +37,7 @@ pytest-cov==3.0.0
 pytest-mock==3.8.1
 pytest==7.1.2
 pytz==2022.1
-readme-renderer==25.0
+readme-renderer==35.0
 requests-toolbelt==0.9.1
 requests==2.23.0
 six==1.16.0
