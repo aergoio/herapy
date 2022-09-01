@@ -5,7 +5,7 @@ babel==2.10.3
 bleach==5.0.1
 certifi==2022.6.15
 chardet==5.0.0
-codecov==2.0.22
+codecov==2.1.12
 coverage==5.0.4
 distlib==0.3.0
 docutils==0.16
