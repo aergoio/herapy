@@ -24,7 +24,7 @@ mccabe==0.7.0
 more-itertools==9.0.0
 mypy-extensions==0.4.3
 mypy==0.991
-packaging==20.3
+packaging==22.0
 pkginfo==1.5.0.1
 pluggy==0.13.1
 protobuf==4.21.12
