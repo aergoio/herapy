@@ -34,7 +34,7 @@ pyflakes==3.0.1
 pygments==2.14.0
 pyparsing==3.0.9
 pytest-cov==4.0.0
-pytest-mock==2.0.0
+pytest-mock==3.10.0
 pytest==5.4.1
 pytz==2019.3
 readme-renderer==25.0
