@@ -60,5 +60,5 @@ urllib3==1.26.14
 virtualenv==20.17.1
 wcwidth==0.2.6
 webencodings==0.5.1
-wheel==0.34.2
+wheel==0.38.4
 zipp==3.1.0
