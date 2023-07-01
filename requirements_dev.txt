@@ -57,7 +57,7 @@ twine==4.0.2
 typed-ast==1.5.4
 typing-extensions==4.7.0
 urllib3==2.0.3
-virtualenv==20.0.11
+virtualenv==20.23.1
 wcwidth==0.1.8
 webencodings==0.5.1
 wheel==0.34.2
