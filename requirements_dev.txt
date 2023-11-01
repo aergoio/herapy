@@ -39,7 +39,7 @@ pytest==7.4.3
 pytz==2023.3.post1
 readme-renderer==42.0
 requests-toolbelt==1.0.0
-requests==2.23.0
+requests==2.31.0
 six==1.16.0
 snowballstemmer==2.0.0
 sphinx-rtd-theme==0.4.3
