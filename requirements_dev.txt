@@ -22,7 +22,7 @@ keyring==24.3.0
 markupsafe==2.1.3
 mccabe==0.7.0
 more-itertools==10.1.0
-mypy-extensions==0.4.3
+mypy-extensions==1.0.0
 mypy==0.770
 packaging==20.3
 pkginfo==1.5.0.1
