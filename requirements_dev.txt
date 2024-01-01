@@ -3,7 +3,7 @@ appdirs==1.4.4
 attrs==23.2.0
 babel==2.14.0
 bleach==6.1.0
-certifi==2019.11.28
+certifi==2023.11.17
 chardet==3.0.4
 codecov==2.0.22
 coverage==5.0.4
