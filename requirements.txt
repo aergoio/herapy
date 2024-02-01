@@ -7,4 +7,4 @@ grpcio==1.60.0
 protobuf==4.25.2
 pycparser==2.21
 six==1.16.0
-toml==0.10.0
+toml==0.10.2
