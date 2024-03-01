@@ -29,7 +29,7 @@ pkginfo==1.9.6
 pluggy==1.4.0
 protobuf==4.25.3
 py==1.11.0
-pycodestyle==2.5.0
+pycodestyle==2.11.1
 pyflakes==2.1.1
 pygments==2.6.1
 pyparsing==2.4.6
