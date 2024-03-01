@@ -7,7 +7,7 @@ certifi==2024.2.2
 chardet==5.2.0
 codecov==2.1.13
 coverage==7.4.3
-distlib==0.3.0
+distlib==0.3.8
 docutils==0.16
 entrypoints==0.3
 filelock==3.0.12
