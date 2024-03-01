@@ -58,7 +58,7 @@ typed-ast==1.5.5
 typing-extensions==4.10.0
 urllib3==2.2.1
 virtualenv==20.25.1
-wcwidth==0.1.8
+wcwidth==0.2.13
 webencodings==0.5.1
 wheel==0.34.2
 zipp==3.1.0
