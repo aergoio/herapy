@@ -6,7 +6,7 @@ bleach==6.1.0
 certifi==2024.2.2
 chardet==5.2.0
 codecov==2.1.13
-coverage==5.0.4
+coverage==7.4.3
 distlib==0.3.0
 docutils==0.16
 entrypoints==0.3
