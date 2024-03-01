@@ -1,4 +1,4 @@
-alabaster==0.7.12
+alabaster==0.7.16
 appdirs==1.4.3
 attrs==19.3.0
 babel==2.8.0
