@@ -38,7 +38,7 @@ pytest-mock==3.14.0
 pytest==8.3.3
 pytz==2024.2
 readme-renderer==44.0
-requests-toolbelt==0.9.1
+requests-toolbelt==1.0.0
 requests==2.23.0
 six==1.16.0
 snowballstemmer==2.0.0
