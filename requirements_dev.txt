@@ -52,7 +52,7 @@ sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==2.0.0
 toml==0.10.2
 tox==4.24.1
-tqdm==4.43.0
+tqdm==4.67.1
 twine==3.1.1
 typed-ast==1.4.1
 typing-extensions==3.7.4.1
