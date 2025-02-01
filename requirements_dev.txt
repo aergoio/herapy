@@ -26,7 +26,7 @@ mypy-extensions==1.0.0
 mypy==1.14.1
 packaging==24.2
 pkginfo==1.12.0
-pluggy==0.13.1
+pluggy==1.5.0
 protobuf==5.29.3
 py==1.8.1
 pycodestyle==2.5.0
