@@ -26,7 +26,7 @@ class TxResult:
         self.tx = tx
         self.__result = result
 
-        if type(result) == Receipt:
+        if isinstance(result, Receipt):
             self.__type = TxResultType.RECEIPT
             try:
                 self.status = TxResultStatus(result.status)
@@ -55,7 +55,7 @@ class TxResult:
             #    self.status = TxResultStatus.ERROR
             #    if 'CREATED' != result.status:
             #        self.detail = result.status
-        elif type(result) == CommitResult:
+        elif isinstance(result, CommitResult):
             self.__type = TxResultType.COMMIT_RESULT
             self.tx_id = encode_tx_hash(result.hash)
             self.status = CommitStatus(result.error)

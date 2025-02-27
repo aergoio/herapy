@@ -1322,7 +1322,11 @@ class Aergo:
 
         return NameInfo(info)
 
-    def get_abi(self, contract_addr: Optional[str] = None, addr_bytes: Optional[bytes] = None):
+    def get_abi(
+        self,
+        contract_addr: Optional[str] = None,
+        addr_bytes: Optional[bytes] = None
+    ):
         """ Returns the abi of given contract address. """
         if self.__comm is None:
             raise CommunicationException("Node connection not initialized")
