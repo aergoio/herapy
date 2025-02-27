@@ -1,4 +1,4 @@
-name: Python Tests
+name: Tests
 
 on:
   push:
@@ -14,6 +14,11 @@ jobs:
       matrix:
         python-version: ['3.10']
 
+    services:
+      docker:
+        image: docker:19.03.12
+        options: --privileged
+
     steps:
     - uses: actions/checkout@v2
 
@@ -28,6 +33,11 @@ jobs:
         pip install --upgrade setuptools wheel
         pip install -r requirements_dev.txt
         pip install -r requirements.txt
+
+    - name: Install docker-compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
 
     - name: Start Docker services
       run: |
