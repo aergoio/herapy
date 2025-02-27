@@ -1047,7 +1047,7 @@ class Aergo:
             tx_hash: Union[str, th.TxHash, bytes],
             timeout: int = 30,
             tempo: float = 0.2,
-            result: Dict = None
+            result: Optional[Dict] = None
     ) -> TxResult:
         if self.__comm is None:
             raise CommunicationException("Node connection not initialized")
@@ -1076,7 +1076,7 @@ class Aergo:
             txs: List[Union[str, th.TxHash, bytes, Transaction]],
             timeout: int = 30,
             tempo: float = 0.2,
-            result: Dict = None
+            result: Optional[Dict] = None
     ) -> List[TxResult]:
         coros = []
         for tx in txs:
@@ -1322,7 +1322,7 @@ class Aergo:
 
         return NameInfo(info)
 
-    def get_abi(self, contract_addr: str = None, addr_bytes: bytes = None):
+    def get_abi(self, contract_addr: Optional[str] = None, addr_bytes: Optional[bytes] = None):
         """ Returns the abi of given contract address. """
         if self.__comm is None:
             raise CommunicationException("Node connection not initialized")
