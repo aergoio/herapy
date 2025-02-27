@@ -94,14 +94,20 @@ install: clean ## install the package to the active Python's site-packages
 uninstall: ## uninstall the package in the active Python's site-packages
 	pip uninstall aergo-herapy -y
 
+ifeq ($(shell uname),Darwin)
+    SED_INPLACE = sed -i ''
+else
+    SED_INPLACE = sed -i
+endif
+
 protoc: ## generate *_pb2.py and *_pb2_grpc.py in aergo/herapy/grpc from aergo-protobuf/proto/*.proto
 	python -m grpc_tools.protoc \
 		-I./aergo-protobuf/proto \
 		--python_out=./aergo/herapy/grpc \
 		--grpc_python_out=./aergo/herapy/grpc \
 		./aergo-protobuf/proto/*.proto
-	find ./aergo/herapy/grpc -type f -name '*_pb2.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
-	find ./aergo/herapy/grpc -type f -name '*_pb2_grpc.py' -exec sed -i '' -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
+	find ./aergo/herapy/grpc -type f -name '*_pb2.py' -exec $(SED_INPLACE) -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
+	find ./aergo/herapy/grpc -type f -name '*_pb2_grpc.py' -exec $(SED_INPLACE) -e 's/^import\(.*\)_pb2\(.*\)$$/from . import\1_pb2\2/g' {} \;
 
 protoclean: ## remove all generated files in aergo/herapy/grpc by 'make protoc'
 	rm -f aergo/herapy/grpc/*_pb2*.py
