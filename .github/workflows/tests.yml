@@ -1,0 +1,47 @@
+name: Python Tests
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.10']
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements_dev.txt
+        pip install -r requirements.txt
+
+    - name: Start Docker services
+      run: |
+        docker-compose -f ./local_test_nodes/docker-compose.yml up -d
+        sleep 10
+
+    - name: Run tests
+      run: |
+        pytest --cov-report=html --cov=aergo/ tests/
+        mypy -p aergo -p tests
+        flake8 --exclude=*_pb2_grpc.py,*_pb2.py,aergo_conf.py --ignore=E722,W503 --per-file-ignores="__init__.py:F401" aergo tests
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+
+    - name: Stop Docker services
+      run: docker-compose -f ./local_test_nodes/docker-compose.yml down
+      if: always()
