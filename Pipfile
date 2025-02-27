@@ -10,10 +10,10 @@ googleapis-common-protos = "*"
 protobuf = ">=3.11.3,<4.0.0"
 cryptography = "*"
 toml = "*"
-grpcio = ">=1.13.0"
+grpcio = "==1.49.1"
 
 [dev-packages]
-grpcio-tools = "*"
+grpcio-tools = "==1.49.1"
 pytest = "*"
 tox = "*"
 codecov = "*"
