@@ -120,7 +120,7 @@ else
 endif
 
 local_testnets:
-	docker-compose -f ./local_test_nodes/docker-compose.yml up
+	docker-compose -f ./local_test_nodes/docker-compose.yml up -d
 
 clean_local_testnets:
 	docker-compose -f ./local_test_nodes/docker-compose.yml down
