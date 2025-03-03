@@ -12,8 +12,8 @@ docutils==0.21.2
 entrypoints==0.4
 filelock==3.17.0
 flake8==7.1.1
-grpcio-tools==1.44.0
-grpcio==1.44.0
+grpcio-tools==1.48.2
+grpcio==1.48.2
 idna==3.10
 imagesize==1.4.1
 importlib-metadata==7.2.1 ; python_version < '3.8'
