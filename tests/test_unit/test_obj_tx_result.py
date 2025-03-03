@@ -1,5 +1,5 @@
 from typing import Dict
-from aergo.herapy.obj.tx_result import TxResult, TxResultType,\
+from aergo.herapy.obj.tx_result import TxResult, TxResultType, \
     TxResultStatus, CommitStatus
 from aergo.herapy.grpc import rpc_pb2, blockchain_pb2
 from aergo.herapy.utils.encoding import encode_tx_hash

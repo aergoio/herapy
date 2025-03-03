@@ -32,7 +32,7 @@ class ConsensusInfo:
                 self._lib_hash = None
             self._lib_no = _get_dict_value(info, 'LibNo')
             self._block_producer_list = []
-        elif type(info) == CInfo:
+        elif isinstance(info, CInfo):
             self._info = info
             self._type = info.type
             if self._type == 'raft':
