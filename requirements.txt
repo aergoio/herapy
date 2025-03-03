@@ -2,7 +2,7 @@ base58==2.1.1
 cffi==1.15.1
 cryptography==41.0.3
 ecdsa==0.18.0
-googleapis-common-protos==1.61.0
+googleapis-common-protos==1.68.0
 grpcio==1.70.0
 protobuf<6.0dev,>=5.26.1
 pycparser==2.21
