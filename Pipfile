@@ -10,7 +10,7 @@ googleapis-common-protos = "*"
 protobuf = ">=5.26.1,<6.0dev"
 cryptography = "*"
 toml = "*"
-grpcio = "==1.70.0"
+grpcio = "==1.53.2"
 
 [dev-packages]
 grpcio-tools = "==1.70.0"
