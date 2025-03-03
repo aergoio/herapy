@@ -28,7 +28,6 @@ packaging==24.2
 pkginfo==1.12.0
 pluggy==1.5.0
 protobuf<6.0dev,>=5.26.1
-py==1.11.0
 pycodestyle==2.12.1
 pyflakes==3.2.0
 pygments==2.19.1
@@ -39,8 +38,7 @@ pytest==8.3.4
 pytz==2025.1
 readme-renderer==44.0
 requests-toolbelt==1.0.0
-requests==2.31.0
-six==1.17.0
+requests==2.32.3
 snowballstemmer==2.2.0
 sphinx-rtd-theme==3.0.2
 sphinx==8.1.3

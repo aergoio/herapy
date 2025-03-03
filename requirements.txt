@@ -6,5 +6,4 @@ googleapis-common-protos==1.68.0
 grpcio==1.70.0
 protobuf<6.0dev,>=5.26.1
 pycparser==2.22
-six==1.17.0
 toml==0.10.2
