@@ -1,4 +1,4 @@
-name: Tests
+name: Full Tests & Coverage
 
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
         options: --privileged
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
 

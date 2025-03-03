@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 base58 = "*"
-ecdsa = ">=0.13.3"
+ecdsa = ">=0.19.0"
 googleapis-common-protos = "*"
 protobuf = ">=5.26.1,<6.0dev"
 cryptography = "*"
