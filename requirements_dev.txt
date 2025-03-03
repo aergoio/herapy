@@ -12,8 +12,8 @@ docutils==0.21.2
 entrypoints==0.4
 filelock==3.17.0
 flake8==7.1.1
-grpcio-tools==1.54.2
-grpcio==1.54.2
+grpcio-tools==1.70.0
+grpcio==1.70.0
 idna==3.10
 imagesize==1.4.1
 importlib-metadata==7.2.1 ; python_version < '3.8'
@@ -27,7 +27,7 @@ mypy==1.14.1
 packaging==24.2
 pkginfo==1.12.0
 pluggy==1.5.0
-protobuf>=3.11.3,<=4.21.6
+protobuf<6.0dev,>=5.26.1
 py==1.11.0
 pycodestyle==2.12.1
 pyflakes==3.2.0
