@@ -52,7 +52,7 @@ toml==0.10.2
 tox==4.25.0
 tqdm==4.67.1
 twine==6.1.0
-types-protobuf
+types-protobuf==5.29.1.20250315
 types-toml
 typing-extensions==4.12.2
 urllib3==2.3.0
