@@ -56,7 +56,7 @@ types-protobuf==5.29.1.20250315
 types-toml==0.10.8.20240310
 typing-extensions==4.13.0
 urllib3==2.3.0
-virtualenv==20.29.1
+virtualenv==20.30.0
 wcwidth==0.2.13
 webencodings==0.5.1
 wheel==0.45.1
