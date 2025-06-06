@@ -60,4 +60,4 @@ virtualenv==20.31.2
 wcwidth==0.2.13
 webencodings==0.5.1
 wheel==0.46.1
-zipp==3.21.0
+zipp==3.22.0
