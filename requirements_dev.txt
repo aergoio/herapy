@@ -54,7 +54,7 @@ tqdm==4.67.1
 twine==6.1.0
 types-protobuf==6.30.2.20250516
 types-toml==0.10.8.20240310
-typing-extensions==4.12.2
+typing-extensions==4.14.0
 urllib3==2.3.0
 virtualenv==20.29.1
 wcwidth==0.2.13
