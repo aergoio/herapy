@@ -12,7 +12,7 @@ docutils==0.21.2
 entrypoints==0.4
 filelock==3.18.0
 flake8==7.2.0
-grpcio-tools==1.70.0
+grpcio-tools==1.72.1
 grpcio==1.72.1
 idna==3.10
 imagesize==1.4.1
