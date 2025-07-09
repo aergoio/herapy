@@ -28,7 +28,7 @@ packaging==25.0
 pkginfo==1.12.1.2
 pluggy==1.6.0
 protobuf==6.31.1
-pycodestyle==2.12.1
+pycodestyle==2.14.0
 pyflakes==3.2.0
 pygments==2.19.1
 pyparsing==3.2.1
