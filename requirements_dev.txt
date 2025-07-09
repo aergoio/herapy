@@ -13,7 +13,7 @@ entrypoints==0.4
 filelock==3.17.0
 flake8==7.1.1
 grpcio-tools==1.70.0
-grpcio==1.70.0
+grpcio==1.73.1
 idna==3.10
 imagesize==1.4.1
 importlib-metadata==7.2.1 ; python_version < '3.8'
