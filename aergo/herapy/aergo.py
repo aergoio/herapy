@@ -1101,6 +1101,7 @@ class Aergo:
         asyncio.run(self.aio_wait_batch_result(txs, timeout, tempo, result))
         return result.get('tx_results')
 
+    # Legacy
     def deploy_sc(
         self,
         payload: Union[str, bytes],
@@ -1130,6 +1131,38 @@ class Aergo:
 
         tx, result = self.send_payload(
             amount=amount, payload=payload_bytes, retry_nonce=retry_nonce,
+            tx_type=tx_type, gas_limit=gas_limit, gas_price=gas_price
+        )
+        return tx, result
+
+    def deploy_contract(
+        self,
+        contract_code: str,
+        args: Optional[Any] = None,
+        amount: Union[bytes, str, int, float] = 0,
+        retry_nonce: int = 0,
+        redeploy: bool = False,
+        gas_limit: int = 0,
+        gas_price: int = 0
+    ):
+        # payload is: length of contract code + contract code + args
+        contract_code_bytes = contract_code.encode('utf-8')
+        payload = (len(contract_code_bytes) + 4).to_bytes(4, byteorder='little')
+        payload += contract_code_bytes
+
+        if args is not None and not isinstance(args, (list, tuple)):
+            args = [args]
+
+        json_args = json.dumps(args, separators=(',', ':'))
+        payload += json_args.encode('utf-8')
+
+        if redeploy:
+            tx_type = TxType.SC_REDEPLOY
+        else:
+            tx_type = TxType.SC_DEPLOY
+
+        tx, result = self.send_payload(
+            amount=amount, payload=payload, retry_nonce=retry_nonce,
             tx_type=tx_type, gas_limit=gas_limit, gas_price=gas_price
         )
         return tx, result

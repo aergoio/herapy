@@ -11,8 +11,8 @@ def eprint(*args, **kwargs):
 
 
 def run():
-    print("------ Payload -----------")
-    """
+    print("------ Contract Code -----------")
+    contract_code = """
         -- Define global variables.
         state.var {
             a = state.value(),
@@ -41,12 +41,6 @@ def run():
 
         abi.register(set_name, get_name, test_array, say_hello)
     """
-    payload_str = "2bTAKwCcCqs1n91vFF5YnBBcaTLNsxhqzGgM8vcVAG3HqQLp1uZZSwvmnj8CEEm9GTvogDf3r6ioqHjbfBisjRzwUJxr6msFuf4vVuzbWEXtbShu43ZpLbJdT1NECStCEDGFPRsn3pc7jQ1FumPGB9GwGY7Y7wNN1t4kLMQPNxJCmDFAwLA6BAyCGpzW2g5rtHuWodTMTposF4EBRxbvsXYWvrDYLTK7JGbDsq4neBzXVtmJjereb7i6fX8Fug1LJ9GgYskTKdqcBjugxEoipjsAALtnr7mcUPoPFygbQzXbHsW13UwjhBxKsEvWYZm1hC8QxCeiRbHdx8VY5ES2ugR8Dt4uhiboAbaLofpnGRcPofgFGXiwDfESQgNZBjHP1DeEzh7gGh6fzABcw3LSjQLC9RETFWyUnWY3dU4iqH3PsVNhBFgHCUepBBphvwPT6UoictgsWzsnFdf1peiDsfXFE9uSTKWDCMhqgaETSLZdn8QiGBwMvZ1pEkP6xmh9389mFXCZ4ERNGUGkk6xNfN7xdZhRCeXxZupgtNDREX5PrHPveXEMbzThAMV7Rqzy3MazDaCFxjkbUVgQjWsHYhwEBRMvYSd2p621nZzcb9GFbh9tpXhwoLYpLp89Qhi9oTy61AD2GVFgQmdWF9neD1GvauVkCNFzWmEUkdSU3F6yBRwBm2cs8oJEieFu1zETLsMyXydTN5WqHFuGs2PaV1XRwPVRLeYiwo2xmgJMssHaGtR8pmb8TrQpTJbJdgreCVn8GiGzYizvEcRz9m8aFdompJ2m2QR7TDLCCjZx2UqRJdcQZmyxEAtzjnCCgD7Gwj95ZHkFxzoEEHTLYbG6uaneRrQWnzabAaRe2392qJnEkiNug9gkdJfsRFapbVxupH9zkoAmFP5xoWeGrkknUw61E4tX"
-    payload = herapy.utils.decode_address(payload_str)
-    print(''.join('{:d} '.format(x) for x in payload))
-
-    byte_code_len = int.from_bytes(payload[:4], byteorder='little')
-    print("payload: byte code length = ", byte_code_len)
 
     try:
         aergo = herapy.Aergo()
@@ -71,8 +65,8 @@ def run():
         receiver_address = "AmNHbk46L5ZaFH942mxDrunhUb34S8xRd7ygNnqaW5nqJDt5ugKD"
         print("  > Receiver Address: {}".format(receiver_address))
 
-        print("------ Deploy SC -----------")
-        tx, result = aergo.deploy_sc(amount=0, payload=payload, args=1234)
+        print("------ Deploy Smart Contract -----------")
+        tx, result = aergo.deploy_contract(amount=0, contract_code=contract_code, args=1234)
         print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
         if result.status != herapy.CommitStatus.TX_OK:
