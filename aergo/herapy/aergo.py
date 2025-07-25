@@ -1147,8 +1147,8 @@ class Aergo:
     ):
         # payload is: length of contract code + contract code + args
         contract_code_bytes = contract_code.encode('utf-8')
-        payload = (len(contract_code_bytes) + 4).to_bytes(4, byteorder='little')
-        payload += contract_code_bytes
+        size = len(contract_code_bytes) + 4
+        payload = size.to_bytes(4, byteorder='little') + contract_code_bytes
 
         if args is not None and not isinstance(args, (list, tuple)):
             args = [args]

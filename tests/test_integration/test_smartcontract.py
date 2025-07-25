@@ -50,7 +50,7 @@ abi.register(set_name, get_name, test_array, say_hello)
     print("  > Receiver Address: {}".format(receiver_address))
 
     print("------ Deploy Smart Contract -----------")
-    tx, result = aergo.deploy_contract(amount=0, contract_code=contract_code, args=1234)
+    tx, result = aergo.deploy_contract(contract_code=contract_code, args=1234)
     print("  > TX: {}".format(tx.tx_hash))
     print("{}".format(herapy.utils.convert_tx_to_json(tx)))
     assert result.status == herapy.CommitStatus.TX_OK, \

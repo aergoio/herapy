@@ -38,8 +38,8 @@ abi.register(movie_event, ani_event)
     print(herapy.utils.convert_bytes_to_int_str(bytes(sender_account.address)))
 
     print("------ Deploy Smart Contract -----------")
-    tx, result = aergo.deploy_contract(amount=0, contract_code=contract_code, args=1234,
-                                 retry_nonce=5)
+    tx, result = aergo.deploy_contract(contract_code=contract_code, args=1234,
+                                       retry_nonce=5)
     print("  > TX: {}".format(tx.tx_hash))
     print("{}".format(str(tx)))
     assert result.status == herapy.CommitStatus.TX_OK, \
