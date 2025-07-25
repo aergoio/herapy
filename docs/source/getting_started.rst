@@ -138,8 +138,8 @@ Deploying and calling smart contracts
 
 
     # deploy a new contract
-    payload = "Compiled contract string"
-    tx, result = aergo.deploy_sc(amount=0, payload=payload, args=1234)
+    contract_code = "contract source code string"
+    tx, result = aergo.deploy_contract(amount=0, contract_code=contract_code, args=1234)
     assert result.status == herapy.CommitStatus.TX_OK
 
     receipt = aergo.wait_tx_result(tx.tx_hash)
