@@ -53,7 +53,7 @@ tox==4.28.4
 tqdm==4.67.1
 twine==6.1.0
 types-protobuf==6.30.2.20250703
-types-toml
+types-toml==0.10.8.20240310
 typing-extensions==4.12.2
 urllib3==2.3.0
 virtualenv==20.29.1
