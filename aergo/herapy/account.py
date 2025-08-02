@@ -107,6 +107,8 @@ class Account:
             enc_key = decode_private_key(enc_key)
             if not password:
                 raise GeneralException("Must provide a password to decrypt")
+            if enc_key is None:
+                raise GeneralException("Failed to decode private key")
             account = Account.decrypt_account(enc_key, password)
         else:
             account = Account(empty=True)
