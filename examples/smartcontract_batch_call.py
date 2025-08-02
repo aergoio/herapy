@@ -12,8 +12,7 @@ def eprint(*args, **kwargs):
 
 def run():
     print("------ Payload -----------")
-    """
--- 'payload' is compiled by aergoluac from
+    contract_code = """
 function setItem(key, value)
     system.print('setItem: key='..key..', value='..value)
     system.setItem(key, value)
@@ -26,12 +25,6 @@ end
 
 abi.register(setItem, getItem)
     """
-    payload_str = "246oyQ629vXweGRbeS8r29poBjGsiqJL23BBaYh8TaSgvGhMAXHrk9vUXetphe6m9xCPrRDpQH3fHap4SZUpNWartsHTnJxQXp2zs5mMwK5cwiCgSCePwefA1U4fwyt94Q249MxQ2evTKc7vcUVjjn6AnKCqMJTGCgVtnLrpeVMiVEcYBszJtprA3YQmgA8vsnfcw5ocw4149wDhV8drF4zviYJSfhGP5TRj7NhLLBstiktq2DzPW8yCrVu2fEnyzfJc1yY9ENuu2K7LyxC7arqGTafZEzsQrrfNo63PXfsSq6oSW7Ev89Y3cFfRjpQfr8mHZPmfCRykUF7aepvkH64r6S7Sg3uUpgrZCnDKuDRuBCizBHUxJDUCua3tJNA2dKFtx9dpSTfPFkdvPoBFsTjegu6DwHgDop5zZMPV5S4Q5oi5vB1UsvSoX81cMAfp38kJe45ko9rLZKk83zpSfgzMLnjDZWccmjtNdnHFhUp9KZG3JRZnr7QRmAHwvTYLd83AS9uCVJhwg5oGhVNgMeTnN2f1xZ9Gd9C5NfJTvwYHPVysD7HRwyXVTwYgQhjxwTrxkGcz54gJzF2eTDqWnEQKZN61322SZG"
-    payload = herapy.utils.decode_address(payload_str)
-    print(''.join('{:d} '.format(x) for x in payload))
-
-    byte_code_len = int.from_bytes(payload[:4], byteorder='little')
-    print("payload: byte code length = ", byte_code_len)
 
     try:
         aergo = herapy.Aergo()
@@ -56,8 +49,8 @@ abi.register(setItem, getItem)
         receiver_address = "AmNHbk46L5ZaFH942mxDrunhUb34S8xRd7ygNnqaW5nqJDt5ugKD"
         print("  > Receiver Address: {}".format(receiver_address))
 
-        print("------ Deploy SC -----------")
-        tx, result = aergo.deploy_sc(amount=0, payload=payload, args=1234)
+        print("------ Deploy Smart Contract -----------")
+        tx, result = aergo.deploy_contract(contract_code=contract_code, args=1234)
         print("  > TX: {}".format(tx.tx_hash))
         print("{}".format(herapy.utils.convert_tx_to_json(tx)))
         if result.status != herapy.CommitStatus.TX_OK:
