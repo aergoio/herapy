@@ -51,6 +51,7 @@ abi.register(setItem, getItem)
     result = aergo.wait_tx_result(tx.tx_hash)
     print("MAIN THREAD tx result: {}".format(str(result)))
 
+    assert aio_result is not None, "aio_result should not be None"
     assert aio_result.tx_id == result.tx_id
     assert aio_result.contract_address == result.contract_address
     assert aio_result.status == result.status
