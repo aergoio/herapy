@@ -23,7 +23,7 @@ markupsafe==3.0.2
 mccabe==0.7.0
 more-itertools==10.8.0
 mypy-extensions==1.1.0
-mypy==1.16.1
+mypy==1.17.1
 packaging==25.0
 pkginfo==1.12.1.2
 pluggy==1.6.0
