@@ -57,7 +57,7 @@ types-toml==0.10.8.20240310
 typing-extensions==4.15.0
 urllib3==2.5.0
 virtualenv==20.34.0
-wcwidth==0.2.13
+wcwidth==0.2.14
 webencodings==0.5.1
 wheel==0.46.1
 zipp==3.23.0
