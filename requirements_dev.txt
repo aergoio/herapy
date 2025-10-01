@@ -3,7 +3,7 @@ appdirs==1.4.4
 attrs==25.3.0
 babel==2.17.0
 bleach==6.2.0
-certifi==2025.6.15
+certifi==2025.8.3
 chardet==5.2.0
 codecov==2.1.13
 coverage==7.9.2
