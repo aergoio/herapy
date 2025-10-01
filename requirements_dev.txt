@@ -27,7 +27,7 @@ mypy==1.16.1
 packaging==25.0
 pkginfo==1.12.1.2
 pluggy==1.6.0
-protobuf==6.31.1
+protobuf==6.32.1
 pycodestyle==2.14.0
 pyflakes==3.4.0
 pygments==2.19.2
