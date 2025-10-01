@@ -5,5 +5,5 @@ ecdsa==0.19.1
 googleapis-common-protos==1.70.0
 grpcio==1.75.1
 protobuf==6.32.1
-pycparser==2.22
+pycparser==2.23
 toml==0.10.2
