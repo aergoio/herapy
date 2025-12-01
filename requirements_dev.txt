@@ -8,7 +8,7 @@ chardet==5.2.0
 codecov==2.1.13
 coverage==7.12.0
 distlib==0.4.0
-docutils==0.21.2
+docutils==0.22.3
 entrypoints==0.4
 filelock==3.18.0
 flake8==7.3.0
